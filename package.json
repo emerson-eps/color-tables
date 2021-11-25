@@ -1,0 +1,19 @@
+{
+  "name": "color-tables",
+  "version": "1.0.0",
+  "description": "Standard library of color tables for geological domain",
+  "main": "color-tables.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emerson-eps/color-tables.git"
+  },
+  "author": "",
+  "license": "MPL",
+  "bugs": {
+    "url": "https://github.com/emerson-eps/color-tables/issues"
+  },
+  "homepage": "https://github.com/emerson-eps/color-tables#readme"
+}
