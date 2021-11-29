@@ -4,7 +4,8 @@
   "description": "Standard library of color tables for geological domain",
   "main": "color-tables.json",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -14,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/emerson-eps/color-tables/issues"
   },
-  "homepage": "https://github.com/emerson-eps/color-tables#readme"
+  "homepage": "https://github.com/emerson-eps/color-tables#readme",
+  "devDependencies": {
+    "semantic-release": "^18.0.1"
+  }
 }
