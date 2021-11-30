@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Standard library of color tables for geological domain",
   "main": "color-tables.json",
+  "release": {
+    "branches": ["main"]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "semantic-release": "semantic-release"
