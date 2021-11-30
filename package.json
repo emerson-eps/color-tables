@@ -19,6 +19,9 @@
     "url": "https://github.com/emerson-eps/color-tables/issues"
   },
   "homepage": "https://github.com/emerson-eps/color-tables#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "semantic-release": "^18.0.1"
   }
