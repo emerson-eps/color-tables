@@ -1,6 +1,6 @@
 {
   "name": "@emerson-eps/color-tables",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Standard library of color tables for geological domain",
   "main": "color-tables.json",
   "release": {
