@@ -1,7 +1,7 @@
 [
     {
       "name": "Physics",
-      "discrete": "false",
+      "discrete": false,
       "colors": [
         [ 0.00, 255, 0, 0 ],
         [ 0.25, 255, 255, 0 ],
@@ -12,7 +12,7 @@
     },
     {
         "name": "Rainbow",
-        "discrete": "false",
+        "discrete": false,
         "colors": [
           [ 0.00, 255, 0, 0 ],
           [ 0.20, 255, 255, 0 ],
@@ -24,7 +24,7 @@
     },
     {
         "name": "Porosity",
-        "discrete": "false",
+        "discrete": false,
         "colors": [
           [ 0.00, 255, 246, 117 ],
           [ 0.11, 255, 243, 53 ],
@@ -44,7 +44,7 @@
     },
     {
         "name": "Permeability",
-        "discrete": "false",
+        "discrete": false,
         "colors": [
           [ 0.00, 119, 63, 49 ],
           [ 0.148, 135, 49, 45 ],
@@ -60,7 +60,7 @@
     },
     {
         "name": "Seismic BlueWhiteRed",
-        "discrete": "false",
+        "discrete": false,
         "colors": [
           [ 0.00, 0, 0, 255 ],
           [ 0.50, 255, 255, 255 ],
@@ -69,7 +69,7 @@
     },
     {
         "name": "Time/Depth",
-        "discrete": "false",
+        "discrete": false,
         "colors": [
           [ 0.00, 252, 174, 169 ],
           [ 0.10, 226, 44, 118 ],
@@ -90,7 +90,7 @@
     },
     {
         "name": "Stratigraphy",
-        "discrete": "true",
+        "discrete": true,
         "colors": [
           [ 0, 255, 120, 61 ],
           [ 1, 255, 193, 0 ],
@@ -136,7 +136,7 @@
     },
     {
         "name": "Facies",
-        "discrete": "true",
+        "discrete": true,
         "colors": [
           [ 0, 255, 193, 0 ],
           [ 1, 255, 246, 117 ],
@@ -159,7 +159,7 @@
     },
     {
         "name": "Gas-Oil-Water",
-        "discrete": "true",
+        "discrete": true,
         "colors": [
           [ 0, 255, 46, 0],
           [ 1, 0, 184, 0 ],
@@ -169,7 +169,7 @@
     },
     {
         "name": "Gas-Water",
-        "discrete": "true",
+        "discrete": true,
         "colors": [
           [ 0, 255, 46, 0 ],
           [ 1, 0, 25, 255 ],
@@ -178,7 +178,7 @@
     },
     {
         "name": "Oil-Water",
-        "discrete": "true",
+        "discrete": true,
         "colors": [
           [ 0, 0, 184, 0 ],
           [ 1, 0, 25, 255 ],
