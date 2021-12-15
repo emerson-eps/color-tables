@@ -2,6 +2,9 @@
   "name": "@emerson-eps/color-tables",
   "version": "0.1.0",
   "description": "Standard library of color tables for geological domain",
+  "release": {
+    "branches": ["main"]
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
