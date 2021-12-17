@@ -1,4 +1,4 @@
-export interface colorTablesObj {
+export declare type colorTablesObj = {
     name: string;
     description: string;
     colors: [number, number, number, number][];

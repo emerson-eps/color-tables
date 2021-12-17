@@ -4,7 +4,7 @@ import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { templateArray } from "../WelllayerTemplateTypes";
 import { colorTablesArray } from "../ColorTableTypes";
 
-interface legendProps {
+declare type legendProps = {
     min: number;
     max: number;
     dataObjectName: string;
@@ -15,7 +15,7 @@ interface legendProps {
     horizontal: boolean;
 }
 
-interface ItemColor {
+declare type ItemColor = {
     color: string;
     offset: number;
 }

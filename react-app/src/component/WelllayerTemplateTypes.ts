@@ -1,4 +1,4 @@
-export interface propertiesObj {
+export declare type propertiesObj = {
     objectName: string;
     colorTable: string;
     context: string;
@@ -7,7 +7,7 @@ export interface propertiesObj {
 
 type propertiesArr = Array<propertiesObj>;
 
-interface template {
+declare type template = {
     name: string;
     properties: propertiesArr;
 }

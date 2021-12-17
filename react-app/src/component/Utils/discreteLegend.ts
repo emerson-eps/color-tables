@@ -1,4 +1,4 @@
-interface ItemColor {
+declare type ItemColor = {
     color: string;
 }
 

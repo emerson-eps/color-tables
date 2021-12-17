@@ -4,11 +4,11 @@ import { scaleOrdinal, select } from "d3";
 import { templateArray, propertiesObj } from "../WelllayerTemplateTypes";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
-interface ItemColor {
+declare type ItemColor = {
     color: string;
 }
 
-interface colorLegendProps {
+declare type colorLegendProps = {
     discreteData: { objects: Record<string, [number[], number]> };
     dataObjectName: string;
     name: string;
