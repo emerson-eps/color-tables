@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from "react";
 import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
