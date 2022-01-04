@@ -1,5 +1,4 @@
-// @ts-ignore
-import React from "react";
+import * as React from "react";
 import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { templateArray, propertiesObj } from "../WelllayerTemplateTypes";
