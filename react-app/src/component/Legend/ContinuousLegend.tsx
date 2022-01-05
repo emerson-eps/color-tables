@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { templateArray } from "../WelllayerTemplateTypes";
