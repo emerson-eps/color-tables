@@ -72,10 +72,10 @@ const ContinuousLegend: React.FC<legendProps> = ({
             .data(itemColor)
             .enter()
             .append("stop")
-            .attr("offset", function (data) {
+            .attr("offset", function (data: any) {
                 return data.offset + "%";
             })
-            .attr("stop-color", function (data) {
+            .attr("stop-color", function (data: any) {
                 return data.color;
             });
 
