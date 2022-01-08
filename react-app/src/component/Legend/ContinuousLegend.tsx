@@ -20,7 +20,7 @@ declare type ItemColor = {
     offset: number;
 }
 
-const ContinuousLegend: React.FC<legendProps> = ({
+export const ContinuousLegend: React.FC<legendProps> = ({
     min,
     max,
     dataObjectName,
@@ -127,5 +127,3 @@ const ContinuousLegend: React.FC<legendProps> = ({
 ContinuousLegend.defaultProps = {
     position: [5, 10],
 };
-
-export default ContinuousLegend;
