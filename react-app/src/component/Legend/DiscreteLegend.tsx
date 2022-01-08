@@ -18,7 +18,7 @@ declare type colorLegendProps = {
     horizontal: boolean;
 }
 
-const DiscreteColorLegend: React.FC<colorLegendProps> = ({
+export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     discreteData,
     name,
     dataObjectName,
@@ -122,5 +122,3 @@ export function colorTableData(
 DiscreteColorLegend.defaultProps = {
     position: [5, 10],
 };
-
-export default DiscreteColorLegend;

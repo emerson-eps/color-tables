@@ -1,5 +1,5 @@
 import React from "react";
-import DiscreteColorLegend from "../../../component/Legend/DiscreteLegend";
+import {DiscreteColorLegend} from "../../../component/Legend/DiscreteLegend";
 import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
