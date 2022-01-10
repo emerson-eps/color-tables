@@ -3,4 +3,4 @@ export { colorTableData, DiscreteColorLegend } from './component/Legend/Discrete
 export { colorsArray, rgbValues, RGBToHex} from './component/Utils/continousLegend';
 export { colorTablesObj, colorTablesArray } from './component/ColorTableTypes';
 export { propertiesObj, templateArray } from './component/WelllayerTemplateTypes';
-//export const colorTables = require('./component/color-tables');
+export const colorTables = require('./component/color-tables');
