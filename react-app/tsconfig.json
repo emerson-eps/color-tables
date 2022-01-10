@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true
   },
-  "include": ["src","src/**/*.json"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
