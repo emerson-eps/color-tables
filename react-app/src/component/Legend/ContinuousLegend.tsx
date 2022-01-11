@@ -1,9 +1,9 @@
-import React from "react";
+import * as React from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
 
-interface legendProps {
+declare type legendProps = {
     min: number;
     max: number;
     dataObjectName: string;
@@ -14,7 +14,7 @@ interface legendProps {
     horizontal: boolean;
 }
 
-interface ItemColor {
+declare type ItemColor = {
     color: string;
     offset: number;
 }
