@@ -1,6 +1,5 @@
 import React from "react";
 import {DiscreteColorLegend} from "../../../component/Legend/DiscreteLegend";
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 export default {
@@ -25,7 +24,7 @@ const discreteData = {
     "H1": [[], 13],
     "BELOW": [[], 14]
 };
-const name = "ZONELOG";
+const colorName = "Stratigraphy";
 const dataObjectName = "Wells / ZONELOG";
 const position = [16, 10];
 const horizontal = true;
@@ -37,10 +36,9 @@ const Template = (args) => {
 export const ZonelogTemplate = Template.bind({});
 ZonelogTemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };

@@ -1,41 +1,37 @@
-import * as React from "react";
+import React from "react";
 import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
-import { templateArray, propertiesObj } from "../WelllayerTemplateTypes";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
-declare type ItemColor = {
+interface ItemColor {
     color: string;
 }
 
-declare type colorLegendProps = {
+interface colorLegendProps {
     discreteData: { objects: Record<string, [number[], number]> };
     dataObjectName: string;
-    name: string;
     position: number[];
-    template: templateArray;
+    colorName: string;
     colorTables: colorTablesArray;
     horizontal: boolean;
 }
 
 export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 }: colorLegendProps) => {
     React.useEffect(() => {
         discreteLegend("#legend");
-    }, [discreteData, template, colorTables, horizontal]);
+    }, [discreteData, colorName, colorTables, horizontal]);
     function discreteLegend(legend: string) {
         const itemName: string[] = [];
         const itemColor: ItemColor[] = [];
         const colorsArray: [number, number, number, number][] = colorTableData(
-            name,
-            template,
+            colorName,
             colorTables
         );
         Object.keys(discreteData).forEach((key) => {
@@ -63,10 +59,17 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         }
         const ordinalValues = scaleOrdinal().domain(itemName);
         const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
+        select(legend).select("div").remove();
         select(legend).select("svg").remove();
         const legendLength = itemColor.length;
         const calcLegendHeight = 22 * legendLength + 4 * legendLength;
         const selectedLegend = select(legend);
+        selectedLegend
+            .append("div")
+            .text(dataObjectName)
+            .attr("y", 7)
+            .style("color", "#6F6F6F")
+            .style("margin", "10px 10px");
         if (!horizontal) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
             .append("svg")
@@ -93,9 +96,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 borderRadius: "5px",
             }}
         >
-            <label style={{ color: "#6F6F6F", margin: "10px 10px" }}>
-                {dataObjectName}
-            </label>
             <div id="legend"></div>
         </div>
     );
@@ -103,20 +103,14 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
 // Based on name return the colors array from color.tables.json file
 export function colorTableData(
-    name: string,
-    template: templateArray,
+    colorName: string,
     colorTables: colorTablesArray
 ): [number, number, number, number][] {
-    const properties = template[0]["properties"];
-    const propertiesData = properties.filter(
-        (value: propertiesObj) => value.objectName == name
-    );
     const colorTableData = colorTables.filter(
         (value: colorTablesObj) =>
-            value.name.toLowerCase() ==
-            propertiesData[0].colorTable.toLowerCase()
+            value.name.toLowerCase() == colorName.toLowerCase()
     );
-    return colorTableData[0].colors;
+    return colorTableData.length > 0 ? colorTableData[0].colors : [];
 }
 
 DiscreteColorLegend.defaultProps = {

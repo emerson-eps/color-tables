@@ -1,6 +1,5 @@
 import React from "react";
 import {DiscreteColorLegend} from "../../../component/Legend/DiscreteLegend";
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 export default {
@@ -20,7 +19,7 @@ const discreteData = {
     "MSH": [[], 8],
     "CAL": [[], 9]
 };
-const name = "FACIES";
+const colorName = "Facies";
 const dataObjectName = "Wells / FACIES";
 const position = [16, 10];
 const horizontal = true;
@@ -32,10 +31,9 @@ const Template = (args) => {
 export const FaciesTemplate = Template.bind({});
 FaciesTemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };

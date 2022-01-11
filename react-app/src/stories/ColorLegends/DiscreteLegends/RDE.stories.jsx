@@ -1,6 +1,5 @@
 import React from "react";
 import {DiscreteColorLegend} from "../../../component/Legend/DiscreteLegend";
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 export default {
@@ -15,7 +14,7 @@ const discreteData = {
     "TIDAL": [[], 4],
     "ONSHORE": [[], 5]
 };
-const name = "RDE";
+const colorName = "Accent";
 const dataObjectName = "Wells / RDE";
 const position = [16, 10];
 const horizontal = true;
@@ -27,10 +26,9 @@ const Template = (args) => {
 export const RDETemplate = Template.bind({});
 RDETemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };
