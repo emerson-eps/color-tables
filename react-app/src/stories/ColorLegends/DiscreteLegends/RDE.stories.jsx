@@ -14,7 +14,6 @@ const discreteData = {
     "TIDAL": [[], 4],
     "ONSHORE": [[], 5]
 };
-const name = "RDE";
 const dataObjectName = "Wells / RDE";
 const position = [16, 10];
 const horizontal = true;

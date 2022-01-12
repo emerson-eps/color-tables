@@ -11,7 +11,6 @@ const discreteData = {
     "no": [[], 0],
     "yes": [[], 1]
 };
-const name = "FAULT_PROXIMITY_FLAG";
 const dataObjectName = "Wells / FAULT_PROXIMITY_FLAG";
 const position = [16, 10];
 const horizontal = true;

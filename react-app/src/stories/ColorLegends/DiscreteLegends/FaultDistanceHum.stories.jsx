@@ -11,7 +11,6 @@ const discreteData = {
     "no": [[], 0],
     "yes": [[], 1]
 };
-const name = "FaultDistance_HUM";
 const dataObjectName = "Wells / FaultDistance_HUM";
 const position = [16, 10];
 const horizontal = true;

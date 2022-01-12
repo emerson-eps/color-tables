@@ -24,7 +24,6 @@ const discreteData = {
     "H1": [[], 13],
     "BELOW": [[], 14]
 };
-const name = "ZONELOG";
 const dataObjectName = "Wells / ZONELOG";
 const position = [16, 10];
 const horizontal = true;

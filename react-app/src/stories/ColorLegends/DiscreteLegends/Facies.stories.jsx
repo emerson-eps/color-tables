@@ -20,7 +20,6 @@ const discreteData = {
     "MSH": [[], 8],
     "CAL": [[], 9]
 };
-const name = "FACIES";
 const dataObjectName = "Wells / FACIES";
 const position = [16, 10];
 const horizontal = true;

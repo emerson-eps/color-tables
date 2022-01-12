@@ -14,7 +14,6 @@ const discreteData = {
     "MID": [[], 2],
     "LOWER": [[], 3]
 };
-const name = "ZONE_MAIN";
 const dataObjectName = "Wells / ZONE_MAIN";
 const position = [16, 10];
 const horizontal = true;

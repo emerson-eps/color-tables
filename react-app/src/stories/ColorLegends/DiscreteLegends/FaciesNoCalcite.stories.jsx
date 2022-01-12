@@ -19,7 +19,6 @@ const discreteData = {
     "F_MARSH": [[], 8],
     "F_CALCITE": [[], 9]
 };
-const name = "FACIES_NoCalcite";
 const dataObjectName = "Wells / FACIES_NoCalcite";
 const position = [16, 10];
 const horizontal = true;
