@@ -24,6 +24,7 @@ const name = "FACIES";
 const dataObjectName = "Wells / FACIES";
 const position = [16, 10];
 const horizontal = true;
+const colorName = "Facies";
 
 const Template = (args) => {
     return <DiscreteColorLegend {...args} />;
@@ -32,10 +33,9 @@ const Template = (args) => {
 export const FaciesTemplate = Template.bind({});
 FaciesTemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };

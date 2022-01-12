@@ -1,6 +1,5 @@
 import React from "react";
 import {DiscreteColorLegend} from "../../../component/Legend/DiscreteLegend";
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 export default {
@@ -30,6 +29,7 @@ const name = "RDE_ORIG";
 const dataObjectName = "Wells / RDE_ORIG";
 const position = [16, 10];
 const horizontal = true;
+const colorName = "Stratigraphy";
 
 const Template = (args) => {
     return <DiscreteColorLegend {...args} />;
@@ -38,10 +38,9 @@ const Template = (args) => {
 export const RDEOrigTemplate = Template.bind({});
 RDEOrigTemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };
