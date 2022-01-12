@@ -1,5 +1,5 @@
-declare type ItemColor = {
-    color: string;
+interface ItemColor {	
+    color: string;	
 }
 
 // eslint-disable-next-line
