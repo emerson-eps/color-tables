@@ -4,7 +4,6 @@ export default {
     component: ContinuousLegend,
     title: "Legends/ContinousLegend",
 };
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 const min = 0;
@@ -13,6 +12,7 @@ const dataObjectName = "Wells / SW";
 const position = [16, 10];
 const name = "SW";
 const horizontal = true;
+const colorName = "Physics";
 
 const Template = (args) => {
     return <ContinuousLegend {...args} />;
@@ -25,7 +25,7 @@ SWTemplate.args = {
     dataObjectName,
     position,
     name,
-    template,
+    Physics,
     colorTables,
     horizontal,
 };
