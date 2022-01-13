@@ -26,7 +26,6 @@ const Template = (args) => {
 export const RDETemplate = Template.bind({});
 RDETemplate.args = {
     discreteData,
-    name,
     dataObjectName,
     position,
     colorName,

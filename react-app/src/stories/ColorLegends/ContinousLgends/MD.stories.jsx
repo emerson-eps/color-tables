@@ -4,7 +4,6 @@ export default {
     component: ContinuousLegend,
     title: "Legends/ContinousLegend",
 };
-import template from "../../../component/welllayer_template.json";
 import colorTables from "../../../component/color-tables.json";
 
 const min = 2918;
@@ -13,6 +12,7 @@ const dataObjectName = "Wells / MD";
 const position = [16, 10];
 const name = "MD";
 const horizontal = true;
+const colorName = "Time/Depth";
 
 const Template = (args) => {
     return <ContinuousLegend {...args} />;
@@ -25,7 +25,7 @@ MDTemplate.args = {
     dataObjectName,
     position,
     name,
-    template,
+    colorName,
     colorTables,
     horizontal,
 };
