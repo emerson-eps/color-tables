@@ -12,7 +12,7 @@ const dataObjectName = "Wells / SW";
 const position = [16, 10];
 const name = "SW";
 const horizontal = true;
-const colorName = "Physics";
+const colorName = "Rainbow";
 
 const Template = (args) => {
     return <ContinuousLegend {...args} />;
@@ -25,7 +25,7 @@ SWTemplate.args = {
     dataObjectName,
     position,
     name,
-    Physics,
+    colorName,
     colorTables,
     horizontal,
 };

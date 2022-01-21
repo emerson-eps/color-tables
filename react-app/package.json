@@ -16,12 +16,16 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
+    "@equinor/eds-core-react": "^0.17.0",
+    "@equinor/eds-icons": "^0.10.0",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2"
   },
   "repository": {
@@ -53,13 +57,15 @@
     "@storybook/addon-essentials": "^6.4.9",
     "@storybook/addon-links": "^6.4.9",
     "@storybook/react": "^6.4.9",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
     "@types/d3": "^7.1.0",
+    "@types/lodash": "^4.14.178",
+    "@types/styled-components": "^5.1.20",
     "babel-loader": "^8.1.0",
     "semantic-release": "^18.0.1",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.5.4",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3"
+    "typescript": "^4.5.4"
   }
 }

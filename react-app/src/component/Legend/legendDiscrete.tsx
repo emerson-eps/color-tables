@@ -3,51 +3,31 @@ import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
-declare type ItemColor = {
+interface ItemColor {
     color: string;
 }
 
-declare type colorLegendProps = {
-    discreteData: { objects: Record<string, [number[], number]> };
-    dataObjectName: string;
+interface colorLegendProps {
     position: number[];
-    colorName: string;
-    colorTables: colorTablesArray;
-    horizontal: boolean;
+    colorArray: any;
 }
 
-export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
-    discreteData,
-    dataObjectName,
+const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     position,
-    colorName,
-    colorTables,
-    horizontal,
+    colorArray,
 }: colorLegendProps) => {
     React.useEffect(() => {
         discreteLegend("#legend");
-    }, [discreteData, colorName, colorTables, horizontal]);
-    function discreteLegend(legend: string) {
-        const itemName: string[] = [];
-        const itemColor: ItemColor[] = [];
-        const colorsArray: [number, number, number, number][] = colorTableData(
-            colorName,
-            colorTables
-        );
-        Object.keys(discreteData).forEach((key) => {
-            // eslint-disable-next-line
-            let code = (discreteData as { [key: string]: any })[key][1]
-            // compare the first value in colorarray(colortable) and code from discreteData
-            const matchedColorsArrays = colorsArray.find((value: number[]) => {
-                return value[0] == code;
-            });
-            if (matchedColorsArrays)
-                itemColor.push({
-                    color: RGBToHex(matchedColorsArrays),
-                });
-            itemName.push(key);
-        });
+    }, [colorArray]);
 
+    function discreteLegend(legend: string) {
+        //const itemName: string[] = [];
+        const itemColor: ItemColor[] = [];
+        const itemName: any = [];
+        colorArray.color.forEach((element: any, key: any) => {
+            itemColor.push({color: RGBToHex(element)});
+            itemName.push(key);
+        })
         function RGBToHex(rgb: number[]) {
             let r = rgb[1].toString(16),
                 g = rgb[2].toString(16),
@@ -60,37 +40,35 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
         const ordinalValues = scaleOrdinal().domain(itemName);
         const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
-        select(legend).select("div").remove();
-        select(legend).select("svg").remove();
         const legendLength = itemColor.length;
         const calcLegendHeight = 22 * legendLength + 4 * legendLength;
         const selectedLegend = select(legend);
         selectedLegend
             .append("div")
-            .text(dataObjectName)
+            //.text(dataObjectName)
             .attr("y", 7)
             .style("color", "#6F6F6F")
             .style("margin", "10px 10px");
-        if (!horizontal) selectedLegend.style("height", 150 + "px");
+        //if (!horizontal) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
             .append("svg")
             .style("margin", "10px 10px")
             .call(colorLegend);
-        if (colorLegend && horizontal) {
+        // if (colorLegend) {
+        //     svgLegend
+        //         .attr("height", calcLegendHeight + "px")
+        //         .attr("width", 220 + "px");
+        // } else {
             svgLegend
-                .attr("height", calcLegendHeight + "px")
-                .attr("width", 220 + "px");
-        } else {
-            svgLegend
-                .style("transform", "rotate(90deg)")
+               // .style("transform", "rotate(90deg)")
                 .attr("width", calcLegendHeight + "px")
                 .attr("height", calcLegendHeight + "px");
-        }
+        //}
     }
     return (
         <div
             style={{
-                position: "absolute",
+                // position: "absolute",
                 right: position[0],
                 top: position[1],
                 backgroundColor: "#ffffffcc",
@@ -101,6 +79,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         </div>
     );
 };
+
+export default DiscreteColorLegend;
 
 // Based on name return the colors array from color.tables.json file
 export function colorTableData(
@@ -113,7 +93,3 @@ export function colorTableData(
     );
     return colorTableData.length > 0 ? colorTableData[0].colors : [];
 }
-
-DiscreteColorLegend.defaultProps = {
-    position: [5, 10],
-};

@@ -4,10 +4,10 @@ import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
 
 declare type legendProps = {
-    min: number;
-    max: number;
+    min?: number;
+    max?: number;
     dataObjectName: string;
-    position: number[];
+    position?: number[];
     colorName: string;
     colorTables: colorTablesArray;
     horizontal: boolean;
@@ -28,7 +28,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     horizontal,
 }: legendProps) => {
     React.useEffect(() => {
-        continuousLegend("#legend");
+        continuousLegend("legend");
     }, [min, max, colorName, colorTables, horizontal]);
 
     function continuousLegend(selected_id: string) {
@@ -43,7 +43,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             });
         });
         select(selected_id).select("svg").remove();
-        const colorScale = scaleSequential().domain([min, max]);
+        if (min && max) {
+            const colorScale = scaleSequential().domain([min, max]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(selected_id)
             .append("svg")
@@ -75,6 +76,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             .attr("stop-color", function (data) {
                 return data.color;
             });
+            
 
         // append title
         svgLegend
@@ -106,14 +108,16 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             .style("font-size", "10px")
             .style("font-weight", "700")
             .call(axisLeg);
+        }
+        
     }
 
     return (
         <div
             style={{
                 position: "absolute",
-                right: position[0],
-                top: position[1],
+                // right: position[0] ? position[0] : 0,
+                // top: position[1],
             }}
         >
             <div id="legend"></div>

@@ -4,17 +4,19 @@ declare type ItemColor = {
 
 // eslint-disable-next-line
 export default function legendUtil(itemColor: ItemColor[]): any {
-    let legendValues: ItemColor[] = [];
-    const cellWidth = 22;
+    //let legendValues = [];
+    let legendValues: { color: string }[] = [];
+    const cellWidth = 10;
     const cellHeight = 22;
-    const cellPadding = 4;
+    const cellPadding = 0;
 
     // eslint-disable-next-line
     function legend(g: any) {
         function drawLegend() {
             itemColor.forEach((item, index) => {
-                legendValues[index].color = item.color;
+               legendValues[index].color = item.color;
             });
+            //legendValues.pop()
             // Code to fill the color
             g.selectAll("g.legendCells")
                 .append("rect")
