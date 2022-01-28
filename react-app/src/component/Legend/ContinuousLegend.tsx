@@ -2,6 +2,7 @@ import * as React from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
+import * as d3 from "d3";
 
 declare type legendProps = {
     min?: number;
@@ -33,6 +34,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
 
     function continuousLegend(selected_id: string) {
         const itemColor: ItemColor[] = [];
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
         // Return the matched colors array from color.tables.json file
         const colorTableColors = colorsArray(colorName, colorTables);
         colorTableColors.forEach((value: [number, number, number, number]) => {

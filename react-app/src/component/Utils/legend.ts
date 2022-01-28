@@ -6,10 +6,10 @@ declare type ItemColor = {
 export default function legendUtil(itemColor: ItemColor[]): any {
     //let legendValues = [];
     let legendValues: { color: string }[] = [];
-    const cellWidth = 10;
+    let cellWidth = 10;
     //const cellHeight = 22;
-    const cellHeight = 7;
-    const cellPadding = 0;
+    let cellHeight = 10;
+    let cellPadding = 0;
 
     // eslint-disable-next-line
     function legend(g: any) {
@@ -19,15 +19,7 @@ export default function legendUtil(itemColor: ItemColor[]): any {
             });
             //legendValues.pop()
             // Code to fill the color
-            g.selectAll("g.legendCells")
-                .append("rect")
-                .attr("height", cellHeight)
-                .attr("width", cellWidth)
-                .style("stroke", "black")
-                .style("stroke-width", "1px")
-                .style("fill", function (d: Record<string, unknown>) {
-                    return d["color"];
-                });
+            
             // Display the label
             // g.selectAll("g.legendCells")
             //     .append("text")
@@ -39,22 +31,46 @@ export default function legendUtil(itemColor: ItemColor[]): any {
             //         return d["label"];
             //     });
             // Alighment of cell in straight line
-            g.selectAll("g.legendCells").attr(
-                "transform",
-                function (_d: Record<string, unknown>, i: number) {
-                    return (
-                        "translate(0," + i * (cellHeight + cellPadding) + ")"
-                    );
-                }
-            );
+            g.selectAll("g.legendCells").attr("transform", function(d: any,i: any) {return "translate(" + (i * cellWidth) + ",0)" });
+            // g.selectAll("g.legendCells").attr(
+            //     "transform",
+            //     function (_d: Record<string, unknown>, i: number) {
+            //         return (
+            //             "translate(0," + i * (cellHeight + cellPadding) + ")"
+            //         );
+            //     }
+            // );
         }
         // display the discrete legend
         g.selectAll("g.legendCells")
             .data(legendValues)
             .enter()
             .append("g")
-            .attr("class", "legendCells");
+            .attr("class", "legendCells")
+            .attr("transform", function(d: any,i: any) {return "translate(" + (i * (cellWidth + cellPadding)) + ",0)" });
+
+            g.selectAll("g.legendCells")
+                .append("rect")
+                .attr("height", cellHeight)
+                .attr("width", cellWidth)
+                .style("stroke", "black")
+                .style("stroke-width", "1px")
+                .style("fill", function (d: Record<string, unknown>) {
+                    return d["color"];
+                });
         drawLegend();
+    }
+
+    legend.cellWidth = function(newCellSize: any) {
+        if (!arguments.length) return cellWidth;
+            cellWidth = newCellSize;
+            return this;
+    }
+
+    legend.cellHeight = function(newCellSize: any) {
+        if (!arguments.length) return cellHeight;
+            cellHeight = newCellSize;
+            return this;
     }
     // eslint-disable-next-line
     legend.inputScale = function (newScale: any) {
