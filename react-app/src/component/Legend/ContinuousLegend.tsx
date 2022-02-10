@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
@@ -27,11 +28,17 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorTables,
     horizontal,
 }: legendProps) => {
+    const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
-        continuousLegend("#legend");
+        if (divRef.current) {
+            continuousLegend();
+        };
+        return function cleanup() {
+            select(divRef.current).select("svg").remove();
+        };
     }, [min, max, colorName, colorTables, horizontal]);
 
-    function continuousLegend(selected_id: string) {
+    function continuousLegend() {
         const itemColor: ItemColor[] = [];
         // Return the matched colors array from color.tables.json file
         const colorTableColors = colorsArray(colorName, colorTables);
@@ -42,10 +49,9 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 color: RGBToHex(value).color,
             });
         });
-        select(selected_id).select("svg").remove();
         const colorScale = scaleSequential().domain([min, max]);
         // append a defs (for definition) element to your SVG
-        const svgLegend = select(selected_id)
+        const svgLegend = select(divRef.current)
             .append("svg")
             .style("background-color", "#ffffffcc")
             .style("border-radius", "5px");
@@ -116,7 +122,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 top: position[1],
             }}
         >
-            <div id="legend"></div>
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };
