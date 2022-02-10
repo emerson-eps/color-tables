@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRef } from "react";
 import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
@@ -24,10 +25,17 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     colorTables,
     horizontal,
 }: colorLegendProps) => {
+    const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
-        discreteLegend("#legend");
+        if (divRef.current) {
+            discreteLegend();
+        }
+        return function cleanup() {
+            select(divRef.current).select("div").remove();
+            select(divRef.current).select("svg").remove();
+        };
     }, [discreteData, colorName, colorTables, horizontal]);
-    function discreteLegend(legend: string) {
+    function discreteLegend() {
         const itemName: string[] = [];
         const itemColor: ItemColor[] = [];
         const colorsArray: [number, number, number, number][] = colorTableData(
@@ -59,11 +67,9 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         }
         const ordinalValues = scaleOrdinal().domain(itemName);
         const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
-        select(legend).select("div").remove();
-        select(legend).select("svg").remove();
         const legendLength = itemColor.length;
         const calcLegendHeight = 22 * legendLength + 4 * legendLength;
-        const selectedLegend = select(legend);
+        const selectedLegend = select(divRef.current);
         selectedLegend
             .append("div")
             .text(dataObjectName)
@@ -96,7 +102,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 borderRadius: "5px",
             }}
         >
-            <div id="legend"></div>
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };
