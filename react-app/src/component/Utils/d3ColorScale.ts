@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { range } from "lodash";
 
 export const colorScalesCont: Record<string, (num: number) => string> = {
-    Rainbow: d3.interpolateHslLong("red", "blue"),
+    //Rainbow: d3.interpolateHslLong("red", "blue"),
     Spectral: d3.interpolateSpectral,
     RdYlBu: d3.interpolateRdYlBu,
     RdYlGn: d3.interpolateRdYlGn,

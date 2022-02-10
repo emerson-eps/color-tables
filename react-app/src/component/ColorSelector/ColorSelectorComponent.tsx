@@ -9,7 +9,7 @@ import DiscreteColorLegend1 from "../Legend/legendDiscrete";
 const position = [16, 206];
 const continuosColorData: any = []
 const continuosD3ColorData: any = []
-const discreteColorData: any = []
+// const discreteColorData: any = []
 
 interface legendProps {
     useColorTableColors: boolean
@@ -32,13 +32,13 @@ d3continuousData.forEach((element: any) => {
     continuosD3ColorData.push({color: element.colors, name: element.name})
 });
 
-var discreteData = colorTables.filter((element: any) => {
-    return element.discrete == true; 
-});
+// var discreteData = colorTables.filter((element: any) => {
+//     return element.discrete == true; 
+// });
 
-discreteData.forEach((element: any) => {
-    discreteColorData.push({color: element.colors, name: element.name})
-});
+// discreteData.forEach((element: any) => {
+//     discreteColorData.push({color: element.colors, name: element.name})
+// });
 
 export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
@@ -63,24 +63,21 @@ export const ColorSelector: React.FC<legendProps> = ({
             />
         });
 
-        result1 = discreteColorData.map((val: any, key: any) => {
-            return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={true} />
-        });
+        // result1 = discreteColorData.map((val: any, key: any) => {
+        //     return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={true} />
+        // });
     } 
     if (useD3Colors) {
         result = continuosD3ColorData.map((val: any, key: any) => {
             return <LegendContinous legendColor={val.color} legendColorName={val.name} position={position}
                 useContColorTable={false} colorArray={{}} />
             });
-    } 
-    // } else if (useContColorTable == false) {
-    
-    // }
+    }
 
     return (
         <div>
             {result} 
-            {result1}
+            {/* {result1} */}
         </div>
     );
 };
