@@ -1,10 +1,8 @@
 import * as React from "react";
 import { LegendContinous } from "../Legend/legendContinous";
-//import ContinuousLegendtt from "../Legend/d3legend";
 import * as colorTables from "../color-tables.json";
-import {colorScalesCont} from "../Utils/d3ColorSet"
+import {colorScalesCont} from "../Utils/d3ColorScale"
 import DiscreteColorLegend1 from "../Legend/legendDiscrete";
-//import d3legenddiscrete from "../Legend/d3legenddiscrete"
 
 const position = [16, 206];
 const continuosColorData: any = []
@@ -16,6 +14,7 @@ interface legendProps {
     useD3Colors: boolean
 }
 
+// code is for color table continuous data
 var colorTableContinuousData = colorTables.filter((element: any) => {
     return element.discrete == false; 
 });
@@ -24,6 +23,7 @@ colorTableContinuousData.forEach((element: any) => {
     continuosColorData.push({color: element.colors, name: element.name})
 });
 
+// code is for d3 continuous data
 var d3continuousData = colorScalesCont.filter((element: any) => {
     return element.discrete == false; 
 });
@@ -44,8 +44,8 @@ export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
     useD3Colors,
 }: legendProps) => {
-    let result;
-    let result1;
+    let continuousLegend;
+    let discreteLegend;
     // if (useD3Colors) {
     //     result = discreteColorData.map((val: any, key: any) => {
     //         return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={useDiscColorTable} />
@@ -57,18 +57,18 @@ export const ColorSelector: React.FC<legendProps> = ({
     //     });
     // }
     if (useColorTableColors) {
-        result =  continuosColorData.map((value: any, key: any) => {
+        continuousLegend =  continuosColorData.map((value: any, key: any) => {
             return <LegendContinous position={position + key} colorArray={value} test={key} 
                 useContColorTable={true} legendColorName={' '}
             />
         });
 
-        // result1 = discreteColorData.map((val: any, key: any) => {
+        // discreteLegend = discreteColorData.map((val: any, key: any) => {
         //     return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={true} />
         // });
     } 
     if (useD3Colors) {
-        result = continuosD3ColorData.map((val: any, key: any) => {
+        continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
             return <LegendContinous legendColor={val.color} legendColorName={val.name} position={position}
                 useContColorTable={false} colorArray={{}} />
             });
@@ -76,8 +76,8 @@ export const ColorSelector: React.FC<legendProps> = ({
 
     return (
         <div>
-            {result} 
-            {/* {result1} */}
+            {continuousLegend} 
+            {/* {discreteLegend} */}
         </div>
     );
 };

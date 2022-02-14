@@ -29,7 +29,7 @@ export const ColorSelectorWrapper = () => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useD3Colors={true} useColorTableColors={false} />
+                                    <ColorSelector useColorTableColors={false} useD3Colors={true} />
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
