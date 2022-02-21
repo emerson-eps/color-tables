@@ -11,10 +11,10 @@ declare type ItemColor = {
 declare type colorLegendProps = {
     discreteData: { objects: Record<string, [number[], number]> };
     dataObjectName: string;
-    position: number[];
+    position?: number[] | null;
     colorName: string;
     colorTables: colorTablesArray;
-    horizontal: boolean;
+    horizontal?: boolean | null;
 }
 
 export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
@@ -76,12 +76,12 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             .attr("y", 7)
             .style("color", "#6F6F6F")
             .style("margin", "10px 10px");
-        if (!horizontal) selectedLegend.style("height", 150 + "px");
+        if (horizontal) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
             .append("svg")
             .style("margin", "10px 10px")
             .call(colorLegend);
-        if (colorLegend && horizontal) {
+        if (colorLegend && !horizontal) {
             svgLegend
                 .attr("height", calcLegendHeight + "px")
                 .attr("width", 220 + "px");
@@ -96,8 +96,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         <div
             style={{
                 position: "absolute",
-                right: position[0],
-                top: position[1],
+                right: position ? position[0] : ' ',
+                top: position ? position[1] : ' ',
                 backgroundColor: "#ffffffcc",
                 borderRadius: "5px",
             }}

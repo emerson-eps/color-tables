@@ -8,10 +8,10 @@ declare type legendProps = {
     min: number;
     max: number;
     dataObjectName: string;
-    position: number[];
+    position?: number[] | null;
     colorName: string;
     colorTables: colorTablesArray;
-    horizontal: boolean;
+    horizontal?: boolean | null;
 }
 
 declare type ItemColor = {
@@ -118,8 +118,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
         <div
             style={{
                 position: "absolute",
-                right: position[0],
-                top: position[1],
+                right: position ? position[0] : ' ',
+                top: position ? position[1] : ' ',
             }}
         >
             <div id="legend" ref={divRef}></div>
