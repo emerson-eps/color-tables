@@ -21,7 +21,7 @@ const discreteData = {
 };
 const dataObjectName = "Wells / FACIES";
 const position = [16, 10];
-const horizontal = true;
+const horizontal = false;
 const colorName = "Facies";
 
 const Template = (args) => {

@@ -55,7 +55,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             .append("svg")
             .style("background-color", "#ffffffcc")
             .style("border-radius", "5px");
-        if (!horizontal) {
+        if (horizontal) {
             svgLegend
                 .style("transform", "rotate(270deg)")
                 .style("margin-top", "80px");

@@ -2,12 +2,11 @@ import * as React from "react";
 import { LegendContinous } from "../Legend/legendContinous";
 import * as colorTables from "../color-tables.json";
 import {colorScalesCont} from "../Utils/d3ColorScale"
-import DiscreteColorLegend1 from "../Legend/legendDiscrete";
+//import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const position = [16, 206];
 const continuosColorData: any = []
 const continuosD3ColorData: any = []
-// const discreteColorData: any = []
 
 interface legendProps {
     useColorTableColors: boolean
@@ -32,52 +31,48 @@ d3continuousData.forEach((element: any) => {
     continuosD3ColorData.push({color: element.colors, name: element.name})
 });
 
-// var discreteData = colorTables.filter((element: any) => {
-//     return element.discrete == true; 
-// });
-
-// discreteData.forEach((element: any) => {
-//     discreteColorData.push({color: element.colors, name: element.name})
-// });
-
 export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
     useD3Colors,
 }: legendProps) => {
     let continuousLegend;
-    let discreteLegend;
-    // if (useD3Colors) {
-    //     result = discreteColorData.map((val: any, key: any) => {
-    //         return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={useDiscColorTable} />
-    //     });
-    // } 
-    // else if (!useDiscColorTable) {
-    //     result = discreteColorData.map((val: any, key: any) => {
-    //         return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={useDiscColorTable} />
-    //     });
-    // }
+    function onClickFunction () {
+        console.log('click me')
+    }
     if (useColorTableColors) {
         continuousLegend =  continuosColorData.map((value: any, key: any) => {
-            return <LegendContinous position={position + key} colorArray={value} test={key} 
-                useContColorTable={true} legendColorName={' '}
-            />
+            return <div>
+                        <LegendContinous 
+                            position={position + key} 
+                            colorArray={value}
+                            legendColor={''}
+                            legendColorName={''} 
+                            useContColorTable={true}
+                            valueIndex={key}
+                            // icon={<MoreHorizIcon />}
+                        />
+                        {/* <MoreHorizIcon onClick={() => onClickFunction()}/> */}
+                </div>
+            
         });
-
-        // discreteLegend = discreteColorData.map((val: any, key: any) => {
-        //     return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={true} />
-        // });
     } 
     if (useD3Colors) {
         continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
-            return <LegendContinous legendColor={val.color} legendColorName={val.name} position={position}
-                useContColorTable={false} colorArray={{}} />
-            });
+            return <LegendContinous
+                        position={position + key}
+                        colorArray={{}}
+                        legendColor={val.color} 
+                        legendColorName={val.name} 
+                        useContColorTable={false}  
+                        valueIndex={key + "0"}
+                        // icon={<MoreHorizIcon />}
+            />
+        });
     }
 
     return (
         <div>
             {continuousLegend} 
-            {/* {discreteLegend} */}
         </div>
     );
 };

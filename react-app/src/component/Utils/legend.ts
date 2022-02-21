@@ -31,7 +31,7 @@ export default function legendUtil(itemColor: ItemColor[]): any {
             //         return d["label"];
             //     });
             // Alighment of cell in straight line
-            g.selectAll("g.legendCells").attr("transform", function(d: any,i: any) {return "translate(" + (i * cellWidth) + ",0)" });
+            g.selectAll("g.legendCells").attr("transform", function(i: any) {return "translate(" + (i * cellWidth) + ",0)" });
             // g.selectAll("g.legendCells").attr(
             //     "transform",
             //     function (_d: Record<string, unknown>, i: number) {
@@ -47,7 +47,7 @@ export default function legendUtil(itemColor: ItemColor[]): any {
             .enter()
             .append("g")
             .attr("class", "legendCells")
-            .attr("transform", function(d: any,i: any) {return "translate(" + (i * (cellWidth + cellPadding)) + ",0)" });
+            .attr("transform", function(i: any) {return "translate(" + (i * (cellWidth + cellPadding)) + ",0)" });
 
             g.selectAll("g.legendCells")
                 .append("rect")

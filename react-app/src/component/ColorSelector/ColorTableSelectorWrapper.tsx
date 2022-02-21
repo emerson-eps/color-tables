@@ -19,7 +19,7 @@ export const ColorSelectorWrapper = () => {
                                     Geologic Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useColorTableColors={true} useD3Colors={false} />
+                                    <ColorSelector useColorTableColors={true} useD3Colors={false} key={1}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
@@ -29,7 +29,7 @@ export const ColorSelectorWrapper = () => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useColorTableColors={false} useD3Colors={true} />
+                                    <ColorSelector useColorTableColors={false} useD3Colors={true} key={1}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>

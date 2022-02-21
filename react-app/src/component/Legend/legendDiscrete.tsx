@@ -49,8 +49,8 @@ const DiscreteColorLegend1: React.FC<colorLegendProps> = ({
         //const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
         const colorLegend = legendUtil(itemColor).cellWidth(10).cellHeight(5).inputScale(ordinalValues);
         select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(colorLegend);
-        const legendLength = itemColor.length;
-        const calcLegendHeight = 22 * legendLength + 4 * legendLength;
+        //const legendLength = itemColor.length;
+        //const calcLegendHeight = 22 * legendLength + 4 * legendLength;
         const selectedLegend = select(legend);
         selectedLegend
             .append("div")
@@ -59,10 +59,10 @@ const DiscreteColorLegend1: React.FC<colorLegendProps> = ({
             .style("color", "#6F6F6F")
             .style("margin", "10px 10px");
         //if (!horizontal) selectedLegend.style("height", 150 + "px");
-        const svgLegend = selectedLegend
-            .append("svg")
-            .style("margin", "10px 10px")
-            .call(colorLegend);
+        // const svgLegend = selectedLegend
+        //     .append("svg")
+        //     .style("margin", "10px 10px")
+        //     .call(colorLegend);
         // if (colorLegend) {
         //     svgLegend
         //         .attr("height", calcLegendHeight + "px")
