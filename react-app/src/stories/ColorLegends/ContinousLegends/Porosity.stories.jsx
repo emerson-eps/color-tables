@@ -8,9 +8,8 @@ import colorTables from "../../../component/color-tables.json";
 
 const min = 0;
 const max = 0.35;
-const dataObjectName = "Wells / POROTOT";
+const dataObjectName = "Wells / PORO";
 const position = [16, 10];
-const name = "PORO";
 const horizontal = true;
 const colorName = "Porosity";
 
@@ -18,13 +17,12 @@ const Template = (args) => {
     return <ContinuousLegend {...args} />;
 };
 
-export const PoroTotTemplate = Template.bind({});
-PoroTotTemplate.args = {
+export const PorosityTemplate = Template.bind({});
+PorosityTemplate.args = {
     min,
     max,
     dataObjectName,
     position,
-    name,
     colorName,
     colorTables,
     horizontal,

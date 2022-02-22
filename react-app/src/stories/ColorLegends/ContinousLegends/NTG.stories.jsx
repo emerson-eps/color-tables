@@ -8,24 +8,22 @@ import colorTables from "../../../component/color-tables.json";
 
 const min = 0;
 const max = 1;
-const dataObjectName = "Wells / SW";
+const dataObjectName = "Wells / NTG";
 const position = [16, 10];
-const name = "SW";
 const horizontal = true;
-const colorName = "Physics";
+const colorName = "Rainbow";
 
 const Template = (args) => {
     return <ContinuousLegend {...args} />;
 };
 
-export const SWTemplate = Template.bind({});
-SWTemplate.args = {
+export const NTGTemplate = Template.bind({});
+NTGTemplate.args = {
     min,
     max,
     dataObjectName,
     position,
-    name,
-    Physics,
+    colorName,
     colorTables,
     horizontal,
 };

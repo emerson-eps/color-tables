@@ -10,7 +10,6 @@ const min = 2918;
 const max = 4770;
 const dataObjectName = "Wells / MD";
 const position = [16, 10];
-const name = "MD";
 const horizontal = true;
 const colorName = "Time/Depth";
 
@@ -24,7 +23,6 @@ MDTemplate.args = {
     max,
     dataObjectName,
     position,
-    name,
     colorName,
     colorTables,
     horizontal,

@@ -8,23 +8,21 @@ import colorTables from "../../../component/color-tables.json";
 
 const min = -999;
 const max = 14023;
-const dataObjectName = "Wells / PERMTOT";
+const dataObjectName = "Wells / PERM";
 const position = [16, 10];
-const name = "PERM_TOT";
 const horizontal = true;
-const colorName = "Porosity";
+const colorName = "Permeability";
 
 const Template = (args) => {
     return <ContinuousLegend {...args} />;
 };
 
-export const PermTotTemplate = Template.bind({});
-PermTotTemplate.args = {
+export const PermeabilityTemplate = Template.bind({});
+PermeabilityTemplate.args = {
     min,
     max,
     dataObjectName,
     position,
-    name,
     colorName,
     colorTables,
     horizontal,
