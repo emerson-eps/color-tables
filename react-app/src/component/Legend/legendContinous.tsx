@@ -2,8 +2,11 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex } from "../Utils/continousLegend";
 import {colorScalesCont} from "../Utils/d3ColorScale"
+import BasicPopover from "../Utils/popOver"
 import * as d3 from "d3";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 
 interface legendProps {
     position: number[];
@@ -27,6 +30,26 @@ export const LegendContinous: React.FC<legendProps> = ({
     useContColorTable,
     valueIndex,
 }: legendProps) => {
+
+    //popover
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
+    // duplicate click
+    const duplicateClick = (event: any) => {
+        console.log('duplicate')
+    };
+
     const divRef = useRef<HTMLDivElement>(null);
 
     function changeHandler() {
@@ -182,7 +205,19 @@ export const LegendContinous: React.FC<legendProps> = ({
                         <div className="mainDiv" ref={divRef}>
                             <div className="icon" 
                                 style={{height: "0", float: "right", marginTop: "27px"}}>
-                                    <MoreHorizIcon onClick={() => changeHandler()} />
+                                    <MoreHorizIcon onClick={handleClick} />
+                                    <Popover
+                                        id={id}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        onClose={handleClose}
+                                        anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                        }}
+                                    >
+                                        <Typography sx={{ p: 1 }} onClick={duplicateClick} >Duplicate</Typography>
+                                    </Popover>
                             </div>
                             <div className="colortableLegend"></div>
                         </div>
@@ -191,10 +226,11 @@ export const LegendContinous: React.FC<legendProps> = ({
                     <div className="mainDiv" ref={divRef}>
                         <div className="icon" 
                             style={{height: "0", float: "right", marginTop: "27px"}}>
-                                <MoreHorizIcon /></div>
+                                <MoreHorizIcon onClick={() => changeHandler()} /></div>
                         <div className="d3colorLegend" style={{float: "left"}}></div>
                     </div>
             }
+            {/* <div><BasicPopover/></div> */}
         </div>
     );
 };
