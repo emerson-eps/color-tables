@@ -2,11 +2,13 @@ import * as React from "react";
 import { LegendContinous } from "../Legend/legendContinous";
 import * as colorTables from "../color-tables.json";
 import {colorScalesCont} from "../Utils/d3ColorScale"
+import DiscreteColorLegend1 from "../Legend/legendDiscrete";
 //import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const position = [16, 206];
 const continuosColorData: any = []
 const continuosD3ColorData: any = []
+const discreteColorData: any = []
 
 interface legendProps {
     useColorTableColors: boolean
@@ -31,14 +33,21 @@ d3continuousData.forEach((element: any) => {
     continuosD3ColorData.push({color: element.colors, name: element.name})
 });
 
+var discreteData = colorTables.filter((element: any) => {
+    return element.discrete == true; 
+});
+
+discreteData.forEach((element: any) => {
+    discreteColorData.push({color: element.colors, name: element.name})
+});
+
 export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
     useD3Colors,
 }: legendProps) => {
     let continuousLegend;
-    function onClickFunction () {
-        console.log('click me')
-    }
+    let discreteLegend;
+
     if (useColorTableColors) {
         continuousLegend =  continuosColorData.map((value: any, key: any) => {
             return <div>
@@ -54,6 +63,10 @@ export const ColorSelector: React.FC<legendProps> = ({
                         {/* <MoreHorizIcon onClick={() => onClickFunction()}/> */}
                 </div>
             
+        });
+
+        discreteLegend = discreteColorData.map((val: any, key: any) => {
+            return <DiscreteColorLegend1 position={position} colorArray={discreteColorData[key]} useDiscColorTable={true} />
         });
     } 
     if (useD3Colors) {
@@ -72,7 +85,8 @@ export const ColorSelector: React.FC<legendProps> = ({
 
     return (
         <div>
-            {continuousLegend} 
+            {continuousLegend}
+            {discreteLegend} 
         </div>
     );
 };
