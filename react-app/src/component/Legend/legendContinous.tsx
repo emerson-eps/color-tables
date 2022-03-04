@@ -2,15 +2,11 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex } from "../Utils/continousLegend";
 import {colorScalesCont} from "../Utils/d3ColorScale"
-import BasicPopover from "../Utils/popOver"
 import * as d3 from "d3";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 
 interface legendProps {
     position: number[];
-    colorArray: any;
+    colorsObject: any;
     legendColor: any;
     legendColorName: string;
     useContColorTable: boolean;
@@ -24,37 +20,14 @@ interface ItemColor {
 
 export const LegendContinous: React.FC<legendProps> = ({
     position,
-    colorArray,
+    colorsObject,
     legendColor,
     legendColorName,
     useContColorTable,
     valueIndex,
 }: legendProps) => {
 
-    //popover
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
-
-    // duplicate click
-    const duplicateClick = (event: any) => {
-        console.log('duplicate')
-    };
-
     const divRef = useRef<HTMLDivElement>(null);
-
-    function changeHandler() {
-        console.log('click me')
-    }
 
     React.useEffect(() => {
         // colortable colors
@@ -75,13 +48,14 @@ export const LegendContinous: React.FC<legendProps> = ({
 
     function colortableLegend() {
         const itemColor: ItemColor[] = [];
-        colorArray.color.forEach((value: [number, number, number, number]) => {
-            // return the color and offset needed to draw the legend
-            itemColor.push({
-                offset: RGBToHex(value).offset,
-                color: RGBToHex(value).color,
+
+        colorsObject.color.forEach((value: [number, number, number, number]) => {
+                // return the color and offset needed to draw the legend
+                itemColor.push({
+                    offset: RGBToHex(value).offset,
+                    color: RGBToHex(value).color,
+                });
             });
-        });
 
         // append a defs (for definition) element to your SVG
         const svgLegend = d3.select(divRef.current)
@@ -120,7 +94,7 @@ export const LegendContinous: React.FC<legendProps> = ({
             .attr("x", 0)
             .attr("y", 43)
             .style("text-anchor", "left")
-            .text(colorArray.name);
+            .text(colorsObject.name);
 
         // draw the rectangle and fill with gradient
         svgLegend
@@ -203,30 +177,13 @@ export const LegendContinous: React.FC<legendProps> = ({
             {   useContColorTable ? 
                     <div>
                         <div className="mainDiv" ref={divRef}>
-                            <div className="icon" 
-                                style={{height: "0", float: "right", marginTop: "27px"}}>
-                                    <MoreHorizIcon onClick={handleClick} />
-                                    <Popover
-                                        id={id}
-                                        open={open}
-                                        anchorEl={anchorEl}
-                                        onClose={handleClose}
-                                        anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                        }}
-                                    >
-                                        <Typography sx={{ p: 1 }} onClick={duplicateClick} >Duplicate</Typography>
-                                    </Popover>
+                            <div className="icon" style={{height: "0", float: "right", marginTop: "27px"}}>
                             </div>
                             <div className="colortableLegend"></div>
                         </div>
                     </div>
                     : 
                     <div className="mainDiv" ref={divRef}>
-                        <div className="icon" 
-                            style={{height: "0", float: "right", marginTop: "27px"}}>
-                                <MoreHorizIcon onClick={() => changeHandler()} /></div>
                         <div className="d3colorLegend" style={{float: "left"}}></div>
                     </div>
             }

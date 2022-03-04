@@ -1,5 +1,7 @@
 import * as React from "react";
-import legendUtil from "../Utils/legend";
+import { useRef } from "react";
+// import legendUtil from "../Utils/legend";
+import legend1Util from "../Utils/d3discrete";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
@@ -9,33 +11,45 @@ interface ItemColor {
 
 interface colorLegendProps {
     position: number[];
-    colorArray: any;
+    colorsObject: any;
     useDiscColorTable: boolean;
+    colorName: string;
 }
 
 const DiscreteColorLegend1: React.FC<colorLegendProps> = ({
     position,
-    colorArray,
+    colorsObject,
     useDiscColorTable,
+    colorName,
 }: colorLegendProps) => {
+    const divRef = useRef<HTMLDivElement>(null);
     
     React.useEffect(() => {
-        if (useDiscColorTable == true) {
-            discreteLegend("#legend");
+        if (useDiscColorTable == true && divRef.current) {
+            discreteLegend();
+            return function cleanup() {
+                select(divRef.current).select("div").remove();
+                select(divRef.current).select("svg").remove();
+            };
         } 
-        else if (useDiscColorTable == false) {
-           // legendDemo("#legend");
+        else if (useDiscColorTable == false && divRef.current) {
+           legendDemo();
+           return function cleanup() {
+            select(divRef.current).select("div").remove();
+            select(divRef.current).select("svg").remove();
+        };
         }
-    }, [colorArray]);
+    }, [colorsObject]);
 
-    function discreteLegend(legend: string) {
-        //const itemName: string[] = [];
+    function discreteLegend() {
         const itemColor: ItemColor[] = [];
         const itemName: any = [];
-        colorArray.color.forEach((element: any, key: any) => {
-            itemColor.push({color: RGBToHex(element)});
-            itemName.push(key);
-        })
+
+        colorsObject.color.forEach((element: any, key: any) => {
+                itemColor.push({color: RGBToHex(element)});
+                itemName.push(key);
+            })
+
         function RGBToHex(rgb: number[]) {
             let r = rgb[1].toString(16),
                 g = rgb[2].toString(16),
@@ -47,84 +61,69 @@ const DiscreteColorLegend1: React.FC<colorLegendProps> = ({
         }
 
         const ordinalValues = scaleOrdinal().domain(itemName);
-        //const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
-        const colorLegend = legendUtil(itemColor).cellWidth(10).cellHeight(5).inputScale(ordinalValues);
+        const colorLegend = legend1Util(itemColor).cellWidth(20).cellHeight(15).inputScale(ordinalValues);
         select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(colorLegend);
-        const legendLength = itemColor.length;
-        const calcLegendHeight = 22 * legendLength + 4 * legendLength;
-        const selectedLegend = select(legend);
+        //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
+        const selectedLegend = select(divRef.current);
         selectedLegend
-            .append("div")
-            //.text(dataObjectName)
+            .append("span")
+            .text(colorName)
             .attr("y", 7)
             .style("color", "#6F6F6F")
-            .style("margin", "10px 10px");
-        //if (!horizontal) selectedLegend.style("height", 150 + "px");
-        const svgLegend = selectedLegend
+            .style("float", "left")
+            .style("width", "30%")
+            .style("margin", "10px 0px");
+        selectedLegend
             .append("svg")
-            .style("margin", "10px 10px")
+            .style("margin", "15px 10px 10px 0px")
+            .style("float", "right")
+            .style("width", "60%")
+            .style("height", "12px")
             .call(colorLegend);
-        // if (colorLegend && horizontal) {
-        //     svgLegend
-        //         .attr("height", calcLegendHeight + "px")
-        //         .attr("width", 220 + "px");
-        // } 
-        // else {
-            svgLegend
-                .style("transform", "rotate(90deg)")
-                .attr("width", calcLegendHeight + "px")
-                .attr("height", calcLegendHeight + "px");
-        //}
     }
 
-    // function legendDemo(legend: string) {
-    //     const itemName: string[] = [];
-    //     const itemColor: Record<string, unknown>[] = [];
+    function legendDemo() {
+        const itemName: string[] = [];
+        const itemColor: Record<string, unknown>[] = [];
 
-    //     Object.keys(data).forEach((key) => {
-    //         itemColor.push({ color: RGBAToHexA(data[key][0]) });
-    //         itemName.push(key);
-    //     });
-    //     function RGBAToHexA(rgba: number[]) {
-    //         let r = rgba[0].toString(16),
-    //             g = rgba[1].toString(16),
-    //             b = rgba[2].toString(16),
-    //             a = Math.round(rgba[3] * 255).toString(16);
-    //         if (r.length == 1) r = "0" + r;
-    //         if (g.length == 1) g = "0" + g;
-    //         if (b.length == 1) b = "0" + b;
-    //         if (a.length == 1) a = "0" + a;
-    //         return "#" + r + g + b;
-    //     }
-    //     const ordinalValues = d3
-    //         .scaleOrdinal(d3.schemeCategory10)
-    //         .domain(itemName);
-    //     const discreteLegend = legendUtil(itemColor)
-    //         .labelFormat("none")
-    //         .inputScale(ordinalValues);
-    //     d3.select(legend)
-    //         .append("svg")
-    //         .attr("height", 600 + "px")
-    //         .attr("width", 150 + "px")
-    //         .style("position", "absolute")
-    //         .style("right", "0px")
-    //         .style("top", "0px")
-    //         .attr("transform", "translate(0,30)")
-    //         .call(discreteLegend);
-    // }
+        colorsObject.forEach((element: any, key: any) => {
+            itemColor.push({color: element});
+            itemName.push(key);
+        });
+
+        const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
+        const discreteLegend = legend1Util(itemColor).cellWidth(20).cellHeight(15).inputScale(ordinalValues);
+        select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(discreteLegend);
+        const selectedLegend = select(divRef.current);
+        selectedLegend
+            .append("span")
+            .text(colorName)
+            .attr("y", 7)
+            .style("color", "#6F6F6F")
+            .style("float", "left")
+            .style("width", "30%")
+            .style("margin", "10px 0px");
+        selectedLegend
+            .append("svg")
+            .style("margin", "15px 10px 10px 0px")
+            .style("float", "right")
+            .style("width", "60%")
+            .style("height", "12px")
+            .call(discreteLegend);
+    }
 
 
     return (
         <div
             style={{
-                // position: "absolute",
                 right: position[0],
                 top: position[1],
-                backgroundColor: "#ffffffcc",
                 borderRadius: "5px",
+                height: "35px",
+                margin: "5px"
             }}
         >
-            <div id="legend"></div>
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };

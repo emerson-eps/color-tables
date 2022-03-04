@@ -3,8 +3,6 @@ import { Accordion  } from "@equinor/eds-core-react";
 import {ColorSelector} from "./ColorSelectorComponent";
 
 export const ColorSelectorWrapper = () => {
-    // export const ColorSelector: React.FC<legendProps> = ({
-    // }: legendProps) => {
     return (
         <div style={{width: "450px"}}>
             <Accordion >
