@@ -1,5 +1,5 @@
 import * as React from "react";
-import legendUtil from "../Utils/discreteLegend";
+import discreteLegendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
@@ -59,7 +59,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         }
 
         const ordinalValues = scaleOrdinal().domain(itemName);
-        const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
+        const colorLegend = discreteLegendUtil(itemColor).inputScale(ordinalValues);
         select(legend).select("div").remove();
         select(legend).select("svg").remove();
         const legendLength = itemColor.length;

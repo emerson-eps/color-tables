@@ -1,9 +1,7 @@
 import * as React from "react";
-import { LegendContinous } from "../Legend/legendContinous";
 import * as colorTables from "../color-tables.json";
-import {colorScalesCont} from "../Utils/d3ColorScale"
-import DiscreteColorLegend1 from "../Legend/legendDiscrete";
-import { values } from "lodash";
+import {d3ColorScales} from "../Utils/d3ColorScale"
+import {LegendComponent} from "./legendComponent";
 
 const position = [16, 206];
 const continuosColorData: any = []
@@ -26,7 +24,7 @@ colorTableContinuousData.forEach((element: any) => {
 });
 
 // code is for d3 continuous data
-var d3continuousData = colorScalesCont.filter((element: any) => {
+var d3continuousData = d3ColorScales.filter((element: any) => {
     return element.discrete == false; 
 });
 
@@ -44,7 +42,7 @@ discreteData.forEach((element: any) => {
 });
 
 // code is for color table d3 discrete data
-var d3discreteData = colorScalesCont.filter((element: any) => {
+var d3discreteData = d3ColorScales.filter((element: any) => {
     return element.discrete == true; 
 });
 
@@ -62,7 +60,7 @@ export const ColorSelector: React.FC<legendProps> = ({
     if (useColorTableColors) {
         continuousLegend =  continuosColorData.map((value: any, key: any) => {
             return <div>
-                        <LegendContinous 
+                        <LegendComponent 
                             position={position + key} 
                             colorsObject={value}
                             legendColor={''}
@@ -74,8 +72,8 @@ export const ColorSelector: React.FC<legendProps> = ({
         });
 
         discreteLegend = discreteColorData.map((val: any, key: any) => {
-            return <DiscreteColorLegend1 
-                        colorName={val.name}
+            return <LegendComponent 
+                        legendColorName={val.name}
                         position={position} 
                         colorsObject={discreteColorData[key]} 
                         useDiscColorTable={true} />
@@ -83,7 +81,7 @@ export const ColorSelector: React.FC<legendProps> = ({
     } 
     if (useD3Colors) {
         continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
-            return <LegendContinous
+            return <LegendComponent
                         position={position + key}
                         colorsObject={{}}
                         legendColor={val.color} 
@@ -94,8 +92,8 @@ export const ColorSelector: React.FC<legendProps> = ({
         });
 
         discreteLegend = d3discreteData.map((val: any, key: any) => {
-            return <DiscreteColorLegend1 
-                        colorName={val.name}
+            return <LegendComponent 
+                        legendColorName={val.name}
                         position={position} 
                         colorsObject={val.colors} 
                         useDiscColorTable={false} />

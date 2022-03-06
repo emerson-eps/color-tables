@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-export const colorScalesCont = [
+export const d3ColorScales = [
   {
     "name": "Spectral",
     "discrete": false,
@@ -82,8 +82,3 @@ export const colorScalesCont = [
     "colors": d3.schemeCategory10
   },
 ]
-
-
-export function interpolatorContinuous(): d3.ScaleSequential<string, never> {
-  return d3.scaleSequential(d3.interpolateInferno);
-}

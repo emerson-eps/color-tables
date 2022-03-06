@@ -1,51 +1,68 @@
 import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex } from "../Utils/continousLegend";
-import {colorScalesCont} from "../Utils/d3ColorScale"
+import {d3ColorScales} from "../Utils/d3ColorScale"
 import * as d3 from "d3";
+import {d3DiscreteLegendUtil} from "../Utils/discreteLegend";
+import { scaleOrdinal, select } from "d3";
+import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
 interface legendProps {
     position: number[];
-    colorsObject: any;
-    legendColor: any;
+    colorsObject?: any;
+    legendColor?: any;
     legendColorName: string;
-    useContColorTable: boolean;
-    valueIndex: any;
+    useContColorTable?: boolean;
+    useDiscColorTable?: boolean;
+    valueIndex?: any;
 }
 
 interface ItemColor {
     color: string;
-    offset: number;
+    offset?: number;
 }
 
-export const LegendContinous: React.FC<legendProps> = ({
+export const LegendComponent: React.FC<legendProps> = ({
     position,
     colorsObject,
     legendColor,
     legendColorName,
     useContColorTable,
+    useDiscColorTable,
     valueIndex,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        // colortable colors
         if (useContColorTable == true && divRef.current) {
-            colortableLegend()
+            colortableLegend();
             return function cleanup() {
                 d3.select(divRef.current).select("svg").remove();
             };
-        } 
-        // d3 colors
-        else if (useContColorTable == false && divRef.current) {
-            d3colorLegend(colorScalesCont);
+        }
+        if (useDiscColorTable == true && divRef.current) {
+            discreteLegend();
+            return function cleanup() {
+                select(divRef.current).select("div").remove();
+                select(divRef.current).select("svg").remove();
+            };
+        }
+        if (useDiscColorTable == false && divRef.current) {
+               legendDemo();
+               return function cleanup() {
+                    select(divRef.current).select("div").remove();
+                    select(divRef.current).select("svg").remove();
+               }
+        } else if (useContColorTable == false && divRef.current) {
+            d3colorLegend();
             return function cleanup() {
                 d3.select(divRef.current).select("svg").remove();
             };
         }
     }, [useContColorTable]); 
 
+    // continuous legend using color table colors (linear gradiend code)
     function colortableLegend() {
         const itemColor: ItemColor[] = [];
 
@@ -106,11 +123,11 @@ export const LegendContinous: React.FC<legendProps> = ({
             .style("fill", "url(#"+currentIndex+")");
     }
 
-    // continuous legend using d3 color scale (linear gradiend code)
-    function d3colorLegend(colorscale: any) {
+    // continuous legend using d3 colors (linear gradiend code)
+    function d3colorLegend() {
         const itemColor: any = [];
 
-        colorscale.forEach((value: any) => {
+        d3ColorScales.forEach((value: any) => {
             // return the color and offset needed to draw the legend
             itemColor.push(value.colors);
         });
@@ -166,28 +183,102 @@ export const LegendContinous: React.FC<legendProps> = ({
             .style("fill", "url(#"+currentIndex+")");
     }
 
+    // discrete legend using color table colors
+    function discreteLegend() {
+        const itemColor: ItemColor[] = [];
+        const itemName: any = [];
+
+        colorsObject.color.forEach((element: any, key: any) => {
+                itemColor.push({color: RGBToHex(element)});
+                itemName.push(key);
+            })
+
+        function RGBToHex(rgb: number[]) {
+            let r = rgb[1].toString(16),
+                g = rgb[2].toString(16),
+                b = rgb[3].toString(16);
+            if (r.length == 1) r = "0" + r;
+            if (g.length == 1) g = "0" + g;
+            if (b.length == 1) b = "0" + b;
+            return "#" + r + g + b;
+        }
+
+        const ordinalValues = scaleOrdinal().domain(itemName);
+        const colorLegend = d3DiscreteLegendUtil(itemColor).cellWidth(30).cellHeight(20).inputScale(ordinalValues);
+        select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(colorLegend);
+        //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
+        const selectedLegend = select(divRef.current);
+        selectedLegend
+            .append("text")
+            .text(legendColorName)
+            .attr("y", 7)
+            .style("float", "left")
+            .style("width", "30%")
+            .style("margin", "10px 0px");
+        selectedLegend
+            .append("svg")
+            .style("margin-top", "13px")
+            .style("margin-right", "103px")
+            .style("float", "right")
+            // .style("width", "60%")
+            .style("height", "25px")
+            .call(colorLegend);
+    }
+
+    // discrete legend using d3 colors
+    function legendDemo() {
+        const itemName: string[] = [];
+        const itemColor: Record<string, unknown>[] = [];
+
+        colorsObject.forEach((element: any, key: any) => {
+            itemColor.push({color: element});
+            itemName.push(key);
+        });
+
+        const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
+        const discreteLegend = d3DiscreteLegendUtil(itemColor).cellWidth(30).cellHeight(20).inputScale(ordinalValues);
+        select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(discreteLegend);
+        const selectedLegend = select(divRef.current);
+        selectedLegend
+            .append("text")
+            .text(legendColorName)
+            .attr("y", 7)
+            .style("float", "left")
+            .style("width", "30%")
+            .style("margin", "10px 0px");
+        selectedLegend
+            .append("svg")
+            .style("margin-top", "13px")
+            .style("margin-right", "103px")
+            .style("float", "right")
+            // .style("width", "60%")
+            .style("height", "25px")
+            .call(discreteLegend);
+    }
+
     return (
         <div
             style={{
                 right: position[0],
                 top: position[1],
+                borderRadius: "5px",
+                height: "35px",
+                marginTop: "15px"
             }}
         >
-           
-            {   useContColorTable ? 
-                    <div>
-                        <div className="mainDiv" ref={divRef}>
-                            <div className="icon" style={{height: "0", float: "right", marginTop: "27px"}}>
-                            </div>
-                            <div className="colortableLegend"></div>
-                        </div>
-                    </div>
-                    : 
-                    <div className="mainDiv" ref={divRef}>
-                        <div className="d3colorLegend" style={{float: "left"}}></div>
-                    </div>
-            }
-            {/* <div><BasicPopover/></div> */}
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };
+
+// Based on name return the colors array from color.tables.json file
+export function colorTableData(
+    colorName: string,
+    colorTables: colorTablesArray
+): [number, number, number, number][] {
+    const colorTableData = colorTables.filter(
+        (value: colorTablesObj) =>
+            value.name.toLowerCase() == colorName.toLowerCase()
+    );
+    return colorTableData.length > 0 ? colorTableData[0].colors : [];
+}
