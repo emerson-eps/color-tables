@@ -13,7 +13,7 @@ declare type colorLegendProps = {
     dataObjectName: string;
     position?: number[] | null;
     colorName: string;
-    colorTables: colorTablesArray;
+    colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
 }
 
@@ -35,13 +35,21 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             select(divRef.current).select("svg").remove();
         };
     }, [discreteData, colorName, colorTables, horizontal]);
-    function discreteLegend() {
+    async function discreteLegend() {
         const itemName: string[] = [];
         const itemColor: ItemColor[] = [];
-        const colorsArray: [number, number, number, number][] = colorTableData(
-            colorName,
-            colorTables
-        );
+        let dataSet;
+
+        if (typeof colorTables === "string") {
+            let res = await fetch(colorTables);
+            dataSet = await res.json()
+        }
+
+        let colorsArray = typeof colorTables === "string" ? 
+            colorTableData(colorName, dataSet)
+            :
+            colorTableData(colorName, colorTables);
+
         Object.keys(discreteData).forEach((key) => {
             // eslint-disable-next-line
             let code = (discreteData as { [key: string]: any })[key][1]
