@@ -10,7 +10,7 @@ declare type legendProps = {
     dataObjectName: string;
     position?: number[] | null;
     colorName: string;
-    colorTables: colorTablesArray;
+    colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
 }
 
@@ -38,10 +38,19 @@ export const ContinuousLegend: React.FC<legendProps> = ({
         };
     }, [min, max, colorName, colorTables, horizontal]);
 
-    function continuousLegend() {
+    async function continuousLegend() {
         const itemColor: ItemColor[] = [];
+        let dataSet;
+
+        if (typeof colorTables === "string") {
+            let res = await fetch(colorTables);
+            dataSet = await res.json()
+        }
         // Return the matched colors array from color.tables.json file
-        const colorTableColors = colorsArray(colorName, colorTables);
+        let colorTableColors = typeof colorTables === "string" ? 
+            colorsArray(colorName, dataSet)
+            :
+            colorsArray(colorName, colorTables);
         colorTableColors.forEach((value: [number, number, number, number]) => {
             // return the color and offset needed to draw the legend
             itemColor.push({
