@@ -1,0 +1,6 @@
+{
+  "extends": "@emerson-eps/eslint-config",
+  "rules": {
+    // Additional rules...
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "@emerson-eps/color-tables",
   "version": "0.1.0",
+  "prettier": "@emerson-eps/prettier-config",
   "description": "Standard library of color tables for geological domain",
   "release": {
     "branches": [
@@ -13,13 +14,18 @@
     "build": "tsc",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "lint": "eslint . --max-warnings=0",
+    "prettier": "prettier --ignore-path .gitignore --check \"**/*.{js,jsx,ts,tsx,json}\"",
+    "prettier:format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,ts,tsx,json}\"",
+    "format": "eslint --fix *json \"src/**/*.+(ts|tsx|js|jsx|json|css)\""
   },
   "dependencies": {
     "@equinor/eds-core-react": "^0.17.0",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
+    "format": "^0.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0",
@@ -50,6 +56,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@emerson-eps/eslint-config": "^3.0.2",
+    "@emerson-eps/prettier-config": "^1.0.3",
     "@storybook/addon-actions": "^6.4.17",
     "@storybook/addon-essentials": "^6.4.17",
     "@storybook/addon-links": "^6.4.17",
@@ -60,6 +68,8 @@
     "@types/d3": "^7.1.0",
     "@types/styled-components": "^5.1.23",
     "babel-loader": "^8.1.0",
+    "eslint": "^8.11.0",
+    "prettier": "^2.5.1",
     "semantic-release": "^19.0.2",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4"
