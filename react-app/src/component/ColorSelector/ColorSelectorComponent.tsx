@@ -11,7 +11,8 @@ const discreteD3ColorData: any = []
 
 interface legendProps {
     useColorTableColors: boolean
-    useD3Colors: boolean
+    useD3Colors: boolean,
+    parentdata: any
 }
 
 // code is for color table continuous data
@@ -53,6 +54,7 @@ d3discreteData.forEach((element: any) => {
 export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
     useD3Colors,
+    parentdata,
 }: legendProps) => {
     let continuousLegend;
     let discreteLegend;
@@ -67,6 +69,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                             legendColorName={''} 
                             useContColorTable={true}
                             valueIndex={key}
+                            parentFunc={parentdata.parentdata}
                         />
                 </div>
         });
@@ -76,7 +79,9 @@ export const ColorSelector: React.FC<legendProps> = ({
                         legendColorName={val.name}
                         position={position} 
                         colorsObject={discreteColorData[key]} 
-                        useDiscColorTable={true} />
+                        useDiscColorTable={true}	
+                        parentFunc={parentdata.parentdata}
+                    />
         });
     } 
     if (useD3Colors) {
@@ -88,6 +93,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                         legendColorName={val.name} 
                         useContColorTable={false}  
                         valueIndex={key + "0"}
+                        parentFunc={parentdata.parentdata}
             />
         });
 
@@ -96,7 +102,9 @@ export const ColorSelector: React.FC<legendProps> = ({
                         legendColorName={val.name}
                         position={position} 
                         colorsObject={val.colors} 
-                        useDiscColorTable={false} />
+                        useDiscColorTable={false}
+                        parentFunc={parentdata.parentdata}
+                    />
         });
     }
 

@@ -15,6 +15,7 @@ interface legendProps {
     useContColorTable?: boolean;
     useDiscColorTable?: boolean;
     valueIndex?: any;
+    parentFunc: any;
 }
 
 interface ItemColor {
@@ -30,9 +31,21 @@ export const LegendComponent: React.FC<legendProps> = ({
     useContColorTable,
     useDiscColorTable,
     valueIndex,
+    parentFunc,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
+
+    const handleChange = React.useCallback((data) => {
+        
+        if (Object.keys(colorsObject).length > 0) {
+            console.log('1', colorsObject)
+            parentFunc(colorsObject);
+        } else {
+            console.log('2', data)
+            parentFunc(data);
+        }
+    }, []);
 
     React.useEffect(() => {
         // continuous legend using color table colors
@@ -271,7 +284,7 @@ export const LegendComponent: React.FC<legendProps> = ({
                 marginTop: "15px"
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id="legend" ref={divRef} onClick={handleChange}></div>
         </div>
     );
 };

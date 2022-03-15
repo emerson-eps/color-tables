@@ -1,8 +1,10 @@
 import * as React from "react";
+import {useCallback} from "react"; 
 import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
+import { ColorSelectorWrapper } from "../ColorSelector/ColorTableSelectorWrapper";
 
 declare type legendProps = {
     min: number;
@@ -12,6 +14,7 @@ declare type legendProps = {
     colorName: string;
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
+    getColorMapname?: any | null;
 }
 
 declare type ItemColor = {
@@ -27,8 +30,18 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorName,
     colorTables,
     horizontal,
+    getColorMapname
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
+    const [parent, setIsParent] = React.useState([] as any);
+    const parent_data = React.useCallback((parent_data: any) => {
+        setIsParent(parent_data);
+        if (getColorMapname) {
+            // needed to change the color of the map
+            getColorMapname(parent_data.name);
+        }
+    }, []);
+
     React.useEffect(() => {
         if (divRef.current) {
             continuousLegend();
@@ -36,7 +49,12 @@ export const ContinuousLegend: React.FC<legendProps> = ({
         return function cleanup() {
             select(divRef.current).select("svg").remove();
         };
-    }, [min, max, colorName, colorTables, horizontal]);
+    }, [min, max, colorName, colorTables, horizontal, parent]);
+
+    const [isToggled, setIsToggled] = React.useState(false);
+    const handleClick = useCallback(() => {
+        setIsToggled(true);
+    }, []);
 
     async function continuousLegend() {
         const itemColor: ItemColor[] = [];
@@ -51,6 +69,14 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             colorsArray(colorName, dataSet)
             :
             colorsArray(colorName, colorTables);
+
+        // Update color of legend based on color selector scales
+        if (parent.color) {
+            colorTableColors = parent.color;
+        } else {
+            colorTableColors;
+        }
+
         colorTableColors.forEach((value: [number, number, number, number]) => {
             // return the color and offset needed to draw the legend
             itemColor.push({
@@ -131,7 +157,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 top: position ? position[1] : ' ',
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id="legend" ref={divRef} onClick={handleClick}></div>
+            {isToggled && (
+                <ColorSelectorWrapper parentdata={parent_data} />
+            )}
         </div>
     );
 };
