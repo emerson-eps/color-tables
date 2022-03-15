@@ -15,7 +15,7 @@ interface legendProps {
     useContColorTable?: boolean;
     useDiscColorTable?: boolean;
     valueIndex?: any;
-    parentFunc: any;
+    colorScaleData: any;
 }
 
 interface ItemColor {
@@ -31,19 +31,16 @@ export const LegendComponent: React.FC<legendProps> = ({
     useContColorTable,
     useDiscColorTable,
     valueIndex,
-    parentFunc,
+    colorScaleData,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
 
     const handleChange = React.useCallback((data) => {
-        
         if (Object.keys(colorsObject).length > 0) {
-            console.log('1', colorsObject)
-            parentFunc(colorsObject);
+            colorScaleData(colorsObject);
         } else {
-            console.log('2', data)
-            parentFunc(data);
+            colorScaleData(data);
         }
     }, []);
 
@@ -52,7 +49,7 @@ export const LegendComponent: React.FC<legendProps> = ({
         if (useContColorTable == true && divRef.current) {
             contColortableLegend();
             return function cleanup() {
-                d3.select(divRef.current).select("svg").remove();
+                select(divRef.current).select("svg").remove();
             };
         }
         // discrete legend using color table colors
@@ -75,7 +72,7 @@ export const LegendComponent: React.FC<legendProps> = ({
         else if (useContColorTable == false && divRef.current) {
             contD3Legend();
             return function cleanup() {
-                d3.select(divRef.current).select("svg").remove();
+                select(divRef.current).select("svg").remove();
             };
         }
     }, [useContColorTable]); 
@@ -247,7 +244,6 @@ export const LegendComponent: React.FC<legendProps> = ({
     function discD3legend() {
         const itemName: any = [];
         const itemColor: any = [];
-
         colorsObject.forEach((element: any, key: any) => {
             itemColor.push({color: element});
             itemName.push(key);

@@ -33,12 +33,14 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     getColorMapname
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
-    const [parent, setIsParent] = React.useState([] as any);
-    const parent_data = React.useCallback((parent_data: any) => {
-        setIsParent(parent_data);
+    const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
+
+    // Get new colorscale from colorselector and update legend
+    const colorScaleObject = React.useCallback((colorScaleObject: any) => {
+        setUpdateLegendColor(colorScaleObject);
         if (getColorMapname) {
             // needed to change the color of the map
-            getColorMapname(parent_data.name);
+            getColorMapname(colorScaleObject.name);
         }
     }, []);
 
@@ -47,9 +49,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             continuousLegend();
         };
         return function cleanup() {
+            select(divRef.current).select("div").remove();
             select(divRef.current).select("svg").remove();
         };
-    }, [min, max, colorName, colorTables, horizontal, parent]);
+    }, [min, max, colorName, colorTables, horizontal, updateLegend]);
 
     const [isToggled, setIsToggled] = React.useState(false);
     const handleClick = useCallback(() => {
@@ -71,8 +74,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             colorsArray(colorName, colorTables);
 
         // Update color of legend based on color selector scales
-        if (parent.color) {
-            colorTableColors = parent.color;
+        if (updateLegend.color) {
+            colorTableColors = updateLegend.color;
         } else {
             colorTableColors;
         }
@@ -159,7 +162,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
         >
             <div id="legend" ref={divRef} onClick={handleClick}></div>
             {isToggled && (
-                <ColorSelectorWrapper parentdata={parent_data} />
+                <ColorSelectorWrapper colorScaleObject={colorScaleObject} />
             )}
         </div>
     );

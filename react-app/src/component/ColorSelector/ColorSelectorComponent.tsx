@@ -12,7 +12,7 @@ const discreteD3ColorData: any = []
 interface legendProps {
     useColorTableColors: boolean
     useD3Colors: boolean,
-    parentdata: any
+    colorScaleObject: any
 }
 
 // code is for color table continuous data
@@ -54,7 +54,7 @@ d3discreteData.forEach((element: any) => {
 export const ColorSelector: React.FC<legendProps> = ({
     useColorTableColors,
     useD3Colors,
-    parentdata,
+    colorScaleObject,
 }: legendProps) => {
     let continuousLegend;
     let discreteLegend;
@@ -69,7 +69,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                             legendColorName={''} 
                             useContColorTable={true}
                             valueIndex={key}
-                            parentFunc={parentdata.parentdata}
+                            colorScaleData={colorScaleObject.colorScaleObject}
                         />
                 </div>
         });
@@ -80,7 +80,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                         position={position} 
                         colorsObject={discreteColorData[key]} 
                         useDiscColorTable={true}	
-                        parentFunc={parentdata.parentdata}
+                        colorScaleData={colorScaleObject.colorScaleObject}
                     />
         });
     } 
@@ -93,7 +93,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                         legendColorName={val.name} 
                         useContColorTable={false}  
                         valueIndex={key + "0"}
-                        parentFunc={parentdata.parentdata}
+                        colorScaleData={colorScaleObject.colorScaleObject}
             />
         });
 
@@ -103,7 +103,7 @@ export const ColorSelector: React.FC<legendProps> = ({
                         position={position} 
                         colorsObject={val.colors} 
                         useDiscColorTable={false}
-                        parentFunc={parentdata.parentdata}
+                        colorScaleData={colorScaleObject.colorScaleObject}
                     />
         });
     }

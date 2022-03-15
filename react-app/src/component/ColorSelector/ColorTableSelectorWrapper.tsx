@@ -6,7 +6,7 @@ export const ColorSelectorWrapper = (props: any) => {
     return (
         <div style={{width: "650px"}}>
             <Accordion >
-                <Accordion.Item>
+                <Accordion.Item isExpanded>
                     <Accordion.Header>
                         Color Scales
                     </Accordion.Header>
@@ -17,7 +17,7 @@ export const ColorSelectorWrapper = (props: any) => {
                                     Geologic Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useColorTableColors={true} useD3Colors={false} parentdata={props}/>
+                                    <ColorSelector useColorTableColors={true} useD3Colors={false} colorScaleObject={props}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
@@ -27,7 +27,7 @@ export const ColorSelectorWrapper = (props: any) => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    {/* <ColorSelector useColorTableColors={false} useD3Colors={true} parentdata={props}/> */}
+                                    <ColorSelector useColorTableColors={false} useD3Colors={true} colorScaleObject={props}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
