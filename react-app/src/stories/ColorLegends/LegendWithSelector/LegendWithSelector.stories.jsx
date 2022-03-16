@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
-import { colorTablesArray } from "../../../component/ColorTableTypes";
 import colorTables from "../../../component/color-tables.json";
 
 export default {

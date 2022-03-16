@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex } from "../Utils/continousLegend";
-import {d3ColorScales} from "../Utils/d3ColorScale"
+import {d3ColorScales} from "../Utils/d3ColorScale";
+import { scaleOrdinal, select, range} from "d3";
 import * as d3 from "d3";
-import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 import discreteLegendUtil from "../Utils/discreteLegend";
+import { color } from "d3-color";
 
 interface legendProps {
     position: number[];
@@ -35,12 +36,24 @@ export const LegendComponent: React.FC<legendProps> = ({
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
-
-    const handleChange = React.useCallback((data) => {
+    // create an array of steps based on the color scale
+        // returns an array of evenly-spaced numbers. Returns the integers from zero to the specified end minus one.
+        // d3.range(start, stop, step)
+    if (legendColor) {
+        var data = range(10).map(d=> ({color:legendColor(d/10), value:d}))
+        // get the array's min and max value
+        var extent: any = d3.extent(data, d => d.value); 
+    }
+    
+    const handleChange = React.useCallback(() => {
         if (Object.keys(colorsObject).length > 0) {
             colorScaleData(colorsObject);
         } else {
-            colorScaleData(data);
+            let arrayData: any = []
+            data.forEach((colorsObject: any) => {
+                arrayData.push([0 + "." + colorsObject.value, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
+            });
+            colorScaleData(arrayData);
         }
     }, []);
 
@@ -50,6 +63,7 @@ export const LegendComponent: React.FC<legendProps> = ({
             contColortableLegend();
             return function cleanup() {
                 select(divRef.current).select("svg").remove();
+                select(divRef.current).select("div").remove();
             };
         }
         // discrete legend using color table colors
@@ -61,18 +75,19 @@ export const LegendComponent: React.FC<legendProps> = ({
             };
         }
         // discrete legend using d3 colors
-        if (useDiscColorTable == false && divRef.current) {
-            discD3legend();
-            return function cleanup() {
-                select(divRef.current).select("div").remove();
-                select(divRef.current).select("svg").remove();
-            }
-        } 
+        // if (useDiscColorTable == false && divRef.current) {
+        //     discD3legend();
+        //     return function cleanup() {
+        //         select(divRef.current).select("div").remove();
+        //         select(divRef.current).select("svg").remove();
+        //     }
+        // } 
         // continuous legend using d3 colors
         else if (useContColorTable == false && divRef.current) {
             contD3Legend();
             return function cleanup() {
                 select(divRef.current).select("svg").remove();
+                select(divRef.current).select("div").remove();
             };
         }
     }, [useContColorTable]); 
@@ -90,7 +105,7 @@ export const LegendComponent: React.FC<legendProps> = ({
             });
 
         // append a defs (for definition) element to your SVG
-        const svgLegend = d3.select(divRef.current)
+        const svgLegend = select(divRef.current)
             .append("svg")
             .style("height", "50px")
             .style("display", "flex")
@@ -122,7 +137,7 @@ export const LegendComponent: React.FC<legendProps> = ({
         // append title
         svgLegend
             .append("text")
-            .attr("class", "legendTitle")
+            .attr("id", "legendTitle")
             .attr("x", 0)
             .attr("y", 43)
             .style("text-anchor", "left")
@@ -147,15 +162,8 @@ export const LegendComponent: React.FC<legendProps> = ({
             itemColor.push(value.colors);
         });
 
-        // create an array of steps based on the color scale
-        // returns an array of evenly-spaced numbers. Returns the integers from zero to the specified end minus one.
-        // d3.range(start, stop, step)
-        var data = d3.range(10).map(d=> ({color:legendColor(d/10), value:d}))
-        // get the array's min and max value
-        var extent: any = d3.extent(data, d => d.value); 
-
         // append a defs (for definition) element to your SVG
-        const svgLegend = d3.select(divRef.current)
+        const svgLegend = select(divRef.current)
             .append("svg")
             .style("height", "50px")
             .style("display", "flex")
@@ -181,7 +189,7 @@ export const LegendComponent: React.FC<legendProps> = ({
         // append title
         svgLegend
             .append("text")
-            .attr("class", "legendTitle")
+            .attr("id", "legendTitle")
             .attr("x", 0)
             .attr("y", 43)
             .style("text-anchor", "left")
@@ -220,7 +228,7 @@ export const LegendComponent: React.FC<legendProps> = ({
 
         const ordinalValues = scaleOrdinal().domain(itemName);
         const colorLegend = discreteLegendUtil(itemColor, "ColorSelector").inputScale(ordinalValues);
-        select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(colorLegend);
+        select("svg").append("g").attr("transform", "translate(50,70)").attr("id", "legend").call(colorLegend);
         //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
         const selectedLegend = select(divRef.current);
         selectedLegend
@@ -241,34 +249,34 @@ export const LegendComponent: React.FC<legendProps> = ({
     }
 
     // discrete legend using d3 colors
-    function discD3legend() {
-        const itemName: any = [];
-        const itemColor: any = [];
-        colorsObject.forEach((element: any, key: any) => {
-            itemColor.push({color: element});
-            itemName.push(key);
-        });
+    // function discD3legend() {
+    //     const itemName: any = [];
+    //     const itemColor: any = [];
+    //     colorsObject.forEach((element: any, key: any) => {
+    //         itemColor.push({color: element});
+    //         itemName.push(key);
+    //     });
 
-        const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
-        const discreteLegend = discreteLegendUtil(itemColor, "ColorSelector").inputScale(ordinalValues);
-        select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(discreteLegend);
-        const selectedLegend = select(divRef.current);
-        selectedLegend
-            .append("text")
-            .text(legendColorName)
-            .attr("y", 7)
-            .style("float", "left")
-            .style("width", "30%")
-            .style("margin", "10px 0px");
-        selectedLegend
-            .append("svg")
-            .style("margin-top", "13px")
-            .style("margin-right", "103px")
-            .style("float", "right")
-            // .style("width", "60%")
-            .style("height", "25px")
-            .call(discreteLegend);
-    }
+    //     const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
+    //     const discreteLegend = discreteLegendUtil(itemColor, "ColorSelector").inputScale(ordinalValues);
+    //     select("svg").append("g").attr("transform", "translate(50,70)").attr("id", "legend").call(discreteLegend);
+    //     const selectedLegend = select(divRef.current);
+    //     selectedLegend
+    //         .append("text")
+    //         .text(legendColorName)
+    //         .attr("y", 7)
+    //         .style("float", "left")
+    //         .style("width", "30%")
+    //         .style("margin", "10px 0px");
+    //     selectedLegend
+    //         .append("svg")
+    //         .style("margin-top", "13px")
+    //         .style("margin-right", "103px")
+    //         .style("float", "right")
+    //         // .style("width", "60%")
+    //         .style("height", "25px")
+    //         .call(discreteLegend);
+    // }
 
     return (
         <div

@@ -76,8 +76,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
         // Update color of legend based on color selector scales
         if (updateLegend.color) {
             colorTableColors = updateLegend.color;
+        } else if (updateLegend.length > 0) {
+            colorTableColors = updateLegend
         } else {
-            colorTableColors;
+            colorTableColors
         }
 
         colorTableColors.forEach((value: [number, number, number, number]) => {
@@ -87,6 +89,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 color: RGBToHex(value).color,
             });
         });
+        
         const colorScale = scaleSequential().domain([min, max]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)

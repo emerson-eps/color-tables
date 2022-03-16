@@ -13,7 +13,10 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
     function legend(g: any) {
         function drawLegend() {
             itemColor.forEach((item, index) => {
-                legendValues[index].color = item.color;
+                if (legendValues[index]) {
+                    legendValues[index].color = item.color;
+                }
+                
             });
             // Code to fill the color
             g.selectAll("g.legendCells")
@@ -35,7 +38,8 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
                     .attr("x", cellWidth + cellPadding)
                     .attr("y", 5 + cellHeight / 2)
                     .text(function (d: Record<string, unknown>) {
-                        return d["label"];
+                        console.log('lable', d["label"])
+                        return "";
                     });
             }
             // Alighment of cell in straight line
