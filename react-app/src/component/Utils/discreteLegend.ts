@@ -15,8 +15,7 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
             itemColor.forEach((item, index) => {
                 if (legendValues[index]) {
                     legendValues[index].color = item.color;
-                }
-                
+                } 
             });
             // Code to fill the color
             g.selectAll("g.legendCells")
@@ -38,7 +37,7 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
                     .attr("x", cellWidth + cellPadding)
                     .attr("y", 5 + cellHeight / 2)
                     .text(function (d: Record<string, unknown>) {
-                        console.log('lable', d["label"])
+                        //console.log('lable', d["label"])
                         return "";
                     });
             }

@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
-import { ColorSelectorWrapper } from "../ColorSelector/ColorTableSelectorWrapper";
 
 declare type legendProps = {
     min: number;
@@ -15,6 +14,7 @@ declare type legendProps = {
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
     getColorMapname?: any | null;
+    updateLegend?: any;
 }
 
 declare type ItemColor = {
@@ -30,19 +30,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorName,
     colorTables,
     horizontal,
+    updateLegend,
     getColorMapname
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
-    const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
-
-    // Get new colorscale from colorselector and update legend
-    const colorScaleObject = React.useCallback((colorScaleObject: any) => {
-        setUpdateLegendColor(colorScaleObject);
-        if (getColorMapname) {
-            // needed to change the color of the map
-            getColorMapname(colorScaleObject.name);
-        }
-    }, []);
 
     React.useEffect(() => {
         if (divRef.current) {
@@ -53,11 +44,6 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             select(divRef.current).select("svg").remove();
         };
     }, [min, max, colorName, colorTables, horizontal, updateLegend]);
-
-    const [isToggled, setIsToggled] = React.useState(false);
-    const handleClick = useCallback(() => {
-        setIsToggled(true);
-    }, []);
 
     async function continuousLegend() {
         const itemColor: ItemColor[] = [];
@@ -74,10 +60,13 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             colorsArray(colorName, colorTables);
 
         // Update color of legend based on color selector scales
-        if (updateLegend.color) {
-            colorTableColors = updateLegend.color;
-        } else if (updateLegend.length > 0) {
-            colorTableColors = updateLegend
+        if (updateLegend) {
+            if (updateLegend.color) {
+                colorTableColors = updateLegend.color;
+            } 
+            else if (updateLegend.length > 0) {
+                colorTableColors = updateLegend
+            }
         } else {
             colorTableColors
         }
@@ -163,10 +152,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 top: position ? position[1] : ' ',
             }}
         >
-            <div id="legend" ref={divRef} onClick={handleClick}></div>
-            {isToggled && (
-                <ColorSelectorWrapper colorScaleObject={colorScaleObject} />
-            )}
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };

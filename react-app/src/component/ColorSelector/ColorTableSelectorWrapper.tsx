@@ -27,7 +27,7 @@ export const ColorSelectorWrapper = (props: any) => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useColorTableColors={false} useD3Colors={true} colorScaleObject={props}/>
+                                    <ColorSelector useD3Colors={true} useColorTableColors={false} colorScaleObject={props}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>

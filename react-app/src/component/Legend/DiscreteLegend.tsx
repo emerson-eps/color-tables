@@ -3,8 +3,6 @@ import { useRef } from "react";
 import legendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
-import {useCallback} from "react";
-import { ColorSelectorWrapper } from "../ColorSelector/ColorTableSelectorWrapper";
 
 declare type ItemColor = {
     color: string;
@@ -17,6 +15,7 @@ declare type colorLegendProps = {
     colorName: string;
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
+    updateLegend?: any
 }
 
 export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
@@ -26,16 +25,12 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     colorName,
     colorTables,
     horizontal,
+    updateLegend,
 }: colorLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
-    const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
     let testColor: ItemColor[] = [];
-    // Get new colorscale from colorselector and update legend
-    const colorScaleObject = React.useCallback((colorScaleObject: any) => {
-        setUpdateLegendColor(colorScaleObject);
-    }, []);
 
     React.useEffect(() => {
         if (divRef.current) {
@@ -46,11 +41,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             select(divRef.current).select("svg").remove();
         };
     }, [discreteData, colorName, colorTables, horizontal, updateLegend]);
-
-    const [isToggled, setIsToggled] = React.useState(false);
-    const handleClick = useCallback(() => {
-        setIsToggled(true);
-    }, []);
 
     async function discreteLegend() {
         let dataSet;
@@ -65,12 +55,12 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             :
             colorTableData(colorName, colorTables);
 
-        if(!updateLegend.color) {
-            console.log('---normal----')
+        // Main discrete legend
+        if(!updateLegend) {
             Object.keys(discreteData).forEach((key, value) => {
-                // eslint-disable-next-line
+                //eslint-disable-next-line
                 let code = (discreteData as { [key: string]: any })[key][1]
-                // compare the first value in colorarray(colortable) and code from discreteData
+                //compare the first value in colorarray(colortable) and code from discreteData
                 const matchedColorsArrays = colorsArray.find((value: number[]) => {
                     return value[0] == code;
                 });
@@ -81,15 +71,22 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 itemName.push(key);
             });
         } 
-        else if (updateLegend.color) {
+        // Legend using Colortable colors
+        else if (updateLegend && updateLegend.color) {
             let color = updateLegend;
-            
-            updateLegend.color.forEach((key, value) => {
+            updateLegend.color.forEach((key) => {
                 testColor.push({color: RGBToHex(key)});
             });
 
             itemColor = testColor
             itemName = color.name
+        } else  {
+            updateLegend.colorsObject.forEach((key) => {
+                itemColor.push({color: key});
+            });
+
+            itemColor = itemColor
+            itemName = updateLegend.legendColorName
         }
 
         const ordinalValues = scaleOrdinal().domain(itemName);
@@ -129,10 +126,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 borderRadius: "5px",
             }}
         >
-            <div id="legend" ref={divRef} onClick={handleClick}></div>
-            {isToggled && (
-                <ColorSelectorWrapper colorScaleObject={colorScaleObject} />
-            )}
+            <div id="legend" ref={divRef}></div>
         </div>
     );
 };

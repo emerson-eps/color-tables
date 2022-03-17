@@ -12,7 +12,7 @@ interface legendProps {
     position: number[];
     colorsObject?: any;
     legendColor?: any;
-    legendColorName: string;
+    legendColorName?: string;
     useContColorTable?: boolean;
     useDiscColorTable?: boolean;
     valueIndex?: any;
@@ -44,16 +44,25 @@ export const LegendComponent: React.FC<legendProps> = ({
         // get the array's min and max value
         var extent: any = d3.extent(data, d => d.value); 
     }
-    
+
     const handleChange = React.useCallback(() => {
-        if (Object.keys(colorsObject).length > 0) {
-            colorScaleData(colorsObject);
-        } else {
+        // continous legend with colortable colors
+        if (colorsObject && Object.keys(colorsObject).length > 0 && useContColorTable) {
+            // contiuous
+            colorScaleData(colorsObject, true);
+        }
+        // continous legend with d3 colors
+        else if (data && !useContColorTable) {
             let arrayData: any = []
             data.forEach((colorsObject: any) => {
                 arrayData.push([0 + "." + colorsObject.value, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
             });
-            colorScaleData(arrayData);
+            colorScaleData(arrayData, true);
+        } else if (colorsObject && Object.keys(colorsObject).length > 0 && useDiscColorTable) {
+            // discrete
+            colorScaleData(colorsObject, false);
+        } else {
+            colorScaleData({colorsObject, legendColorName}, false);
         }
     }, []);
 
@@ -75,13 +84,13 @@ export const LegendComponent: React.FC<legendProps> = ({
             };
         }
         // discrete legend using d3 colors
-        // if (useDiscColorTable == false && divRef.current) {
-        //     discD3legend();
-        //     return function cleanup() {
-        //         select(divRef.current).select("div").remove();
-        //         select(divRef.current).select("svg").remove();
-        //     }
-        // } 
+        if (useDiscColorTable == false && divRef.current) {
+            discD3legend();
+            return function cleanup() {
+                select(divRef.current).select("div").remove();
+                select(divRef.current).select("svg").remove();
+            }
+        } 
         // continuous legend using d3 colors
         else if (useContColorTable == false && divRef.current) {
             contD3Legend();
@@ -249,34 +258,34 @@ export const LegendComponent: React.FC<legendProps> = ({
     }
 
     // discrete legend using d3 colors
-    // function discD3legend() {
-    //     const itemName: any = [];
-    //     const itemColor: any = [];
-    //     colorsObject.forEach((element: any, key: any) => {
-    //         itemColor.push({color: element});
-    //         itemName.push(key);
-    //     });
+    function discD3legend() {
+        const itemName: any = [];
+        const itemColor: any = [];
+        colorsObject.forEach((element: any, key: any) => {
+            itemColor.push({color: element});
+            itemName.push(key);
+        });
 
-    //     const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
-    //     const discreteLegend = discreteLegendUtil(itemColor, "ColorSelector").inputScale(ordinalValues);
-    //     select("svg").append("g").attr("transform", "translate(50,70)").attr("id", "legend").call(discreteLegend);
-    //     const selectedLegend = select(divRef.current);
-    //     selectedLegend
-    //         .append("text")
-    //         .text(legendColorName)
-    //         .attr("y", 7)
-    //         .style("float", "left")
-    //         .style("width", "30%")
-    //         .style("margin", "10px 0px");
-    //     selectedLegend
-    //         .append("svg")
-    //         .style("margin-top", "13px")
-    //         .style("margin-right", "103px")
-    //         .style("float", "right")
-    //         // .style("width", "60%")
-    //         .style("height", "25px")
-    //         .call(discreteLegend);
-    // }
+        const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
+        const discreteLegend = discreteLegendUtil(itemColor, "ColorSelector").inputScale(ordinalValues);
+        select("svg").append("g").attr("transform", "translate(50,70)").attr("id", "legend").call(discreteLegend);
+        const selectedLegend = select(divRef.current);
+        selectedLegend
+            .append("text")
+            .text(legendColorName)
+            .attr("y", 7)
+            .style("float", "left")
+            .style("width", "30%")
+            .style("margin", "10px 0px");
+        selectedLegend
+            .append("svg")
+            .style("margin-top", "13px")
+            .style("margin-right", "103px")
+            .style("float", "right")
+            // .style("width", "60%")
+            .style("height", "25px")
+            .call(discreteLegend);
+    }
 
     return (
         <div
