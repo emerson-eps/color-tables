@@ -2,7 +2,7 @@ import * as React from "react";
 import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
 import {useCallback} from "react"; 
-import { ColorSelectorWrapper } from "../ColorSelector/ColorTableSelectorWrapper";
+import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 
 interface ColorLegendProps {
     colorTables: any;
@@ -61,16 +61,18 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
                         discreteData={discreteData}
                         dataObjectName={dataObjectName}
                         position={position}
-                        colorName={'Stratigraphy'}
+                        colorName={colorName}
                         colorTables={colorTables}
                         horizontal={horizontal}
                         updateLegend={updateLegend}
                     />
                 )}
             </div>
-            <div style={{position: "absolute",top: "150px"}}>
+            <div 
+                // style={{marginTop: 150, float: "right", width: 550, zIndex: 1, position: "absolute"}}
+            >
                 {isToggled && (
-                    <ColorSelectorWrapper colorScaleObject={colorScaleObject} />
+                    <ColorSelectorAccordion colorScaleObject={colorScaleObject} />
                 )}
             </div>
         </div>

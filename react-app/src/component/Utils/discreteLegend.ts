@@ -1,35 +1,46 @@
-declare type ItemColor = {	
-    color: any;	
+declare type ItemColor = {  
+    color: any; 
 }
 
 // eslint-disable-next-line
-export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector?: string): any {
-    let legendValues: ItemColor[] = [];
-    const cellWidth = 22;
-    const cellHeight: any = 22;
-    const cellPadding = 4;
+export default function discreteLegendUtil(itemColor: ItemColor[], colorSelectorLegend?: boolean): any {
+    var cellWidth = 22;
+    var cellHeight: any = 22;
+    const cellPadding = 2;
+
+    console.log('colorSelectorLegend', colorSelectorLegend)
+
+    if (colorSelectorLegend) {
+        cellWidth = 25;
+        cellHeight = 22;
+    }
 
     // eslint-disable-next-line
     function legend(g: any) {
         function drawLegend() {
-            itemColor.forEach((item, index) => {
-                if (legendValues[index]) {
-                    legendValues[index].color = item.color;
-                } 
-            });
             // Code to fill the color
-            g.selectAll("g.legendCells")
-                .append("rect")
-                .attr("height", cellHeight)
-                .attr("width", cellWidth)
-                .style("fill", function (d: Record<string, unknown>) {
-                    return d["color"];
-                });
-            if (!ColorSelector) {
-                g.selectAll("g.legendCells.rect").style("stroke", "black").style("stroke-width", "1px")
+            if (colorSelectorLegend) {
+                g.selectAll("rect")
+                    .attr("x", function (d: any, i: any) {
+                        return i;
+                    })
+                    .attr("y", 0)
+                    .style("fill", function (d: Record<string, unknown>) {
+                        return d["color"];
+                    })
+                    .attr("height", 1)
+                    .attr("width", 1)
+            } else {
+                g.selectAll("g.legendCells")
+                    .append("rect")
+                    .attr("height", cellHeight)
+                    .attr("width", cellWidth)
+                    .style("fill", function (d: Record<string, unknown>) {
+                        return d["color"];
+                    });
             }
-            // Display the label
-            if (!ColorSelector) {
+            // Display the labels for legend
+            if (!colorSelectorLegend) {
                 g.selectAll("g.legendCells")
                     .append("text")
                     .attr("class", "breakLabels")
@@ -42,7 +53,13 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
                     });
             }
             // Alighment of cell in straight line
-            if (!ColorSelector) {
+            if (colorSelectorLegend) {
+                g.selectAll("g.legendCells")
+                .attr("transform", function(d: any, i: number) {
+                    return "translate(" + (i * cellWidth) + ",0)" }
+                );
+            } 
+            else {
                 g.selectAll("g.legendCells").attr(
                     "transform",
                     function (_d: Record<string, unknown>, i: number) {
@@ -52,19 +69,22 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
                     }
                 );
             }
-            if (ColorSelector) {
-                g.selectAll("g.legendCells")
-                .attr("transform", function(d: any) {
-                    return "translate(" + (d.label * cellWidth) + ",0)" }
-                );
-            }
         }
+
         // display the discrete legend
-        g.selectAll("g.legendCells")
-            .data(legendValues)
+        if (colorSelectorLegend) {
+            g.selectAll("g.legendCells")
+            .data(itemColor)
+            .enter()
+            .append("rect")
+        } else {
+            g.selectAll("g.legendCells")
+            .data(itemColor)
             .enter()
             .append("g")
             .attr("class", "legendCells");
+        }
+       
         drawLegend();
     }
     // eslint-disable-next-line
@@ -72,12 +92,13 @@ export default function discreteLegendUtil(itemColor: ItemColor[], ColorSelector
         // eslint-disable-next-line
         let scale: any = {};
         scale = newScale;
-        legendValues = [];
-        scale.domain().forEach(function (el: string) {
+        let legendValues: ItemColor[] = [];
+        scale.domain().forEach(function (el: any) {
             const cellObject = { color: scale(el), label: el };
             legendValues.push(cellObject);
         });
         return this;
     };
+
     return legend;
 }

@@ -1,5 +1,4 @@
 import * as React from "react";
-import {useCallback} from "react"; 
 import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
@@ -31,7 +30,6 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorTables,
     horizontal,
     updateLegend,
-    getColorMapname
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
 

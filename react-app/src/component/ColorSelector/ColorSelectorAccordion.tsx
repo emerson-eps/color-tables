@@ -1,10 +1,16 @@
 import * as React from "react";
 import { Accordion  } from "@equinor/eds-core-react";
-import { ColorSelector } from "./ColorSelectorComponent";
+import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 
-export const ColorSelectorWrapper = (props: any) => {
+
+export const ColorSelectorAccordion = (props: any) => {
     return (
-        <div style={{width: "650px"}}>
+        <div className="Container" style={{width: "360px",
+        position: "absolute",
+        zIndex: 1,
+        top: 150,
+        right: 5,
+        }}>
             <Accordion >
                 <Accordion.Item isExpanded>
                     <Accordion.Header>
@@ -17,7 +23,7 @@ export const ColorSelectorWrapper = (props: any) => {
                                     Geologic Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useColorTableColors={true} useD3Colors={false} colorScaleObject={props}/>
+                                    <ColorSelectorWrapper useColorTableColors={true} useD3Colors={false} colorScaleObject={props}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
@@ -27,7 +33,7 @@ export const ColorSelectorWrapper = (props: any) => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelector useD3Colors={true} useColorTableColors={false} colorScaleObject={props}/>
+                                    <ColorSelectorWrapper useD3Colors={true} useColorTableColors={false} colorScaleObject={props}/>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>

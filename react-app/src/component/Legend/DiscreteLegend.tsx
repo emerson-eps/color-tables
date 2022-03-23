@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRef } from "react";
-import legendUtil from "../Utils/discreteLegend";
+import discreteLegendUtil from "../Utils/discreteLegend";
 import { scaleOrdinal, select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
@@ -44,6 +44,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
     async function discreteLegend() {
         let dataSet;
+        let discreteFlag = false
 
         if (typeof colorTables === "string") {
             let res = await fetch(colorTables);
@@ -57,7 +58,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
         // Main discrete legend
         if(!updateLegend) {
-            Object.keys(discreteData).forEach((key, value) => {
+            console.log('---------------++++-----------------------')
+            Object.keys(discreteData).forEach((key) => {
                 //eslint-disable-next-line
                 let code = (discreteData as { [key: string]: any })[key][1]
                 //compare the first value in colorarray(colortable) and code from discreteData
@@ -65,32 +67,35 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     return value[0] == code;
                 });
                 if (matchedColorsArrays)
-                    itemColor.push({
-                        color: RGBToHex(matchedColorsArrays),
-                    });
-                itemName.push(key);
+                    itemColor.push({color: RGBToHex(matchedColorsArrays)});
+                    itemName.push(key);
             });
         } 
-        // Legend using Colortable colors
+        // Discrete legend using Colortable colors
         else if (updateLegend && updateLegend.color) {
             let color = updateLegend;
-            updateLegend.color.forEach((key) => {
+            updateLegend.color.forEach((key: any) => {
                 testColor.push({color: RGBToHex(key)});
             });
 
             itemColor = testColor
             itemName = color.name
-        } else  {
-            updateLegend.colorsObject.forEach((key) => {
+            discreteFlag = false
+        }
+        // Discrete legend using d3 colors
+        else  {
+            updateLegend.colorsObject.forEach((key: any) => {
                 itemColor.push({color: key});
             });
 
             itemColor = itemColor
             itemName = updateLegend.legendColorName
+
+
         }
 
         const ordinalValues = scaleOrdinal().domain(itemName);
-        const colorLegend = legendUtil(itemColor).inputScale(ordinalValues);
+        const colorLegend = discreteLegendUtil(itemColor, discreteFlag).inputScale(ordinalValues);
         const legendLength = itemColor.length;
         const calcLegendHeight = 22 * legendLength + 4 * legendLength;
         const selectedLegend = select(divRef.current);
@@ -99,11 +104,11 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             .text(dataObjectName)
             .attr("y", 7)
             .style("color", "#6F6F6F")
-            .style("margin", "10px 10px");
+            // .style("margin", "10px 10px");
         if (horizontal) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
             .append("svg")
-            .style("margin", "10px 10px")
+            // .style("margin", "10px 10px")
             .call(colorLegend);
         if (colorLegend && !horizontal) {
             svgLegend
@@ -112,8 +117,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         } else {
             svgLegend
                 .style("transform", "rotate(90deg)")
-                .attr("width", calcLegendHeight + "px")
-                .attr("height", calcLegendHeight + "px");
+                .attr("height", calcLegendHeight + "px")
+                .attr("width", calcLegendHeight + "px");
         }
     }
     return (
