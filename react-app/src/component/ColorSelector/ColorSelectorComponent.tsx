@@ -17,6 +17,7 @@ interface legendProps {
     useDiscColorTable?: boolean;
     valueIndex?: any;
     colorScaleData: any;
+    getColorMapname?: any | null;
 }
 
 interface ItemColor {
@@ -33,6 +34,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     useDiscColorTable,
     valueIndex,
     colorScaleData,
+    getColorMapname,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
@@ -105,6 +107,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     function contColortableLegend() {
         const itemColor: ItemColor[] = [];
 
+       
+
         colorsObject.color.forEach((value: [number, number, number, number]) => {
                 // return the color and offset needed to draw the legend
                 itemColor.push({
@@ -116,9 +120,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
             .append("svg")
-            .style("height", "50px")
-            // .style("width", "100%")
-            // .style("display", "flex")
+            .style("height", "30px")
 
         const defs = svgLegend.append("defs");
         let currentIndex = "linear-gradient-" + valueIndex;
@@ -144,6 +146,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
                 return data.color;
             });
 
+
         // append title
         svgLegend
             .append("text")
@@ -152,14 +155,13 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .attr("y", 15)
             .style("font-size", "smaller")
             .style("font-weight", "900")
+            // .attr("textLength","5em")
             .text(colorsObject.name);
-
-       
 
         // draw the rectangle and fill with gradient
         svgLegend
         .append("rect")
-        .attr("x", 75)
+        .attr("x", 85)
         .attr("y", 5)
         .attr("width", "110")
         .attr("height", 20)
@@ -179,8 +181,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         const svgLegend = select(divRef.current)
             .append("svg")
             .style("height", "50px")
-            // .style("width", "100%")
-            // .style("display", "flex")
 
         const defs = svgLegend.append("defs");
         let currentIndex = "linear-gradient-" + valueIndex;
@@ -210,11 +210,10 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("font-weight", "900")
             .text(legendColorName ? legendColorName : '');
 
-
         // draw the rectangle and fill with gradient
         svgLegend
             .append("rect")
-            .attr("x", 75)
+            .attr("x", 85)
             .attr("y", 5)
             .attr("width", "110")
             .attr("height", 20)
@@ -247,7 +246,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
         const selectedLegend = select(divRef.current);
         selectedLegend
-            .append("div")
             .append("text")
             .text(legendColorName ? legendColorName : '')
             .attr("y", 7)
@@ -255,22 +253,18 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("width", "15px")
             .style("margin", "10px 0px")
             .style("white-space", "nowrap")
+            .style("font-size", "smaller")
+            .style("font-weight", "900")
 
         selectedLegend
             .append("svg")
             .style("margin-top", "13px")
-            .style("margin-left", "60px")
-            .style("background", "grey")
-            // .attr("viewBox", function(i: any, d: any) {
-            //     return "0 0 39 0" }
-            // )
-            //.attr("viewBox", "0 0 10 1")
+            .style("margin-left", "70px")
             .attr("viewBox", `0 0 ${count} 1`)
             .attr("preserveAspectRatio", "none")
             .style("width", "109px")
             .style("height", "20px")
             .call(colorLegend);
-
     }
 
     // discrete legend using d3 colors
@@ -293,14 +287,14 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .attr("y", 7)
             .style("float", "left")
             .style("width", "15px")
-            .style("margin", "10px 0px");
+            .style("margin", "10px 0px")
+            .style("font-size", "smaller")
+            .style("font-weight", "900");
         selectedLegend
             .append("svg")
             .style("margin-top", "13px")
-            .style("margin-left", "60px")
+            .style("margin-left", "70px")
             .style("background", "grey")
-            //.attr("viewBox", "0 0 8 1")
-            // `0 0 ${cellLength} 1`
             .attr("viewBox", `0 0 ${count} 1`)
             .attr("preserveAspectRatio", "none")
             .style("width", "109px")

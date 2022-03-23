@@ -68,9 +68,7 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
                     />
                 )}
             </div>
-            <div 
-                // style={{marginTop: 150, float: "right", width: 550, zIndex: 1, position: "absolute"}}
-            >
+            <div>
                 {isToggled && (
                     <ColorSelectorAccordion colorScaleObject={colorScaleObject} />
                 )}

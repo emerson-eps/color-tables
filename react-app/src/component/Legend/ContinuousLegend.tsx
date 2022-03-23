@@ -12,7 +12,6 @@ declare type legendProps = {
     colorName: string;
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
-    getColorMapname?: any | null;
     updateLegend?: any;
 }
 

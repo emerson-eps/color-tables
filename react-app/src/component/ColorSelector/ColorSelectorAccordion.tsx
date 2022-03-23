@@ -5,7 +5,7 @@ import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 
 export const ColorSelectorAccordion = (props: any) => {
     return (
-        <div className="Container" style={{width: "360px",
+        <div className="Container" style={{width: "316px",
         position: "absolute",
         zIndex: 1,
         top: 150,

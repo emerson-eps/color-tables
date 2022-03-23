@@ -107,12 +107,10 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
     return (
         <div className="legendWrapper"
-            style={{height: 200, overflow: "auto", display: "flex", flexDirection: "column", marginTop: "-13px"}}
+            style={{height: 200, overflow: "auto", display: "flex", flexDirection: "column", overflowX: "hidden"}}
         >
             {continuousLegend}
             {discreteLegend}
-            {/* <ListItem>{continuousLegend}</ListItem>
-            <ListItem>{discreteLegend}</ListItem> */}
         </div>
     );
 };

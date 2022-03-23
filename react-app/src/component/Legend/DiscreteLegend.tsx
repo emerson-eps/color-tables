@@ -58,7 +58,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
         // Main discrete legend
         if(!updateLegend) {
-            console.log('---------------++++-----------------------')
             Object.keys(discreteData).forEach((key) => {
                 //eslint-disable-next-line
                 let code = (discreteData as { [key: string]: any })[key][1]
@@ -70,6 +69,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     itemColor.push({color: RGBToHex(matchedColorsArrays)});
                     itemName.push(key);
             });
+            discreteFlag = false
         } 
         // Discrete legend using Colortable colors
         else if (updateLegend && updateLegend.color) {
@@ -80,7 +80,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
             itemColor = testColor
             itemName = color.name
-            discreteFlag = false
+            discreteFlag = true
         }
         // Discrete legend using d3 colors
         else  {
@@ -90,7 +90,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
             itemColor = itemColor
             itemName = updateLegend.legendColorName
-
+            discreteFlag = true
 
         }
 
@@ -102,23 +102,36 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         selectedLegend
             .append("div")
             .text(dataObjectName)
-            .attr("y", 7)
-            .style("color", "#6F6F6F")
-            // .style("margin", "10px 10px");
-        if (horizontal) selectedLegend.style("height", 150 + "px");
+            .attr("y", 10)
+            .style("margin-bottom", "5px")
+        if (horizontal && !discreteFlag) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
+            .style("margin-right", "22px")
+            .style("margin-top", "8px")
             .append("svg")
-            // .style("margin", "10px 10px")
             .call(colorLegend);
         if (colorLegend && !horizontal) {
             svgLegend
                 .attr("height", calcLegendHeight + "px")
                 .attr("width", 220 + "px");
-        } else {
+        } else if (!discreteFlag && horizontal) {
             svgLegend
                 .style("transform", "rotate(90deg)")
                 .attr("height", calcLegendHeight + "px")
                 .attr("width", calcLegendHeight + "px");
+        }
+        else {
+            
+            var totalRect;
+            if (updateLegend.color) {
+                totalRect = updateLegend.color.length
+            } else {
+                totalRect = updateLegend.colorsObject.length
+            }
+            svgLegend.attr("viewBox", `0 0 ${totalRect} 1`)
+            .attr("preserveAspectRatio", "none")
+            .attr("height", "25px")
+            .attr("width", "250px");
         }
     }
     return (
