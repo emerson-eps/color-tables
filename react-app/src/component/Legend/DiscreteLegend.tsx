@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
-import { scaleOrdinal, select } from "d3";
+import { select } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
 declare type ItemColor = {
@@ -31,6 +31,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
     let testColor: ItemColor[] = [];
+    let testName: string[] = [];
 
     React.useEffect(() => {
         if (divRef.current) {
@@ -47,8 +48,12 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         let discreteFlag = false
 
         if (typeof colorTables === "string") {
-            let res = await fetch(colorTables);
-            dataSet = await res.json()
+            try {
+                let res = await fetch(colorTables);
+                dataSet = await res.json()
+            } catch (error) {
+                console.error(error);
+            }
         }
 
         let colorsArray = typeof colorTables === "string" ? 
@@ -73,13 +78,27 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         } 
         // Discrete legend using Colortable colors
         else if (updateLegend && updateLegend.color) {
-            let color = updateLegend;
+            // Object.keys(discreteData).forEach((key) => {
+            //     //eslint-disable-next-line
+            //     let code = (discreteData as { [key: string]: any })[key][1]
+            //     //compare the first value in colorarray(colortable) and code from discreteData
+            //     const matchedColorsArrays = updateLegend.color.find((value: number[]) => {
+            //         return value[0] == code;
+            //     });
+            //     if (matchedColorsArrays) {
+            //         testColor.push({color: RGBToHex(matchedColorsArrays)});
+            //         testName.push(key);
+            //     }
+                
+            // });
+
+            //let color = updateLegend;
             updateLegend.color.forEach((key: any) => {
                 testColor.push({color: RGBToHex(key)});
             });
 
             itemColor = testColor
-            itemName = color.name
+            itemName = testName
             discreteFlag = true
         }
         // Discrete legend using d3 colors
@@ -94,8 +113,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
         }
 
-        const ordinalValues = scaleOrdinal().domain(itemName);
-        const colorLegend = discreteLegendUtil(itemColor, discreteFlag).inputScale(ordinalValues);
+        //const ordinalValues = scaleOrdinal().domain(itemName);
+        const colorLegend = discreteLegendUtil(itemColor, discreteFlag)
         const legendLength = itemColor.length;
         const calcLegendHeight = 22 * legendLength + 4 * legendLength;
         const selectedLegend = select(divRef.current);
@@ -106,8 +125,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             .style("margin-bottom", "5px")
         if (horizontal && !discreteFlag) selectedLegend.style("height", 150 + "px");
         const svgLegend = selectedLegend
-            .style("margin-right", "22px")
-            .style("margin-top", "8px")
+            .style("margin-right", "41px")
+            .style("margin-top", "5px")
             .append("svg")
             .call(colorLegend);
         if (colorLegend && !horizontal) {
@@ -128,12 +147,14 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             } else {
                 totalRect = updateLegend.colorsObject.length
             }
-            svgLegend.attr("viewBox", `0 0 ${totalRect} 1`)
+            svgLegend.attr("viewBox", `0 0 ${totalRect} 2`)
             .attr("preserveAspectRatio", "none")
-            .attr("height", "25px")
-            .attr("width", "250px");
+            .style("font-size", ".5")
+            .attr("height", "50px")
+            .attr("width", "150px");
         }
     }
+
     return (
         <div
             style={{

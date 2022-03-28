@@ -2,7 +2,6 @@ import * as React from "react";
 import { Accordion  } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 
-
 export const ColorSelectorAccordion = (props: any) => {
     return (
         <div className="Container" style={{width: "316px",

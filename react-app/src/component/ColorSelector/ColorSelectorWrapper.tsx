@@ -15,7 +15,7 @@ interface legendProps {
     colorScaleObject: any
 }
 
-// code is for color table continuous data
+// Continuous legend using color table  data
 var colorTableContinuousData = colorTables.filter((element: any) => {
     return element.discrete == false; 
 });
@@ -24,7 +24,7 @@ colorTableContinuousData.forEach((element: any) => {
     continuosColorData.push({color: element.colors, name: element.name});
 });
 
-// code is for d3 continuous data
+// Continuous legend using d3 data
 var d3continuousData = d3ColorScales.filter((element: any) => {
     return element.discrete == false; 
 });
@@ -33,7 +33,7 @@ d3continuousData.forEach((element: any) => {
     continuosD3ColorData.push({color: element.colors, name: element.name});
 });
 
-// code is for color table discrete data
+// Discrete legend using color table data
 var discreteData = colorTables.filter((element: any) => {
     return element.discrete == true; 
 });
@@ -42,7 +42,7 @@ discreteData.forEach((element: any) => {
     discreteColorData.push({color: element.colors, name: element.name});
 });
 
-// code is for color table d3 discrete data
+// Discrete legend using d3 data
 var d3discreteData = d3ColorScales.filter((element: any) => {
     return element.discrete == true; 
 });
@@ -59,6 +59,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     let continuousLegend;
     let discreteLegend;
 
+    // return continuous and discrete legend which uses colortable data
     if (useColorTableColors) {
         continuousLegend =  continuosColorData.map((value: any, key: any) => {
             return <div>
@@ -81,7 +82,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
                         colorScaleData={colorScaleObject.colorScaleObject}
                     />
         });
-    } 
+    }
+    // return continuous and discrete legend which uses d3 data
     if (useD3Colors) {
         continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
             return <ColorSelectorComponent

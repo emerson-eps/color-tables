@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex } from "../Utils/continousLegend";
 import {d3ColorScales} from "../Utils/d3ColorScale";
-import { scaleOrdinal, select, range} from "d3";
+import { select, range} from "d3";
 import * as d3 from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 import discreteLegendUtil from "../Utils/discreteLegend";
@@ -26,7 +26,7 @@ interface ItemColor {
 }
 
 export const ColorSelectorComponent: React.FC<legendProps> = ({
-    position,
+    // position,
     colorsObject,
     legendColor,
     legendColorName,
@@ -34,7 +34,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     useDiscColorTable,
     valueIndex,
     colorScaleData,
-    getColorMapname,
+    // getColorMapname,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
@@ -50,7 +50,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     const handleChange = React.useCallback(() => {
         // continous legend with colortable colors
         if (colorsObject && Object.keys(colorsObject).length > 0 && useContColorTable) {
-            // contiuous
             colorScaleData(colorsObject, true);
         }
         // continous legend with d3 colors
@@ -60,10 +59,13 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
                 arrayData.push([0 + "." + colorsObject.value, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
             });
             colorScaleData(arrayData, true);
-        } else if (colorsObject && Object.keys(colorsObject).length > 0 && useDiscColorTable) {
-            // discrete
+        }
+        // discrete legend with colortable colors
+        else if (colorsObject && Object.keys(colorsObject).length > 0 && useDiscColorTable) {
             colorScaleData(colorsObject, false);
-        } else {
+        }
+        // discrete legend with d3 colors
+        else {
             colorScaleData({colorsObject, legendColorName}, false);
         }
     }, []);
@@ -103,11 +105,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         }
     }, [useContColorTable]); 
 
-    // continuous legend using color table colors (linear gradiend code)
+    // continuous legend using color table colors (using linear gradiend)
     function contColortableLegend() {
         const itemColor: ItemColor[] = [];
-
-       
 
         colorsObject.color.forEach((value: [number, number, number, number]) => {
                 // return the color and offset needed to draw the legend
@@ -146,7 +146,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
                 return data.color;
             });
 
-
         // append title
         svgLegend
             .append("text")
@@ -168,7 +167,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         .style("fill", "url(#"+currentIndex+")");
     }
 
-    // continuous legend using d3 colors (linear gradiend code)
+    // continuous legend using d3 colors (using linear gradiend)
     function contD3Legend() {
         const itemColor: any = [];
 
@@ -240,13 +239,14 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             return "#" + r + g + b;
         }
 
-        const ordinalValues = scaleOrdinal().domain(itemName);
+        //const ordinalValues = scaleOrdinal().domain(itemName);
         let count = itemName.length
-        const colorLegend = discreteLegendUtil(itemColor, true).inputScale(ordinalValues);
+        const colorLegend = discreteLegendUtil(itemColor, true)
         //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
         const selectedLegend = select(divRef.current);
+        // colorname as label for the legend (ex: facies)
         selectedLegend
-            .append("text")
+            .append("label")
             .text(legendColorName ? legendColorName : '')
             .attr("y", 7)
             .style("float", "left")
@@ -262,6 +262,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("margin-left", "70px")
             .attr("viewBox", `0 0 ${count} 1`)
             .attr("preserveAspectRatio", "none")
+            
             .style("width", "109px")
             .style("height", "20px")
             .call(colorLegend);
@@ -275,10 +276,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             itemColor.push({color: element});
             itemName.push(key);
         });
-
-        const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
+        //const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
         let count = itemName.length
-        const discreteLegend = discreteLegendUtil(itemColor, true).inputScale(ordinalValues);
+        const discreteLegend = discreteLegendUtil(itemColor, true);
         select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(discreteLegend);
         const selectedLegend = select(divRef.current);
         selectedLegend
@@ -297,6 +297,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("background", "grey")
             .attr("viewBox", `0 0 ${count} 1`)
             .attr("preserveAspectRatio", "none")
+            
             .style("width", "109px")
             .style("height", "20px")
             .call(discreteLegend);
