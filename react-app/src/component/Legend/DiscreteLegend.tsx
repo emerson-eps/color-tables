@@ -47,111 +47,112 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         let dataSet;
         let discreteFlag = false
 
-        if (typeof colorTables === "string") {
-            try {
+        try {
+            // fix for dash wrapper
+            if (typeof colorTables === "string") {
                 let res = await fetch(colorTables);
                 dataSet = await res.json()
-            } catch (error) {
-                console.error(error);
             }
-        }
 
-        let colorsArray = typeof colorTables === "string" ? 
-            colorTableData(colorName, dataSet)
-            :
-            colorTableData(colorName, colorTables);
+            let colorsArray = typeof colorTables === "string" ? 
+                colorTableData(colorName, dataSet)
+                :
+                colorTableData(colorName, colorTables);
 
-        // Main discrete legend
-        if(!updateLegend) {
-            Object.keys(discreteData).forEach((key) => {
-                //eslint-disable-next-line
-                let code = (discreteData as { [key: string]: any })[key][1]
-                //compare the first value in colorarray(colortable) and code from discreteData
-                const matchedColorsArrays = colorsArray.find((value: number[]) => {
-                    return value[0] == code;
+            // Main discrete legend
+            if(!updateLegend) {
+                Object.keys(discreteData).forEach((key) => {
+                    //eslint-disable-next-line
+                    let code = (discreteData as { [key: string]: any })[key][1]
+                    //compare the first value in colorarray(colortable) and code from discreteData
+                    const matchedColorsArrays = colorsArray.find((value: number[]) => {
+                        return value[0] == code;
+                    });
+                    if (matchedColorsArrays)
+                        itemColor.push({color: RGBToHex(matchedColorsArrays)});
+                        itemName.push(key);
                 });
-                if (matchedColorsArrays)
-                    itemColor.push({color: RGBToHex(matchedColorsArrays)});
-                    itemName.push(key);
-            });
-            discreteFlag = false
-        } 
-        // Discrete legend using Colortable colors
-        else if (updateLegend && updateLegend.color) {
-            // Object.keys(discreteData).forEach((key) => {
-            //     //eslint-disable-next-line
-            //     let code = (discreteData as { [key: string]: any })[key][1]
-            //     //compare the first value in colorarray(colortable) and code from discreteData
-            //     const matchedColorsArrays = updateLegend.color.find((value: number[]) => {
-            //         return value[0] == code;
-            //     });
-            //     if (matchedColorsArrays) {
-            //         testColor.push({color: RGBToHex(matchedColorsArrays)});
-            //         testName.push(key);
-            //     }
-                
-            // });
+                discreteFlag = false
+            } 
+            // Discrete legend using Colortable colors
+            else if (updateLegend && updateLegend.color) {
+                // Object.keys(discreteData).forEach((key) => {
+                //     //eslint-disable-next-line
+                //     let code = (discreteData as { [key: string]: any })[key][1]
+                //     //compare the first value in colorarray(colortable) and code from discreteData
+                //     const matchedColorsArrays = updateLegend.color.find((value: number[]) => {
+                //         return value[0] == code;
+                //     });
+                //     if (matchedColorsArrays) {
+                //         testColor.push({color: RGBToHex(matchedColorsArrays)});
+                //         testName.push(key);
+                //     }
+                    
+                // });
 
-            //let color = updateLegend;
-            updateLegend.color.forEach((key: any) => {
-                testColor.push({color: RGBToHex(key)});
-            });
+                //let color = updateLegend;
+                updateLegend.color.forEach((key: any) => {
+                    testColor.push({color: RGBToHex(key)});
+                });
 
-            itemColor = testColor
-            itemName = testName
-            discreteFlag = true
-        }
-        // Discrete legend using d3 colors
-        else  {
-            updateLegend.colorsObject.forEach((key: any) => {
-                itemColor.push({color: key});
-            });
-
-            itemColor = itemColor
-            itemName = updateLegend.legendColorName
-            discreteFlag = true
-
-        }
-
-        //const ordinalValues = scaleOrdinal().domain(itemName);
-        const colorLegend = discreteLegendUtil(itemColor, discreteFlag)
-        const legendLength = itemColor.length;
-        const calcLegendHeight = 22 * legendLength + 4 * legendLength;
-        const selectedLegend = select(divRef.current);
-        selectedLegend
-            .append("div")
-            .text(dataObjectName)
-            .attr("y", 10)
-            .style("margin-bottom", "5px")
-        if (horizontal && !discreteFlag) selectedLegend.style("height", 150 + "px");
-        const svgLegend = selectedLegend
-            .style("margin-right", "41px")
-            .style("margin-top", "5px")
-            .append("svg")
-            .call(colorLegend);
-        if (colorLegend && !horizontal) {
-            svgLegend
-                .attr("height", calcLegendHeight + "px")
-                .attr("width", 220 + "px");
-        } else if (!discreteFlag && horizontal) {
-            svgLegend
-                .style("transform", "rotate(90deg)")
-                .attr("height", calcLegendHeight + "px")
-                .attr("width", calcLegendHeight + "px");
-        }
-        else {
-            
-            var totalRect;
-            if (updateLegend.color) {
-                totalRect = updateLegend.color.length
-            } else {
-                totalRect = updateLegend.colorsObject.length
+                itemColor = testColor
+                itemName = testName
+                discreteFlag = true
             }
-            svgLegend.attr("viewBox", `0 0 ${totalRect} 2`)
-            .attr("preserveAspectRatio", "none")
-            .style("font-size", ".5")
-            .attr("height", "50px")
-            .attr("width", "150px");
+            // Discrete legend using d3 colors
+            else  {
+                updateLegend.colorsObject.forEach((key: any) => {
+                    itemColor.push({color: key});
+                });
+
+                itemColor = itemColor
+                itemName = updateLegend.legendColorName
+                discreteFlag = true
+
+            }
+
+            //const ordinalValues = scaleOrdinal().domain(itemName);
+            const colorLegend = discreteLegendUtil(itemColor, discreteFlag)
+            const legendLength = itemColor.length;
+            const calcLegendHeight = 22 * legendLength + 4 * legendLength;
+            const selectedLegend = select(divRef.current);
+            selectedLegend
+                .append("div")
+                .text(dataObjectName)
+                .attr("y", 10)
+                .style("margin-bottom", "5px")
+            if (horizontal && !discreteFlag) selectedLegend.style("height", 150 + "px");
+            const svgLegend = selectedLegend
+                .style("margin-right", "41px")
+                .style("margin-top", "5px")
+                .append("svg")
+                .call(colorLegend);
+            if (colorLegend && !horizontal) {
+                svgLegend
+                    .attr("height", calcLegendHeight + "px")
+                    .attr("width", 220 + "px");
+            } else if (!discreteFlag && horizontal) {
+                svgLegend
+                    .style("transform", "rotate(90deg)")
+                    .attr("height", calcLegendHeight + "px")
+                    .attr("width", calcLegendHeight + "px");
+            }
+            else {
+                
+                var totalRect;
+                if (updateLegend.color) {
+                    totalRect = updateLegend.color.length
+                } else {
+                    totalRect = updateLegend.colorsObject.length
+                }
+                svgLegend.attr("viewBox", `0 0 ${totalRect} 2`)
+                .attr("preserveAspectRatio", "none")
+                .style("font-size", ".5")
+                .attr("height", "50px")
+                .attr("width", "150px");
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
