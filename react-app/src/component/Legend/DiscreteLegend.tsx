@@ -151,7 +151,8 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 .attr("height", "50px")
                 .attr("width", "150px");
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error(error);
         }
     }

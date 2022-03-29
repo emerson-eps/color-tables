@@ -52,11 +52,13 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 let res = await fetch(colorTables);
                 dataSet = await res.json()
             }
-            // Return the matched colors array from color.tables.json file
+            //Return the matched colors array from color.tables.json file
             let legendColors = typeof colorTables === "string" ? 
                 colorsArray(colorName, dataSet)
                 :
                 colorsArray(colorName, colorTables);
+
+            //let legendColors = colorsArray(colorName, colorTables);
 
             // Update color of legend based on color selector scales
             // data is passed on click upon color scales
@@ -195,7 +197,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 .style("font-weight", "700")
                 .call(VerticalAxisLeg);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error(error);
         }
     }
