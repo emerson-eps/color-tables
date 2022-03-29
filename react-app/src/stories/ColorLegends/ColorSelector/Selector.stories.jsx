@@ -1,12 +1,12 @@
 import * as React from "react";
-import { ColorSelectorWrapper } from "../../../component/ColorSelector/ColorTableSelectorWrapper";
+import { ColorSelectorAccordion } from "../../../component/ColorSelector/ColorSelectorAccordion";
 export default {
-    component: ColorSelectorWrapper,
+    component: ColorSelectorAccordion,
     title: "Legends/ColorSelector",
 };
 
 const Template = (args) => {
-    return <ColorSelectorWrapper />;
+    return <ColorSelectorAccordion />;
 };
 
 export const selectorTemplate = Template.bind({});

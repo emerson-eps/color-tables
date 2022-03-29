@@ -59,7 +59,7 @@
         ]
     },
     {
-        "name": "Seismic BlueWhiteRed",
+        "name": "Seismic",
         "discrete": false,
         "colors": [
           [ 0.00, 0, 0, 255 ],
@@ -158,7 +158,7 @@
         ]
     },
     {
-        "name": "Gas-Oil-Water",
+        "name": "GasOilWater",
         "discrete": true,
         "colors": [
           [ 0, 255, 46, 0],
@@ -168,7 +168,7 @@
         ]
     },
     {
-        "name": "Gas-Water",
+        "name": "GasWater",
         "discrete": true,
         "colors": [
           [ 0, 255, 46, 0 ],
@@ -177,7 +177,7 @@
         ]
     },
     {
-        "name": "Oil-Water",
+        "name": "OilWater",
         "discrete": true,
         "colors": [
           [ 0, 0, 184, 0 ],

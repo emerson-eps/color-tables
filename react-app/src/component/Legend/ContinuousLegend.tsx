@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
-import { select, scaleLinear, scaleSequential, axisBottom } from "d3";
+import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
 
 declare type legendProps = {
@@ -12,6 +12,7 @@ declare type legendProps = {
     colorName: string;
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
+    updateLegend?: any;
 }
 
 declare type ItemColor = {
@@ -27,100 +28,176 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorName,
     colorTables,
     horizontal,
+    updateLegend,
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
+
     React.useEffect(() => {
         if (divRef.current) {
             continuousLegend();
         };
         return function cleanup() {
+            select(divRef.current).select("div").remove();
             select(divRef.current).select("svg").remove();
         };
-    }, [min, max, colorName, colorTables, horizontal]);
+    }, [min, max, colorName, colorTables, horizontal, updateLegend]);
 
     async function continuousLegend() {
         const itemColor: ItemColor[] = [];
         let dataSet;
 
-        if (typeof colorTables === "string") {
-            let res = await fetch(colorTables);
-            dataSet = await res.json()
-        }
-        // Return the matched colors array from color.tables.json file
-        let colorTableColors = typeof colorTables === "string" ? 
-            colorsArray(colorName, dataSet)
-            :
-            colorsArray(colorName, colorTables);
-        colorTableColors.forEach((value: [number, number, number, number]) => {
-            // return the color and offset needed to draw the legend
-            itemColor.push({
-                offset: RGBToHex(value).offset,
-                color: RGBToHex(value).color,
+        try {
+            // fix for dash wrapper
+            if (typeof colorTables === "string") {
+                let res = await fetch(colorTables);
+                dataSet = await res.json()
+            }
+            // Return the matched colors array from color.tables.json file
+            let legendColors = typeof colorTables === "string" ? 
+                colorsArray(colorName, dataSet)
+                :
+                colorsArray(colorName, colorTables);
+
+            // Update color of legend based on color selector scales
+            // data is passed on click upon color scales
+            if (updateLegend) {
+                // legend using color table data
+                if (updateLegend.color) {
+                    legendColors = updateLegend.color;
+                } 
+                // legend using d3 data
+                else if (updateLegend.length > 0) {
+                    legendColors = updateLegend
+                }
+            } 
+            // main continuous legend
+            else {
+                legendColors
+            }
+
+            legendColors.forEach((value: [number, number, number, number]) => {
+                // return the color and offset needed to draw the legend
+                itemColor.push({
+                    offset: RGBToHex(value).offset,
+                    color: RGBToHex(value).color,
+                });
             });
-        });
-        const colorScale = scaleSequential().domain([min, max]);
-        // append a defs (for definition) element to your SVG
-        const svgLegend = select(divRef.current)
-            .append("svg")
-            .style("background-color", "#ffffffcc")
-            .style("border-radius", "5px");
-        if (!horizontal) {
+            
+            const colorScale = scaleSequential().domain([min, max]);
+            // append a defs (for definition) element to your SVG
+            const svgLegend = select(divRef.current)
+                .append("svg")
+                .style("background-color", "#ffffffcc")
+                .style("border-radius", "5px");
+
+            const defs = svgLegend.append("defs");
+            let linearGradient;
+            // vertical legend
+            if (!horizontal) {
+                svgLegend
+                    // .style("transform", "rotate(270deg)")
+                    // .style("margin-top", "80px");
+                    .attr("width", "100")
+                    .attr("height", "150")
+                linearGradient = defs
+                    .append("linearGradient")
+                    .attr("id", "linear-gradient")
+                    .attr("x1", "0%")
+                    .attr("x2", "0%") 
+                    .attr("y1", "0%")
+                    .attr("y2", "100%");  //since it's a vertical linear gradient
+            } 
+            // horizontal legend
+            else {
+                svgLegend
+                .attr("width", "220")
+                .attr("height", "165")
+                
+                // append a linearGradient element to the defs and give it a unique id
+                linearGradient = defs
+                .append("linearGradient")
+                .attr("id", "linear-gradient")
+                .attr("x1", "0%")
+                .attr("x2", "100%") //since it's a horizontal linear gradient
+                .attr("y1", "0%")
+                .attr("y2", "0%"); 
+            }
+            
+            // append multiple color stops by using D3's data/enter step
+            linearGradient
+                .selectAll("stop")
+                .data(itemColor)
+                .enter()
+                .append("stop")
+                .attr("offset", function (data) {
+                    return data.offset + "%";
+                })
+                .attr("stop-color", function (data) {
+                    return data.color;
+                });
+
+            // append title
             svgLegend
-                .style("transform", "rotate(270deg)")
-                .style("margin-top", "80px");
+                .append("text")
+                .attr("class", "legendTitle")
+                .attr("x", 25)
+                .attr("y", 20)
+                .style("text-anchor", "left")
+                .text(dataObjectName);
+            
+            // vertical legend
+            if (!horizontal) {
+                // draw the rectangle and fill with gradient
+                svgLegend
+                    .append("rect")
+                    .attr("x", 25)
+                    .attr("y", 30)
+                    .attr("width", 25)
+                    .attr("height", "150")
+                    .style("fill", "url(#linear-gradient)");
+            }
+            // horizontal legend
+            else {
+                // draw the rectangle and fill with gradient
+                svgLegend
+                .append("rect")
+                .attr("x", 25)
+                .attr("y", 30)
+                .attr("width", "150")
+                .attr("height", 25)
+                .style("fill", "url(#linear-gradient)");
+            }
+
+            //create tick marks
+            // range varies the size of the axis
+            const xLeg = scaleLinear().domain([min, max]).range([10, 158]);
+            const yLeg = scaleLinear().domain([min, max]).range([10, 127]);
+
+            const horizontalAxisLeg = axisBottom(xLeg).tickValues(colorScale.domain());
+            var VerticalAxisLeg = axisRight(yLeg).tickSize(24).tickValues(colorScale.domain());
+
+
+            if (horizontal) {
+                svgLegend
+                .attr("class", "axis")
+                .append("g")
+                .attr("transform", "translate(15, 55)")
+                .style("font-size", "10px")
+                .style("font-weight", "700")
+                .call(horizontalAxisLeg)
+                .style("height", 25);
+            } else {
+                svgLegend
+                .attr("class", "axis")
+                .append("g")
+                .attr("transform", "translate(25, 20)")
+                .style("font-size", "10px")
+                .style("font-weight", "700")
+                .call(VerticalAxisLeg);
+            }
+        } catch (error) {
+            console.error(error);
         }
-        const defs = svgLegend.append("defs");
-        // append a linearGradient element to the defs and give it a unique id
-        const linearGradient = defs
-            .append("linearGradient")
-            .attr("id", "linear-gradient")
-            .attr("x1", "0%")
-            .attr("x2", "100%") //since it's a horizontal linear gradient
-            .attr("y1", "0%")
-            .attr("y2", "0%");
-        // append multiple color stops by using D3's data/enter step
-        linearGradient
-            .selectAll("stop")
-            .data(itemColor)
-            .enter()
-            .append("stop")
-            .attr("offset", function (data) {
-                return data.offset + "%";
-            })
-            .attr("stop-color", function (data) {
-                return data.color;
-            });
-
-        // append title
-        svgLegend
-            .append("text")
-            .attr("class", "legendTitle")
-            .attr("x", 25)
-            .attr("y", 20)
-            .style("text-anchor", "left")
-            .text(dataObjectName);
-
-        // draw the rectangle and fill with gradient
-        svgLegend
-            .append("rect")
-            .attr("x", 25)
-            .attr("y", 30)
-            .attr("width", 250)
-            .attr("height", 25)
-            .style("fill", "url(#linear-gradient)");
-
-        //create tick marks
-        const xLeg = scaleLinear().domain([min, max]).range([10, 258]);
-
-        const axisLeg = axisBottom(xLeg).tickValues(colorScale.domain());
-
-        svgLegend
-            .attr("class", "axis")
-            .append("g")
-            .attr("transform", "translate(15, 55)")
-            .style("font-size", "10px")
-            .style("font-weight", "700")
-            .call(axisLeg);
     }
 
     return (
@@ -131,7 +208,11 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 top: position ? position[1] : ' ',
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id="legend" ref={divRef} 
+                style={{
+                    width: horizontal ? "220px" : "100px",
+                    height: horizontal ? "165px" : "150px",
+            }}></div>
         </div>
     );
 };

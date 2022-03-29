@@ -60,7 +60,7 @@ export function rgbValues(
 }
 
 // return the hex color code and offset
-export function RGBToHex(rgb: number[]): { color: string; offset: number } {
+export function RGBToHex(rgb: number[]) {
     let r = Math.round(rgb[1]).toString(16),
         g = Math.round(rgb[2]).toString(16),
         b = Math.round(rgb[3]).toString(16);

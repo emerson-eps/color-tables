@@ -14,7 +14,7 @@ const discreteData = {
 const dataObjectName = "Wells / FaultDistance_HUM";
 const position = [16, 10];
 const horizontal = true;
-const colorName = "Gas-Oil-Water";
+const colorName = "GasOilWater";
 
 const Template = (args) => {
     return <DiscreteColorLegend {...args} />;
