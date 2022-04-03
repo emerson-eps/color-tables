@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
-import { select } from "d3";
+import { select, scaleOrdinal } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
 declare type ItemColor = {
@@ -30,11 +30,13 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     const divRef = useRef<HTMLDivElement>(null);
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
-    let testColor: ItemColor[] = [];
-    let testName: string[] = [];
+    const testColor: ItemColor[] = [];
+    const testName: string[] = [];
 
     React.useEffect(() => {
         if (divRef.current) {
+            select(divRef.current).select("div").remove();
+            select(divRef.current).select("svg").remove();
             discreteLegend();
         }
         return function cleanup() {
@@ -45,114 +47,149 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
     async function discreteLegend() {
         let dataSet;
-        let discreteFlag = false
+        let useSelectorLegend = false;
 
         try {
             // fix for dash wrapper
             if (typeof colorTables === "string") {
-                let res = await fetch(colorTables);
-                dataSet = await res.json()
+                const res = await fetch(colorTables);
+                dataSet = await res.json();
             }
 
-            let colorsArray = typeof colorTables === "string" ? 
-                colorTableData(colorName, dataSet)
-                :
-                colorTableData(colorName, colorTables);
+            const colorsArray =
+                typeof colorTables === "string"
+                    ? colorTableData(colorName, dataSet)
+                    : colorTableData(colorName, colorTables);
+
+            console.log('updateLegend', updateLegend)
 
             // Main discrete legend
-            if(!updateLegend) {
+            if (!updateLegend || updateLegend.length == 0) {
                 Object.keys(discreteData).forEach((key) => {
                     //eslint-disable-next-line
                     let code = (discreteData as { [key: string]: any })[key][1]
                     //compare the first value in colorarray(colortable) and code from discreteData
-                    const matchedColorsArrays = colorsArray.find((value: number[]) => {
-                        return value[0] == code;
-                    });
+                    const matchedColorsArrays = colorsArray.find(
+                        (value: number[]) => {
+                            return value[0] == code;
+                        }
+                    );
                     if (matchedColorsArrays)
-                        itemColor.push({color: RGBToHex(matchedColorsArrays)});
-                        itemName.push(key);
+                        itemColor.push({
+                            color: RGBToHex(matchedColorsArrays),
+                        });
+                    itemName.push(key);
                 });
-                discreteFlag = false
-            } 
+                useSelectorLegend = false;
+            }
             // Discrete legend using Colortable colors
-            else if (updateLegend && updateLegend.color) {
-                // Object.keys(discreteData).forEach((key) => {
-                //     //eslint-disable-next-line
-                //     let code = (discreteData as { [key: string]: any })[key][1]
-                //     //compare the first value in colorarray(colortable) and code from discreteData
-                //     const matchedColorsArrays = updateLegend.color.find((value: number[]) => {
-                //         return value[0] == code;
-                //     });
-                //     if (matchedColorsArrays) {
-                //         testColor.push({color: RGBToHex(matchedColorsArrays)});
-                //         testName.push(key);
-                //     }
-                    
-                // });
-
-                //let color = updateLegend;
+            else if (updateLegend?.color) {
                 updateLegend.color.forEach((key: any) => {
-                    testColor.push({color: RGBToHex(key)});
+                    testColor.push({ color: RGBToHex(key) });
                 });
 
-                itemColor = testColor
-                itemName = testName
-                discreteFlag = true
+                itemColor = testColor;
+                itemName = testName;
+                useSelectorLegend = true;
             }
             // Discrete legend using d3 colors
-            else  {
+            else if (updateLegend?.colorsObject) {
                 updateLegend.colorsObject.forEach((key: any) => {
-                    itemColor.push({color: key});
+                    itemColor.push({ color: key });
                 });
 
-                itemColor = itemColor
-                itemName = updateLegend.legendColorName
-                discreteFlag = true
-
+                //itemColor = itemColor;
+                itemName = updateLegend.legendColorName;
+                useSelectorLegend = true;
             }
 
-            //const ordinalValues = scaleOrdinal().domain(itemName);
-            const colorLegend = discreteLegendUtil(itemColor, discreteFlag)
-            const legendLength = itemColor.length;
-            const calcLegendHeight = 22 * legendLength + 4 * legendLength;
-            const selectedLegend = select(divRef.current);
-            selectedLegend
+            // const toolTipName = itemName.map((word, idx) => {
+            //     return <li key={idx}>{word}</li>;
+            // });
+
+            // let nameTool;
+
+            // toolTipName.forEach((data) => {
+            //     //nameTool.push(data.props.children)
+            //     nameTool = data.props.children;
+            // });
+
+            // // create a tooltip
+            // const tooltip = select(divRef.current)
+            //     .append("div")
+            //     .style("position", "absolute")
+            //     .style("visibility", "hidden")
+            //     .style("background-color", "black")
+            //     .style("border", "solid")
+            //     .style("border-width", "1px")
+            //     .style("border-radius", "5px")
+            //     .style("padding", "10px")
+            //     .text(nameTool)
+            //     .style("color", "grey");
+
+            const ordinalValues = scaleOrdinal().domain(itemName);
+            const colorLegend = discreteLegendUtil(
+                itemColor,
+                useSelectorLegend,
+                horizontal
+            ).inputScale(ordinalValues);
+            const currentDiv = select(divRef.current);
+            let totalRect;
+
+            // append the title
+            currentDiv
                 .append("div")
                 .text(dataObjectName)
+                .style("color", "grey")
                 .attr("y", 10)
-                .style("margin-bottom", "5px")
-            if (horizontal && !discreteFlag) selectedLegend.style("height", 150 + "px");
-            const svgLegend = selectedLegend
-                .style("margin-right", "41px")
-                .style("margin-top", "5px")
+                .style("margin-bottom", "5px");
+
+            // Append svg to the div
+            const svgLegend = currentDiv
+                .style("margin", "5px")
                 .append("svg")
+                // .on("mouseover", function () {
+                //     return tooltip.style("visibility", "visible");
+                // })
+                // .on("mouseout", function () {
+                //     return tooltip.style("visibility", "hidden");
+                // })
                 .call(colorLegend);
-            if (colorLegend && !horizontal) {
-                svgLegend
-                    .attr("height", calcLegendHeight + "px")
-                    .attr("width", 220 + "px");
-            } else if (!discreteFlag && horizontal) {
-                svgLegend
-                    .style("transform", "rotate(90deg)")
-                    .attr("height", calcLegendHeight + "px")
-                    .attr("width", calcLegendHeight + "px");
+
+            // Style for main horizontal legend
+            if (!useSelectorLegend) {
+                totalRect = itemColor.length;
             }
+            // Style for color selector legend
             else {
-                
-                var totalRect;
-                if (updateLegend.color) {
-                    totalRect = updateLegend.color.length
-                } else {
-                    totalRect = updateLegend.colorsObject.length
+                // calculate width for legend using colortable colors
+                if (updateLegend?.color) {
+                    totalRect = updateLegend.color.length;
                 }
-                svgLegend.attr("viewBox", `0 0 ${totalRect} 2`)
-                .attr("preserveAspectRatio", "none")
-                .style("font-size", ".5")
-                .attr("height", "50px")
-                .attr("width", "150px");
+                // calculate width for legend using d3 colors
+                else {
+                    totalRect = updateLegend.colorsObject.length;
+                }
             }
-        } 
-        catch (error) {
+
+            if (horizontal) {
+                svgLegend
+                    .attr("viewBox", `0 0 ${totalRect} 2`)
+                    .attr("preserveAspectRatio", "none")
+                    .style("font-size", ".4")
+                    .attr("height", "50px")
+                    .attr("width", "150px");
+            }
+            // vertical legend
+            else if (!horizontal) {
+                svgLegend
+                    .attr("viewBox", `0 0 4 ${totalRect}`)
+                    .attr("preserveAspectRatio", "none")
+                    .style("font-size", ".4")
+                    .attr("height", "150px")
+                    .attr("width", "100px");
+            }
+        } catch (error) {
             console.error(error);
         }
     }
@@ -161,10 +198,11 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         <div
             style={{
                 position: "absolute",
-                right: position ? position[0] : ' ',
-                top: position ? position[1] : ' ',
+                right: position ? position[0] : " ",
+                top: position ? position[1] : " ",
                 backgroundColor: "#ffffffcc",
                 borderRadius: "5px",
+                zIndex: "999 !important",
             }}
         >
             <div id="legend" ref={divRef}></div>

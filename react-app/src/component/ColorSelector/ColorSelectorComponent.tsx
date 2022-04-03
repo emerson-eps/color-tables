@@ -8,7 +8,7 @@ import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
 
-interface legendProps {
+declare type legendProps = {
     position: number[];
     colorsObject?: any;
     legendColor?: any;
@@ -20,7 +20,7 @@ interface legendProps {
     getColorMapname?: any | null;
 }
 
-interface ItemColor {
+declare type ItemColor = {
     color: string;
     offset?: number;
 }
@@ -41,11 +41,16 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     // create an array of steps based on the color scale
         // returns an array of evenly-spaced numbers. Returns the integers from zero to the specified end minus one.
         // d3.range(start, stop, step)
-    if (legendColor) {
-        var data = range(10).map(d=> ({color:legendColor(d/10), value:d}))
-        // get the array's min and max value
-        var extent: any = d3.extent(data, d => d.value); 
-    }
+        let data: any;
+        var extent: any
+        if (legendColor) {
+            data = range(10).map((d) => ({
+                color: legendColor(d / 10),
+                value: d,
+            }));
+            // get the array's min and max value
+            extent = d3.extent(data, (d: any) => d?.value);
+        }
 
     const handleChange = React.useCallback(() => {
         // continous legend with colortable colors
@@ -54,11 +59,11 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         }
         // continous legend with d3 colors
         else if (data && !useContColorTable) {
-            let arrayData: any = []
+            const arrayData: any = []
             data.forEach((colorsObject: any) => {
                 arrayData.push([0 + "." + colorsObject.value, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
             });
-            colorScaleData(arrayData, true);
+            colorScaleData({ arrayData, legendColorName }, true);
         }
         // discrete legend with colortable colors
         else if (colorsObject && Object.keys(colorsObject).length > 0 && useDiscColorTable) {
@@ -123,7 +128,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("height", "30px")
 
         const defs = svgLegend.append("defs");
-        let currentIndex = "linear-gradient-" + valueIndex;
+        const currentIndex = "linear-gradient-" + valueIndex;
         // append a linearGradient element to the defs and give it a unique id
         const linearGradient = defs
             .append("linearGradient")
@@ -182,7 +187,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("height", "50px")
 
         const defs = svgLegend.append("defs");
-        let currentIndex = "linear-gradient-" + valueIndex;
+        const currentIndex = "linear-gradient-" + valueIndex;
         // append a linearGradient element to the defs and give it a unique id
         const linearGradient = defs
             .append("linearGradient")
@@ -196,8 +201,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         linearGradient.selectAll("stop")
             .data(data)
             .enter().append("stop")
-            .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
-            .attr("stop-color", d => d.color);
+            .attr("offset", (d: any) => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+            .attr("stop-color", (d: any) => d.color);
 
         // append title
         svgLegend
@@ -277,7 +282,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             itemName.push(key);
         });
         //const ordinalValues = scaleOrdinal(colorsObject).domain(itemName);
-        let count = itemName.length
+        const count = itemName.length
         const discreteLegend = discreteLegendUtil(itemColor, true);
         select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(discreteLegend);
         const selectedLegend = select(divRef.current);

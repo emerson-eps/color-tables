@@ -7,8 +7,8 @@ export const ColorSelectorAccordion = (props: any) => {
         <div className="Container" style={{width: "316px",
         position: "absolute",
         zIndex: 1,
-        top: 150,
-        right: 5,
+        top: props.isHorizontal ? 100 : 30,
+        right: props.isHorizontal ? 5 : 165,
         }}>
             <Accordion >
                 <Accordion.Item isExpanded>
