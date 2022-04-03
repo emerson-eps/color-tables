@@ -9,14 +9,14 @@ const continuosD3ColorData: any = [];
 const discreteColorData: any = [];
 const discreteD3ColorData: any = [];
 
-interface legendProps {
+declare type legendProps = {
     useColorTableColors: boolean,
     useD3Colors: boolean,
     colorScaleObject: any
 }
 
 // Continuous legend using color table  data
-var colorTableContinuousData = colorTables.filter((element: any) => {
+const colorTableContinuousData = colorTables.filter((element: any) => {
     return element.discrete == false; 
 });
 
@@ -25,7 +25,7 @@ colorTableContinuousData.forEach((element: any) => {
 });
 
 // Continuous legend using d3 data
-var d3continuousData = d3ColorScales.filter((element: any) => {
+const d3continuousData = d3ColorScales.filter((element: any) => {
     return element.discrete == false; 
 });
 
@@ -34,7 +34,7 @@ d3continuousData.forEach((element: any) => {
 });
 
 // Discrete legend using color table data
-var discreteData = colorTables.filter((element: any) => {
+const discreteData = colorTables.filter((element: any) => {
     return element.discrete == true; 
 });
 
@@ -43,7 +43,7 @@ discreteData.forEach((element: any) => {
 });
 
 // Discrete legend using d3 data
-var d3discreteData = d3ColorScales.filter((element: any) => {
+const d3discreteData = d3ColorScales.filter((element: any) => {
     return element.discrete == true; 
 });
 

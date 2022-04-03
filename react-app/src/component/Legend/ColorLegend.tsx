@@ -4,7 +4,7 @@ import { ContinuousLegend } from "./ContinuousLegend";
 import {useCallback} from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 
-interface ColorLegendProps {
+declare type ColorLegendProps = {
     colorTables: any;
     min: number;
     max: number;
@@ -12,7 +12,8 @@ interface ColorLegendProps {
     position?: number[] | null;
     colorName: string;
     horizontal?: boolean | null;
-    discreteData: any;
+    discreteData: { objects: Record<string, [number[], number]> };
+    getColorMapname?: any;
 }
 
 // Todo: Adapt it for other layers too
@@ -24,7 +25,8 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
     max,
     dataObjectName,
     colorName,
-    discreteData
+    discreteData,
+    getColorMapname
 }: ColorLegendProps) => {
 
     const [isToggled, setIsToggled] = React.useState(false);
@@ -37,6 +39,14 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
 
     // Get new colorscale from colorselector and update legend
     const colorScaleObject = React.useCallback((data: any, value: any) => {
+        // update color map layer
+        if (data.name && getColorMapname) {
+            getColorMapname(data.name);
+        }
+        // d3 color name
+        else if (getColorMapname) {
+            getColorMapname(data.legendColorName);
+        }
         setUpdateLegendColor(data);
         setIsCont(value);
     }, []);
@@ -70,7 +80,7 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
             </div>
             <div>
                 {isToggled && (
-                    <ColorSelectorAccordion colorScaleObject={colorScaleObject} />
+                    <ColorSelectorAccordion colorScaleObject={colorScaleObject} isHorizontal={horizontal} />
                 )}
             </div>
         </div>
