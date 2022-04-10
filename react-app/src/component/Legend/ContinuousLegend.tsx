@@ -4,7 +4,7 @@ import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
 import { colorTablesArray } from "../ColorTableTypes";
 
-declare type legendProps = {
+interface legendProps {
     min: number;
     max: number;
     dataObjectName: string;
@@ -15,7 +15,7 @@ declare type legendProps = {
     updateLegend?: any;
 }
 
-declare type ItemColor = {
+interface ItemColor {
     color: string;
     offset: number;
 }
