@@ -4,11 +4,11 @@ import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 
-declare type ItemColor = {
+interface ItemColor {
     color: string;
 }
 
-declare type colorLegendProps = {
+interface colorLegendProps {
     discreteData: { objects: Record<string, [number[], number]> };
     dataObjectName: string;
     position?: number[] | null;

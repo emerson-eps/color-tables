@@ -1,4 +1,4 @@
-export declare type colorTablesObj = {
+export interface colorTablesObj {
     name: string;
     discrete: boolean;
     colors: [number, number, number, number][];

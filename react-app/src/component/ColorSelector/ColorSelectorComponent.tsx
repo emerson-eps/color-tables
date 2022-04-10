@@ -8,7 +8,7 @@ import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
 
-declare type legendProps = {
+interface legendProps {
     position: number[];
     colorsObject?: any;
     legendColor?: any;
@@ -20,7 +20,7 @@ declare type legendProps = {
     getColorMapname?: any | null;
 }
 
-declare type ItemColor = {
+interface ItemColor {
     color: string;
     offset?: number;
 }

@@ -4,7 +4,7 @@ import { ContinuousLegend } from "./ContinuousLegend";
 import {useCallback} from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 
-declare type ColorLegendProps = {
+interface ColorLegendProps {
     colorTables: any;
     min: number;
     max: number;
