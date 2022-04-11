@@ -17,7 +17,7 @@ declare type ColorLegendProps = {
 }
 
 // Todo: Adapt it for other layers too
-const ColorLegend: React.FC<ColorLegendProps> = ({
+export const ColorLegend: React.FC<ColorLegendProps> = ({
     position,
     horizontal,
     colorTables,
@@ -87,5 +87,3 @@ const ColorLegend: React.FC<ColorLegendProps> = ({
             
     );
 };
-
-export default ColorLegend;

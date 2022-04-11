@@ -1,6 +1,6 @@
 import React from "react";
 import colorTables from "../../../component/color-tables.json";
-import ColorLegend from "../../../component/Legend/ColorLegend";
+import {ColorLegend} from "../../../component/Legend/ColorLegend";
 
 export default {
     component: ColorLegend,
