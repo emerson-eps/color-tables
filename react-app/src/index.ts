@@ -1,6 +1,23 @@
-export { ContinuousLegend } from './component/Legend/ContinuousLegend';
-export { colorsArray, rgbValues, RGBToHex} from './component/Utils/continousLegend';
-export { colorTableData, DiscreteColorLegend } from './component/Legend/DiscreteLegend';
-export { colorTablesObj, colorTablesArray } from './component/ColorTableTypes';
+import { ContinuousLegend } from './component/Legend/ContinuousLegend';
+import { colorsArray, rgbValues, RGBToHex} from './component/Utils/continousLegend';
+import { colorTableData, DiscreteColorLegend } from './component/Legend/DiscreteLegend';
+import { colorTablesObj, colorTablesArray } from './component/ColorTableTypes';
+import { ColorSelectorAccordion } from './component/ColorSelector/ColorSelectorAccordion';
+import { ColorSelectorComponent } from './component/ColorSelector/ColorSelectorComponent';
+import { ColorSelectorWrapper } from './component/ColorSelector/ColorSelectorWrapper';
 import * as colorTables from './component/color-tables.json';
-export default colorTables;
+
+export {
+    ContinuousLegend,
+    colorsArray,
+    rgbValues,
+    RGBToHex,
+    colorTableData,
+    DiscreteColorLegend,
+    colorTablesObj,
+    colorTablesArray,
+    ColorSelectorAccordion,
+    ColorSelectorComponent,
+    ColorSelectorWrapper,
+    colorTables,
+};
