@@ -9,7 +9,7 @@ const continuosD3ColorData: any = [];
 const discreteColorData: any = [];
 const discreteD3ColorData: any = [];
 
-interface legendProps {
+declare type legendProps = {
     useColorTableColors: boolean,
     useD3Colors: boolean,
     colorScaleObject: any
