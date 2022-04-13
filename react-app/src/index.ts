@@ -2,11 +2,11 @@ import { ColorSelectorAccordion } from './component/ColorSelector/ColorSelectorA
 import { ColorSelectorComponent } from './component/ColorSelector/ColorSelectorComponent';
 import { ColorSelectorWrapper } from './component/ColorSelector/ColorSelectorWrapper';
 import { ContinuousLegend } from './component/Legend/ContinuousLegend';
-import { colorTableData, DiscreteColorLegend } from './component/Legend/DiscreteLegend';
+import { DiscreteColorLegend } from './component/Legend/DiscreteLegend';
 import { ColorLegend } from './component/Legend/ColorLegend';
 import { colorsArray, rgbValues, RGBToHex } from './component/Utils/continousLegend';
 import { d3ColorScales } from './component/Utils/d3ColorScale';
-import { colorTablesObj, colorTablesArray } from './component/ColorTableTypes';
+import { colorTablesObj, colorTablesArray } from './component/Utils/ColorTableTypes';
 import * as colorTables from './component/color-tables.json';
 
 export {
@@ -14,7 +14,6 @@ export {
     ColorSelectorComponent,
     ColorSelectorWrapper,
     ContinuousLegend,
-    colorTableData,
     DiscreteColorLegend,
     ColorLegend,
     colorsArray,

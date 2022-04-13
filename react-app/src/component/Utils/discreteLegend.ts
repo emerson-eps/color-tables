@@ -4,14 +4,6 @@ declare type ItemColor = {
 
 // eslint-disable-next-line
 export default function discreteLegendUtil(itemColor: ItemColor[], isSelectorLegend?: boolean, horizontal?: any): any {
-    // var cellWidth = 22;
-    // var cellHeight = 22;
-
-    // if (isSelectorLegend) {
-    //     cellWidth = 25;
-    //     cellHeight = 22;
-    // }
-
     const legendValues: ItemColor[] = [];
 
     // eslint-disable-next-line
@@ -37,104 +29,41 @@ export default function discreteLegendUtil(itemColor: ItemColor[], isSelectorLeg
             if (horizontal && !isSelectorLegend) {
                 g.selectAll("rect")
                     .attr("x", function (d: number, i: number) {
-                        console.log(d)
-                        return i;
+                    // temporary workaround to ignore typescript error (d value as unused)
+                        if (i) return i;
+                        else if (d) return null;
                     })
                     .attr("y", 0);
             } else if (!horizontal && !isSelectorLegend) {
                 g.selectAll("rect")
                     .attr("y", function (d: number, i: number) {
-                        console.log(d)
-                        return i;
+                        if (i) return i;
+                        else if (d) return null;
                     })
                     .attr("x", 0);
             } else if (horizontal == true && isSelectorLegend) {
                 g.selectAll("rect")
                     .attr("x", function (d: number, i: number) {
-                        console.log(d)
-                        return i;
+                        if (i) return i;
+                        else if (d) return null;
                     })
                     .attr("y", 0);
             } else if (horizontal == false && isSelectorLegend) {
                 g.selectAll("rect")
                     .attr("y", function (d: number, i: number) {
-                        console.log(d)
-                        return i;
+                        if (i) return i;
+                        else if (d) return null;
                     })
                     .attr("x", 0);
             } else {
                 g.selectAll("rect")
                     .attr("x", function (d: number, i: number) {
-                        console.log(d)
-                        return i;
+                        if (i) return i;
+                        else if (d) return null;
                     })
                     .attr("y", 0);
             }
-
-            // Display the labels for legend
-            // g.selectAll("g")
-            //     .style("background", "grey")
-            //     .append("text")
-            //     .attr("class", "breakLabels")
-            //     .style("font-size", "0.4")
-            //     //.attr("x", cellWidth + cellPadding)
-            //     //.attr("y", 5 + cellHeight / 2)
-            //     .attr("x", function (d: any, i: any) {
-            //         //console.log(d)
-            //         return i + "." + 25
-            //     })
-            //     .attr("y", 1.5)
-            //     .text(function (d: any, i: any) {
-            //         //console.log(d)
-            //         return i;
-            //     })
-            //}
-            // styling for main legend
-            // else {
-            //     itemColor.forEach((item, index) => {
-            //         legendValues[index].color = item.color;
-            //     });
-            //     g.selectAll("g.legendCells")
-            //         .append("text")
-            //         .attr("class", "breakLabels")
-            //         .style("fill", "#6F6F6F")
-            //         .attr("x", cellWidth + cellPadding)
-            //         .attr("y", 5 + cellHeight / 2)
-            //         .text(function (d: Record<string, unknown>, i:any) {
-            //             return d['label'];
-            //         });
-            //     g.selectAll("g.legendCells")
-            //     .style("cursor", "pointer")
-            //         .append("rect")
-            //         .attr("height", cellHeight)
-            //         .attr("width", cellWidth)
-            //         .style("fill", function (d: Record<string, unknown>) {
-            //             //console.log('d', d)
-            //             return d["color"];
-            //         })
-
-            //     // Alighment of cell in straight line
-            //     g.selectAll("g.legendCells").attr(
-            //         "transform",
-            //         function (_d: Record<string, unknown>, i: number) {
-            //             return (
-            //                "translate(0," + i * (cellHeight + cellPadding) + ")"
-            //                //"translate(0," + i + ")"
-            //             );
-            //         }
-            //     );
-            // }
         }
-
-        // display the discrete legend
-        // if (!isSelectorLegend) {
-        //    // console.log('itemcolor', itemColor)
-        //     g.selectAll("g.legendCells")
-        //     .data(legendValues)
-        //     .enter()
-        //     .append("g")
-        //     .attr("class", "legendCells")
-        // }
 
         drawLegend();
     }

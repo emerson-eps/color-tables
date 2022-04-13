@@ -2,11 +2,12 @@ import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
-import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
+import { colorTablesArray } from "../Utils/ColorTableTypes";
+import { colorsArray } from "../Utils/continousLegend"
 
 declare type ItemColor = {
     color: string;
-}
+};
 
 declare type colorLegendProps = {
     discreteData: { objects: Record<string, [number[], number]> };
@@ -16,7 +17,7 @@ declare type colorLegendProps = {
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
     updateLegend?: any
-}
+};
 
 export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     discreteData,
@@ -56,12 +57,10 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 dataSet = await res.json();
             }
 
-            const colorsArray =
+            const arrayOfColors =
                 typeof colorTables === "string"
-                    ? colorTableData(colorName, dataSet)
-                    : colorTableData(colorName, colorTables);
-
-            console.log('updateLegend', updateLegend)
+                    ? colorsArray(colorName, dataSet)
+                    : colorsArray(colorName, colorTables);
 
             // Main discrete legend
             if (!updateLegend || updateLegend.length == 0) {
@@ -69,7 +68,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     //eslint-disable-next-line
                     let code = (discreteData as { [key: string]: any })[key][1]
                     //compare the first value in colorarray(colortable) and code from discreteData
-                    const matchedColorsArrays = colorsArray.find(
+                    const matchedColorsArrays = arrayOfColors.find(
                         (value: number[]) => {
                             return value[0] == code;
                         }
@@ -103,36 +102,13 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 useSelectorLegend = true;
             }
 
-            // const toolTipName = itemName.map((word, idx) => {
-            //     return <li key={idx}>{word}</li>;
-            // });
-
-            // let nameTool;
-
-            // toolTipName.forEach((data) => {
-            //     //nameTool.push(data.props.children)
-            //     nameTool = data.props.children;
-            // });
-
-            // // create a tooltip
-            // const tooltip = select(divRef.current)
-            //     .append("div")
-            //     .style("position", "absolute")
-            //     .style("visibility", "hidden")
-            //     .style("background-color", "black")
-            //     .style("border", "solid")
-            //     .style("border-width", "1px")
-            //     .style("border-radius", "5px")
-            //     .style("padding", "10px")
-            //     .text(nameTool)
-            //     .style("color", "grey");
-
             const ordinalValues = scaleOrdinal().domain(itemName);
             const colorLegend = discreteLegendUtil(
                 itemColor,
                 useSelectorLegend,
                 horizontal
-            ).inputScale(ordinalValues);
+            )
+            .inputScale(ordinalValues);
             const currentDiv = select(divRef.current);
             let totalRect;
 
@@ -148,12 +124,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             const svgLegend = currentDiv
                 .style("margin", "5px")
                 .append("svg")
-                // .on("mouseover", function () {
-                //     return tooltip.style("visibility", "visible");
-                // })
-                // .on("mouseout", function () {
-                //     return tooltip.style("visibility", "hidden");
-                // })
                 .call(colorLegend);
 
             // Style for main horizontal legend
@@ -209,18 +179,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
         </div>
     );
 };
-
-// Based on name return the colors array from color.tables.json file
-export function colorTableData(
-    colorName: string,
-    colorTables: colorTablesArray
-): [number, number, number, number][] {
-    const colorTableData = colorTables.filter(
-        (value: colorTablesObj) =>
-            value.name.toLowerCase() == colorName.toLowerCase()
-    );
-    return colorTableData.length > 0 ? colorTableData[0].colors : [];
-}
 
 export function RGBToHex(rgb: number[]) {
     let r = rgb[1].toString(16),
