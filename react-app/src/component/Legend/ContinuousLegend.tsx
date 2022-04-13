@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
-import { colorTablesArray } from "../ColorTableTypes";
+import { colorTablesArray } from "../Utils/ColorTableTypes";
 
 declare type legendProps = {
     min: number;

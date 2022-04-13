@@ -4,7 +4,6 @@ import { RGBToHex } from "../Utils/continousLegend";
 import {d3ColorScales} from "../Utils/d3ColorScale";
 import { select, range} from "d3";
 import * as d3 from "d3";
-import { colorTablesArray, colorTablesObj } from "../ColorTableTypes";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
 
@@ -17,7 +16,6 @@ declare type legendProps = {
     useDiscColorTable?: boolean;
     valueIndex?: any;
     colorScaleData: any;
-    getColorMapname?: any | null;
 }
 
 declare type ItemColor = {
@@ -26,7 +24,6 @@ declare type ItemColor = {
 }
 
 export const ColorSelectorComponent: React.FC<legendProps> = ({
-    // position,
     colorsObject,
     legendColor,
     legendColorName,
@@ -34,7 +31,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     useDiscColorTable,
     valueIndex,
     colorScaleData,
-    // getColorMapname,
 }: legendProps) => {
 
     const divRef = useRef<HTMLDivElement>(null);
@@ -159,7 +155,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .attr("y", 15)
             .style("font-size", "smaller")
             .style("font-weight", "900")
-            // .attr("textLength","5em")
             .text(colorsObject.name);
 
         // draw the rectangle and fill with gradient
@@ -315,15 +310,3 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         </div>
     );
 };
-
-// Based on name return the colors array from color.tables.json file
-export function colorTableData(
-    colorName: string,
-    colorTables: colorTablesArray
-): [number, number, number, number][] {
-    const colorTableData = colorTables.filter(
-        (value: colorTablesObj) =>
-            value.name.toLowerCase() == colorName.toLowerCase()
-    );
-    return colorTableData.length > 0 ? colorTableData[0].colors : [];
-}
