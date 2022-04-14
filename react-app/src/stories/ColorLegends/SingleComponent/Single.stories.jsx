@@ -13,7 +13,7 @@ const max = 0.35;
 const dataObjectName = "Legend";
 const position = [16, 10];
 const horizontal = true;
-const colorName = "Physics";
+const colorName = "Pastel1";
 
 // prop for discrete data
 const discreteData = {

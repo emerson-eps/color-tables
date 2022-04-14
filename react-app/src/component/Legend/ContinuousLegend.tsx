@@ -3,6 +3,9 @@ import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
 import { colorTablesArray } from "../Utils/ColorTableTypes";
+import {d3ColorScales} from "../Utils/d3ColorScale";
+import { color } from "d3-color";
+import { range } from "d3";
 
 declare type legendProps = {
     min: number;
@@ -56,11 +59,11 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             let legendColors = typeof colorTables === "string" ? 
                 colorsArray(colorName, dataSet)
                 :
-                colorsArray(colorName, colorTables);
+                colorsArray(colorName, colorTables);  
 
             // Update color of legend based on color selector scales
             // data is passed on click upon color scales
-            if (updateLegend) {
+            if (updateLegend && Object.keys(updateLegend).length > 0) {
                 // legend using color table data
                 if (updateLegend.color) {
                     legendColors = updateLegend.color;
@@ -70,9 +73,19 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     legendColors = updateLegend.arrayData;
                 }
             } 
-            // main continuous legend
+            // main continuous legend for colortable colors
+            if (legendColors.length > 0) {
+                legendColors = legendColors
+            }
+            // main continuous legend for d3 colors
             else {
-                legendColors
+                    const arrayData: any = []
+                    const d3ColorArrays = colorsArray(colorName, d3ColorScales)
+                    const data = range(10).map((d) => ({color: d3ColorArrays(d / 10)}));
+                    data.forEach((colorsObject: any, index: number) => {
+                        arrayData.push([0 + "." + index, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
+                    });
+                    legendColors = arrayData
             }
 
             legendColors.forEach((value: [number, number, number, number]) => {

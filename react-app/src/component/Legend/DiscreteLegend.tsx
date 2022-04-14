@@ -4,6 +4,7 @@ import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorTablesArray } from "../Utils/ColorTableTypes";
 import { colorsArray } from "../Utils/continousLegend"
+import {d3ColorScales} from "../Utils/d3ColorScale";
 
 declare type ItemColor = {
     color: string;
@@ -62,22 +63,35 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     ? colorsArray(colorName, dataSet)
                     : colorsArray(colorName, colorTables);
 
+                const d3ColorArrays = colorsArray(colorName, d3ColorScales)
+
             // Main discrete legend
             if (!updateLegend || updateLegend.length == 0) {
                 Object.keys(discreteData).forEach((key) => {
                     //eslint-disable-next-line
                     let code = (discreteData as { [key: string]: any })[key][1]
-                    //compare the first value in colorarray(colortable) and code from discreteData
-                    const matchedColorsArrays = arrayOfColors.find(
-                        (value: number[]) => {
-                            return value[0] == code;
-                        }
-                    );
-                    if (matchedColorsArrays)
-                        itemColor.push({
-                            color: RGBToHex(matchedColorsArrays),
+                    // for colortable colors
+                    if (arrayOfColors.length > 0) {
+                        //compare the first value in colorarray(colortable) and code from discreteData
+                        const matchedColorsArrays = arrayOfColors.find(
+                            (value: number[]) => {
+                                return value[0] == code;
+                            }
+                        );
+                        if (matchedColorsArrays)
+                            itemColor.push({
+                                color: RGBToHex(matchedColorsArrays),
+                            });
+                        itemName.push(key);
+                    }
+                    // for d3 colors
+                    else {
+                        var matchedColorsArrays = d3ColorArrays.find((value: number,index: number) => {
+                            return index == code;
                         });
-                    itemName.push(key);
+                        if(matchedColorsArrays) itemColor.push({color: matchedColorsArrays});
+                    }
+                    
                 });
                 useSelectorLegend = false;
             }

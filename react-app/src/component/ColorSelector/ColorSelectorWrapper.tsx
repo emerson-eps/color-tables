@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as colorTables from "../color-tables.json";
+const colorTables = require("../color-tables.json");
 import {d3ColorScales} from "../Utils/d3ColorScale";
 import {ColorSelectorComponent} from "./ColorSelectorComponent";
 
@@ -11,7 +11,6 @@ const discreteD3ColorData: any = [];
 
 declare type legendProps = {
     useColorTableColors: boolean,
-    useD3Colors: boolean,
     colorScaleObject: any
 }
 
@@ -53,60 +52,61 @@ d3discreteData.forEach((element: any) => {
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
     useColorTableColors,
-    useD3Colors,
     colorScaleObject,
 }: legendProps) => {
     let continuousLegend;
     let discreteLegend;
+        
+        // return continuous and discrete legend which uses d3 data
+        if (useColorTableColors) {
 
-    // return continuous and discrete legend which uses d3 data
-    if (useD3Colors) {
-        continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
-            return <ColorSelectorComponent
-                        position={position + key}
-                        legendColor={val.color} 
-                        legendColorName={val.name} 
-                        useContColorTable={false}  
-                        valueIndex={key + "0"}
-                        colorScaleData={colorScaleObject.colorScaleObject}
-            />
-        });
+            continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
+                return <ColorSelectorComponent
+                            position={position + key}
+                            legendColor={val.color} 
+                            legendColorName={val.name} 
+                            useContColorTable={false}  
+                            valueIndex={key + "0"}
+                            colorScaleData={colorScaleObject.colorScaleObject}
+                />
+            });
 
-        discreteLegend = d3discreteData.map((val: any, key: any) => {
-            return <ColorSelectorComponent
-                        position={position + key}
-                        colorsObject={val.colors} 
-                        legendColorName={val.name} 
-                        useDiscColorTable={false}
-                        colorScaleData={colorScaleObject.colorScaleObject}
-                    />
-        });
-    }
-
-    // return continuous and discrete legend which uses colortable data
-    if (useColorTableColors) {
-        continuousLegend =  continuosColorData.map((value: any, key: any) => {
-            return <div>
-                        <ColorSelectorComponent 
-                            position={position + key} 
-                            colorsObject={value}
-                            useContColorTable={true}
-                            valueIndex={key}
+            discreteLegend = d3discreteData.map((val: any, key: any) => {
+                return <ColorSelectorComponent
+                            position={position + key}
+                            colorsObject={val.colors} 
+                            legendColorName={val.name} 
+                            useDiscColorTable={false}
                             colorScaleData={colorScaleObject.colorScaleObject}
                         />
-                </div>
-        });
+            });
+        }
 
-        discreteLegend = discreteColorData.map((val: any, key: any) => {
-            return <ColorSelectorComponent
-                        position={position + key}
-                        colorsObject={discreteColorData[key]}
-                        legendColorName={val.name} 
-                        useDiscColorTable={true}	
-                        colorScaleData={colorScaleObject.colorScaleObject}
-                    />
-        });
-    }
+        // return continuous and discrete legend which uses colortable data
+        else if (!useColorTableColors) {
+            continuousLegend =  continuosColorData.map((value: any, key: any) => {
+                return <div>
+                            <ColorSelectorComponent 
+                                position={position + key} 
+                                colorsObject={value}
+                                useContColorTable={true}
+                                valueIndex={key}
+                                colorScaleData={colorScaleObject.colorScaleObject}
+                            />
+                    </div>
+            });
+
+            discreteLegend = discreteColorData.map((val: any, key: any) => {
+                return <ColorSelectorComponent
+                            position={position + key}
+                            colorsObject={discreteColorData[key]}
+                            legendColorName={val.name} 
+                            useDiscColorTable={true}	
+                            colorScaleData={colorScaleObject.colorScaleObject}
+                        />
+            });
+        }
+    //}
 
     return (
         <div className="legendWrapper"

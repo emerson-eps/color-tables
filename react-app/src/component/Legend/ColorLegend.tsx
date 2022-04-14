@@ -3,6 +3,7 @@ import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
 import {useCallback} from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
+import {d3ColorScales} from "../Utils/d3ColorScale";
 
 declare type ColorLegendProps = {
     colorTables: any;
@@ -35,7 +36,23 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     }, []);
 
     const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
-    const [isCont, setIsCont] = React.useState(true);
+
+    const isColortableColors = colorTables.find(
+        (value: any) => {
+            return value?.name == colorName
+        }
+    );
+
+    const isD3Colors = d3ColorScales.find(
+        (value: any) => {
+            return value?.name == colorName
+        }
+    );
+
+    const [isCont, setIsCont] = React.useState(
+        (isColortableColors || isD3Colors) && 
+        (isColortableColors?.discrete == false || isD3Colors?.discrete == false) ? true : false
+    );
 
     // Get new colorscale from colorselector and update legend
     const colorScaleObject = React.useCallback((data: any, value: any) => {
@@ -54,7 +71,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     return (
         <div>
             <div onClick={handleClick}>
-                {isCont && (
+                {isCont == true && (
                     <ContinuousLegend
                         min={min}
                         max={max}
@@ -66,7 +83,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         updateLegend={updateLegend}
                     />
                 )}
-                {!isCont && (
+                {isCont == false && (
                     <DiscreteColorLegend
                         discreteData={discreteData}
                         dataObjectName={dataObjectName}
