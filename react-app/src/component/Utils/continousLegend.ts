@@ -8,8 +8,8 @@ import {
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
     colorName: string,
-    colorTables: colorTablesArray
-): [number, number, number, number][] {
+    colorTables: any
+): any {
     const colorTableData = colorTables.filter(
         (value: colorTablesObj) =>
             value.name.toLowerCase() == colorName.toLowerCase()
