@@ -1,12 +1,21 @@
 import React from "react";
-import { DiscreteColorLegend } from "../../../component/Legend/DiscreteLegend";
 import colorTables from "../../../component/color-tables.json";
+import {ColorLegend} from "../../../component/Legend/ColorLegend";
 
 export default {
-    component: DiscreteColorLegend,
-    title: "Legends/DiscreteLegendWithSelector",
+    component: ColorLegend,
+    title: "Legends/LegendWithColorSelector",
 };
 
+// prop for continous legend
+const min = 0;
+const max = 0.35;
+const dataObjectName = "Legend";
+const position = [16, 10];
+const horizontal = true;
+const colorName = "Rainbow";
+
+// prop for discrete data
 const discreteData = {
     "Above_BCU": [[], 0],
     "ABOVE": [[], 1],
@@ -24,21 +33,19 @@ const discreteData = {
     "H1": [[], 13],
     "BELOW": [[], 14]
 };
-const dataObjectName = "Wells / ZONELOG";
-const position = [16, 10];
-const horizontal = true;
-const colorName = "Stratigraphy";
 
 const Template = (args) => {
-    return <DiscreteColorLegend {...args} />;
+    return <ColorLegend {...args} />;
 };
 
-export const discreteLegendWithSelector = Template.bind({});
-discreteLegendWithSelector.args = {
-    discreteData,
+export const LegendWithColorSelector = Template.bind({});
+LegendWithColorSelector.args = {
+    min,
+    max,
     dataObjectName,
     position,
     horizontal,
     colorName,
     colorTables,
+    discreteData,
 };
