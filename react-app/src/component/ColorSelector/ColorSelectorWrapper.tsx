@@ -58,7 +58,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     let discreteLegend;
         
         // return continuous and discrete legend which uses d3 data
-        if (useColorTableColors) {
+        if (!useColorTableColors) {
 
             continuousLegend = continuosD3ColorData.map((val: any, key: any) => {
                 return <ColorSelectorComponent
@@ -83,7 +83,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         }
 
         // return continuous and discrete legend which uses colortable data
-        else if (!useColorTableColors) {
+        else if (useColorTableColors) {
             continuousLegend =  continuosColorData.map((value: any, key: any) => {
                 return <div>
                             <ColorSelectorComponent 

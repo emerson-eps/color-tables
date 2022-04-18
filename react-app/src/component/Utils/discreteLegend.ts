@@ -11,12 +11,15 @@ export default function discreteLegendUtil(itemColor: ItemColor[], isSelectorLeg
         function drawLegend() {
             // Code to fill the color
             // Styling for color selector legend
-            //if (isSelectorLegend) {
             g.selectAll("g.legendCells")
                 .data(itemColor)
                 .enter()
                 .append("g")
                 .append("rect")
+                .append("title")
+                .text(function (d: Record<string, unknown>) {
+                    return d["name"];
+                })
                 .attr("class", "rectLabel")
                 .style("cursor", "pointer")
                 .style("pointer-events", "all");
@@ -28,38 +31,32 @@ export default function discreteLegendUtil(itemColor: ItemColor[], isSelectorLeg
                 });
             if (horizontal && !isSelectorLegend) {
                 g.selectAll("rect")
-                    .attr("x", function (d: number, i: number) {
-                    // temporary workaround to ignore typescript error (d value as unused)
-                        if (i) return i;
-                        else if (d) return null;
+                    .attr("x", function (_d: number, i: number) {
+                        return i;
                     })
                     .attr("y", 0);
             } else if (!horizontal && !isSelectorLegend) {
                 g.selectAll("rect")
-                    .attr("y", function (d: number, i: number) {
-                        if (i) return i;
-                        else if (d) return null;
+                    .attr("y", function (_d: number, i: number) {
+                        return i;
                     })
                     .attr("x", 0);
             } else if (horizontal == true && isSelectorLegend) {
                 g.selectAll("rect")
-                    .attr("x", function (d: number, i: number) {
-                        if (i) return i;
-                        else if (d) return null;
+                    .attr("x", function (_d: number, i: number) {
+                        return i;
                     })
                     .attr("y", 0);
             } else if (horizontal == false && isSelectorLegend) {
                 g.selectAll("rect")
-                    .attr("y", function (d: number, i: number) {
-                        if (i) return i;
-                        else if (d) return null;
+                    .attr("y", function (_d: number, i: number) {
+                        return i;
                     })
                     .attr("x", 0);
             } else {
                 g.selectAll("rect")
-                    .attr("x", function (d: number, i: number) {
-                        if (i) return i;
-                        else if (d) return null;
+                    .attr("x", function (_d: number, i: number) {
+                        return i;
                     })
                     .attr("y", 0);
             }

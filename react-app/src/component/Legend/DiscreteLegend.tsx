@@ -8,6 +8,7 @@ import {d3ColorScales} from "../Utils/d3ColorScale";
 
 declare type ItemColor = {
     color: string;
+    name?: string
 };
 
 declare type colorLegendProps = {
@@ -32,8 +33,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     const divRef = useRef<HTMLDivElement>(null);
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
-    const testColor: ItemColor[] = [];
-    const testName: string[] = [];
 
     React.useEffect(() => {
         if (divRef.current) {
@@ -81,6 +80,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                         if (matchedColorsArrays)
                             itemColor.push({
                                 color: RGBToHex(matchedColorsArrays),
+                                name: key
                             });
                         itemName.push(key);
                     }
@@ -98,11 +98,9 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             // Discrete legend using Colortable colors
             else if (updateLegend?.color) {
                 updateLegend.color.forEach((key: any) => {
-                    testColor.push({ color: RGBToHex(key) });
+                    itemColor.push({ color: RGBToHex(key) });
                 });
 
-                itemColor = testColor;
-                itemName = testName;
                 useSelectorLegend = true;
             }
             // Discrete legend using d3 colors
@@ -111,7 +109,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     itemColor.push({ color: key });
                 });
 
-                //itemColor = itemColor;
                 itemName = updateLegend.legendColorName;
                 useSelectorLegend = true;
             }
@@ -186,7 +183,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 top: position ? position[1] : " ",
                 backgroundColor: "#ffffffcc",
                 borderRadius: "5px",
-                zIndex: "999 !important",
+                zIndex: 999,
             }}
         >
             <div id="legend" ref={divRef}></div>
