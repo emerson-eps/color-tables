@@ -4,7 +4,7 @@ import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorTablesArray } from "../Utils/colorTableTypes";
 import { colorsArray } from "../Utils/continousLegend"
-import {d3ColorScales} from "../Utils/d3ColorScale";
+import { d3ColorScales } from "../Utils/d3ColorScale";
 
 declare type ItemColor = {
     color: string;
