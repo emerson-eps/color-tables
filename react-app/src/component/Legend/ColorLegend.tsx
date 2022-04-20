@@ -55,7 +55,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     );
 
     // Get new colorscale from colorselector and update legend
-    const colorScaleObject = React.useCallback((data: any, value: any) => {
+    const getSelectedColorScale = React.useCallback((data: any, value: any) => {
         // update color map layer
         if (data.name && getColorMapname) {
             getColorMapname(data.name);
@@ -97,7 +97,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             </div>
             <div>
                 {isToggled && (
-                    <ColorSelectorAccordion colorScaleObject={colorScaleObject} isHorizontal={horizontal} />
+                    <ColorSelectorAccordion newColorScaleData={getSelectedColorScale} isHorizontal={horizontal} />
                 )}
             </div>
         </div>
