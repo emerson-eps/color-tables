@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
-import { colorTablesArray } from "../Utils/colorTableTypes";
+import { colorTablesArray } from "../../component/colorTableTypes";
 import { colorsArray } from "../Utils/continousLegend"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 

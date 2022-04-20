@@ -3,7 +3,7 @@ import { interpolateRgb } from "d3-interpolate";
 import {
     colorTablesArray,
     colorTablesObj,
-} from "../Utils/colorTableTypes";
+} from "../colorTableTypes";
 
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
