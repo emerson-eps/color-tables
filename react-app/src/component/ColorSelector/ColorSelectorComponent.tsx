@@ -8,13 +8,12 @@ import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
 
 declare type legendProps = {
-    position: number[];
     colorsObject?: any;
     legendColor?: any;
     legendColorName?: string | undefined;
     useContColorTable?: boolean;
     useDiscColorTable?: boolean;
-    valueIndex?: any;
+    uniqueId?: number;
     colorScaleData: any;
 }
 
@@ -29,7 +28,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     legendColorName,
     useContColorTable,
     useDiscColorTable,
-    valueIndex,
+    uniqueId,
     colorScaleData,
 }: legendProps) => {
 
@@ -124,7 +123,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("height", "30px")
 
         const defs = svgLegend.append("defs");
-        const currentIndex = "linear-gradient-" + valueIndex;
+        const currentIndex = "linear-gradient-" + uniqueId + "0";
         // append a linearGradient element to the defs and give it a unique id
         const linearGradient = defs
             .append("linearGradient")
@@ -182,7 +181,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             .style("height", "50px")
 
         const defs = svgLegend.append("defs");
-        const currentIndex = "linear-gradient-" + valueIndex;
+        const currentIndex = "linear-gradient-" + uniqueId;
         // append a linearGradient element to the defs and give it a unique id
         const linearGradient = defs
             .append("linearGradient")

@@ -2,9 +2,9 @@ import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
-import { colorTablesArray } from "../Utils/ColorTableTypes";
+import { colorTablesArray } from "../../component/colorTableTypes";
 import { colorsArray } from "../Utils/continousLegend"
-import {d3ColorScales} from "../Utils/d3ColorScale";
+import { d3ColorScales } from "../Utils/d3ColorScale";
 
 declare type ItemColor = {
     color: string;
@@ -86,7 +86,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     }
                     // for d3 colors
                     else {
-                        var matchedColorsArrays = d3ColorArrays.find((value: number,index: number) => {
+                        var matchedColorsArrays = d3ColorArrays.find((_value: number,index: number) => {
                             return index == code;
                         });
                         if(matchedColorsArrays) itemColor.push({color: matchedColorsArrays});

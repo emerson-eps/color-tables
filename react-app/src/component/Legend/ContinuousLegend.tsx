@@ -2,8 +2,8 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex, colorsArray } from "../Utils/continousLegend";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
-import { colorTablesArray } from "../Utils/ColorTableTypes";
-import {d3ColorScales} from "../Utils/d3ColorScale";
+import { colorTablesArray } from "../colorTableTypes";
+import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
 
