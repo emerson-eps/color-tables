@@ -19,7 +19,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@equinor/eds-core-react": "^0.18.0",
+    "@equinor/eds-core-react": "^0.19.0",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
