@@ -149,6 +149,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
 
             // append title
             svgLegend
+                .append("div")
                 .append("text")
                 .attr("class", "legendTitle")
                 .attr("x", 25)
@@ -164,7 +165,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .attr("x", 25)
                     .attr("y", 30)
                     .attr("width", 25)
-                    .attr("height", "150")
+                    .attr("height", "149")
                     .style("fill", "url(#linear-gradient)");
             }
             // horizontal legend
@@ -174,7 +175,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .append("rect")
                     .attr("x", 25)
                     .attr("y", 30)
-                    .attr("width", "150")
+                    .attr("width", "149")
                     .attr("height", 25)
                     .style("fill", "url(#linear-gradient)");
             }

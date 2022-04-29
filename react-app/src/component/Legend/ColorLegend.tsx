@@ -1,9 +1,9 @@
 import * as React from "react";
 import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
-import {useCallback} from "react"; 
+import { useCallback } from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
-import {d3ColorScales} from "../Utils/d3ColorScale";
+import { d3ColorScales } from "../Utils/d3ColorScale";
 
 declare type ColorLegendProps = {
     colorTables: any;
@@ -15,10 +15,11 @@ declare type ColorLegendProps = {
     horizontal?: boolean | null;
     discreteData: { objects: Record<string, [number[], number]> };
     getColorMapname?: any;
+    isToggle: boolean;
 }
 
 // Todo: Adapt it for other layers too
-export const ColorLegend: React.FC<ColorLegendProps> = ({
+export const ColorLegendComponent: React.FC<ColorLegendProps> = ({
     position,
     horizontal,
     colorTables,
@@ -27,13 +28,22 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     dataObjectName,
     colorName,
     discreteData,
-    getColorMapname
+    getColorMapname,
+    isToggle
 }: ColorLegendProps) => {
 
     const [isToggled, setIsToggled] = React.useState(false);
-    const handleClick = useCallback(() => {
+
+    const closeColorSelector = useCallback((prop: boolean) => {
+        console.log('isToggle', isToggle)
+        isToggle == true ? setIsToggled(true) : setIsToggled(prop);
+    }, []);
+
+    const handleToggle = useCallback(() => {
         setIsToggled(true);
     }, []);
+
+    console.log('isToggled', isToggled)
 
     const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
 
@@ -70,7 +80,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
     return (
         <div>
-            <div onClick={handleClick}>
+            <div onClick={handleToggle}>
                 {isCont == true && (
                     <ContinuousLegend
                         min={min}
@@ -97,7 +107,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             </div>
             <div>
                 {isToggled && (
-                    <ColorSelectorAccordion newColorScaleData={getSelectedColorScale} isHorizontal={horizontal} />
+                    <ColorSelectorAccordion
+                        newColorScaleData={getSelectedColorScale} 
+                        isHorizontal={horizontal} 
+                        closeColorSelector={closeColorSelector} />
                 )}
             </div>
         </div>

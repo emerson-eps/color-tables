@@ -1,9 +1,9 @@
 import React from "react";
 import colorTables from "../../../component/color-tables.json";
-import {ColorLegend} from "../../../component/Legend/ColorLegend";
+import {ColorLegendComponent} from "../../../component/Legend/ColorLegend";
 
 export default {
-    component: ColorLegend,
+    component: ColorLegendComponent,
     title: "Legends/LegendWithColorSelector",
 };
 
@@ -35,7 +35,7 @@ const discreteData = {
 };
 
 const Template = (args) => {
-    return <ColorLegend {...args} />;
+    return <ColorLegendComponent {...args} />;
 };
 
 export const LegendWithColorSelector = Template.bind({});
