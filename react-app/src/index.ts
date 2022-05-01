@@ -1,5 +1,5 @@
 import { ColorSelectorAccordion } from './component/ColorSelector/ColorSelectorAccordion';
-import { ColorLegend } from './component/Legend/ColorLegend';
+import { ColorLegendComponent } from './component/Legend/ColorLegend';
 import { colorsArray, rgbValues, RGBToHex } from './component/Utils/continousLegend';
 import { d3ColorScales } from './component/Utils/d3ColorScale';
 import { colorTablesObj, colorTablesArray } from './component/colorTableTypes';
@@ -11,7 +11,7 @@ export {
     ColorSelectorAccordion,
     ContinuousLegend,
     DiscreteColorLegend,
-    ColorLegend,
+    ColorLegendComponent,
     colorsArray,
     rgbValues,
     RGBToHex,
