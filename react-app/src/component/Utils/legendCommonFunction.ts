@@ -153,7 +153,7 @@ export function sampledColor(
                 }
             );
 
-            rgb = color(d3ColorArrays)?.rgb();
+            rgb = color(d3ColorArrays as string)?.rgb();
         } else {
             const max = d3ColorName?.colors.length - 1;
             d3ColorName?.colors.forEach((item: string, index: number) => {
