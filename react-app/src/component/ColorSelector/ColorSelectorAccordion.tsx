@@ -36,16 +36,6 @@ export const ColorSelectorAccordion = (props: any) => {
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
-                        <Accordion >
-                            <Accordion.Item>
-                                <Accordion.Header>
-                                    Custom Color Scale
-                                </Accordion.Header>
-                                <Accordion.Panel>
-                                    Custom Content
-                                </Accordion.Panel>
-                            </Accordion.Item>
-                        </Accordion>
                     </Accordion.Panel>
                 </Accordion.Item>
             </Accordion>
