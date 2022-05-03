@@ -3,7 +3,7 @@ import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorTablesArray } from "../../component/colorTableTypes";
-import { colorsArray } from "../Utils/continousLegend"
+import { colorsArray } from "../Utils/legendCommonFunction"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 
 declare type ItemColor = {

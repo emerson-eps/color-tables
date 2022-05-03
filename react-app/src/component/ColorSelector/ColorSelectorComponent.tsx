@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRef } from "react";
-import { RGBToHex } from "../Utils/continousLegend";
+import { RGBToHex } from "../Utils/legendCommonFunction";
 import {d3ColorScales} from "../Utils/d3ColorScale";
 import { select, range} from "d3";
 import * as d3 from "d3";
