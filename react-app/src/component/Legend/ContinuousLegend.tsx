@@ -149,9 +149,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
 
             // append title
             svgLegend
-                .append("div")
                 .append("text")
-                .attr("class", "legendTitle")
                 .attr("x", 25)
                 .attr("y", 20)
                 .style("text-anchor", "left")
