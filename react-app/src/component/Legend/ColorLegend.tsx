@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
-import {useCallback} from "react"; 
+import { useCallback, useRef } from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 import {d3ColorScales} from "../Utils/d3ColorScale";
 
@@ -30,10 +30,14 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     getColorMapname
 }: ColorLegendProps) => {
 
-    const [isToggled, setIsToggled] = React.useState(false);
-    const handleClick = useCallback(() => {
-        setIsToggled(true);
-    }, []);
+    const divRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    const toggleColorSelector = useCallback(() => {
+        if(divRef && divRef.current) {  
+            isOpen ? setIsOpen(false) : setIsOpen(true)       
+        }
+    }, [isOpen]);
 
     const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
 
@@ -70,7 +74,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
     return (
         <div>
-            <div onClick={handleClick}>
+            <div ref={divRef} onClick={toggleColorSelector}>
                 {isCont == true && (
                     <ContinuousLegend
                         min={min}
@@ -96,7 +100,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                 )}
             </div>
             <div>
-                {isToggled && (
+                {isOpen && (
                     <ColorSelectorAccordion newColorScaleData={getSelectedColorScale} isHorizontal={horizontal} />
                 )}
             </div>
