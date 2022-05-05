@@ -74,36 +74,67 @@ export function RGBToHex(rgb: number[]) {
     return { color: "#" + r + g + b, offset: offset };
 }
 
+export function getColors(
+    colorName: string,
+    colorTables: any,
+    point: number,
+): any {
+    const colorTableData = colorTables.filter(
+        (value: colorTablesObj) =>
+            value.name.toLowerCase() == colorName.toLowerCase()
+    );
+
+    const colorArrays = colorTableData.find((value: number[]) => {
+        return value[0] == point;
+    });
+
+    return colorTableData.length > 0 ? colorArrays : [];
+}
+
 export function sampledColor(
     colorScaleName: string,
     point: number,
-    categorial?: boolean
+    categorial?: boolean,
+    min?: number,
+    max?: number,
 ) {
-    // colortable colors
-    const getSelectedScale = colorTables.find((value) => {
+    // get colortable colorscale data
+    const getColorTableScale = colorTables.find((value: any) => {
         return value.name == colorScaleName;
     });
 
-    // d3 colors
-    const d3ColorName = d3ColorScales.find((value: any) => {
+    // get d3 colorscale data
+    const getD3Scale = d3ColorScales.find((value: any) => {
         return value.name == colorScaleName;
     });
 
     let rgb = rgbValues(point, colorScaleName, colorTables);
 
     // colortable continuous scale
-    if (getSelectedScale?.discrete == false) {
-        return rgb;
+    if (getColorTableScale?.discrete == false) {
+        // if log is discrete, then need to normalize
+        if (categorial && min && max) {
+            const normalizedPoint = (point - min) / (max - min);
+            rgb = rgbValues(normalizedPoint, colorScaleName, colorTables) 
+        } else {
+            rgb = rgbValues(point, colorScaleName, colorTables)
+        }  
     }
 
     // d3 continuous scale
-    if (typeof d3ColorName?.colors == "function") {
-        const colorMappingRange = d3ColorName?.colors(point);
+    if (typeof getD3Scale?.colors == "function") {
+        let colorMappingRange = getD3Scale?.colors(point);
+        // if log is discrete, then need to normalize
+        if (categorial && min && max) {
+            const normalizedPoint = (point - min) / (max - min);
+            colorMappingRange = getD3Scale?.discrete == true ? getD3Scale?.colors(point) : getD3Scale?.colors(normalizedPoint);
+        }
         rgb = color(colorMappingRange)?.rgb();
     }
+    
 
     // colortable discrete scale
-    if (getSelectedScale?.discrete == true) {
+    if (getColorTableScale?.discrete == true) {
         if (categorial) {
             // compare the code and first value from colorsArray(colortable)
             const arrayOfColors: [number, number, number, number][] =
@@ -113,11 +144,12 @@ export function sampledColor(
                 return value[0] == point;
             });
             rgb = colorArrays;
-        } else {
-            const getSelectedScaleLength = getSelectedScale?.colors.length;
+        } 
+        else {
+            const getSelectedScaleLength = getColorTableScale?.colors.length;
             const minValue = 0;
             const maxValue = getSelectedScaleLength - 1;
-            getSelectedScale?.colors.forEach((item, index) => {
+            getColorTableScale?.colors.forEach((item: any, index: any) => {
                 const currentIndex = index;
                 const normalizedCurrentIndex =
                     (currentIndex - minValue) / (maxValue - minValue);
@@ -130,12 +162,12 @@ export function sampledColor(
                     point <= normalizedNextIndex
                 ) {
                     if (
-                        (item && getSelectedScale?.colors[nextIndex]) !=
+                        (item && getColorTableScale?.colors[nextIndex]) !=
                         undefined
                     ) {
                         const interpolate = interpolateRgb(
                             RGBToHex(item)?.color,
-                            RGBToHex(getSelectedScale?.colors[nextIndex])?.color
+                            RGBToHex(getColorTableScale?.colors[nextIndex])?.color
                         )(point);
                         rgb = color(interpolate)?.rgb();
                     }
@@ -145,18 +177,24 @@ export function sampledColor(
     }
 
     // d3 discrete scale
-    if (typeof d3ColorName?.colors == "object") {
-        if (categorial) {
-            const d3ColorArrays = d3ColorName?.colors.find(
+    if (typeof getD3Scale?.colors == "object") {
+        // discrete log
+        if (categorial && min && max) {
+            const normalizedPoint = (point - min) / (max - min);
+            const code = getD3Scale?.discrete == true ? point : normalizedPoint
+            const d3ColorArrays = getD3Scale?.colors.find(
                 (_value: any, index: number) => {
-                    return index == point;
+                    return index == code;
                 }
             );
 
             rgb = color(d3ColorArrays as string)?.rgb();
-        } else {
-            const max = d3ColorName?.colors.length - 1;
-            d3ColorName?.colors.forEach((item: string, index: number) => {
+
+        }
+        // continous log
+        else {
+            const max = getD3Scale?.colors.length - 1;
+            getD3Scale?.colors.forEach((item: string, index: number) => {
                 const currentIndex = index;
                 const normalizedCurrentIndex = (currentIndex - 0) / (max - 0);
                 const nextIndex = index + 1;
@@ -168,7 +206,7 @@ export function sampledColor(
                 ) {
                     const interpolate = interpolateRgb(
                         item,
-                        d3ColorName[nextIndex]
+                        getD3Scale[nextIndex]
                     )(point);
                     rgb = color(interpolate)?.rgb();
                 }
@@ -180,7 +218,7 @@ export function sampledColor(
 }
 
 export function createColorMapFunction(colorScaleName: string) {
-    return (x: number, categorial: boolean) => {
-        return sampledColor(colorScaleName, x, categorial);
+    return (x: number, categorial: boolean, min: number, max: number) => {
+        return sampledColor(colorScaleName, x, categorial, min, max);
     };
 }
