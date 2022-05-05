@@ -113,9 +113,12 @@ export function sampledColor(
     // colortable continuous scale
     if (getColorTableScale?.discrete == false) {
         // if log is discrete, then need to normalize
-        if (categorial && min && max) {
-            const normalizedPoint = (point - min) / (max - min);
-            rgb = rgbValues(normalizedPoint, colorScaleName, colorTables) 
+        if (categorial) {
+            // condition added to resolve typescript error
+            //if (min && max) {
+                const normalizedPoint = (point - min) / (max - min);
+                rgb = rgbValues(normalizedPoint, colorScaleName, colorTables)
+            //} 
         } else {
             rgb = rgbValues(point, colorScaleName, colorTables)
         }  
@@ -125,7 +128,7 @@ export function sampledColor(
     if (typeof getD3Scale?.colors == "function") {
         let colorMappingRange = getD3Scale?.colors(point);
         // if log is discrete, then need to normalize
-        if (categorial && min && max) {
+        if (categorial) {
             const normalizedPoint = (point - min) / (max - min);
             colorMappingRange = getD3Scale?.discrete == true ? getD3Scale?.colors(point) : getD3Scale?.colors(normalizedPoint);
         }
@@ -179,7 +182,7 @@ export function sampledColor(
     // d3 discrete scale
     if (typeof getD3Scale?.colors == "object") {
         // discrete log
-        if (categorial && min && max) {
+        if (categorial) {
             const normalizedPoint = (point - min) / (max - min);
             const code = getD3Scale?.discrete == true ? point : normalizedPoint
             const d3ColorArrays = getD3Scale?.colors.find(
