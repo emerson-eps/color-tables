@@ -179,7 +179,7 @@ export function sampledColor(
     return rgb;
 }
 
-export function colorMapFunction(colorScaleName: string) {
+export function createColorMapFunction(colorScaleName: string) {
     return (x: number, categorial: boolean) => {
         return sampledColor(colorScaleName, x, categorial);
     };
