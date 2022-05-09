@@ -122,7 +122,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             }
             // horizontal legend
             else {
-                svgLegend.attr("width", "200").attr("height", "90");
+                svgLegend.attr("width", "190").attr("height", "90");
 
                 // append a linearGradient element to the defs and give it a unique id
                 linearGradient = defs
@@ -147,14 +147,6 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     return data.color;
                 });
 
-            // append title
-            svgLegend
-                .append("text")
-                .attr("x", 25)
-                .attr("y", 20)
-                .style("text-anchor", "left")
-                .text(dataObjectName);
-
             // vertical legend
             if (!horizontal) {
                 // draw the rectangle and fill with gradient
@@ -162,9 +154,21 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .append("rect")
                     .attr("x", 25)
                     .attr("y", 30)
-                    .attr("width", 25)
+                    .attr("width", 20)
                     .attr("height", "149")
                     .style("fill", "url(#linear-gradient)");
+
+                // append title
+                svgLegend
+                .append("text")
+                .attr("x", -180)
+                .attr("y", 10)
+                .style("text-anchor", "left")
+                .style("transform", "left")
+                .style("transform", "rotate(270deg)")
+                .style("color", "grey")
+                .style("font-size", "small")
+                .text(dataObjectName);
             }
             // horizontal legend
             else {
@@ -174,8 +178,18 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .attr("x", 25)
                     .attr("y", 30)
                     .attr("width", "149")
-                    .attr("height", 25)
+                    .attr("height", 20)
                     .style("fill", "url(#linear-gradient)");
+
+                 // append title
+                svgLegend
+                .append("text")
+                .attr("x", 25)
+                .attr("y", 20)
+                .style("text-anchor", "left")
+                .style("color", "grey")
+                .style("font-size", "small")
+                .text(dataObjectName);
             }
 
             // create tick marks
@@ -187,18 +201,18 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 colorScale.domain()
             );
             const VerticalAxisLeg = axisRight(yLeg)
-                .tickSize(24)
+                .tickSize(20)
                 .tickValues(colorScale.domain());
 
             if (horizontal) {
                 svgLegend
                     .attr("class", "axis")
                     .append("g")
-                    .attr("transform", "translate(15, 55)")
+                    .attr("transform", "translate(16, 50)")
                     .style("font-size", "10px")
                     .style("font-weight", "700")
                     .call(horizontalAxisLeg)
-                    .style("height", 25);
+                    .style("height", 15);
             } else {
                 svgLegend
                     .attr("class", "axis")

@@ -122,18 +122,25 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             .inputScale(ordinalValues);
             const currentDiv = select(divRef.current);
             let totalRect;
-
-            // append the title
-            currentDiv
+            
+                // append the title
+                currentDiv
                 .append("div")
                 .text(dataObjectName)
                 .style("color", "grey")
-                .attr("y", 10)
-                .style("margin-bottom", "5px");
+                .style("white-space", "nowrap")
+                .style("overflow", "hidden")
+                .style("width", horizontal ? "150px" : "180px")
+                .style("text-overflow", "ellipsis")
+                .style("margin-bottom", "5px")
+                .style("transform", "none")
+                .style("font-size", "small")
+                .style("transform", horizontal ? "none" : "translate(-82px, 70px) rotate(270deg)");
 
             // Append svg to the div
             const svgLegend = currentDiv
-                .style("margin", "5px")
+                .style("margin", horizontal ? "5px 5px 0px 5px" :  "0 5px")
+                .style("width", horizontal ? "150px" : "50px")
                 .append("svg")
                 .call(colorLegend);
 
@@ -153,23 +160,13 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 }
             }
 
-            if (horizontal) {
                 svgLegend
-                    .attr("viewBox", `0 0 ${totalRect} 2`)
+                    .attr("viewBox", horizontal ? `0 0 ${totalRect} 2` : `0 0 2 ${totalRect}`)
                     .attr("preserveAspectRatio", "none")
                     .style("font-size", ".4")
-                    .attr("height", "50px")
-                    .attr("width", "150px");
-            }
-            // vertical legend
-            else if (!horizontal) {
-                svgLegend
-                    .attr("viewBox", `0 0 4 ${totalRect}`)
-                    .attr("preserveAspectRatio", "none")
-                    .style("font-size", ".4")
-                    .attr("height", "150px")
-                    .attr("width", "100px");
-            }
+                    .style("margin-left", horizontal ? "0" : "20px")
+                    .attr("height", horizontal ? "40px" : "150px")
+                    .attr("width", horizontal ? "150px" : "40px");
         } catch (error) {
             console.error(error);
         }
