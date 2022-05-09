@@ -11,7 +11,7 @@ export default {
 const min = 0;
 const max = 0.35;
 const dataObjectName = "Legend";
-const position = [16, 10];
+const position = [5, 10];
 const horizontal = true;
 const colorName = "Rainbow";
 

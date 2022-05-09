@@ -108,6 +108,8 @@ export function sampledColor(
         return value.name == colorScaleName;
     });
 
+    // return the color for matched point
+    // does interpolation for non-matching point
     let rgb = rgbValues(point, colorScaleName, colorTables);
 
     // colortable continuous scale
@@ -130,7 +132,7 @@ export function sampledColor(
         // if log is discrete, then need to normalize
         if (categorial) {
             const normalizedPoint = (point - min) / (max - min);
-            colorMappingRange = getD3Scale?.discrete == true ? getD3Scale?.colors(point) : getD3Scale?.colors(normalizedPoint);
+            colorMappingRange = getD3Scale?.colors(normalizedPoint);
         }
         rgb = color(colorMappingRange)?.rgb();
     }
@@ -183,8 +185,8 @@ export function sampledColor(
     if (typeof getD3Scale?.colors == "object") {
         // discrete log
         if (categorial) {
-            const normalizedPoint = (point - min) / (max - min);
-            const code = getD3Scale?.discrete == true ? point : normalizedPoint
+           // const normalizedPoint = (point - min) / (max - min);
+            const code = point
             const d3ColorArrays = getD3Scale?.colors.find(
                 (_value: any, index: number) => {
                     return index == code;
