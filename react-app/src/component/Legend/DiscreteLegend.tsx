@@ -130,16 +130,16 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 .style("color", "grey")
                 .style("white-space", "nowrap")
                 .style("overflow", "hidden")
-                .style("width", horizontal ? "150px" : "180px")
+                .style("width", "150px")
                 .style("text-overflow", "ellipsis")
                 .style("margin-bottom", "5px")
                 .style("transform", "none")
                 .style("font-size", "small")
-                .style("transform", horizontal ? "none" : "translate(-82px, 70px) rotate(270deg)");
+                .style("transform", horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)");
 
             // Append svg to the div
             const svgLegend = currentDiv
-                .style("margin", horizontal ? "5px 5px 0px 5px" :  "0 5px")
+                .style("margin", horizontal ? "5px 5px 0px 5px" :  "-13px 5px 0px 5px")
                 .style("width", horizontal ? "150px" : "50px")
                 .append("svg")
                 .call(colorLegend);
@@ -161,11 +161,11 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
             }
 
                 svgLegend
-                    .attr("viewBox", horizontal ? `0 0 ${totalRect} 2` : `0 0 2 ${totalRect}`)
+                    .attr("viewBox", horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`)
                     .attr("preserveAspectRatio", "none")
                     .style("font-size", ".4")
                     .style("margin-left", horizontal ? "0" : "20px")
-                    .attr("height", horizontal ? "40px" : "150px")
+                    .attr("height", horizontal ? "30px" : "150px")
                     .attr("width", horizontal ? "150px" : "40px");
         } catch (error) {
             console.error(error);
