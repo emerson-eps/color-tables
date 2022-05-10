@@ -84,7 +84,7 @@ export function getColors(
             value.name.toLowerCase() == colorName.toLowerCase()
     );
 
-    const colorArrays = colorTableData.find((value: number[]) => {
+    const colorArrays = colorTableData[0]?.colors.find((value: number[]) => {
         return value[0] == point;
     });
 
