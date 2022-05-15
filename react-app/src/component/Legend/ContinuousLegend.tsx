@@ -6,6 +6,7 @@ import { colorTablesArray } from "../colorTableTypes";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
+import colorTables from "../color-tables.json";
 
 declare type legendProps = {
     min: number;
@@ -29,12 +30,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     dataObjectName,
     position,
     colorName,
-    colorTables,
     horizontal,
-    updateLegend,
+    updateLegend
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
-
     React.useEffect(() => {
         if (divRef.current) {
             continuousLegend();
@@ -106,11 +105,12 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             const defs = svgLegend.append("defs");
             let linearGradient;
                 svgLegend
-                    .attr("width", horizontal ? "190" : "80")
-                    .attr("height", horizontal ? "90" : "190");
+                    .attr("width", horizontal ? "190" : "77")
+                    .attr("height", horizontal ? "90" : "173");
                 // append a linearGradient element to the defs and give it a unique id
                 linearGradient = defs
                     .append("linearGradient")
+                    //.attr("id", "linear-gradient")
                     .attr("id", "linear-gradient")
                     .attr("x1", "0%")
                     .attr("x2", horizontal ? "100%" : "0%")
@@ -134,7 +134,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 svgLegend
                     .append("rect")
                     .attr("x", 25)
-                    .attr("y", 30)
+                    .attr("y", horizontal ? 30 : 18)
                     .attr("width", horizontal ? "149" : 20)
                     .attr("height", horizontal ? 20 : "149")
                     .style("fill", "url(#linear-gradient)");
@@ -142,7 +142,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 // append title
                 svgLegend
                 .append("text")
-                .attr("x", horizontal ? 25 : -180)
+                .attr("x", horizontal ? 25 : -168)
                 .attr("y", horizontal ? 20 : 15)
                 .style("text-anchor", "left")
                 .style("transform", horizontal ? "none" : "left")
@@ -166,7 +166,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 svgLegend
                     .attr("class", "axis")
                     .append("g")
-                    .attr("transform", horizontal ? "translate(16, 50)" : "translate(25, 20)")
+                    .attr("transform", horizontal ? "translate(16, 50)" : "translate(25, 7.5)")
                     .style("font-size", "10px")
                     .style("font-weight", "700")
                     .call(horizontal ? horizontalAxisLeg : VerticalAxisLeg)
@@ -179,7 +179,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     return (
         <div
             style={{
-                position: "absolute",
+                // position: "absolute",
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
                 zIndex: 999,
