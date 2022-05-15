@@ -5,6 +5,7 @@ import { select, scaleOrdinal } from "d3";
 import { colorTablesArray } from "../../component/colorTableTypes";
 import { colorsArray } from "../Utils/legendCommonFunction"
 import { d3ColorScales } from "../Utils/d3ColorScale";
+import colorTables from "../color-tables.json";
 
 declare type ItemColor = {
     color: string;
@@ -26,7 +27,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     dataObjectName,
     position,
     colorName,
-    colorTables,
     horizontal,
     updateLegend,
 }: colorLegendProps) => {
@@ -139,7 +139,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
 
             // Append svg to the div
             const svgLegend = currentDiv
-                .style("margin", horizontal ? "5px 5px 0px 5px" :  "-13px 5px 0px 5px")
+                .style("margin", horizontal ? "5px 0px 0px 15px" :  "-13px 5px 0px 5px")
                 .style("width", horizontal ? "150px" : "50px")
                 .append("svg")
                 .call(colorLegend);
@@ -175,7 +175,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     return (
         <div
             style={{
-                position: "absolute",
+                // position: "absolute",
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
                 backgroundColor: "#ffffffcc",
