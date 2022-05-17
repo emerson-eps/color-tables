@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRef } from "react";
-import { RGBToHex, colorsArray } from "../Utils/legendCommonFunction";
+import { RGBToHex, colorsArray, RGBToHexValue } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
 import { colorTablesArray } from "../colorTableTypes";
 import { d3ColorScales } from "../Utils/d3ColorScale";
@@ -87,10 +87,18 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     legendColors = arrayData
             }
 
+            // get colortable colorscale data
+            const getColorTableScale = colorTables.find((value: any) => {
+                return value.name == colorName;
+            });
+
+            const maxValue = legendColors.length - 1
+
             legendColors.forEach((value: [number, number, number, number]) => {
                 // return the color and offset needed to draw the legend
                 itemColor.push({
-                    offset: RGBToHex(value).offset,
+                    // to support discrete color for continous data
+                    offset: getColorTableScale?.discrete == true ? RGBToHexValue(value, maxValue).offset : RGBToHex(value).offset,
                     color: RGBToHex(value).color,
                 });
             });

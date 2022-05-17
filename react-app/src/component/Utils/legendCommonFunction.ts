@@ -74,6 +74,96 @@ export function RGBToHex(rgb: number[]) {
     return { color: "#" + r + g + b, offset: offset };
 }
 
+// temporary code to support colorlayer discrete color continous legend
+// return the hex color code and offset
+export function RGBToHexValue(rgb: number[], max?: number) {
+    let r = Math.round(rgb[1]).toString(16),
+        g = Math.round(rgb[2]).toString(16),
+        b = Math.round(rgb[3]).toString(16);
+    if (r.length == 1) r = "0" + r;
+    if (g.length == 1) g = "0" + g;
+    if (b.length == 1) b = "0" + b;
+
+    const normalizePoint = (rgb[0] - 0) / (max - 0) 
+
+    return { color: "#" + r + g + b, offset: normalizePoint * 100.0 };
+}
+
+// temporary solution, wrote for color laer discrete colors
+// return the colors based on the point
+export function getRgbData(
+    point: number,
+    colorName: string,
+    colorTables: colorTablesArray | any
+): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
+
+    // get colortable colorscale data
+    const getColorTableScale = colorTables.find((value: any) => {
+        return value.name == colorName;
+    }); 
+
+    // colortable discrete scale
+    if (getColorTableScale?.discrete == true) {
+        let rgb;
+            const getSelectedScaleLength = getColorTableScale?.colors.length;
+            const minValue = 0;
+            const maxValue = getSelectedScaleLength - 1;
+            getColorTableScale?.colors.forEach((item: any, index: any) => {
+                const currentIndex = index;
+                const normalizedCurrentIndex =
+                    (currentIndex - minValue) / (maxValue - minValue);
+                const nextIndex = index + 1;
+                const normalizedNextIndex =
+                    (nextIndex - minValue) / (maxValue - 0);
+                //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
+                if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
+                    if ((item && getColorTableScale?.colors[nextIndex]) !=undefined) {
+                        const interpolate = interpolateRgb(RGBToHex(item)?.color,
+                        RGBToHex(getColorTableScale?.colors[nextIndex])?.color
+                        )(point);
+                        rgb = color(interpolate)?.rgb();
+                    }
+                }
+            });
+            return rgb;
+    } else {
+    const colorTableColors = colorsArray(colorName, colorTables);
+    // compare the point and first value from colorTableColors
+    const colorArrays = colorTableColors.find(
+        (value: [number, number, number, number]) => {
+            return point == value[0];
+        }
+    );
+
+    // if point and value in color table matches then return particular colors
+    if (colorArrays) {
+        return colorArrays.slice(1);
+    }
+    // if no match then need to do interpolation
+    else {
+        // Get index of first match of colortable point greater than point
+        const index = colorTableColors.findIndex((value: number[]) => {
+            return value[0] > point;
+        });
+
+        const firstColorArray = colorTableColors[index - 1];
+        const secondColorArray = colorTableColors[index];
+
+        if ((firstColorArray || secondColorArray) != undefined) {
+            const t0 = firstColorArray[0];
+            const t1 = secondColorArray[0];
+            const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
+            const interpolatedValues = interpolateRgb(
+                RGBToHex(firstColorArray).color,
+                RGBToHex(secondColorArray).color
+            )(t);
+            return color(interpolatedValues)?.rgb();
+        }
+        return undefined;
+    }
+    }
+}
+
 export function getColors(
     colorName: string,
     colorTables: any,
