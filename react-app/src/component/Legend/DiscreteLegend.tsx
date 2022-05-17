@@ -132,15 +132,15 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 .style("overflow", "hidden")
                 .style("width", "150px")
                 .style("text-overflow", "ellipsis")
-                .style("margin-bottom", "5px")
+                .style("margin-bottom", horizontal ? "5px" : "0px")
                 .style("transform", "none")
                 .style("font-size", "small")
                 .style("transform", horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)");
 
             // Append svg to the div
             const svgLegend = currentDiv
-                .style("margin", horizontal ? "5px 0px 0px 15px" :  "-13px 5px 0px 5px")
-                .style("width", horizontal ? "150px" : "50px")
+                .style("margin", horizontal ? "5px 0px 0px 15px" :  "0px 5px 0px 5px")
+                .style("width", horizontal ? "145px" : "50px")
                 .append("svg")
                 .call(colorLegend);
 

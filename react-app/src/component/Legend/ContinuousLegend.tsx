@@ -108,7 +108,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             let linearGradient;
                 svgLegend
                     .attr("width", horizontal ? "190" : "77")
-                    .attr("height", horizontal ? "80" : "173");
+                    .attr("height", horizontal ? "70" : "173");
                 // append a linearGradient element to the defs and give it a unique id
                 linearGradient = defs
                     .append("linearGradient")
@@ -149,7 +149,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                 .style("text-anchor", "left")
                 .style("transform", horizontal ? "none" : "left")
                 .style("transform", horizontal ? "none" : "rotate(270deg)")
-                .style("color", "grey")
+                .style("fill", "grey")
                 .style("font-size", "small")
                 .text(dataObjectName);
 
