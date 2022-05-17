@@ -98,6 +98,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             const colorScale = scaleSequential().domain([min, max]);
             // append a defs (for definition) element to your SVG
             const svgLegend = select(divRef.current)
+                .style("margin-right", "2px")	
+                .style("margin-left", "2px")
                 .append("svg")
                 .style("background-color", "#ffffffcc")
                 .style("border-radius", "5px");
@@ -106,7 +108,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
             let linearGradient;
                 svgLegend
                     .attr("width", horizontal ? "190" : "77")
-                    .attr("height", horizontal ? "90" : "173");
+                    .attr("height", horizontal ? "80" : "173");
                 // append a linearGradient element to the defs and give it a unique id
                 linearGradient = defs
                     .append("linearGradient")
