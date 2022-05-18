@@ -165,7 +165,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                     .attr("preserveAspectRatio", "none")
                     .style("font-size", ".4")
                     .style("margin-left", horizontal ? "0" : "20px")
-                    .attr("height", horizontal ? "30px" : "150px")
+                    .attr("height", horizontal ? "30px" : "153px")
                     .attr("width", horizontal ? "150px" : "40px");
         } catch (error) {
             console.error(error);
