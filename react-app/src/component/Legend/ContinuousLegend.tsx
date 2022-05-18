@@ -17,6 +17,7 @@ declare type legendProps = {
     colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
     updateLegend?: any;
+    uniqueId?: number;
 }
 
 declare type ItemColor = {
@@ -31,7 +32,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     position,
     colorName,
     horizontal,
-    updateLegend
+    updateLegend,
+    uniqueId
 }: legendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
@@ -118,10 +120,10 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .attr("width", horizontal ? "190" : "77")
                     .attr("height", horizontal ? "70" : "173");
                 // append a linearGradient element to the defs and give it a unique id
+                const currentIndex = "linear-gradient-" + uniqueId + "0";
                 linearGradient = defs
                     .append("linearGradient")
-                    //.attr("id", "linear-gradient")
-                    .attr("id", "linear-gradient")
+                    .attr("id", currentIndex)
                     .attr("x1", "0%")
                     .attr("x2", horizontal ? "100%" : "0%")
                     .attr("y1", "0%")
@@ -147,7 +149,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .attr("y", horizontal ? 30 : 18)
                     .attr("width", horizontal ? "149" : 20)
                     .attr("height", horizontal ? 20 : "149")
-                    .style("fill", "url(#linear-gradient)");
+                    .style("fill", "url(#"+currentIndex+")");
 
                 // append title
                 svgLegend
