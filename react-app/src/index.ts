@@ -1,6 +1,6 @@
 import { ColorSelectorAccordion } from './component/ColorSelector/ColorSelectorAccordion';
 import { ColorLegend } from './component/Legend/ColorLegend';
-import { colorsArray, rgbValues, RGBToHex, createColorMapFunction, getColors, getRgbData } from './component/Utils/legendCommonFunction';
+import { colorsArray, rgbValues, RGBToHex, createColorMapFunction, getColors, getRgbData, RGBToHexValue } from './component/Utils/legendCommonFunction';
 import { d3ColorScales } from './component/Utils/d3ColorScale';
 import { colorTablesObj, colorTablesArray } from './component/colorTableTypes';
 import { ContinuousLegend } from './component/Legend/ContinuousLegend';
@@ -18,6 +18,7 @@ export {
     createColorMapFunction,
     getColors,
     getRgbData,
+    RGBToHexValue,
     d3ColorScales,
     colorTablesObj,
     colorTablesArray,
