@@ -2,7 +2,6 @@ import * as React from "react";
 import { useRef } from "react";
 import { RGBToHex, colorsArray, RGBToHexValue } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSequential, axisBottom, axisRight } from "d3";
-import { colorTablesArray } from "../colorTableTypes";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -14,7 +13,6 @@ declare type legendProps = {
     dataObjectName: string;
     position?: number[] | null;
     colorName: string;
-    colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
     updateLegend?: any;
     uniqueId?: number;

@@ -2,7 +2,6 @@ import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
-import { colorTablesArray } from "../../component/colorTableTypes";
 import { colorsArray } from "../Utils/legendCommonFunction"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import colorTables from "../color-tables.json";
@@ -17,7 +16,6 @@ declare type colorLegendProps = {
     dataObjectName: string;
     position?: number[] | null;
     colorName: string;
-    colorTables: colorTablesArray | string;
     horizontal?: boolean | null;
     updateLegend?: any
 };
@@ -49,7 +47,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     async function discreteLegend() {
         let dataSet;
         let useSelectorLegend = false;
-
         try {
             // fix for dash wrapper
             if (typeof colorTables === "string") {
