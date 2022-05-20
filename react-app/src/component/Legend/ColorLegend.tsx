@@ -82,7 +82,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         dataObjectName={dataObjectName}
                         position={position}
                         colorName={colorName}
-                        colorTables={colorTables}
                         horizontal={horizontal}
                         updateLegend={updateLegend}
                     />
@@ -93,7 +92,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         dataObjectName={dataObjectName}
                         position={position}
                         colorName={colorName}
-                        colorTables={colorTables}
                         horizontal={horizontal}
                         updateLegend={updateLegend}
                     />
