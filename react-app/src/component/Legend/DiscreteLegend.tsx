@@ -11,23 +11,25 @@ declare type ItemColor = {
     name?: string
 };
 
-declare type colorLegendProps = {
+declare type discreteLegendProps = {
     discreteData: { objects: Record<string, [number[], number]> };
     dataObjectName: string;
     position?: number[] | null;
     colorName: string;
     horizontal?: boolean | null;
     updateLegend?: any
+    uniqueId?: number;
 };
 
-export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
+export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     discreteData,
     dataObjectName,
     position,
     colorName,
     horizontal,
     updateLegend,
-}: colorLegendProps) => {
+    uniqueId,
+}: discreteLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
@@ -172,7 +174,6 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
     return (
         <div
             style={{
-                // position: "absolute",
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
                 backgroundColor: "#ffffffcc",
@@ -180,7 +181,7 @@ export const DiscreteColorLegend: React.FC<colorLegendProps> = ({
                 zIndex: 999,
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id={ uniqueId ? `${uniqueId}` : "legend" } ref={divRef}></div>
         </div>
     );
 };

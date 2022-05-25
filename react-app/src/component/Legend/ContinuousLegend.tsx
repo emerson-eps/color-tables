@@ -7,7 +7,7 @@ import { color } from "d3-color";
 import { range } from "d3";
 import colorTables from "../color-tables.json";
 
-declare type legendProps = {
+declare type continuousLegendProps = {
     min: number;
     max: number;
     dataObjectName: string;
@@ -23,7 +23,7 @@ declare type ItemColor = {
     offset: number;
 }
 
-export const ContinuousLegend: React.FC<legendProps> = ({
+export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     min,
     max,
     dataObjectName,
@@ -32,7 +32,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     horizontal,
     updateLegend,
     uniqueId
-}: legendProps) => {
+}: continuousLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (divRef.current) {
@@ -189,13 +189,12 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     return (
         <div
             style={{
-                // position: "absolute",
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
                 zIndex: 999,
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id={ uniqueId ? `${uniqueId}` : "legend" } ref={divRef}></div>
         </div>
     );
 };
