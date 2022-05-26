@@ -7,7 +7,7 @@ import { color } from "d3-color";
 import { range } from "d3";
 import colorTables from "../color-tables.json";
 
-declare type legendProps = {
+declare type continuousLegendProps = {
     min: number;
     max: number;
     dataObjectName: string;
@@ -15,7 +15,7 @@ declare type legendProps = {
     colorName: string;
     horizontal?: boolean | null;
     updateLegend?: any;
-    uniqueId?: number;
+    id?: string;
 }
 
 declare type ItemColor = {
@@ -23,7 +23,7 @@ declare type ItemColor = {
     offset: number;
 }
 
-export const ContinuousLegend: React.FC<legendProps> = ({
+export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     min,
     max,
     dataObjectName,
@@ -31,8 +31,8 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     colorName,
     horizontal,
     updateLegend,
-    uniqueId
-}: legendProps) => {
+    id
+}: continuousLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (divRef.current) {
@@ -118,7 +118,7 @@ export const ContinuousLegend: React.FC<legendProps> = ({
                     .attr("width", horizontal ? "190" : "77")
                     .attr("height", horizontal ? "70" : "173");
                 // append a linearGradient element to the defs and give it a unique id
-                const currentIndex = "linear-gradient-" + uniqueId + "0";
+                const currentIndex = "linear-gradient-" + id + "0";
                 linearGradient = defs
                     .append("linearGradient")
                     .attr("id", currentIndex)
@@ -189,13 +189,15 @@ export const ContinuousLegend: React.FC<legendProps> = ({
     return (
         <div
             style={{
-                // position: "absolute",
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
                 zIndex: 999,
             }}
         >
-            <div id="legend" ref={divRef}></div>
+            <div id={ 
+                id ? id : 
+                `cont-legend - ${dataObjectName}`} ref={divRef}>
+            </div>
         </div>
     );
 };
