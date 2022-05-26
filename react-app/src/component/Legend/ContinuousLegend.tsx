@@ -15,7 +15,7 @@ declare type continuousLegendProps = {
     colorName: string;
     horizontal?: boolean | null;
     updateLegend?: any;
-    uniqueId?: number;
+    id?: string;
 }
 
 declare type ItemColor = {
@@ -31,7 +31,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     colorName,
     horizontal,
     updateLegend,
-    uniqueId
+    id
 }: continuousLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
@@ -118,7 +118,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
                     .attr("width", horizontal ? "190" : "77")
                     .attr("height", horizontal ? "70" : "173");
                 // append a linearGradient element to the defs and give it a unique id
-                const currentIndex = "linear-gradient-" + uniqueId + "0";
+                const currentIndex = "linear-gradient-" + id + "0";
                 linearGradient = defs
                     .append("linearGradient")
                     .attr("id", currentIndex)
@@ -194,7 +194,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
                 zIndex: 999,
             }}
         >
-            <div id={ uniqueId ? `${uniqueId}` : "legend" } ref={divRef}></div>
+            <div id={ 
+                id ? id : 
+                `cont-legend - ${dataObjectName}`} ref={divRef}>
+            </div>
         </div>
     );
 };

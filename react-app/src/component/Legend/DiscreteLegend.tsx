@@ -18,7 +18,7 @@ declare type discreteLegendProps = {
     colorName: string;
     horizontal?: boolean | null;
     updateLegend?: any
-    uniqueId?: number;
+    id?: string;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -28,7 +28,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     colorName,
     horizontal,
     updateLegend,
-    uniqueId,
+    id,
 }: discreteLegendProps) => {
     const divRef = useRef<HTMLDivElement>(null);
     let itemName: string[] = [];
@@ -181,7 +181,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
                 zIndex: 999,
             }}
         >
-            <div id={ uniqueId ? `${uniqueId}` : "legend" } ref={divRef}></div>
+            <div id={ 
+                id ? id : 
+                `disc-legend - ${dataObjectName}`} ref={divRef}>
+            </div>
         </div>
     );
 };
