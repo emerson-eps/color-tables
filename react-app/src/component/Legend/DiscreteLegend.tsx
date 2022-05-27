@@ -30,6 +30,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     updateLegend,
     id,
 }: discreteLegendProps) => {
+    const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
     const divRef = useRef<HTMLDivElement>(null);
     let itemName: string[] = [];
     let itemColor: ItemColor[] = [];
@@ -183,7 +184,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         >
             <div id={ 
                 id ? id : 
-                `disc-legend - ${dataObjectName}`} ref={divRef}>
+                `disc-legend - ${generateUniqueId}`} ref={divRef}>
             </div>
         </div>
     );

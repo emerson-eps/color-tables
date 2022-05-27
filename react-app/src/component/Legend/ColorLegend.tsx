@@ -29,7 +29,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     discreteData,
     getColorMapname
 }: ColorLegendProps) => {
-
+    const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
     const divRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -84,6 +84,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         colorName={colorName}
                         horizontal={horizontal}
                         updateLegend={updateLegend}
+                        id={generateUniqueId}
                     />
                 )}
                 {isCont == false && (
@@ -94,6 +95,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         colorName={colorName}
                         horizontal={horizontal}
                         updateLegend={updateLegend}
+                        id={generateUniqueId}
                     />
                 )}
             </div>

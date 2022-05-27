@@ -33,6 +33,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     updateLegend,
     id
 }: continuousLegendProps) => {
+    const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
     const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (divRef.current) {
@@ -185,9 +186,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             console.error(error);
         }
     }
-
     return (
-        <div
+        <div 
             style={{
                 right: position ? position[0] : " ",
                 top: position ? position[1] : " ",
@@ -196,7 +196,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         >
             <div id={ 
                 id ? id : 
-                `cont-legend - ${dataObjectName}`} ref={divRef}>
+                `cont-legend - ${generateUniqueId}`} ref={divRef}>
             </div>
         </div>
     );
