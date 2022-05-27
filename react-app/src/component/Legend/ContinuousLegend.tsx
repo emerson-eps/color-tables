@@ -34,7 +34,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     id
 }: continuousLegendProps) => {
     const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
-    const divRef = useRef<HTMLDivElement>();
+    const divRef = useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (divRef.current) {
             continuousLegend();
