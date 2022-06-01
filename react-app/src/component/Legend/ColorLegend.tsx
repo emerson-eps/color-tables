@@ -3,10 +3,11 @@ import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
 import { useCallback, useRef } from "react"; 
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
-import {d3ColorScales} from "../Utils/d3ColorScale";
+import { d3ColorScales } from "../Utils/d3ColorScale";
+import { colorTablesArray } from "../colorTableTypes";
 
 declare type ColorLegendProps = {
-    colorTables: any;
+    colorTables: colorTablesArray;
     min: number;
     max: number;
     dataObjectName: string;
@@ -85,6 +86,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         horizontal={horizontal}
                         updateLegend={updateLegend}
                         id={generateUniqueId}
+                        colorTables={colorTables}
                     />
                 )}
                 {isCont == false && (
@@ -96,12 +98,16 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         horizontal={horizontal}
                         updateLegend={updateLegend}
                         id={generateUniqueId}
+                        colorTables={colorTables}
                     />
                 )}
             </div>
             <div>
                 {isOpen && (
-                    <ColorSelectorAccordion newColorScaleData={getSelectedColorScale} isHorizontal={horizontal} />
+                    <ColorSelectorAccordion 
+                        newColorScaleData={getSelectedColorScale} 
+                        isHorizontal={horizontal} 
+                        colorTables={colorTables} />
                 )}
             </div>
         </div>

@@ -22,7 +22,10 @@ export const ColorSelectorAccordion = (props: any) => {
                                     Geologic Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelectorWrapper useColorTableColors={true} newColorScaleData={props?.newColorScaleData}/>
+                                    <ColorSelectorWrapper 
+                                        useColorTableColors={true} 
+                                        newColorScaleData={props?.newColorScaleData}
+                                        colorTables={props?.colorTables} />
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
@@ -32,7 +35,10 @@ export const ColorSelectorAccordion = (props: any) => {
                                     D3 Color Scale
                                 </Accordion.Header>
                                 <Accordion.Panel>
-                                    <ColorSelectorWrapper useColorTableColors={false} newColorScaleData={props?.newColorScaleData}/>
+                                    <ColorSelectorWrapper 
+                                        useColorTableColors={false} 
+                                        newColorScaleData={props?.newColorScaleData}
+                                        colorTables={props?.colorTables} />
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
