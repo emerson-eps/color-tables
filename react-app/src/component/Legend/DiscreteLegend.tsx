@@ -4,7 +4,7 @@ import discreteLegendUtil from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorsArray } from "../Utils/legendCommonFunction"
 import { d3ColorScales } from "../Utils/d3ColorScale";
-import colorTables from "../color-tables.json";
+import { colorTablesArray } from "../colorTableTypes";
 
 declare type ItemColor = {
     color: string;
@@ -19,6 +19,7 @@ declare type discreteLegendProps = {
     horizontal?: boolean | null;
     updateLegend?: any
     id?: string;
+    colorTables: colorTablesArray | string;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -29,6 +30,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     horizontal,
     updateLegend,
     id,
+    colorTables,
 }: discreteLegendProps) => {
     const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
     const divRef = useRef<HTMLDivElement>(null);
