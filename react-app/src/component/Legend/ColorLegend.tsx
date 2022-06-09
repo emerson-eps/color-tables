@@ -40,7 +40,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         }
     }, [isOpen]);
 
-    const [getColorScaleData, setUpdateLegendColor] = React.useState([] as any);
+    const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
     const isColortableColors = colorTables.find(
         (value: any) => {
@@ -69,7 +69,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         else if (getColorMapname) {
             getColorMapname(data.legendColorName);
         }
-        setUpdateLegendColor(data);
+        setGetColorScaleData(data);
         setIsCont(value);
     }, []);
 
