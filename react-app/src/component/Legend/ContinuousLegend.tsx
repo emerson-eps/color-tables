@@ -14,7 +14,7 @@ declare type continuousLegendProps = {
     position?: number[] | null;
     colorName: string;
     horizontal?: boolean | null;
-    updateLegend?: any;
+    getColorScaleData?: any;
     id?: string;
     colorTables: colorTablesArray;
 }
@@ -31,7 +31,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     position,
     colorName,
     horizontal,
-    updateLegend,
+    getColorScaleData,
     id,
     colorTables
 }: continuousLegendProps) => {
@@ -45,7 +45,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             select(divRef.current).select("div").remove();
             select(divRef.current).select("svg").remove();
         };
-    }, [min, max, colorName, colorTables, horizontal, updateLegend]);
+    }, [min, max, colorName, colorTables, horizontal, getColorScaleData]);
 
     async function continuousLegend() {
         const itemColor: ItemColor[] = [];
@@ -65,14 +65,14 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
             // Update color of legend based on color selector scales
             // data is passed on click upon color scales
-            if (updateLegend && Object.keys(updateLegend).length > 0) {
+            if (getColorScaleData && Object.keys(getColorScaleData).length > 0) {
                 // legend using color table data
-                if (updateLegend.color) {
-                    legendColors = updateLegend.color;
+                if (getColorScaleData.color) {
+                    legendColors = getColorScaleData.color;
                 } 
                 // legend using d3 data
-                else if (updateLegend.arrayData) {
-                    legendColors = updateLegend.arrayData;
+                else if (getColorScaleData.arrayData) {
+                    legendColors = getColorScaleData.arrayData;
                 }
             } 
             // main continuous legend for colortable colors
@@ -92,8 +92,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
             // get colortable colorscale data
             const getColorTableScale = colorTables.find((value: any) => {
-                if (updateLegend) {
-                    return value.name == updateLegend?.name;
+                if (getColorScaleData) {
+                    return value.name == getColorScaleData?.name;
                 } else {
                     return value.name == colorName;
                 }
