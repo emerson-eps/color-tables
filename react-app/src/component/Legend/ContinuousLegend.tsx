@@ -90,7 +90,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
                     legendColors = arrayData
             }
 
-            // get colortable colorscale data
+            // condition to check if the legend is selected from color selector or not
             const getColorTableScale = colorTables.find((value: any) => {
                 if (getColorScaleData) {
                     return value.name == getColorScaleData?.name;
