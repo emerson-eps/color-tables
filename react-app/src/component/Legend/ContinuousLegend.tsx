@@ -92,7 +92,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
             // get colortable colorscale data
             const getColorTableScale = colorTables.find((value: any) => {
-                return value.name == colorName;
+                if (updateLegend) {
+                    return value.name == updateLegend?.name;
+                } else {
+                    return value.name == colorName;
+                }
             });
 
             const maxValue = legendColors.length - 1
