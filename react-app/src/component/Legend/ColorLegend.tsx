@@ -40,7 +40,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         }
     }, [isOpen]);
 
-    const [updateLegend, setUpdateLegendColor] = React.useState([] as any);
+    const [getColorScaleData, setUpdateLegendColor] = React.useState([] as any);
 
     const isColortableColors = colorTables.find(
         (value: any) => {
@@ -84,7 +84,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         position={position}
                         colorName={colorName}
                         horizontal={horizontal}
-                        updateLegend={updateLegend}
+                        getColorScaleData={getColorScaleData}
                         id={generateUniqueId}
                         colorTables={colorTables}
                     />
@@ -96,7 +96,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                         position={position}
                         colorName={colorName}
                         horizontal={horizontal}
-                        updateLegend={updateLegend}
+                        getColorScaleData={getColorScaleData}
                         id={generateUniqueId}
                         colorTables={colorTables}
                     />
