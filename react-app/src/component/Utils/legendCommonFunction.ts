@@ -4,15 +4,16 @@ import {
     colorTablesArray,
     colorTablesObj,
 } from "../colorTableTypes";
-import colorTables from "../../component/color-tables.json";
 import { d3ColorScales } from "./d3ColorScale";
+import colorTables from "../../component/color-tables.json";
 
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
     colorName: string,
-    colorTables: any
+    iscolorTablesDefined: colorTablesArray | any
 ): any {
-    const colorTableData = colorTables.filter(
+    const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
+    const colorTableData = getColorTables.filter(
         (value: colorTablesObj) =>
             value.name.toLowerCase() == colorName.toLowerCase()
     );
@@ -23,9 +24,10 @@ export function colorsArray(
 export function rgbValues(
     point: number,
     colorName: string,
-    colorTables: colorTablesArray | any
+    iscolorTablesDefined: colorTablesArray | any
 ): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
-    const colorTableColors = colorsArray(colorName, colorTables);
+    const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
+    const colorTableColors = colorsArray(colorName, getColorTables);
     // compare the point and first value from colorTableColors
     const colorArrays = colorTableColors.find(
         (value: [number, number, number, number]) => {
@@ -94,11 +96,11 @@ export function RGBToHexValue(rgb: number[], max?: number) {
 export function getRgbData(
     point: number,
     colorName: string,
-    colorTables: colorTablesArray | any
+    iscolorTablesDefined: colorTablesArray | any
 ): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
-
+    const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
     // get colortable colorscale data
-    const getColorTableScale = colorTables.find((value: any) => {
+    const getColorTableScale = getColorTables.find((value: any) => {
         return value.name == colorName;
     }); 
 
@@ -127,7 +129,7 @@ export function getRgbData(
             });
             return rgb;
     } else {
-    const colorTableColors = colorsArray(colorName, colorTables);
+    const colorTableColors = colorsArray(colorName, getColorTables);
     // compare the point and first value from colorTableColors
     const colorArrays = colorTableColors.find(
         (value: [number, number, number, number]) => {
@@ -166,10 +168,11 @@ export function getRgbData(
 
 export function getColors(
     colorName: string,
-    colorTables: any,
+    iscolorTablesDefined: any,
     point: number,
 ): any {
-    const colorTableData = colorTables.filter(
+    const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
+    const colorTableData = getColorTables.filter(
         (value: colorTablesObj) =>
             value.name.toLowerCase() == colorName.toLowerCase()
     );
@@ -187,9 +190,12 @@ export function sampledColor(
     categorial?: boolean,
     min?: number,
     max?: number,
+    iscolorTablesDefined?: colorTablesArray | any
 ) {
+
+    const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
     // get colortable colorscale data
-    const getColorTableScale = colorTables.find((value: any) => {
+    const getColorTableScale = getColorTables.find((value: any) => {
         return value.name == colorScaleName;
     });
 
@@ -200,7 +206,7 @@ export function sampledColor(
 
     // return the color for matched point
     // does interpolation for non-matching point
-    let rgb = rgbValues(point, colorScaleName, colorTables);
+    let rgb = rgbValues(point, colorScaleName, getColorTables);
 
     // colortable continuous scale
     if (getColorTableScale?.discrete == false) {
@@ -209,10 +215,10 @@ export function sampledColor(
             // condition added to resolve typescript error
             //if (min && max) {
                 const normalizedPoint = (point - min) / (max - min);
-                rgb = rgbValues(normalizedPoint, colorScaleName, colorTables)
+                rgb = rgbValues(normalizedPoint, colorScaleName, getColorTables)
             //} 
         } else {
-            rgb = rgbValues(point, colorScaleName, colorTables)
+            rgb = rgbValues(point, colorScaleName, getColorTables)
         }  
     }
 
@@ -233,7 +239,7 @@ export function sampledColor(
         if (categorial) {
             // compare the code and first value from colorsArray(colortable)
             const arrayOfColors: [number, number, number, number][] =
-                colorsArray(colorScaleName, colorTables);
+                colorsArray(colorScaleName, getColorTables);
 
             const colorArrays = arrayOfColors.find((value: number[]) => {
                 return value[0] == point;
@@ -313,7 +319,7 @@ export function sampledColor(
 }
 
 export function createColorMapFunction(colorScaleName: string) {
-    return (x: number, categorial: boolean, min: number, max: number) => {
-        return sampledColor(colorScaleName, x, categorial, min, max);
+    return (x: number, categorial: boolean, min: number, max: number, iscolorTablesDefined: colorTablesArray | any) => {
+        return sampledColor(colorScaleName, x, categorial, min, max, iscolorTablesDefined);
     };
 }
