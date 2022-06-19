@@ -290,7 +290,6 @@ export function sampledColor(
             );
 
             rgb = color(d3ColorArrays as string)?.rgb();
-
         }
         // continous log
         else {
