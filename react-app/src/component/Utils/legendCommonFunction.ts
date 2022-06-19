@@ -14,8 +14,7 @@ export function colorsArray(
 ): any {
     const getColorTables = iscolorTablesDefined ? iscolorTablesDefined : colorTables
     const colorTableData = getColorTables.filter(
-        (value: colorTablesObj) =>
-            value.name.toLowerCase() == colorName.toLowerCase()
+        (value: colorTablesObj) => value.name.toLowerCase() == colorName.toLowerCase()
     );
     return colorTableData.length > 0 ? colorTableData[0].colors : [];
 }
