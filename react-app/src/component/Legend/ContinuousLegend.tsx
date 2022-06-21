@@ -17,6 +17,7 @@ declare type continuousLegendProps = {
     getColorScaleData?: any;
     id?: string;
     colorTables: colorTablesArray;
+    colorMapFunction?: any
 }
 
 declare type ItemColor = {
@@ -33,7 +34,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     horizontal,
     getColorScaleData,
     id,
-    colorTables
+    colorTables,
+    colorMapFunction
 }: continuousLegendProps) => {
     const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
     const divRef = useRef<HTMLDivElement>(null);
@@ -100,6 +102,23 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             });
 
             const maxValue = legendColors.length - 1
+
+            if (colorMapFunction) {
+                // normalizing values
+                const minValue = (min - min) / (max - min);
+                const maxValue = (max - min) / (max - min);
+                let rgbValue:any = [];
+
+                // check if this is 0.1 or 0.01
+                for (var i = minValue; i <= maxValue; i+=0.1) {
+                    rgbValue.push([i.toFixed(2), 
+                            colorMapFunction(Math.round(i))[0],
+                            colorMapFunction(Math.round(i))[1],
+                            colorMapFunction(Math.round(i))[2]]
+                    );
+                }
+                legendColors = rgbValue
+            }
 
             legendColors.forEach((value: [number, number, number, number]) => {
                 // return the color and offset needed to draw the legend
