@@ -109,8 +109,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
                 const maxValue = (max - min) / (max - min);
                 let rgbValue:any = [];
 
-                // check if this is 0.1 or 0.01
-                for (var i = minValue; i <= maxValue; i+=0.1) {
+                for (var i = minValue; i <= maxValue; i+=0.05) {
                     rgbValue.push([i.toFixed(2), 
                             colorMapFunction(Math.round(i))[0],
                             colorMapFunction(Math.round(i))[1],
