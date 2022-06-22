@@ -47,7 +47,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             select(divRef.current).select("div").remove();
             select(divRef.current).select("svg").remove();
         };
-    }, [min, max, colorName, colorTables, horizontal, getColorScaleData]);
+    }, [min, max, colorName, colorTables, horizontal, getColorScaleData, colorMapFunction]);
 
     async function continuousLegend() {
         const itemColor: ItemColor[] = [];
@@ -104,17 +104,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             const maxValue = legendColors.length - 1
 
             if (colorMapFunction) {
-                // normalizing values
-                const minValue = (min - min) / (max - min);
-                const maxValue = (max - min) / (max - min);
                 let rgbValue:any = [];
-
-                for (var i = minValue; i <= maxValue; i+=0.05) {
-                    rgbValue.push([i.toFixed(2), 
-                            colorMapFunction(Math.round(i))[0],
-                            colorMapFunction(Math.round(i))[1],
-                            colorMapFunction(Math.round(i))[2]]
-                    );
+                for (var i = 0; i <= 1; i+=0.05) {
+                    const value = colorMapFunction(i);
+                    rgbValue.push([i.toFixed(2),value[0],value[1],value[2]]);
                 }
                 legendColors = rgbValue
             }
