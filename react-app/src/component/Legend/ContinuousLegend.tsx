@@ -103,6 +103,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
             const maxValue = legendColors.length - 1
 
+            // if colorMapFunction prop is passed
             if (colorMapFunction) {
                 let rgbValue:any = [];
                 for (var i = 0; i <= 1; i+=0.05) {
