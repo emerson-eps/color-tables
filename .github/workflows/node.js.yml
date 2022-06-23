@@ -24,6 +24,8 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: Install dependencies
         run: npm --prefix=react-app ci
+      - name: Validate
+        run: npm --prefix=react-app run validate
       - name: Build
         run: npm --prefix=react-app run build --if-present
       - name: Release
