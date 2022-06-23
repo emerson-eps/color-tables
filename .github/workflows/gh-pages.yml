@@ -24,7 +24,7 @@ jobs:
         run: npm --prefix=react-app ci
 
       - name: 📚 Build Storybook
-        run: npm run build-storybook --prefix ./react
+        run: npm run build-storybook --prefix ./react-app
 
       - name: 📚 Update Storybook and GitHub demo application
         if: github.event_name == 'push'
