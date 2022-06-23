@@ -6,3 +6,6 @@ Standard library of color tables for geological domain
 
 ## Contributing
 Commit messages should follow [Conventional commits format](https://www.conventionalcommits.org/en/v1.0.0/)
+
+## Examples
+See [Storybook examples.](https://emerson-eps.github.io/color-tables/storybook-static).
