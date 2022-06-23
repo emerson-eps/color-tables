@@ -62,7 +62,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^14.1.1",
     "@types/d3": "^7.1.0",
-    "@types/styled-components": "^5.1.23",
+    "@types/styled-components": "^5.1.25",
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^5.5.0",
     "react-scripts": "^5.0.1",
