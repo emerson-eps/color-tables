@@ -35,7 +35,7 @@ jobs:
           git clean -f -f -d -x
           git rm -r --ignore-unmatch *
 
-          mv ../{index.html,output.css,output.js,storybook-static} .
+          mv ../storybook-static .
 
           git add .
 
