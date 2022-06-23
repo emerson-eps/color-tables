@@ -1,8 +1,14 @@
-import { color } from "d3-color";
+import { color, RGBColor } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
 import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
+
+type Color = [number, number, number];
+
+function getColor(rgb: RGBColor): Color {
+    return [rgb["r"], rgb["g"], rgb["b"]];
+}
 
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
@@ -24,7 +30,7 @@ export function rgbValues(
   point: number,
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any
-): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
+): Color {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
@@ -58,7 +64,8 @@ export function rgbValues(
         RGBToHex(firstColorArray).color,
         RGBToHex(secondColorArray).color
       )(t);
-      return color(interpolatedValues)?.rgb();
+      const c = color(interpolatedValues)?.rgb();
+      return getColor(c);
     }
     return undefined;
   }
@@ -316,10 +323,10 @@ export function sampledColor(
 export function createColorMapFunction(colorScaleName: string) {
   return (
     x: number,
-    categorial: boolean,
-    min: number,
-    max: number,
-    iscolorTablesDefined: colorTablesArray | any
+    categorial: boolean = false,
+    min: number = 0,
+    max: number = 1,
+    iscolorTablesDefined: colorTablesArray | any = colorTables,
   ) => {
     return sampledColor(
       colorScaleName,
