@@ -1,0 +1,47 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build GitHub pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: npm --prefix=react-app ci
+
+      - name: 📚 Build Storybook
+        run: npm run build-storybook --prefix ./react-app
+
+      - name: 📚 Update Storybook and GitHub demo application
+        if: github.event_name == 'push'
+        run: |
+          cp -r ./react/{index.html,output.css,output.js,storybook-static} ..
+
+          git config --local user.email "color-tables-github-action"
+          git config --local user.name "color-tables-github-action"
+          git fetch origin gh-pages
+          git checkout --track origin/gh-pages
+          git clean -f -f -d -x
+          git rm -r --ignore-unmatch *
+
+          mv ../{index.html,output.css,output.js,storybook-static} .
+
+          git add .
+
+          if git diff-index --quiet HEAD; then
+            echo "No changes in documentation. Skip documentation deploy."
+          else
+            git commit -m "Update Github Pages"
+            git push "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+          fi

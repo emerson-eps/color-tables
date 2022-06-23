@@ -19,7 +19,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@equinor/eds-core-react": "^0.20.1",
+    "@equinor/eds-core-react": "^0.20.3",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
@@ -52,19 +52,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@storybook/addon-actions": "^6.4.17",
-    "@storybook/addon-essentials": "^6.4.17",
-    "@storybook/addon-links": "^6.4.17",
-    "@storybook/react": "^6.4.17",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/react": "^6.5.9",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^14.1.1",
     "@types/d3": "^7.1.0",
-    "@types/styled-components": "^5.1.23",
+    "@types/styled-components": "^5.1.25",
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^5.5.0",
     "react-scripts": "^5.0.1",
     "semantic-release": "^19.0.2",
+    "styled-components": "^5.3.5",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4"
   }
