@@ -23,7 +23,7 @@ declare type continuousLegendProps = {
   max: number;
   dataObjectName: string;
   position?: number[] | null;
-  colorName: string;
+  colorName?: string;
   horizontal?: boolean | null;
   getColorScaleData?: any;
   id?: string;
@@ -41,7 +41,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   max,
   dataObjectName,
   position,
-  colorName,
+  colorName = "Rainbow",
   horizontal,
   getColorScaleData,
   id,
