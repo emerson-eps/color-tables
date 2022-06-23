@@ -6,6 +6,7 @@ import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
 import { colorTablesArray } from "../colorTableTypes";
+import defaultColorTables from "../color-tables.json";
 
 declare type continuousLegendProps = {
     min: number;
@@ -16,7 +17,7 @@ declare type continuousLegendProps = {
     horizontal?: boolean | null;
     getColorScaleData?: any;
     id?: string;
-    colorTables: colorTablesArray;
+    colorTables?: colorTablesArray;
     colorMapFunction?: any
 }
 
@@ -34,7 +35,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     horizontal,
     getColorScaleData,
     id,
-    colorTables,
+    colorTables=defaultColorTables as colorTablesArray,
     colorMapFunction
 }: continuousLegendProps) => {
     const generateUniqueId = Math.ceil((Math.random() * 9999)).toString();
