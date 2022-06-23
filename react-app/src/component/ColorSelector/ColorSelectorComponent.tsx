@@ -50,7 +50,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     const handleChange = React.useCallback(() => {
         // continous legend with colortable colors
         if (colorsObject && Object.keys(colorsObject).length > 0 && useContColorTable) {
-            colorScaleData ? colorScaleData(colorsObject, true) : null;
+            return colorScaleData ? colorScaleData(colorsObject, true) : null;
         }
         // continous legend with d3 colors
         else if (data && !useContColorTable) {
@@ -58,15 +58,15 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
             data.forEach((colorsObject: any) => {
                 arrayData.push([0 + "." + colorsObject.value, color(colorsObject.color)?.rgb().r, color(colorsObject.color)?.rgb().g, color(colorsObject.color)?.rgb().b])
             });
-            colorScaleData ? colorScaleData({ arrayData, legendColorName }, true) : null;
+            return colorScaleData ? colorScaleData({ arrayData, legendColorName }, true) : null;
         }
         // discrete legend with colortable colors
         else if (colorsObject && Object.keys(colorsObject).length > 0 && useDiscColorTable) {
-            colorScaleData ? colorScaleData(colorsObject, false) : null;
+            return colorScaleData ? colorScaleData(colorsObject, false) : null;
         }
         // discrete legend with d3 colors
         else {
-            colorScaleData ? colorScaleData({colorsObject, legendColorName}, false) : null;
+            return colorScaleData ? colorScaleData({colorsObject, legendColorName}, false) : null;
         }
     }, []);
 

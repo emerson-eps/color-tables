@@ -16,7 +16,11 @@
     "build": "git clean -xdff dist && tsc",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "typecheck": "tsc --noEmit",
+    "prettier:check": "prettier --check src",
+    "lint:check": "eslint --ignore-path ../.gitignore src",
+    "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
     "@equinor/eds-core-react": "^0.20.3",
