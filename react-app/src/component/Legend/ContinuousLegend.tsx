@@ -96,10 +96,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = getColorScaleData.arrayData;
         }
       }
-      // main continuous legend for colortable colors
-      if (legendColors.length > 0) {
-        legendColors = legendColors;
-      }
       // main continuous legend for d3 colors
       else {
         const arrayData: any = [];
@@ -119,9 +115,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
       // condition to check if the legend is selected from color selector or not
       const getColorTableScale = colorTables.find((value: any) => {
         if (getColorScaleData) {
-          return value.name == getColorScaleData?.name;
+          return value.name === getColorScaleData?.name;
         } else {
-          return value.name == colorName;
+          return value.name === colorName;
         }
       });
 
@@ -142,7 +138,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         itemColor.push({
           // to support discrete color for continous data
           offset:
-            getColorTableScale?.discrete == true
+            getColorTableScale?.discrete === true
               ? RGBToHexValue(value, maxValue).offset
               : RGBToHex(value).offset,
           color: RGBToHex(value).color,
