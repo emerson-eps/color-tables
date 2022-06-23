@@ -26,7 +26,7 @@ jobs:
       - name: 📚 Update Storybook and GitHub demo application
         if: github.event_name == 'push'
         run: |
-          cp -r ./react/{index.html,output.css,output.js,storybook-static} ..
+          cp -r ./react-app/{index.html,output.css,output.js,storybook-static} ..
 
           git config --local user.email "color-tables-github-action"
           git config --local user.name "color-tables-github-action"
