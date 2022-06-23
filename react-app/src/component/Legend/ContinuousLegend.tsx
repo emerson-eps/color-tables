@@ -96,6 +96,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = getColorScaleData.arrayData;
         }
       }
+      // main continuous legend for colortable colors
+      if (legendColors.length > 0) {
+        legendColors = legendColors;
+      }
       // main continuous legend for d3 colors
       else {
         const arrayData: any = [];
