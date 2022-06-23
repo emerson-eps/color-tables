@@ -23,7 +23,7 @@ declare type continuousLegendProps = {
   max: number;
   dataObjectName: string;
   position?: number[] | null;
-  colorName: string;
+  colorName?: string;
   horizontal?: boolean | null;
   getColorScaleData?: any;
   id?: string;
@@ -41,7 +41,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   max,
   dataObjectName,
   position,
-  colorName,
+  colorName = "Rainbow",
   horizontal,
   getColorScaleData,
   id,
@@ -119,9 +119,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
       // condition to check if the legend is selected from color selector or not
       const getColorTableScale = colorTables.find((value: any) => {
         if (getColorScaleData) {
-          return value.name == getColorScaleData?.name;
+          return value.name === getColorScaleData?.name;
         } else {
-          return value.name == colorName;
+          return value.name === colorName;
         }
       });
 
@@ -142,7 +142,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         itemColor.push({
           // to support discrete color for continous data
           offset:
-            getColorTableScale?.discrete == true
+            getColorTableScale?.discrete === true
               ? RGBToHexValue(value, maxValue).offset
               : RGBToHex(value).offset,
           color: RGBToHex(value).color,
