@@ -1,1 +1,1 @@
-declare module '@emerson-eps/color-tables';
+declare module "@emerson-eps/color-tables";

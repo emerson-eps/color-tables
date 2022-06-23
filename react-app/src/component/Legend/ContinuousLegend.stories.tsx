@@ -1,9 +1,9 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import {ContinuousLegend} from "../../component/Legend/ContinuousLegend";
+import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
 export default {
-    component: ContinuousLegend,
-    title: "Legends  / ContinuousLegend",
+  component: ContinuousLegend,
+  title: "Legends  / ContinuousLegend",
 } as ComponentMeta<typeof ContinuousLegend>;
 
 const min = 0;
@@ -12,15 +12,13 @@ const dataObjectName = "Physics color map";
 const colorName = "Physics";
 
 const Story: ComponentStory<typeof ContinuousLegend> = (args) => {
-    return <ContinuousLegend {...args} />;
+  return <ContinuousLegend {...args} />;
 };
 
 export const StandardColorTableLibrary = Story.bind({});
 StandardColorTableLibrary.args = {
-    min,
-    max,
-    dataObjectName,
-    colorName: colorName,
+  min,
+  max,
+  dataObjectName,
+  colorName: colorName,
 };
-
-

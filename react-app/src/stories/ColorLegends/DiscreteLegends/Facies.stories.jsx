@@ -24,7 +24,7 @@ const position = [16, 10];
 const horizontal = true;
 const colorName = "Facies";
 
-const Template = args => {
+const Template = (args) => {
   return <DiscreteColorLegend {...args} />;
 };
 
