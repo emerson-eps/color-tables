@@ -7,7 +7,7 @@ import colorTables from "../../component/color-tables.json";
 type Color = [number, number, number];
 
 function getColor(rgb: RGBColor): Color {
-    return [rgb["r"], rgb["g"], rgb["b"]];
+  return [rgb["r"], rgb["g"], rgb["b"]];
 }
 
 // Based on objectName return the colors array from color.tables.json file
@@ -326,7 +326,7 @@ export function createColorMapFunction(colorScaleName: string) {
     categorial: boolean = false,
     min: number = 0,
     max: number = 1,
-    iscolorTablesDefined: colorTablesArray | any = colorTables,
+    iscolorTablesDefined: colorTablesArray | any = colorTables
   ) => {
     return sampledColor(
       colorScaleName,
