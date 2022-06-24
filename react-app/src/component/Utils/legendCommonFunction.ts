@@ -1,8 +1,14 @@
-import { color } from "d3-color";
+import { color, RGBColor } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
 import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
+
+type Color = [number, number, number];
+
+function getColor(rgb: RGBColor): Color {
+  return [rgb["r"], rgb["g"], rgb["b"]];
+}
 
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
@@ -14,7 +20,7 @@ export function colorsArray(
     : colorTables;
   const colorTableData = getColorTables.filter(
     (value: colorTablesObj) =>
-      value.name.toLowerCase() == colorName.toLowerCase()
+      value.name.toLowerCase() === colorName.toLowerCase()
   );
   return colorTableData.length > 0 ? colorTableData[0].colors : [];
 }
@@ -24,7 +30,7 @@ export function rgbValues(
   point: number,
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any
-): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
+): Color {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
@@ -32,7 +38,7 @@ export function rgbValues(
   // compare the point and first value from colorTableColors
   const colorArrays = colorTableColors.find(
     (value: [number, number, number, number]) => {
-      return point == value[0];
+      return point === value[0];
     }
   );
 
@@ -50,7 +56,7 @@ export function rgbValues(
     const firstColorArray = colorTableColors[index - 1];
     const secondColorArray = colorTableColors[index];
 
-    if ((firstColorArray || secondColorArray) != undefined) {
+    if ((firstColorArray || secondColorArray) !== undefined) {
       const t0 = firstColorArray[0];
       const t1 = secondColorArray[0];
       const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
@@ -58,7 +64,8 @@ export function rgbValues(
         RGBToHex(firstColorArray).color,
         RGBToHex(secondColorArray).color
       )(t);
-      return color(interpolatedValues)?.rgb();
+      const c = color(interpolatedValues)?.rgb();
+      return getColor(c);
     }
     return undefined;
   }
@@ -236,7 +243,7 @@ export function sampledColor(
       const normalizedPoint = (point - min) / (max - min);
       colorMappingRange = getD3Scale?.colors(normalizedPoint);
     }
-    rgb = color(colorMappingRange)?.rgb();
+    rgb = getColor(color(colorMappingRange)?.rgb());
   }
 
   // colortable discrete scale
@@ -251,7 +258,7 @@ export function sampledColor(
       const colorArrays = arrayOfColors.find((value: number[]) => {
         return value[0] == point;
       });
-      rgb = colorArrays;
+      return colorArrays;
     } else {
       const getSelectedScaleLength = getColorTableScale?.colors.length;
       const minValue = 0;
@@ -269,7 +276,7 @@ export function sampledColor(
               RGBToHex(item)?.color,
               RGBToHex(getColorTableScale?.colors[nextIndex])?.color
             )(point);
-            rgb = color(interpolate)?.rgb();
+            rgb = getColor(color(interpolate)?.rgb());
           }
         }
       });
@@ -288,7 +295,7 @@ export function sampledColor(
         }
       );
 
-      rgb = color(d3ColorArrays as string)?.rgb();
+      rgb = getColor(color(d3ColorArrays as string)?.rgb());
     }
     // continous log
     else {
@@ -304,7 +311,7 @@ export function sampledColor(
             item,
             getD3Scale[nextIndex]
           )(point);
-          rgb = color(interpolate)?.rgb();
+          rgb = getColor(color(interpolate)?.rgb());
         }
       });
     }
@@ -316,10 +323,10 @@ export function sampledColor(
 export function createColorMapFunction(colorScaleName: string) {
   return (
     x: number,
-    categorial: boolean,
-    min: number,
-    max: number,
-    iscolorTablesDefined: colorTablesArray | any
+    categorial: boolean = false,
+    min: number = 0,
+    max: number = 1,
+    iscolorTablesDefined: colorTablesArray | any = colorTables
   ) => {
     return sampledColor(
       colorScaleName,
@@ -329,5 +336,14 @@ export function createColorMapFunction(colorScaleName: string) {
       max,
       iscolorTablesDefined
     );
+  };
+}
+
+export function createContinuousLibraryColorScale(
+  name: string,
+  library = colorTables as colorTablesArray
+) {
+  return (value: number) => {
+    return rgbValues(value, name, library);
   };
 }
