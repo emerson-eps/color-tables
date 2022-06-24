@@ -31,3 +31,10 @@ ColorMapFunction.args = {
   dataObjectName,
   colorMapFunction: colorMap,
 };
+
+export const DefaultColorMapFunction = ContinuousLegendTemplate.bind({});
+DefaultColorMapFunction.args = {
+  min,
+  max,
+  dataObjectName: "Default color scale (Rainbow)",
+};
