@@ -76,9 +76,9 @@ export function RGBToHex(rgb: number[]) {
   let r = Math.round(rgb[1]).toString(16),
     g = Math.round(rgb[2]).toString(16),
     b = Math.round(rgb[3]).toString(16);
-  if (r.length == 1) r = "0" + r;
-  if (g.length == 1) g = "0" + g;
-  if (b.length == 1) b = "0" + b;
+  if (r.length === 1) r = "0" + r;
+  if (g.length === 1) g = "0" + g;
+  if (b.length === 1) b = "0" + b;
   const offset = rgb[0] * 100.0;
 
   return { color: "#" + r + g + b, offset: offset };
@@ -90,9 +90,9 @@ export function RGBToHexValue(rgb: number[], max?: number) {
   let r = Math.round(rgb[1]).toString(16),
     g = Math.round(rgb[2]).toString(16),
     b = Math.round(rgb[3]).toString(16);
-  if (r.length == 1) r = "0" + r;
-  if (g.length == 1) g = "0" + g;
-  if (b.length == 1) b = "0" + b;
+  if (r.length === 1) r = "0" + r;
+  if (g.length === 1) g = "0" + g;
+  if (b.length === 1) b = "0" + b;
 
   const normalizePoint = (rgb[0] - 0) / (max - 0);
 
@@ -111,11 +111,11 @@ export function getRgbData(
     : colorTables;
   // get colortable colorscale data
   const getColorTableScale = getColorTables.find((value: any) => {
-    return value.name == colorName;
+    return value.name === colorName;
   });
 
   // colortable discrete scale
-  if (getColorTableScale?.discrete == true) {
+  if (getColorTableScale?.discrete === true) {
     let rgb;
     const getSelectedScaleLength = getColorTableScale?.colors.length;
     const minValue = 0;
@@ -186,7 +186,7 @@ export function getColors(
     : colorTables;
   const colorTableData = getColorTables.filter(
     (value: colorTablesObj) =>
-      value.name.toLowerCase() == colorName.toLowerCase()
+      value.name.toLowerCase() === colorName.toLowerCase()
   );
 
   const colorArrays = colorTableData[0]?.colors.find((value: number[]) => {
@@ -209,7 +209,7 @@ export function sampledColor(
     : colorTables;
   // get colortable colorscale data
   const getColorTableScale = getColorTables.find((value: any) => {
-    return value.name == colorScaleName;
+    return value.name === colorScaleName;
   });
 
   // get d3 colorscale data
@@ -222,7 +222,7 @@ export function sampledColor(
   let rgb = rgbValues(point, colorScaleName, getColorTables);
 
   // colortable continuous scale
-  if (getColorTableScale?.discrete == false) {
+  if (getColorTableScale?.discrete === false) {
     // if log is discrete, then need to normalize
     if (categorial) {
       // condition added to resolve typescript error
@@ -291,7 +291,7 @@ export function sampledColor(
       const code = point;
       const d3ColorArrays = getD3Scale?.colors.find(
         (_value: any, index: number) => {
-          return index == code;
+          return index === code;
         }
       );
 
@@ -346,4 +346,8 @@ export function createContinuousLibraryColorScale(
   return (value: number) => {
     return rgbValues(value, name, library);
   };
+}
+
+export function createDefaultContinuousColorScale() {
+  return createContinuousLibraryColorScale("Rainbow");
 }
