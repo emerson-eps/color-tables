@@ -1,7 +1,10 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
-import { createContinuousLibraryColorScale } from "./legendCommonFunction";
+import {
+  createContinuousLibraryColorScale,
+  createDefaultContinuousColorScale,
+} from "./legendCommonFunction";
 
 export default {
   component: ContinuousLegend,
@@ -37,4 +40,5 @@ DefaultColorMapFunction.args = {
   min,
   max,
   dataObjectName: "Default color scale (Rainbow)",
+  colorMapFunction: createDefaultContinuousColorScale(),
 };
