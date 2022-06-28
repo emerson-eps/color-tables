@@ -43,16 +43,16 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
   const isColortableColors = colorTables.find((value: any) => {
-    return value?.name == colorName;
+    return value?.name === colorName;
   });
 
   const isD3Colors = d3ColorScales.find((value: any) => {
-    return value?.name == colorName;
+    return value?.name === colorName;
   });
 
   const [isCont, setIsCont] = React.useState(
     (isColortableColors || isD3Colors) &&
-      (isColortableColors?.discrete == false || isD3Colors?.discrete == false)
+      (isColortableColors?.discrete === false || isD3Colors?.discrete === false)
       ? true
       : false
   );
@@ -69,12 +69,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     }
     setGetColorScaleData(data);
     setIsCont(value);
-  }, []);
+  }, [getColorMapname]);
 
   return (
     <div>
       <div ref={divRef} onClick={toggleColorSelector}>
-        {isCont == true && (
+        {isCont === true && (
           <ContinuousLegend
             min={min}
             max={max}
@@ -87,7 +87,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             colorTables={colorTables}
           />
         )}
-        {isCont == false && (
+        {isCont === false && (
           <DiscreteColorLegend
             discreteData={discreteData}
             dataObjectName={dataObjectName}

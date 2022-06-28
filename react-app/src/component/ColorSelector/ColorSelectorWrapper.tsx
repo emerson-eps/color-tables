@@ -31,7 +31,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // Continuous legend using color table  data
   const colorTableContinuousData = colorTables.filter((element: any) => {
-    return element.discrete == false;
+    return element.discrete === false;
   });
 
   colorTableContinuousData.forEach((element: any) => {
@@ -40,7 +40,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // Continuous legend using d3 data
   const d3continuousData = d3ColorScales.filter((element: any) => {
-    return element.discrete == false;
+    return element.discrete === false;
   });
 
   d3continuousData.forEach((element: any) => {
@@ -49,7 +49,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // Discrete legend using color table data
   const discreteData = colorTables.filter((element: any) => {
-    return element.discrete == true;
+    return element.discrete === true;
   });
 
   discreteData.forEach((element: any) => {
@@ -58,7 +58,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // Discrete legend using d3 data
   const d3discreteData = d3ColorScales.filter((element: any) => {
-    return element.discrete == true;
+    return element.discrete === true;
   });
 
   d3discreteData.forEach((element: any) => {

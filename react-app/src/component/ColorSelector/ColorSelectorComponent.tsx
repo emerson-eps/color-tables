@@ -24,38 +24,38 @@ declare type ItemColor = {
 
 export const ColorSelectorComponent: React.FC<legendProps> = ({
   /**
-     * Returns the object with name and array of colors for colortable colorscale 
-     * 
-     * Returns the array of colors for d3 colorscale
-     */
+   * Returns the object with name and array of colors for colortable colorscale
+   *
+   * Returns the array of colors for d3 colorscale
+   */
   colorsObject,
-  /** 
-     * Returns the function for d3 colorscale(continuous)
-     */
+  /**
+   * Returns the function for d3 colorscale(continuous)
+   */
   legendColor,
   /**
-     * Name of the color(ex: Rainbow)
-     */
+   * Name of the color(ex: Rainbow)
+   */
   legendColorName,
   /**
-     * Used to distinguish between discrete and continuous legend
-     * 
-     * Also used to distinguish between discrete and continuous colors
-     */
+   * Used to distinguish between discrete and continuous legend
+   *
+   * Also used to distinguish between discrete and continuous colors
+   */
   useContColorTable,
   /**
-     * Used to distinguish between discrete and continuous legend
-     * 
-     * Also used to distinguish between discrete and continuous colors
-     */
+   * Used to distinguish between discrete and continuous legend
+   *
+   * Also used to distinguish between discrete and continuous colors
+   */
   useDiscColorTable,
   /**
-     * Unique id is Used to show multiple legends
-     */
+   * Unique id is Used to show multiple legends
+   */
   uniqueId,
   /**
-     * Returns the function
-     */
+   * Returns the function
+   */
   colorScaleData,
 }: legendProps) => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -73,9 +73,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     extent = d3.extent(data, (d: any) => d?.value);
   }
 
-  const handleChange = React.useCallback(() => {
-    // continous legend with colortable colors
-    if (
+  const handleChange = () => {
+     // continous legend with colortable colors
+     if (
       colorsObject &&
       Object.keys(colorsObject).length > 0 &&
       useContColorTable
@@ -111,42 +111,26 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         ? colorScaleData({ colorsObject, legendColorName }, false)
         : null;
     }
-  }, []);
+ };
 
   React.useEffect(() => {
     // continuous legend using color table colors
-    if (useContColorTable == true && divRef.current) {
+    if (useContColorTable === true && divRef.current) {
       contColortableLegend();
-      return function cleanup() {
-        select(divRef.current).select("svg").remove();
-        select(divRef.current).select("div").remove();
-      };
     }
     // discrete legend using color table colors
-    if (useDiscColorTable == true && divRef.current) {
+    if (useDiscColorTable === true && divRef.current) {
       discColorTableLegend();
-      return function cleanup() {
-        select(divRef.current).select("div").remove();
-        select(divRef.current).select("svg").remove();
-      };
     }
     // discrete legend using d3 colors
-    if (useDiscColorTable == false && divRef.current) {
+    if (useDiscColorTable === false && divRef.current) {
       discD3legend();
-      return function cleanup() {
-        select(divRef.current).select("div").remove();
-        select(divRef.current).select("svg").remove();
-      };
     }
     // continuous legend using d3 colors
-    else if (useContColorTable == false && divRef.current) {
+    else if (useContColorTable === false && divRef.current) {
       contD3Legend();
-      return function cleanup() {
-        select(divRef.current).select("svg").remove();
-        select(divRef.current).select("div").remove();
-      };
     }
-  }, [useContColorTable]);
+  }, [useContColorTable, useDiscColorTable]);
 
   // continuous legend using color table colors (using linear gradiend)
   function contColortableLegend() {
@@ -281,9 +265,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       let r = rgb[1].toString(16),
         g = rgb[2].toString(16),
         b = rgb[3].toString(16);
-      if (r.length == 1) r = "0" + r;
-      if (g.length == 1) g = "0" + g;
-      if (b.length == 1) b = "0" + b;
+      if (r.length === 1) r = "0" + r;
+      if (g.length === 1) g = "0" + g;
+      if (b.length === 1) b = "0" + b;
       return "#" + r + g + b;
     }
 

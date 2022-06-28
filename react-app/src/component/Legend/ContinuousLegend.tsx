@@ -20,52 +20,52 @@ import defaultColorTables from "../color-tables.json";
 
 declare type continuousLegendProps = {
   /**
-    * Min value
-  */
+   * Min value
+   */
   min: number;
-  /** 
-    * Max value
-  */
+  /**
+   * Max value
+   */
   max: number;
   /**
-    * Title for the legend
-  */
+   * Title for the legend
+   */
   dataObjectName: string;
   /**
-    * Specify the position
-  */
+   * Specify the position
+   */
   position?: number[] | null;
   /**
-    * Name of the color(ex: Rainbow)
-  */
+   * Name of the color(ex: Rainbow)
+   */
   colorName?: string;
   /**
-    * Orientation for legend
-  */
+   * Orientation for legend
+   */
   horizontal?: boolean | null;
   /**
-     * Used while using color selector component
-     * 
-     * Returns the object with name and array of colors
-     */ 
+   * Used while using color selector component
+   *
+   * Returns the object with name and array of colors
+   */
   getColorScaleData?: any;
   /**
-    * ID 
-  */
+   * ID
+   */
   id?: string;
   /**
    * Prop containing color table data
-   * 
+   *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables?: colorTablesArray;
   /**
-     * Optional function property
-     * 
-     * Takes a value in the range [0,1] and returns a color
-     * 
-     * If a colorMapFunction is used, then the colorTable file is not needed
-     */
+   * Optional function property
+   *
+   * Takes a value in the range [0,1] and returns a color
+   *
+   * If a colorMapFunction is used, then the colorTable file is not needed
+   */
   colorMapFunction?: any;
 };
 
@@ -90,21 +90,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   const divRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (divRef.current) {
-      continuousLegend();
-    }
-    return function cleanup() {
       select(divRef.current).select("div").remove();
       select(divRef.current).select("svg").remove();
-    };
-  }, [
-    min,
-    max,
-    colorName,
-    colorTables,
-    horizontal,
-    getColorScaleData,
-    colorMapFunction,
-  ]);
+      continuousLegend();
+    }
 
   async function continuousLegend() {
     const itemColor: ItemColor[] = [];
@@ -134,12 +123,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = getColorScaleData.arrayData;
         }
       }
-      // main continuous legend for colortable colors
-      if (legendColors.length > 0) {
-        legendColors = legendColors;
-      }
       // main continuous legend for d3 colors
-      else {
+      if (legendColors.length === 0) {
         const arrayData: any = [];
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
         const data = range(10).map((d) => ({ color: d3ColorArrays(d / 10) }));
@@ -271,7 +256,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     } catch (error) {
       console.error(error);
     }
-  }
+  }}, [
+    min,
+    max,
+    colorName,
+    colorTables,
+    horizontal,
+    getColorScaleData,
+    colorMapFunction,
+    dataObjectName,
+    id
+  ]);
   return (
     <div
       style={{

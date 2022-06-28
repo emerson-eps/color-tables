@@ -1,34 +1,42 @@
-import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import { Meta, Canvas, Story } from "@storybook/addon-docs";
 
 <Meta title="Overview" />
 
 # Color Legend
+
 ###
+
 ###
 
 ### Introduction
+
 Legends are visible representations of the mapping between colors and data values. The legend in this repo has been build using D3 and can be displayed horizontally or vertically. Currently there are three main component namely continuous, discrete and the color selector component.
 
 ### Continuous Legend component
+
 The continuous legend consists of a color ramp and a numeric scale indicating color values. The main props for this legend are value range(min and max), colortables(contains point and color) and few other optional paramater.
 
 ### Discrete Legend component
+
 The discrete legends display a discrete list of elements in the given hierarchy. The main props for this legend are data(discreteData), colortables(contains point and color) and few other optional paramater.
 
 ### Color Selector Component
+
 The Color Selector Component(color picker) is a component that allows the user to select the color scale from the pre-defined palette. Clicking on the legend opens the color selector and the user can choose the color scale from the list. Clicking back on the legend, closes the color selector.
 
 ### Color Table Format
+
 The JSON file used as a supplement to component and describe color tables for visualizing purpose. The json file is array of objects and consist of fields like name(name of the color), discrete and colors(where first value in the array is point and rest 3 values are rgb values).
 For example: [0.0, 255, 0, 0] , here for point 0.0, it maps red color(255, 0, 0)
 
 Reference: (https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json).
 
 ### D3 Color Table Format
-The legends are also build using d3 colors along with user defined color table. 
+
+The legends are also build using d3 colors along with user defined color table.
 
 Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/Utils/d3ColorScale.ts
 
 ### Legend Common Function
-The legendCommonFunction file consist of all the common function used by the legends and it has function for color sampling, interpolation, color mapping and so on.
 
+The legendCommonFunction file consist of all the common function used by the legends and it has function for color sampling, interpolation, color mapping and so on.

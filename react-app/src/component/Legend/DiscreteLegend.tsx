@@ -13,38 +13,38 @@ declare type ItemColor = {
 
 declare type discreteLegendProps = {
   /**
-    * Discrete data to build legend
-  */
+   * Discrete data to build legend
+   */
   discreteData: { objects: Record<string, [number[], number]> };
   /**
-    * Title for the legend
-  */
+   * Title for the legend
+   */
   dataObjectName: string;
   /**
-    * Specify the position
-  */
+   * Specify the position
+   */
   position?: number[] | null;
   /**
-    * Name of the color(ex: Rainbow)
-  */
+   * Name of the color(ex: Rainbow)
+   */
   colorName: string;
   /**
-    * Orientation for legend
-  */
+   * Orientation for legend
+   */
   horizontal?: boolean | null;
   /**
-     * Used while using color selector component
-     * 
-     * Returns the object with name and array of colors
-     */
+   * Used while using color selector component
+   *
+   * Returns the object with name and array of colors
+   */
   getColorScaleData?: any;
   /**
-    * ID 
-  */
+   * ID
+   */
   id?: string;
   /**
    * Prop containing color table data
-   * 
+   *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables: colorTablesArray | string;
@@ -62,8 +62,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
-  let itemName: string[] = [];
-  let itemColor: ItemColor[] = [];
 
   React.useEffect(() => {
     if (divRef.current) {
@@ -71,15 +69,12 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       select(divRef.current).select("svg").remove();
       discreteLegend();
     }
-    return function cleanup() {
-      select(divRef.current).select("div").remove();
-      select(divRef.current).select("svg").remove();
-    };
-  }, [discreteData, colorName, colorTables, horizontal, getColorScaleData]);
 
   async function discreteLegend() {
     let dataSet;
     let useSelectorLegend = false;
+    let itemName: string[] = [];
+    let itemColor: ItemColor[] = [];
     try {
       // fix for dash wrapper
       if (typeof colorTables === "string") {
@@ -95,7 +90,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       const d3ColorArrays = colorsArray(colorName, d3ColorScales);
 
       // Main discrete legend
-      if (!getColorScaleData || getColorScaleData.length == 0) {
+      if (!getColorScaleData || getColorScaleData.length === 0) {
         Object.keys(discreteData).forEach((key) => {
           //eslint-disable-next-line
           let code = (discreteData as { [key: string]: any })[key][1];
@@ -104,7 +99,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             //compare the first value in colorarray(colortable) and code from discreteData
             const matchedColorsArrays = arrayOfColors.find(
               (value: number[]) => {
-                return value[0] == code;
+                return value[0] === code;
               }
             );
             if (matchedColorsArrays)
@@ -118,7 +113,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           else {
             var matchedColorsArrays = d3ColorArrays.find(
               (_value: number, index: number) => {
-                return index == code;
+                return index === code;
               }
             );
             if (matchedColorsArrays)
@@ -207,7 +202,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     } catch (error) {
       console.error(error);
     }
-  }
+  }}, [discreteData, colorName, colorTables, horizontal, getColorScaleData, dataObjectName]);
 
   return (
     <div
@@ -231,9 +226,9 @@ export function RGBToHex(rgb: number[]) {
   let r = rgb[1].toString(16),
     g = rgb[2].toString(16),
     b = rgb[3].toString(16);
-  if (r.length == 1) r = "0" + r;
-  if (g.length == 1) g = "0" + g;
-  if (b.length == 1) b = "0" + b;
+  if (r.length === 1) r = "0" + r;
+  if (g.length === 1) g = "0" + g;
+  if (b.length === 1) b = "0" + b;
   return "#" + r + g + b;
 }
 
