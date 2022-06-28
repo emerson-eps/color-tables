@@ -15,7 +15,7 @@ declare type ColorLegendProps = {
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
-  getColorMapname?: any;
+  getColorName?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -28,7 +28,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   dataObjectName,
   colorName,
   discreteData,
-  getColorMapname,
+  getColorName,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -60,16 +60,16 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   // Get new colorscale from colorselector and update legend
   const getSelectedColorScale = React.useCallback((data: any, value: any) => {
     // update color map layer
-    if (data.name && getColorMapname) {
-      getColorMapname(data.name);
+    if (data.name && getColorName) {
+      getColorName(data.name);
     }
     // d3 color name
-    else if (getColorMapname) {
-      getColorMapname(data.legendColorName);
+    else if (getColorName) {
+      getColorName(data.legendColorName);
     }
     setGetColorScaleData(data);
     setIsCont(value);
-  }, [getColorMapname]);
+  }, [getColorName]);
 
   return (
     <div>
