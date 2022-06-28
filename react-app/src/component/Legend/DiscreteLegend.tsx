@@ -12,13 +12,41 @@ declare type ItemColor = {
 };
 
 declare type discreteLegendProps = {
+  /**
+    * Discrete data to build legend
+  */
   discreteData: { objects: Record<string, [number[], number]> };
+  /**
+    * Title for the legend
+  */
   dataObjectName: string;
+  /**
+    * Specify the position
+  */
   position?: number[] | null;
+  /**
+    * Name of the color(ex: Rainbow)
+  */
   colorName: string;
+  /**
+    * Orientation for legend
+  */
   horizontal?: boolean | null;
+  /**
+     * Used while using color selector component
+     * 
+     * Returns the object with name and array of colors
+     */
   getColorScaleData?: any;
+  /**
+    * ID 
+  */
   id?: string;
+  /**
+   * Prop containing color table data
+   * 
+   * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
+   */
   colorTables: colorTablesArray | string;
 };
 

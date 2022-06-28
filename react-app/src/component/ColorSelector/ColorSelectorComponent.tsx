@@ -23,12 +23,39 @@ declare type ItemColor = {
 };
 
 export const ColorSelectorComponent: React.FC<legendProps> = ({
+  /**
+     * Returns the object with name and array of colors for colortable colorscale 
+     * 
+     * Returns the array of colors for d3 colorscale
+     */
   colorsObject,
+  /** 
+     * Returns the function for d3 colorscale(continuous)
+     */
   legendColor,
+  /**
+     * Name of the color(ex: Rainbow)
+     */
   legendColorName,
+  /**
+     * Used to distinguish between discrete and continuous legend
+     * 
+     * Also used to distinguish between discrete and continuous colors
+     */
   useContColorTable,
+  /**
+     * Used to distinguish between discrete and continuous legend
+     * 
+     * Also used to distinguish between discrete and continuous colors
+     */
   useDiscColorTable,
+  /**
+     * Unique id is Used to show multiple legends
+     */
   uniqueId,
+  /**
+     * Returns the function
+     */
   colorScaleData,
 }: legendProps) => {
   const divRef = useRef<HTMLDivElement>(null);

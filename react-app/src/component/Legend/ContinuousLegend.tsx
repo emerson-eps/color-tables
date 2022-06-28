@@ -19,15 +19,53 @@ import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 
 declare type continuousLegendProps = {
+  /**
+    * Min value
+  */
   min: number;
+  /** 
+    * Max value
+  */
   max: number;
+  /**
+    * Title for the legend
+  */
   dataObjectName: string;
+  /**
+    * Specify the position
+  */
   position?: number[] | null;
+  /**
+    * Name of the color(ex: Rainbow)
+  */
   colorName?: string;
+  /**
+    * Orientation for legend
+  */
   horizontal?: boolean | null;
+  /**
+     * Used while using color selector component
+     * 
+     * Returns the object with name and array of colors
+     */ 
   getColorScaleData?: any;
+  /**
+    * ID 
+  */
   id?: string;
+  /**
+   * Prop containing color table data
+   * 
+   * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
+   */
   colorTables?: colorTablesArray;
+  /**
+     * Optional function property
+     * 
+     * Takes a value in the range [0,1] and returns a color
+     * 
+     * If a colorMapFunction is used, then the colorTable file is not needed
+     */
   colorMapFunction?: any;
 };
 
