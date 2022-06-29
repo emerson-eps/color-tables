@@ -111,7 +111,14 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         ? colorScaleData({ colorsObject, legendColorName }, false)
         : null;
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    colorScaleData,
+    colorsObject,
+    data,
+    legendColorName,
+    useContColorTable,
+    useDiscColorTable,
+  ]);
 
   React.useEffect(
     () => {
