@@ -73,7 +73,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     extent = d3.extent(data, (d: any) => d?.value);
   }
 
-  const handleChange = () => {
+  const handleChange = React.useCallback(() => {
     // continous legend with colortable colors
     if (
       colorsObject &&
@@ -111,7 +111,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         ? colorScaleData({ colorsObject, legendColorName }, false)
         : null;
     }
-  };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(
     () => {
