@@ -70,139 +70,147 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       discreteLegend();
     }
 
-  async function discreteLegend() {
-    let dataSet;
-    let useSelectorLegend = false;
-    let itemName: string[] = [];
-    let itemColor: ItemColor[] = [];
-    try {
-      // fix for dash wrapper
-      if (typeof colorTables === "string") {
-        const res = await fetch(colorTables);
-        dataSet = await res.json();
-      }
-
-      const arrayOfColors =
-        typeof colorTables === "string"
-          ? colorsArray(colorName, dataSet)
-          : colorsArray(colorName, colorTables);
-
-      const d3ColorArrays = colorsArray(colorName, d3ColorScales);
-
-      // Main discrete legend
-      if (!getColorScaleData || getColorScaleData.length === 0) {
-        Object.keys(discreteData).forEach((key) => {
-          //eslint-disable-next-line
-          let code = (discreteData as { [key: string]: any })[key][1];
-          // for colortable colors
-          if (arrayOfColors.length > 0) {
-            //compare the first value in colorarray(colortable) and code from discreteData
-            const matchedColorsArrays = arrayOfColors.find(
-              (value: number[]) => {
-                return value[0] === code;
-              }
-            );
-            if (matchedColorsArrays)
-              itemColor.push({
-                color: RGBToHex(matchedColorsArrays),
-                name: key,
-              });
-            itemName.push(key);
-          }
-          // for d3 colors
-          else {
-            var matchedColorsArrays = d3ColorArrays.find(
-              (_value: number, index: number) => {
-                return index === code;
-              }
-            );
-            if (matchedColorsArrays)
-              itemColor.push({ color: matchedColorsArrays });
-          }
-        });
-        useSelectorLegend = false;
-      }
-      // Discrete legend using Colortable colors
-      else if (getColorScaleData?.color) {
-        getColorScaleData.color.forEach((key: any) => {
-          itemColor.push({ color: RGBToHex(key) });
-        });
-
-        useSelectorLegend = true;
-      }
-      // Discrete legend using d3 colors
-      else if (getColorScaleData?.colorsObject) {
-        getColorScaleData.colorsObject.forEach((key: any) => {
-          itemColor.push({ color: key });
-        });
-
-        itemName = getColorScaleData.legendColorName;
-        useSelectorLegend = true;
-      }
-
-      const ordinalValues = scaleOrdinal().domain(itemName);
-      const colorLegend = discreteLegendUtil(
-        itemColor,
-        useSelectorLegend,
-        horizontal
-      ).inputScale(ordinalValues);
-      const currentDiv = select(divRef.current);
-      let totalRect;
-
-      // append the title
-      currentDiv
-        .append("div")
-        .text(dataObjectName)
-        .style("color", "grey")
-        .style("white-space", "nowrap")
-        .style("overflow", "hidden")
-        .style("width", "150px")
-        .style("text-overflow", "ellipsis")
-        .style("margin-bottom", horizontal ? "5px" : "0px")
-        .style("transform", "none")
-        .style("font-size", "small")
-        .style(
-          "transform",
-          horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
-        );
-
-      // Append svg to the div
-      const svgLegend = currentDiv
-        .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
-        .style("width", horizontal ? "145px" : "50px")
-        .append("svg")
-        .call(colorLegend);
-
-      // Style for main horizontal legend
-      if (!useSelectorLegend) {
-        totalRect = itemColor.length;
-      }
-      // Style for color selector legend
-      else {
-        // calculate width for legend using colortable colors
-        if (getColorScaleData?.color) {
-          totalRect = getColorScaleData.color.length;
+    async function discreteLegend() {
+      let dataSet;
+      let useSelectorLegend = false;
+      let itemName: string[] = [];
+      let itemColor: ItemColor[] = [];
+      try {
+        // fix for dash wrapper
+        if (typeof colorTables === "string") {
+          const res = await fetch(colorTables);
+          dataSet = await res.json();
         }
-        // calculate width for legend using d3 colors
+
+        const arrayOfColors =
+          typeof colorTables === "string"
+            ? colorsArray(colorName, dataSet)
+            : colorsArray(colorName, colorTables);
+
+        const d3ColorArrays = colorsArray(colorName, d3ColorScales);
+
+        // Main discrete legend
+        if (!getColorScaleData || getColorScaleData.length === 0) {
+          Object.keys(discreteData).forEach((key) => {
+            //eslint-disable-next-line
+            let code = (discreteData as { [key: string]: any })[key][1];
+            // for colortable colors
+            if (arrayOfColors.length > 0) {
+              //compare the first value in colorarray(colortable) and code from discreteData
+              const matchedColorsArrays = arrayOfColors.find(
+                (value: number[]) => {
+                  return value[0] === code;
+                }
+              );
+              if (matchedColorsArrays)
+                itemColor.push({
+                  color: RGBToHex(matchedColorsArrays),
+                  name: key,
+                });
+              itemName.push(key);
+            }
+            // for d3 colors
+            else {
+              var matchedColorsArrays = d3ColorArrays.find(
+                (_value: number, index: number) => {
+                  return index === code;
+                }
+              );
+              if (matchedColorsArrays)
+                itemColor.push({ color: matchedColorsArrays });
+            }
+          });
+          useSelectorLegend = false;
+        }
+        // Discrete legend using Colortable colors
+        else if (getColorScaleData?.color) {
+          getColorScaleData.color.forEach((key: any) => {
+            itemColor.push({ color: RGBToHex(key) });
+          });
+
+          useSelectorLegend = true;
+        }
+        // Discrete legend using d3 colors
+        else if (getColorScaleData?.colorsObject) {
+          getColorScaleData.colorsObject.forEach((key: any) => {
+            itemColor.push({ color: key });
+          });
+
+          itemName = getColorScaleData.legendColorName;
+          useSelectorLegend = true;
+        }
+
+        const ordinalValues = scaleOrdinal().domain(itemName);
+        const colorLegend = discreteLegendUtil(
+          itemColor,
+          useSelectorLegend,
+          horizontal
+        ).inputScale(ordinalValues);
+        const currentDiv = select(divRef.current);
+        let totalRect;
+
+        // append the title
+        currentDiv
+          .append("div")
+          .text(dataObjectName)
+          .style("color", "grey")
+          .style("white-space", "nowrap")
+          .style("overflow", "hidden")
+          .style("width", "150px")
+          .style("text-overflow", "ellipsis")
+          .style("margin-bottom", horizontal ? "5px" : "0px")
+          .style("transform", "none")
+          .style("font-size", "small")
+          .style(
+            "transform",
+            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+          );
+
+        // Append svg to the div
+        const svgLegend = currentDiv
+          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
+          .style("width", horizontal ? "145px" : "50px")
+          .append("svg")
+          .call(colorLegend);
+
+        // Style for main horizontal legend
+        if (!useSelectorLegend) {
+          totalRect = itemColor.length;
+        }
+        // Style for color selector legend
         else {
-          totalRect = getColorScaleData.colorsObject.length;
+          // calculate width for legend using colortable colors
+          if (getColorScaleData?.color) {
+            totalRect = getColorScaleData.color.length;
+          }
+          // calculate width for legend using d3 colors
+          else {
+            totalRect = getColorScaleData.colorsObject.length;
+          }
         }
-      }
 
-      svgLegend
-        .attr(
-          "viewBox",
-          horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`
-        )
-        .attr("preserveAspectRatio", "none")
-        .style("font-size", ".4")
-        .style("margin-left", horizontal ? "0" : "20px")
-        .attr("height", horizontal ? "30px" : "153px")
-        .attr("width", horizontal ? "150px" : "40px");
-    } catch (error) {
-      console.error(error);
+        svgLegend
+          .attr(
+            "viewBox",
+            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`
+          )
+          .attr("preserveAspectRatio", "none")
+          .style("font-size", ".4")
+          .style("margin-left", horizontal ? "0" : "20px")
+          .attr("height", horizontal ? "30px" : "153px")
+          .attr("width", horizontal ? "150px" : "40px");
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }}, [discreteData, colorName, colorTables, horizontal, getColorScaleData, dataObjectName]);
+  }, [
+    discreteData,
+    colorName,
+    colorTables,
+    horizontal,
+    getColorScaleData,
+    dataObjectName,
+  ]);
 
   return (
     <div

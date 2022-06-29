@@ -58,18 +58,21 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   );
 
   // Get new colorscale from colorselector and update legend
-  const getSelectedColorScale = React.useCallback((data: any, value: any) => {
-    // update color map layer
-    if (data.name && getColorName) {
-      getColorName(data.name);
-    }
-    // d3 color name
-    else if (getColorName) {
-      getColorName(data.legendColorName);
-    }
-    setGetColorScaleData(data);
-    setIsCont(value);
-  }, [getColorName]);
+  const getSelectedColorScale = React.useCallback(
+    (data: any, value: any) => {
+      // update color map layer
+      if (data.name && getColorName) {
+        getColorName(data.name);
+      }
+      // d3 color name
+      else if (getColorName) {
+        getColorName(data.legendColorName);
+      }
+      setGetColorScaleData(data);
+      setIsCont(value);
+    },
+    [getColorName]
+  );
 
   return (
     <div>

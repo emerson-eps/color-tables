@@ -74,8 +74,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   }
 
   const handleChange = () => {
-     // continous legend with colortable colors
-     if (
+    // continous legend with colortable colors
+    if (
       colorsObject &&
       Object.keys(colorsObject).length > 0 &&
       useContColorTable
@@ -111,26 +111,30 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         ? colorScaleData({ colorsObject, legendColorName }, false)
         : null;
     }
- };
+  };
 
-  React.useEffect(() => {
-    // continuous legend using color table colors
-    if (useContColorTable === true && divRef.current) {
-      contColortableLegend();
-    }
-    // discrete legend using color table colors
-    if (useDiscColorTable === true && divRef.current) {
-      discColorTableLegend();
-    }
-    // discrete legend using d3 colors
-    if (useDiscColorTable === false && divRef.current) {
-      discD3legend();
-    }
-    // continuous legend using d3 colors
-    else if (useContColorTable === false && divRef.current) {
-      contD3Legend();
-    }
-  }, [useContColorTable, useDiscColorTable]);
+  React.useEffect(
+    () => {
+      // continuous legend using color table colors
+      if (useContColorTable === true && divRef.current) {
+        contColortableLegend();
+      }
+      // discrete legend using color table colors
+      if (useDiscColorTable === true && divRef.current) {
+        discColorTableLegend();
+      }
+      // discrete legend using d3 colors
+      if (useDiscColorTable === false && divRef.current) {
+        discD3legend();
+      }
+      // continuous legend using d3 colors
+      else if (useContColorTable === false && divRef.current) {
+        contD3Legend();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [useContColorTable, useDiscColorTable]
+  );
 
   // continuous legend using color table colors (using linear gradiend)
   function contColortableLegend() {
