@@ -15,7 +15,7 @@ declare type ColorLegendProps = {
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
-  getColorMapname?: any;
+  getColorName?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -28,7 +28,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   dataObjectName,
   colorName,
   discreteData,
-  getColorMapname,
+  getColorName,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -43,38 +43,41 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
   const isColortableColors = colorTables.find((value: any) => {
-    return value?.name == colorName;
+    return value?.name === colorName;
   });
 
   const isD3Colors = d3ColorScales.find((value: any) => {
-    return value?.name == colorName;
+    return value?.name === colorName;
   });
 
   const [isCont, setIsCont] = React.useState(
     (isColortableColors || isD3Colors) &&
-      (isColortableColors?.discrete == false || isD3Colors?.discrete == false)
+      (isColortableColors?.discrete === false || isD3Colors?.discrete === false)
       ? true
       : false
   );
 
   // Get new colorscale from colorselector and update legend
-  const getSelectedColorScale = React.useCallback((data: any, value: any) => {
-    // update color map layer
-    if (data.name && getColorMapname) {
-      getColorMapname(data.name);
-    }
-    // d3 color name
-    else if (getColorMapname) {
-      getColorMapname(data.legendColorName);
-    }
-    setGetColorScaleData(data);
-    setIsCont(value);
-  }, []);
+  const getSelectedColorScale = React.useCallback(
+    (data: any, value: any) => {
+      // update color map layer
+      if (data.name && getColorName) {
+        getColorName(data.name);
+      }
+      // d3 color name
+      else if (getColorName) {
+        getColorName(data.legendColorName);
+      }
+      setGetColorScaleData(data);
+      setIsCont(value);
+    },
+    [getColorName]
+  );
 
   return (
     <div>
       <div ref={divRef} onClick={toggleColorSelector}>
-        {isCont == true && (
+        {isCont === true && (
           <ContinuousLegend
             min={min}
             max={max}
@@ -87,7 +90,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             colorTables={colorTables}
           />
         )}
-        {isCont == false && (
+        {isCont === false && (
           <DiscreteColorLegend
             discreteData={discreteData}
             dataObjectName={dataObjectName}

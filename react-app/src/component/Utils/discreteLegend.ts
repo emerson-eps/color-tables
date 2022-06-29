@@ -45,13 +45,13 @@ export default function discreteLegendUtil(
             return i;
           })
           .attr("x", 0);
-      } else if (horizontal == true && isSelectorLegend) {
+      } else if (horizontal === true && isSelectorLegend) {
         g.selectAll("rect")
           .attr("x", function (_d: number, i: number) {
             return i;
           })
           .attr("y", 0);
-      } else if (horizontal == false && isSelectorLegend) {
+      } else if (horizontal === false && isSelectorLegend) {
         g.selectAll("rect")
           .attr("y", function (_d: number, i: number) {
             return i;

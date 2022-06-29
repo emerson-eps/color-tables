@@ -128,7 +128,7 @@ export function getRgbData(
       const normalizedNextIndex = (nextIndex - minValue) / (maxValue - 0);
       //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
       if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
-        if ((item && getColorTableScale?.colors[nextIndex]) != undefined) {
+        if ((item && getColorTableScale?.colors[nextIndex]) !== undefined) {
           const interpolate = interpolateRgb(
             RGBToHex(item)?.color,
             RGBToHex(getColorTableScale?.colors[nextIndex])?.color
@@ -143,7 +143,7 @@ export function getRgbData(
     // compare the point and first value from colorTableColors
     const colorArrays = colorTableColors.find(
       (value: [number, number, number, number]) => {
-        return point == value[0];
+        return point === value[0];
       }
     );
 
@@ -161,7 +161,7 @@ export function getRgbData(
       const firstColorArray = colorTableColors[index - 1];
       const secondColorArray = colorTableColors[index];
 
-      if ((firstColorArray || secondColorArray) != undefined) {
+      if ((firstColorArray || secondColorArray) !== undefined) {
         const t0 = firstColorArray[0];
         const t1 = secondColorArray[0];
         const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
@@ -190,7 +190,7 @@ export function getColors(
   );
 
   const colorArrays = colorTableData[0]?.colors.find((value: number[]) => {
-    return value[0] == point;
+    return value[0] === point;
   });
 
   return colorTableData.length > 0 ? colorArrays : [];
@@ -214,7 +214,7 @@ export function sampledColor(
 
   // get d3 colorscale data
   const getD3Scale = d3ColorScales.find((value: any) => {
-    return value.name == colorScaleName;
+    return value.name === colorScaleName;
   });
 
   // return the color for matched point
@@ -247,7 +247,7 @@ export function sampledColor(
   }
 
   // colortable discrete scale
-  if (getColorTableScale?.discrete == true) {
+  if (getColorTableScale?.discrete === true) {
     if (categorial) {
       // compare the code and first value from colorsArray(colortable)
       const arrayOfColors: [number, number, number, number][] = colorsArray(
@@ -256,7 +256,7 @@ export function sampledColor(
       );
 
       const colorArrays = arrayOfColors.find((value: number[]) => {
-        return value[0] == point;
+        return value[0] === point;
       });
       return colorArrays;
     } else {
@@ -271,7 +271,7 @@ export function sampledColor(
         const normalizedNextIndex = (nextIndex - minValue) / (maxValue - 0);
         //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
         if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
-          if ((item && getColorTableScale?.colors[nextIndex]) != undefined) {
+          if ((item && getColorTableScale?.colors[nextIndex]) !== undefined) {
             const interpolate = interpolateRgb(
               RGBToHex(item)?.color,
               RGBToHex(getColorTableScale?.colors[nextIndex])?.color
