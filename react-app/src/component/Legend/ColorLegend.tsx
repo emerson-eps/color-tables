@@ -16,6 +16,7 @@ declare type ColorLegendProps = {
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
   getColorName?: any;
+  reverseRange?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -29,6 +30,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   colorName,
   discreteData,
   getColorName,
+  reverseRange,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -88,6 +90,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
+            reverseRange={reverseRange}
           />
         )}
         {isCont === false && (

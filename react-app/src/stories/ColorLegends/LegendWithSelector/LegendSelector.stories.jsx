@@ -14,6 +14,7 @@ const dataObjectName = "Legend";
 const position = [5, 10];
 const horizontal = true;
 const colorName = "Rainbow";
+const reverseRange = false;
 
 // prop for discrete data
 const discreteData = {
@@ -48,4 +49,5 @@ LegendWithColorSelector.args = {
   colorName,
   colorTables,
   discreteData,
+  reverseRange,
 };

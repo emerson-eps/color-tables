@@ -12,6 +12,7 @@ const dataObjectName = "Wells / NTG";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Rainbow";
+const reverseRange = false;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +27,5 @@ NTGTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  reverseRange,
 };
