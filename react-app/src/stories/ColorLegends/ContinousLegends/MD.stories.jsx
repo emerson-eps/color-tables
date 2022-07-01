@@ -12,6 +12,7 @@ const dataObjectName = "Wells / MD";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Time/Depth";
+const reverseRange = false;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +27,5 @@ MDTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  reverseRange,
 };

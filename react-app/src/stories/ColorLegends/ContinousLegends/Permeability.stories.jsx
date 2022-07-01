@@ -13,6 +13,8 @@ const position = [16, 10];
 const horizontal = true;
 const colorName = "Permeability";
 const colorMapFunction = (x) => [255 - x * 100, 255 - x * 100, 255 * x];
+const reverseRange = false;
+
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
 };
@@ -27,4 +29,5 @@ PermeabilityTemplate.args = {
   colorTables,
   horizontal,
   colorMapFunction,
+  reverseRange,
 };

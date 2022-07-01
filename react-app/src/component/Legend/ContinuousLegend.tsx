@@ -67,6 +67,10 @@ declare type continuousLegendProps = {
    * If a colorMapFunction is used, then the colorTable file is not needed
    */
   colorMapFunction?: any;
+  /**
+   * Reverse the range(min and max)
+   */
+  reverseRange?: boolean;
 };
 
 declare type ItemColor = {
@@ -85,6 +89,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   id,
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
+  reverseRange,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -182,20 +187,30 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("border-radius", "5px");
 
         const defs = svgLegend.append("defs");
-        let linearGradient;
         svgLegend
           .attr("width", horizontal ? "190" : "77")
           .attr("height", horizontal ? "70" : "173");
-        // append a linearGradient element to the defs and give it a unique id
         const currentIndex = "linear-gradient-" + id + "0";
-        linearGradient = defs
+        let linearGradient = defs
           .append("linearGradient")
-          .attr("id", currentIndex)
-          .attr("x1", "0%")
-          .attr("x2", horizontal ? "100%" : "0%")
-          .attr("y1", "0%")
-          .attr("y2", horizontal ? "0%" : "100%"); //since it's a vertical linear gradient
-
+          .attr("id", currentIndex);
+        // append a linearGradient element to the defs and give it a unique id
+        if ((horizontal && !reverseRange) || (!horizontal && reverseRange)) {
+          linearGradient
+            .attr("x1", "0%")
+            .attr("x2", horizontal ? "100%" : "0%")
+            .attr("y1", "0%")
+            .attr("y2", horizontal ? "0%" : "100%");
+        } else if (
+          (!horizontal && !reverseRange) ||
+          (horizontal && reverseRange)
+        ) {
+          linearGradient
+            .attr("x1", horizontal ? "100%" : "0%")
+            .attr("x2", "0%")
+            .attr("y1", horizontal ? "0%" : "100%")
+            .attr("y2", "0%");
+        }
         // append multiple color stops by using D3's data/enter step
         linearGradient
           .selectAll("stop")
@@ -232,8 +247,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         // create tick marks
         // range varies the size of the axis
-        const xLeg = scaleLinear().domain([min, max]).range([10, 158]);
-        const yLeg = scaleLinear().domain([min, max]).range([10, 158]);
+        let xLeg = scaleLinear()
+          .domain(reverseRange ? [max, min] : [min, max])
+          .range([10, 158]);
+        let yLeg = scaleLinear()
+          .domain(reverseRange ? [min, max] : [max, min])
+          .range([10, 158]);
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
           colorScale.domain()
@@ -267,6 +286,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     colorMapFunction,
     dataObjectName,
     id,
+    reverseRange,
   ]);
   return (
     <div

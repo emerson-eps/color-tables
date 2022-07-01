@@ -12,6 +12,7 @@ const dataObjectName = "Wells / POROTOT";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Porosity";
+const reverseRange = false;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +27,5 @@ PoroTotTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  reverseRange,
 };
