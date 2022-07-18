@@ -128,8 +128,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             legendColors = getColorScaleData.arrayData;
           }
         }
+
+        const isD3Colors = d3ColorScales.find((value: any) => {
+          return value?.name === colorName;
+        });
         // main continuous legend for d3 colors
-        if (legendColors.length === 0) {
+        if (isD3Colors && isD3Colors.discrete === false) {
           const arrayData: any = [];
           const d3ColorArrays = colorsArray(colorName, d3ColorScales);
           const data = range(10).map((d) => ({ color: d3ColorArrays(d / 10) }));
@@ -176,6 +180,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             color: RGBToHex(value).color,
           });
         });
+
+        if (legendColors.length === 0) {
+          return [0, 0, 0];
+        }
 
         const colorScale = scaleSequential().domain([min, max]);
         // append a defs (for definition) element to your SVG
