@@ -10,6 +10,8 @@ import {
   scaleLog,
   axisBottom,
   axisRight,
+  scaleSequential,
+  scaleLinear,
 } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
@@ -82,7 +84,7 @@ export const LogLegend: React.FC<logLegendProps> = ({
   max,
   dataObjectName,
   position,
-  colorName = "Rainbow",
+  colorName = "Permeability",
   horizontal,
   getColorScaleData,
   id,
@@ -94,8 +96,8 @@ export const LogLegend: React.FC<logLegendProps> = ({
   const divRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (divRef.current) {
-      // select(divRef.current).select("div").remove();
-      // select(divRef.current).select("svg").remove();
+      select(divRef.current).select("div").remove();
+      select(divRef.current).select("svg").remove();
       continuousLegend();
     }
 
@@ -247,8 +249,7 @@ export const LogLegend: React.FC<logLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
         let xLeg = scaleLog()
-          .domain(reverseRange ? [max, min] : [min, max])
-          .range([10, 158]);
+          .domain(reverseRange ? [max, min] : [min, max]).range([10, 158]);
         let yLeg = scaleLog()
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);

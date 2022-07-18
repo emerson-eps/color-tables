@@ -12,7 +12,7 @@ const dataObjectName = "Wells / PERM";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Permeability";
-const colorMapFunction = (x) => [255 - x * 100, 255 - x * 100, 255 * x];
+//const colorMapFunction = (x) => [255 - x * 100, 255 - x * 100, 255 * x];
 const reverseRange = false;
 
 const Template = (args) => {
@@ -28,6 +28,6 @@ PermeabilityTemplate.args = {
   colorName,
   colorTables,
   horizontal,
-  colorMapFunction,
+ // colorMapFunction,
   reverseRange,
 };

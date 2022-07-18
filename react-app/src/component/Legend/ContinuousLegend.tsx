@@ -8,7 +8,6 @@ import {
 import {
   select,
   scaleLinear,
-  scaleSequential,
   axisBottom,
   axisRight,
 } from "d3";
@@ -157,6 +156,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         // if colorMapFunction prop is passed
         if (colorMapFunction) {
+          console.log('åååå', colorMapFunction)
           let rgbValue: any = [];
           for (var i = 0; i <= 1; i += 0.05) {
             const value = colorMapFunction(i);
@@ -177,7 +177,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           });
         });
 
-        const colorScale = scaleSequential().domain([min, max]);
+        const colorScale = scaleLinear().domain([min,max]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -247,12 +247,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         // create tick marks
         // range varies the size of the axis
-        let xLeg = scaleLinear()
+        let xLeg: any = scaleLinear()
           .domain(reverseRange ? [max, min] : [min, max])
-          .range([10, 158]);
-        let yLeg = scaleLinear()
+          .range([9, 159]);
+        let yLeg: any = scaleLinear()
           .domain(reverseRange ? [min, max] : [max, min])
-          .range([10, 158]);
+          .range();
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
           colorScale.domain()

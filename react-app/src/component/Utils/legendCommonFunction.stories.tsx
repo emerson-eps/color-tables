@@ -4,6 +4,7 @@ import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
 import {
   createContinuousLibraryColorScale,
   createDefaultContinuousColorScale,
+  createLogarithmicLibraryColorScale,
 } from "./legendCommonFunction";
 
 export default {
@@ -41,4 +42,12 @@ DefaultColorMapFunction.args = {
   max,
   dataObjectName: "Default color scale (Rainbow)",
   colorMapFunction: createDefaultContinuousColorScale(),
+};
+
+export const DefaultLogarithmScale = ContinuousLegendTemplate.bind({});
+DefaultLogarithmScale.args = {
+  min,
+  max,
+  dataObjectName: "Logarithmic scale (Stratigraphy)",
+  colorMapFunction: createLogarithmicLibraryColorScale("Stratigraphy"),
 };

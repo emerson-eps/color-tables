@@ -1,4 +1,5 @@
 import { color, RGBColor } from "d3-color";
+import { scaleLog } from "d3";
 import { interpolateRgb } from "d3-interpolate";
 import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
@@ -347,6 +348,17 @@ export function createContinuousLibraryColorScale(
     return rgbValues(value, name, library);
   };
 }
+
+// export function createLogarithmicLibraryColorScale(
+//   name: string,
+//   library = colorTables as colorTablesArray
+// ) {
+//   const breakpoints = colorTables[name];
+//   const domain = colorTables[name].map((row) => row[0]);
+//   return (value: number) => {
+//     return d3.scaleLog(domain) * breakpoints.map(row => row[1:]);
+//   };
+// }
 
 export function createDefaultContinuousColorScale() {
   return createContinuousLibraryColorScale("Rainbow");

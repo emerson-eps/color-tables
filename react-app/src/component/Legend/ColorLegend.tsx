@@ -35,7 +35,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const [isLinear, setLinear] = React.useState(true)
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
       isOpen ? setIsOpen(false) : setIsOpen(true);
@@ -75,7 +75,14 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     },
     [getColorName]
   );
-
+  const getSampling = React.useCallback((data: any) => {
+      if (data === "Logarithm") {
+        setLinear(false)
+      } else {
+        setLinear(true)
+      }
+  },
+  []);
   return (
     <div>
       <div ref={divRef} onClick={toggleColorSelector}>
@@ -91,6 +98,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
+            isLinear={isLinear}
           />
         )}
         {isCont === false && (
@@ -112,6 +120,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             newColorScaleData={getSelectedColorScale}
             isHorizontal={horizontal}
             colorTables={colorTables}
+            getSample={getSampling}
           />
         )}
       </div>
