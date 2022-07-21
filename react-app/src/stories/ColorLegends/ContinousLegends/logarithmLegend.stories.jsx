@@ -39,10 +39,15 @@ function createLogarithmicLibraryColorScale(
   const breakpoints = library.find((value) => {
     return value.name === name;
   });
+  console.log("breakpoints", breakpoints)
   const domain = breakpoints.colors.map((row) => row[0]);
+  console.log("domain", domain)
   return (number) => {
-    return scaleLog().domain(domain) * breakpoints.colors.map((row) => {
-      return [row[1], row[2], row[3]]
+    //console.log("1 ===", scaleLog().domain(domain) * breakpoints.colors.map((row) => {[row[1], row[2], row[3]]}))
+    //console.log("2 ===", scaleLog().domain(domain))
+    scaleLog().domain(domain) * breakpoints.colors.map((row) => {
+      return {[row[1], row[2], row[3]]}
     });
+    //console.log("3 ===", [row[1], row[2], row[3]]) 
   };
 }

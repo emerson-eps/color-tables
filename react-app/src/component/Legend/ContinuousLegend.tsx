@@ -156,7 +156,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         // if colorMapFunction prop is passed
         if (colorMapFunction) {
-          console.log('åååå', colorMapFunction)
           let rgbValue: any = [];
           for (var i = 0; i <= 1; i += 0.05) {
             const value = colorMapFunction(i);
