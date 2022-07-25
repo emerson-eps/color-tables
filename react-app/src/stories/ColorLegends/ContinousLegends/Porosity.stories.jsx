@@ -1,5 +1,5 @@
 import React from "react";
-import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
+import { ContinuousLegend } from "../../../component/Legend/sampleLegend";
 export default {
   component: ContinuousLegend,
   title: "Legends/ContinousLegend",

@@ -13,7 +13,7 @@ const max = 0.35;
 const dataObjectName = "Legend";
 const position = [5, 10];
 const horizontal = true;
-const colorName = "Permeability";
+const colorName = "Rainbow";
 const reverseRange = false;
 
 // prop for discrete data
