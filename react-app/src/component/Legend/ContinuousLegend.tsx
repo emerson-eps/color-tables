@@ -92,7 +92,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
   reverseRange,
-  isLinear
+  isLinear = true
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -167,11 +167,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           }
           legendColors = rgbValue;
         }
-        let breakpoint = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0];
-        let itemVale: any
-        breakpoint.forEach(function (item) {
-          itemVale = item
-        });
+        // let breakpoint = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0];
+        // let itemVale: any
+        // breakpoint.forEach(function (item) {itemVale = item});
         legendColors.forEach((value: [number, number, number, number]) => {
           // return the color and offset needed to draw the legend
           itemColor.push({
@@ -187,7 +185,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         const width = 150;
         const colorScale = isLinear ? 
-                           scaleLinear().domain([min,max]).range([0, width]) : 
+                           scaleLinear().domain([min,max]).range([0, width]): 
                            scaleSymlog().domain([min,max]).range([0, width]);
 
         // create an svg of specific width and height
@@ -227,7 +225,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            return colorScale(data.test[0]) / 1.5 + "%";
+            //return colorScale(data.test[0]) / 1.5 + "%";
+            return (isLinear ? data.offset + "%" : colorScale(data.test[0]) / 1.5 + "%");
           })
           .attr("stop-color", function (data) {
             return data.color;

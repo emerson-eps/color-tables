@@ -13,6 +13,7 @@ const position = [16, 10];
 const horizontal = true;
 const colorName = "Rainbow";
 const reverseRange = false;
+const isLinear = false;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -28,4 +29,5 @@ NTGTemplate.args = {
   colorTables,
   horizontal,
   reverseRange,
+  isLinear,
 };

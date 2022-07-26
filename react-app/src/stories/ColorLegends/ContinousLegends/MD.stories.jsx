@@ -13,6 +13,7 @@ const position = [16, 10];
 const horizontal = true;
 const colorName = "Time/Depth";
 const reverseRange = false;
+const isLinear = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -28,4 +29,5 @@ MDTemplate.args = {
   colorTables,
   horizontal,
   reverseRange,
+  isLinear
 };
