@@ -11,7 +11,6 @@ import {
   scaleSymlog,
   axisBottom,
   axisRight,
-  scaleLog,
 } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
