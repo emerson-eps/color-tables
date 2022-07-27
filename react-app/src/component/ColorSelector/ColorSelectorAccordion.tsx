@@ -15,7 +15,7 @@ export const ColorSelectorAccordion = (props: any) => {
       }}
     >
       <Accordion>
-        <Accordion.Item isExpanded>
+        <Accordion.Item>
           <Accordion.Header>Color Scales</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
@@ -38,6 +38,24 @@ export const ColorSelectorAccordion = (props: any) => {
                     useColorTableColors={false}
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
+                  />
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+      <Accordion>
+        <Accordion.Item>
+          <Accordion.Header>Color Sampling</Accordion.Header>
+          <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Header>Interpolation</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper
+                    useSampling={true}
+                    getSample={props?.getSample}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
