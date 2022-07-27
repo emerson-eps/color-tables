@@ -5,13 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import {
-  select,
-  scaleLinear,
-  scaleSymlog,
-  axisBottom,
-  axisRight,
-} from "d3";
+import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -242,6 +236,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .attr("y", horizontal ? 30 : 18)
           .attr("width", horizontal ? width : 20)
           .attr("height", horizontal ? 20 : "149")
+          // eslint-disable-next-line
           .style("fill", "url(#" + "linear-gradient-" + id + "0" + ")");
 
         // append title
@@ -298,6 +293,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     dataObjectName,
     id,
     reverseRange,
+    isLinear,
   ]);
   return (
     <div

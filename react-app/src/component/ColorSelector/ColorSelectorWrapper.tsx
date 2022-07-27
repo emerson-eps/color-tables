@@ -33,13 +33,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
 
-  const onChangeData = React.useCallback((e) => {
-    if (e.value == "Linear") {
-      getSample("Linear");
-    } else {
-      getSample("Logarithm");
-    }
-  }, []);
+  const onChangeData = React.useCallback(
+    (e) => {
+      if (e.value === "Linear") {
+        getSample("Linear");
+      } else {
+        getSample("Logarithm");
+      }
+    },
+    [getSample]
+  );
 
   if (!useSampling) {
     // Continuous legend using color table  data
@@ -107,7 +110,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     }
 
     // return continuous and discrete legend which uses colortable data
-    else if (useColorTableColors) {
+    if (useColorTableColors) {
       continuousLegend = continuosColorData.map((value: any, index: any) => {
         return (
           <ColorSelectorComponent
@@ -133,6 +136,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       });
     }
   } else if (useSampling) {
+    // eslint-disable-next-line
     {
       // eslint-disable-next-line
       useSampling;
