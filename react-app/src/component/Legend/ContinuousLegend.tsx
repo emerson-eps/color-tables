@@ -5,7 +5,13 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
+import {
+  select,
+  scaleLinear,
+  scaleSequential,
+  axisBottom,
+  axisRight,
+} from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -65,13 +71,11 @@ declare type continuousLegendProps = {
    * Reverse the range(min and max)
    */
   reverseRange?: boolean;
-  isLinear?: boolean;
 };
 
 declare type ItemColor = {
   color: string;
   offset: number;
-  testOffset: any;
 };
 
 export const ContinuousLegend: React.FC<continuousLegendProps> = ({
@@ -86,7 +90,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
   reverseRange,
-  isLinear = true,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -125,8 +128,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             legendColors = getColorScaleData.arrayData;
           }
         }
+
+        const isD3Colors = d3ColorScales.find((value: any) => {
+          return value?.name === colorName;
+        });
         // main continuous legend for d3 colors
-        if (legendColors.length === 0) {
+        if (isD3Colors && isD3Colors.discrete === false) {
           const arrayData: any = [];
           const d3ColorArrays = colorsArray(colorName, d3ColorScales);
           const data = range(10).map((d) => ({ color: d3ColorArrays(d / 10) }));
@@ -161,9 +168,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           }
           legendColors = rgbValue;
         }
-        // let breakpoint = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0];
-        // let itemVale: any
-        // breakpoint.forEach(function (item) {itemVale = item});
+
         legendColors.forEach((value: [number, number, number, number]) => {
           // return the color and offset needed to draw the legend
           itemColor.push({
@@ -173,30 +178,30 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
                 ? RGBToHexValue(value, maxValue).offset
                 : RGBToHex(value).offset,
             color: RGBToHex(value).color,
-            testOffset: value[0], // gives the first point
           });
         });
 
-        const width = 150;
-        const colorScale = isLinear
-          ? scaleLinear().domain([min, max]).range([0, width])
-          : scaleSymlog().domain([min, max]).range([0, width]);
-        //scaleSymlog().domain([Math.log(min), Math.log(max)]).clamp(true).range([0, width]);
+        if (legendColors.length === 0) {
+          return [0, 0, 0];
+        }
 
-        // create an svg of specific width and height
+        const colorScale = scaleSequential().domain([min, max]);
+        // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
           .style("margin-left", "2px")
           .append("svg")
           .style("background-color", "#ffffffcc")
-          .style("border-radius", "5px")
-          .attr("width", horizontal ? width + 50 : "77")
-          .attr("height", horizontal ? "70" : "173");
+          .style("border-radius", "5px");
 
-        let linearGradient = svgLegend
-          .append("defs")
+        const defs = svgLegend.append("defs");
+        svgLegend
+          .attr("width", horizontal ? "190" : "77")
+          .attr("height", horizontal ? "70" : "173");
+        const currentIndex = "linear-gradient-" + id + "0";
+        let linearGradient = defs
           .append("linearGradient")
-          .attr("id", "linear-gradient-" + id + "0");
+          .attr("id", currentIndex);
         // append a linearGradient element to the defs and give it a unique id
         if ((horizontal && !reverseRange) || (!horizontal && reverseRange)) {
           linearGradient
@@ -221,9 +226,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            // return colorScale(data.testOffset) / 1.5 + "%";
-            return colorScale(min + data.testOffset * (max - min)) / 1.5 + "%";
-            //return (isLinear ? data.offset + "%" : colorScale(min + (data.testOffset * (max - min))) / 4 + "%");
+            return data.offset + "%";
           })
           .attr("stop-color", function (data) {
             return data.color;
@@ -232,18 +235,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // draw the rectangle and fill with gradient
         svgLegend
           .append("rect")
-          .attr("x", 16)
+          .attr("x", 25)
           .attr("y", horizontal ? 30 : 18)
-          .attr("width", horizontal ? width : 20)
+          .attr("width", horizontal ? "149" : 20)
           .attr("height", horizontal ? 20 : "149")
-          // eslint-disable-next-line
-          .style("fill", "url(#" + "linear-gradient-" + id + "0" + ")");
+          .style("fill", "url(#" + currentIndex + ")");
 
         // append title
         svgLegend
           .append("text")
           .attr("x", horizontal ? 25 : -168)
-          .attr("y", horizontal ? 20 : 10)
+          .attr("y", horizontal ? 20 : 15)
           .style("text-anchor", "left")
           .style("transform", horizontal ? "none" : "left")
           .style("transform", horizontal ? "none" : "rotate(270deg)")
@@ -255,10 +257,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // range varies the size of the axis
         let xLeg = scaleLinear()
           .domain(reverseRange ? [max, min] : [min, max])
-          .range([0, width]);
+          .range([10, 158]);
         let yLeg = scaleLinear()
           .domain(reverseRange ? [min, max] : [max, min])
-          .range([0, width]);
+          .range([10, 158]);
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
           colorScale.domain()
@@ -272,7 +274,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .append("g")
           .attr(
             "transform",
-            horizontal ? "translate(16, 50)" : "translate(15.5, 17.5)"
+            horizontal ? "translate(16, 50)" : "translate(25, 7.5)"
           )
           .style("font-size", "10px")
           .style("font-weight", "700")
@@ -293,7 +295,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     dataObjectName,
     id,
     reverseRange,
-    isLinear,
   ]);
   return (
     <div
