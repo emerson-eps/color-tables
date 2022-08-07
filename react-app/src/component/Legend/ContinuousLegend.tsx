@@ -5,13 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import {
-  select,
-  scaleLinear,
-  scaleSequential,
-  axisBottom,
-  axisRight,
-} from "d3";
+import { select, scaleLinear, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -185,7 +179,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
-        const colorScale = scaleSequential().domain([min, max]);
+        const colorScale = scaleLinear().domain([min, max]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
