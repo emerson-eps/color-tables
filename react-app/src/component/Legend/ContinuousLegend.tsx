@@ -8,7 +8,6 @@ import {
 import {
   select,
   scaleLinear,
-  scaleSequential,
   axisBottom,
   axisRight,
 } from "d3";
@@ -185,7 +184,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
-        const colorScale = scaleSequential().domain([min, max]);
+        const colorScale = scaleLinear().domain([min, max]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
