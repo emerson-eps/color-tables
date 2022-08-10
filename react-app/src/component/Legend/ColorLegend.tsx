@@ -17,6 +17,7 @@ declare type ColorLegendProps = {
   discreteData: { objects: Record<string, [number[], number]> };
   getColorName?: any;
   reverseRange?: boolean;
+  getColorRange?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -31,10 +32,28 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   discreteData,
   getColorName,
   reverseRange,
+  getColorRange,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isAuto, setAuto] = React.useState(true);
+  const [minX, setMinX] = React.useState();
+  const [maxY, setMaxY] = React.useState();
+
+  const getRange = React.useCallback((data: any) => {
+    if (data === "Auto") {
+      setAuto(true);
+      if (getColorRange) getColorRange({isAuto: true});
+    } else {
+      if (data?.[0] && data?.[1]) {
+        setMinX(data[0])
+        setMaxY(data[1])
+        setAuto(false);
+        if (getColorRange) getColorRange({range:[data[0], data[1]], isAuto: false});
+      }
+    }
+  }, [isAuto]);
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -81,8 +100,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div ref={divRef} onClick={toggleColorSelector}>
         {isCont === true && (
           <ContinuousLegend
-            min={min}
-            max={max}
+            min={(minX && isAuto === false) ? minX : min}
+            max={(maxY && !isAuto) ? maxY : max}
             dataObjectName={dataObjectName}
             position={position}
             colorName={colorName}
@@ -91,6 +110,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
+            isAuto={isAuto}
+            //getRange={getSampling}
           />
         )}
         {isCont === false && (
@@ -103,6 +124,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
+           // getSample={getSampling}
           />
         )}
       </div>
@@ -112,6 +134,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             newColorScaleData={getSelectedColorScale}
             isHorizontal={horizontal}
             colorTables={colorTables}
+            getRange={getRange}
           />
         )}
       </div>

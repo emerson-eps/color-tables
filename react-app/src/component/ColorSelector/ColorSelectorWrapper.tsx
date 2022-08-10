@@ -11,15 +11,21 @@ export declare type colorScaleObj = {
 export type colorScaleArray = Array<colorScaleObj>;
 
 declare type legendProps = {
-  useColorTableColors: boolean;
-  newColorScaleData: any;
-  colorTables: any;
+  useColorTableColors?: boolean;
+  newColorScaleData?: any;
+  colorTables?: any;
+  useRange?: boolean;
+  getRange?: any;
+  useBreakpoint?: boolean;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useColorTableColors,
   newColorScaleData,
   colorTables,
+  useRange,
+  getRange,
+  useBreakpoint,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -29,39 +35,67 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
 
-  // Continuous legend using color table  data
-  const colorTableContinuousData = colorTables.filter((element: any) => {
+  const onChangeRange = React.useCallback(
+    (e) => {
+      console.log(e.value)
+      if (e.value === "Auto") {
+        getRange("Auto");
+      } else {
+        let inputValue1 = (document.getElementById("minV") as HTMLInputElement).value; 
+        let inputValue2 = (document.getElementById("maxV") as HTMLInputElement).value; 
+        getRange([parseFloat(inputValue1), parseFloat(inputValue2)]);
+      }
+    },
+    [getRange]
+  );
+
+  const onChangeBreakpoint = React.useCallback(
+    (e) => {
+      if (e.value === "Auto") {
+        getRange("Auto");
+      } else {
+        let inputValue1 = (document.getElementById("minV") as HTMLInputElement).value; 
+        let inputValue2 = (document.getElementById("maxV") as HTMLInputElement).value; 
+        getRange([parseFloat(inputValue1), parseFloat(inputValue2)]);
+      }
+    },
+    [getRange]
+  );
+
+  if (!useRange && !useBreakpoint) {
+          // Continuous legend using color table  data
+  const colorTableContinuousData = colorTables?.filter((element: any) => {
     return element.discrete === false;
   });
 
-  colorTableContinuousData.forEach((element: any) => {
+  colorTableContinuousData?.forEach((element: any) => {
     continuosColorData.push({ color: element.colors, name: element.name });
   });
 
   // Continuous legend using d3 data
-  const d3continuousData = d3ColorScales.filter((element: any) => {
+  const d3continuousData = d3ColorScales?.filter((element: any) => {
     return element.discrete === false;
   });
 
-  d3continuousData.forEach((element: any) => {
+  d3continuousData?.forEach((element: any) => {
     continuosD3ColorData.push({ color: element.colors, name: element.name });
   });
 
   // Discrete legend using color table data
-  const discreteData = colorTables.filter((element: any) => {
+  const discreteData = colorTables?.filter((element: any) => {
     return element.discrete === true;
   });
 
-  discreteData.forEach((element: any) => {
+  discreteData?.forEach((element: any) => {
     discreteColorData.push({ color: element.colors, name: element.name });
   });
 
   // Discrete legend using d3 data
-  const d3discreteData = d3ColorScales.filter((element: any) => {
+  const d3discreteData = d3ColorScales?.filter((element: any) => {
     return element.discrete === true;
   });
 
-  d3discreteData.forEach((element: any) => {
+  d3discreteData?.forEach((element: any) => {
     discreteD3ColorData.push({ color: element.colors, name: element.name });
   });
 
@@ -118,8 +152,43 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         />
       );
     });
+  }} else if (useRange) {
+    // eslint-disable-next-line
+    {
+      // eslint-disable-next-line
+      useRange;
+    }
+    return (
+      <div
+        onChange={(ev) => {
+          onChangeRange(ev.target);
+        }}
+      >
+        <input type="radio" value="Auto" name="range" defaultChecked/> Auto <br />
+        <input type="radio" value="Domain" name="range" />
+        <input type="text" id="minV" size={4} placeholder="min" />
+        <input type="text" id="maxV" size={4} placeholder="max" />
+      </div>
+    );
+  } else if (useBreakpoint) {
+    // eslint-disable-next-line
+    {
+      // eslint-disable-next-line
+      useBreakpoint;
+    }
+    return (
+      <div
+        onChange={(ev) => {
+          onChangeBreakpoint(ev.target);
+        }}
+      >
+        <input type="radio" value="None" name="legend" />
+        None <br />
+        <input type="radio" value="domain" name="legend"  />
+        <input type="text" id="minV" size={4} />
+      </div>
+    );
   }
-  //}
 
   return (
     <div
@@ -137,3 +206,4 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     </div>
   );
 };
+

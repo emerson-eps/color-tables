@@ -65,11 +65,12 @@ declare type continuousLegendProps = {
    * Reverse the range(min and max)
    */
   reverseRange?: boolean;
+  isAuto?: boolean;
 };
 
 declare type ItemColor = {
   color: string;
-  offset: number;
+  breakPoint: number;
 };
 
 export const ContinuousLegend: React.FC<continuousLegendProps> = ({
@@ -84,6 +85,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
   reverseRange,
+  //isAuto,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -96,6 +98,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
     async function continuousLegend() {
       const itemColor: ItemColor[] = [];
+      const itempoint: ItemColor[] = [];
       let dataSet;
 
       try {
@@ -163,11 +166,18 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = rgbValue;
         }
 
+        const breaPointValue = [0,0.5,1]
+
+        breaPointValue.forEach((values: any) => {
+          itempoint.push(values)
+        });
+
         legendColors.forEach((value: [number, number, number, number]) => {
-          // return the color and offset needed to draw the legend
+          
+          // return the color and breakPoint needed to draw the legend
           itemColor.push({
             // to support discrete color for continous data
-            offset:
+            breakPoint:
               getColorTableScale?.discrete === true
                 ? RGBToHexValue(value, maxValue).offset
                 : RGBToHex(value).offset,
@@ -220,7 +230,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            return data.offset + "%";
+            //console.log(data.offset)
+            return data.breakPoint + "%";
           })
           .attr("stop-color", function (data) {
             return data.color;

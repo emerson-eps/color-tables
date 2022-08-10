@@ -3,6 +3,10 @@ import { Accordion } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 
 export const ColorSelectorAccordion = (props: any) => {
+  const accordionTitle = {
+    fontFamily: 'cursive',
+  }
+
   return (
     <div
       className="Container"
@@ -15,8 +19,8 @@ export const ColorSelectorAccordion = (props: any) => {
       }}
     >
       <Accordion>
-        <Accordion.Item isExpanded>
-          <Accordion.Header>Color Scales</Accordion.Header>
+        <Accordion.Item>
+          <Accordion.Header style={accordionTitle}>Color Scales</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
               <Accordion.Item>
@@ -39,6 +43,31 @@ export const ColorSelectorAccordion = (props: any) => {
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
                   />
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+      <Accordion>
+        <Accordion.Item>
+          <Accordion.Header>Color Sampling</Accordion.Header>
+          <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Header>Range</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper useRange={true} getRange={props?.getRange}/>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel>
+          <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Header>Breakpoint</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper useBreakpoint={true} getRange={props?.getRange}/>
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
