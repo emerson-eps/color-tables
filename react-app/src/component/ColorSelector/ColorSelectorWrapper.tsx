@@ -17,6 +17,7 @@ declare type legendProps = {
   useRange?: boolean;
   getRange?: any;
   useBreakpoint?: boolean;
+  getBreakpoint?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -26,6 +27,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useRange,
   getRange,
   useBreakpoint,
+  getBreakpoint,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -37,7 +39,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   const onChangeRange = React.useCallback(
     (e) => {
-      console.log(e.value)
       if (e.value === "Auto") {
         getRange("Auto");
       } else {
@@ -51,15 +52,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   const onChangeBreakpoint = React.useCallback(
     (e) => {
-      if (e.value === "Auto") {
-        getRange("Auto");
+      if (e.value === "None") {
+        getBreakpoint("None");
       } else {
-        let inputValue1 = (document.getElementById("minV") as HTMLInputElement).value; 
-        let inputValue2 = (document.getElementById("maxV") as HTMLInputElement).value; 
-        getRange([parseFloat(inputValue1), parseFloat(inputValue2)]);
+        let breakpoint = (document.getElementById("breakpoint") as HTMLInputElement).value; 
+        let breakpointArray: any = breakpoint.split(',');
+
+        getBreakpoint(breakpointArray);
       }
     },
-    [getRange]
+    [getBreakpoint]
   );
 
   if (!useRange && !useBreakpoint) {
@@ -185,7 +187,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         <input type="radio" value="None" name="legend" />
         None <br />
         <input type="radio" value="domain" name="legend"  />
-        <input type="text" id="minV" size={4} />
+        <input type="text" id="breakpoint" size={16} />
       </div>
     );
   }

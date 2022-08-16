@@ -66,11 +66,13 @@ declare type continuousLegendProps = {
    */
   reverseRange?: boolean;
   isAuto?: boolean;
+  breakPoint?: any;
 };
 
 declare type ItemColor = {
   color: string;
   breakPoint: number;
+  offSetPoint: any;
 };
 
 export const ContinuousLegend: React.FC<continuousLegendProps> = ({
@@ -85,7 +87,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
   reverseRange,
-  //isAuto,
+  breakPoint,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -172,16 +174,26 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           itempoint.push(values)
         });
 
-        legendColors.forEach((value: [number, number, number, number]) => {
-          
+        const arrOfNum = breakPoint?.map((str: string) => {
+          return Number(str);
+        });
+
+        const breakPointValues = arrOfNum ? arrOfNum : []
+
+        breakPointValues.forEach((value: any) => {
+          value
+        });
+
+        legendColors.forEach((value: [number, number, number, number], index:number) => {
           // return the color and breakPoint needed to draw the legend
           itemColor.push({
             // to support discrete color for continous data
             breakPoint:
               getColorTableScale?.discrete === true
                 ? RGBToHexValue(value, maxValue).offset
-                : RGBToHex(value).offset,
+                : RGBToHex(value, breakPointValues[index]).offset,
             color: RGBToHex(value).color,
+            offSetPoint: breakPoint.length > 0 ? breakPointValues[index] : value[0]
           });
         });
 
@@ -189,7 +201,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
-        const colorScale = scaleLinear().domain([min, max]);
+        const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -230,8 +242,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            //console.log(data.offset)
-            return data.breakPoint + "%";
+            // console.log("*offSetPoint*", data.offSetPoint)
+            // console.log("*scale*", colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%")
+             //return data.breakPoint + "%";
+            return colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%";
           })
           .attr("stop-color", function (data) {
             return data.color;
@@ -267,9 +281,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
-          colorScale.domain()
-        );
+        // const horizontalAxisLeg = axisBottom(xLeg).tickValues(
+        //   colorScale.domain()
+        // );
         const VerticalAxisLeg = axisRight(yLeg)
           .tickSize(20)
           .tickValues(colorScale.domain());
@@ -283,7 +297,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           )
           .style("font-size", "10px")
           .style("font-weight", "700")
-          .call(horizontal ? horizontalAxisLeg : VerticalAxisLeg)
+          .call(horizontal ? axisBottom(xLeg).ticks(5) : VerticalAxisLeg)
           .style("height", 15);
       } catch (error) {
         console.error(error);

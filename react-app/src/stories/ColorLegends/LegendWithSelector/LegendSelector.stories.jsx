@@ -9,7 +9,7 @@ export default {
 
 // prop for continous legend
 const min = 0;
-const max = 0.35;
+const max = 1;
 const dataObjectName = "Legend";
 const position = [5, 10];
 const horizontal = true;
