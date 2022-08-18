@@ -35,6 +35,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
 
+  // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
       if (e.value === "Auto") {
@@ -143,6 +144,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     }
   }
 
+  // Sampling through range
   if (useRange) {
     // eslint-disable-next-line
     {

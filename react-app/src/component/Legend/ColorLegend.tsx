@@ -38,9 +38,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAuto, setAuto] = React.useState(true);
-  const [minX, setMinX] = React.useState();
-  const [maxY, setMaxY] = React.useState();
+  const [newMin, setNewMin] = React.useState();
+  const [newMax, setNewMax] = React.useState();
 
+  // callback function for modifying range
   const getRange = React.useCallback(
     (data: any) => {
       if (data === "Auto") {
@@ -48,8 +49,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         if (getColorRange) getColorRange({ isAuto: true });
       } else {
         if (data?.[0] && data?.[1]) {
-          setMinX(data[0]);
-          setMaxY(data[1]);
+          setNewMin(data[0]);
+          setNewMax(data[1]);
           setAuto(false);
           if (getColorRange)
             getColorRange({ range: [data[0], data[1]], isAuto: false });
@@ -104,8 +105,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div ref={divRef} onClick={toggleColorSelector}>
         {isCont === true && (
           <ContinuousLegend
-            min={minX && isAuto === false ? minX : min}
-            max={maxY && !isAuto ? maxY : max}
+            min={newMin && isAuto === false ? newMin : min}
+            max={newMax && !isAuto ? newMax : max}
             dataObjectName={dataObjectName}
             position={position}
             colorName={colorName}
@@ -114,7 +115,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
-            isAuto={isAuto}
           />
         )}
         {isCont === false && (

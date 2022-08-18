@@ -65,7 +65,6 @@ declare type continuousLegendProps = {
    * Reverse the range(min and max)
    */
   reverseRange?: boolean;
-  isAuto?: boolean;
 };
 
 declare type ItemColor = {
