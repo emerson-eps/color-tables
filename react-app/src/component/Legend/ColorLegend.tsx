@@ -17,6 +17,7 @@ declare type ColorLegendProps = {
   discreteData: { objects: Record<string, [number[], number]> };
   getColorName?: any;
   reverseRange?: boolean;
+  getColorRange?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -31,10 +32,33 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   discreteData,
   getColorName,
   reverseRange,
+  getColorRange,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isAuto, setAuto] = React.useState(true);
+  const [newMin, setNewMin] = React.useState();
+  const [newMax, setNewMax] = React.useState();
+
+  // callback function for modifying range
+  const getRange = React.useCallback(
+    (data: any) => {
+      if (data === "Auto") {
+        setAuto(true);
+        if (getColorRange) getColorRange({ isAuto: true });
+      } else {
+        if (data?.[0] && data?.[1]) {
+          setNewMin(data[0]);
+          setNewMax(data[1]);
+          setAuto(false);
+          if (getColorRange)
+            getColorRange({ range: [data[0], data[1]], isAuto: false });
+        }
+      }
+    },
+    [getColorRange]
+  );
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -81,8 +105,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div ref={divRef} onClick={toggleColorSelector}>
         {isCont === true && (
           <ContinuousLegend
-            min={min}
-            max={max}
+            min={newMin && isAuto === false ? newMin : min}
+            max={newMax && !isAuto ? newMax : max}
             dataObjectName={dataObjectName}
             position={position}
             colorName={colorName}
@@ -112,6 +136,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             newColorScaleData={getSelectedColorScale}
             isHorizontal={horizontal}
             colorTables={colorTables}
+            getRange={getRange}
+            isCont={isCont}
           />
         )}
       </div>

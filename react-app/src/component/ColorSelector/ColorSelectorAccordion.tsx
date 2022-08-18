@@ -45,6 +45,25 @@ export const ColorSelectorAccordion = (props: any) => {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
+      <Accordion>
+        <Accordion.Item>
+          <Accordion.Header>Color Sampling</Accordion.Header>
+          <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Header>Range</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper
+                    useRange={true}
+                    getRange={props?.getRange}
+                    isCont={props?.isCont}
+                  />
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
     </div>
   );
 };
