@@ -64,19 +64,22 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [getColorRange]
   );
 
-  const getBreakpoint = React.useCallback((data: any) => {
-    if (data === "None") {
-      setNone(true);
-      if (getBreakpointValue) getBreakpointValue({setNone: true});
-    } else {
-      if (data) {
-        setBreakValue(data)
-        setNone(false);
-        if (getBreakpointValue) getBreakpointValue({breakpoint:[data], isNone: false});
+  const getBreakpoint = React.useCallback(
+    (data: any) => {
+      if (data === "None") {
+        setNone(true);
+        if (getBreakpointValue) getBreakpointValue({ setNone: true });
+      } else {
+        if (data) {
+          setBreakValue(data);
+          setNone(false);
+          if (getBreakpointValue)
+            getBreakpointValue({ breakpoint: [data], isNone: false });
+        }
       }
-    }
-  }, [isNone]);
- 
+    },
+    [isNone]
+  );
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {

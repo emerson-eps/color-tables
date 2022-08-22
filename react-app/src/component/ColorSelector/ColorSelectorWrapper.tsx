@@ -39,12 +39,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
 
+  const [isAuto, setAuto] = React.useState(true);
+
   // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
       if (e.value === "Auto") {
         getRange("Auto");
+        setAuto(true);
       } else {
+        setAuto(false);
         let inputValue1 = (document.getElementById("minV") as HTMLInputElement)
           .value;
         let inputValue2 = (document.getElementById("maxV") as HTMLInputElement)
@@ -58,12 +62,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const onChangeBreakpoint = React.useCallback(
     (e) => {
       if (e.value === "None") {
+        setAuto(true);
         getBreakpoint("None");
       } else {
-        let breakpoint = (document.getElementById("breakpoint") as HTMLInputElement).value; 
-        let breakpointArray: any
+        setAuto(false);
+        let breakpoint = (
+          document.getElementById("breakpoint") as HTMLInputElement
+        ).value;
+        let breakpointArray: any;
         if (breakpoint.length > 0) {
-          breakpointArray = breakpoint?.split(',');
+          breakpointArray = breakpoint?.split(",");
         }
 
         getBreakpoint(breakpointArray);
@@ -192,14 +200,14 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           id="minV"
           size={4}
           placeholder="min"
-          disabled={!isCont}
+          disabled={isAuto || !isCont}
         />
         <input
           type="text"
           id="maxV"
           size={4}
           placeholder="max"
-          disabled={!isCont}
+          disabled={isAuto || !isCont}
         />
       </div>
     );
@@ -215,10 +223,10 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           onChangeBreakpoint(ev.target);
         }}
       >
-        <input type="radio" value="None" name="legend" />
+        <input type="radio" value="None" name="legend" defaultChecked />
         None <br />
-        <input type="radio" value="domain" name="legend"  />
-        <input type="text" id="breakpoint" size={16} />
+        <input type="radio" value="domain" name="legend" />
+        <input type="text" id="breakpoint" size={16} disabled={isAuto} />
       </div>
     );
   }

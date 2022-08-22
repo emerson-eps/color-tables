@@ -72,7 +72,6 @@ declare type continuousLegendProps = {
 declare type ItemColor = {
   color: string;
   breakPoint?: number;
-  offSetPoint: any;
 };
 
 export const ContinuousLegend: React.FC<continuousLegendProps> = ({
@@ -167,39 +166,39 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = rgbValue;
         }
 
-        // breakPointValues.forEach((value: any) => {
-        //   value
-        // });
-
         const arrOfNum = breakPoint?.map((str: string) => {
           return Number(str);
         });
 
-        const userDefinedDomain = arrOfNum ? arrOfNum : []
-        
-        // const userDefinedDomainLength = userDefinedDomain.length
-        // const domainLength = legendColors.length
-        // const sortArray = [];
-        // const sortedDomain = userDefinedDomain.sort(function(a: number, b: number){return a-b});
+        const userDefinedDomain = arrOfNum ? arrOfNum : [];
 
-        legendColors.forEach((value: [number, number, number, number], index:number) => {
-          let domainIndex;
+        legendColors.forEach(
+          (value: [number, number, number, number], index: number) => {
+            let domainIndex;
 
-          if (userDefinedDomain[index]) { domainIndex = userDefinedDomain[index] }
-          else { domainIndex = value[0] }
+            if (userDefinedDomain[index]) {
+              domainIndex = userDefinedDomain[index];
+            } else {
+              domainIndex = value[0];
+            }
 
-          // return the color and breakPoint needed to draw the legend
-          itemColor.push({
-            // to support discrete color for continous data
-            // breakPoint: getColorTableScale?.discrete === true ? RGBToHexValue(value, maxValue).offset : RGBToHex(value, breakPointValues[index]).offset,
-            color: RGBToHex(value).color,
-            offSetPoint: breakPoint.length > 0 ? domainIndex * 100.0 : value[0] * 100.0
-          });
-        });
+            // return the color and breakPoint needed to draw the legend
+            itemColor.push({
+              // to support discrete color for continous data
+              breakPoint:
+                getColorTableScale?.discrete === true
+                  ? RGBToHexValue(value, maxValue).offset
+                  : breakPoint?.length > 0
+                  ? domainIndex * 100.0
+                  : value[0] * 100.0,
+              color: RGBToHex(value).color,
+            });
+          }
+        );
 
         itemColor.sort((a, b) => {
-          return a.offSetPoint - b.offSetPoint;
-      });
+          return a.breakPoint - b.breakPoint;
+        });
 
         if (legendColors.length === 0) {
           return [0, 0, 0];
@@ -239,7 +238,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             .attr("y1", horizontal ? "0%" : "100%")
             .attr("y2", "0%");
         }
-        console.log("itemColor", itemColor)
         // append multiple color stops by using D3's data/enter step
         linearGradient
           .selectAll("stop")
@@ -247,9 +245,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            // console.log("*scale*", colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%")
-            return data.offSetPoint + "%";
-            //return colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%";
+            return data.breakPoint + "%";
           })
           .attr("stop-color", function (data) {
             return data.color;
