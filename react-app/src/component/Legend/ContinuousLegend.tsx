@@ -65,11 +65,14 @@ declare type continuousLegendProps = {
    * Reverse the range(min and max)
    */
   reverseRange?: boolean;
+  isAuto?: boolean;
+  breakPoint?: any;
 };
 
 declare type ItemColor = {
   color: string;
-  offset: number;
+  breakPoint?: number;
+  offSetPoint: any;
 };
 
 export const ContinuousLegend: React.FC<continuousLegendProps> = ({
@@ -84,6 +87,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
   reverseRange,
+  breakPoint,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -163,23 +167,45 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           legendColors = rgbValue;
         }
 
-        legendColors.forEach((value: [number, number, number, number]) => {
-          // return the color and offset needed to draw the legend
+        // breakPointValues.forEach((value: any) => {
+        //   value
+        // });
+
+        const arrOfNum = breakPoint?.map((str: string) => {
+          return Number(str);
+        });
+
+        const userDefinedDomain = arrOfNum ? arrOfNum : []
+        
+        // const userDefinedDomainLength = userDefinedDomain.length
+        // const domainLength = legendColors.length
+        // const sortArray = [];
+        // const sortedDomain = userDefinedDomain.sort(function(a: number, b: number){return a-b});
+
+        legendColors.forEach((value: [number, number, number, number], index:number) => {
+          let domainIndex;
+
+          if (userDefinedDomain[index]) { domainIndex = userDefinedDomain[index] }
+          else { domainIndex = value[0] }
+
+          // return the color and breakPoint needed to draw the legend
           itemColor.push({
             // to support discrete color for continous data
-            offset:
-              getColorTableScale?.discrete === true
-                ? RGBToHexValue(value, maxValue).offset
-                : RGBToHex(value).offset,
+            // breakPoint: getColorTableScale?.discrete === true ? RGBToHexValue(value, maxValue).offset : RGBToHex(value, breakPointValues[index]).offset,
             color: RGBToHex(value).color,
+            offSetPoint: breakPoint.length > 0 ? domainIndex * 100.0 : value[0] * 100.0
           });
         });
+
+        itemColor.sort((a, b) => {
+          return a.offSetPoint - b.offSetPoint;
+      });
 
         if (legendColors.length === 0) {
           return [0, 0, 0];
         }
 
-        const colorScale = scaleLinear().domain([min, max]);
+        const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -213,6 +239,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             .attr("y1", horizontal ? "0%" : "100%")
             .attr("y2", "0%");
         }
+        console.log("itemColor", itemColor)
         // append multiple color stops by using D3's data/enter step
         linearGradient
           .selectAll("stop")
@@ -220,7 +247,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .enter()
           .append("stop")
           .attr("offset", function (data) {
-            return data.offset + "%";
+            // console.log("*scale*", colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%")
+            return data.offSetPoint + "%";
+            //return colorScale(min + (data.offSetPoint * (max - min))) / 1.5 + "%";
           })
           .attr("stop-color", function (data) {
             return data.color;
@@ -259,9 +288,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
           colorScale.domain()
         );
+
         const VerticalAxisLeg = axisRight(yLeg)
           .tickSize(20)
-          .tickValues(colorScale.domain());
+          //.tickValues(colorScale.domain());
+          .ticks(3);
 
         svgLegend
           .attr("class", "axis")

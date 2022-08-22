@@ -72,14 +72,15 @@ export function rgbValues(
 }
 
 // return the hex color code and offset
-export function RGBToHex(rgb: number[]) {
+export function RGBToHex(rgb: number[], breakpoint?: any) {
   let r = Math.round(rgb[1]).toString(16),
     g = Math.round(rgb[2]).toString(16),
     b = Math.round(rgb[3]).toString(16);
   if (r.length === 1) r = "0" + r;
   if (g.length === 1) g = "0" + g;
   if (b.length === 1) b = "0" + b;
-  const offset = rgb[0] * 100.0;
+  //const offset = rgb[0] * 100.0;
+  const offset = breakpoint? breakpoint * 100.0 : rgb[0] * 100.0;
 
   return { color: "#" + r + g + b, offset: offset };
 }

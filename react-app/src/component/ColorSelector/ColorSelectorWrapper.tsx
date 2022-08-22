@@ -17,6 +17,8 @@ declare type legendProps = {
   useRange?: boolean;
   getRange?: any;
   isCont?: boolean;
+  useBreakpoint?: boolean;
+  getBreakpoint?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -26,6 +28,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useRange,
   getRange,
   isCont,
+  useBreakpoint,
+  getBreakpoint,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -49,6 +53,23 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       }
     },
     [getRange]
+  );
+
+  const onChangeBreakpoint = React.useCallback(
+    (e) => {
+      if (e.value === "None") {
+        getBreakpoint("None");
+      } else {
+        let breakpoint = (document.getElementById("breakpoint") as HTMLInputElement).value; 
+        let breakpointArray: any
+        if (breakpoint.length > 0) {
+          breakpointArray = breakpoint?.split(',');
+        }
+
+        getBreakpoint(breakpointArray);
+      }
+    },
+    [getBreakpoint]
   );
 
   if (!useRange) {
@@ -180,6 +201,24 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           placeholder="max"
           disabled={!isCont}
         />
+      </div>
+    );
+  } else if (useBreakpoint) {
+    // eslint-disable-next-line
+    {
+      // eslint-disable-next-line
+      useBreakpoint;
+    }
+    return (
+      <div
+        onChange={(ev) => {
+          onChangeBreakpoint(ev.target);
+        }}
+      >
+        <input type="radio" value="None" name="legend" />
+        None <br />
+        <input type="radio" value="domain" name="legend"  />
+        <input type="text" id="breakpoint" size={16} />
       </div>
     );
   }
