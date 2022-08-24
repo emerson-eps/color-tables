@@ -62,7 +62,7 @@ export const ColorSelectorAccordion = (props: any) => {
               </Accordion.Item>
             </Accordion>
           </Accordion.Panel>
-          <Accordion.Panel>
+          {/* <Accordion.Panel>
             <Accordion>
               <Accordion.Item>
                 <Accordion.Header>Breakpoint</Accordion.Header>
@@ -74,7 +74,7 @@ export const ColorSelectorAccordion = (props: any) => {
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
-          </Accordion.Panel>
+          </Accordion.Panel> */}
         </Accordion.Item>
       </Accordion>
     </div>

@@ -204,7 +204,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
-        const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
+        //const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -281,13 +281,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
-          colorScale.domain()
-        );
+        const horizontalAxisLeg = axisBottom(xLeg)
+          //.tickValues(colorScale.domain());
+          .ticks(3);
 
         const VerticalAxisLeg = axisRight(yLeg)
-          .tickSize(20)
-          //.tickValues(colorScale.domain());
+          // .tickSize(20).tickValues(colorScale.domain());
           .ticks(3);
 
         svgLegend
@@ -295,7 +294,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .append("g")
           .attr(
             "transform",
-            horizontal ? "translate(16, 50)" : "translate(25, 7.5)"
+            horizontal ? "translate(16, 50)" : "translate(45, 7.5)"
           )
           .style("font-size", "10px")
           .style("font-weight", "700")
