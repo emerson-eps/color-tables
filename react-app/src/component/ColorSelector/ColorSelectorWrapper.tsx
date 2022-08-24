@@ -17,6 +17,8 @@ declare type legendProps = {
   useRange?: boolean;
   getRange?: any;
   isCont?: boolean;
+  useBreakpoint?: boolean;
+  getBreakpoint?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -26,6 +28,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useRange,
   getRange,
   isCont,
+  useBreakpoint,
+  getBreakpoint,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -35,12 +39,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
 
+  const [isAuto, setAuto] = React.useState(true);
+
   // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
       if (e.value === "Auto") {
         getRange("Auto");
+        setAuto(true);
       } else {
+        setAuto(false);
         let inputValue1 = (document.getElementById("minV") as HTMLInputElement)
           .value;
         let inputValue2 = (document.getElementById("maxV") as HTMLInputElement)
@@ -49,6 +57,27 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       }
     },
     [getRange]
+  );
+
+  const onChangeBreakpoint = React.useCallback(
+    (e) => {
+      if (e.value === "None") {
+        setAuto(true);
+        getBreakpoint("None");
+      } else {
+        setAuto(false);
+        let breakpoint = (
+          document.getElementById("breakpoint") as HTMLInputElement
+        ).value;
+        let breakpointArray: any;
+        if (breakpoint.length > 0) {
+          breakpointArray = breakpoint?.split(",");
+        }
+
+        getBreakpoint(breakpointArray);
+      }
+    },
+    [getBreakpoint]
   );
 
   if (!useRange) {
@@ -171,15 +200,33 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           id="minV"
           size={4}
           placeholder="min"
-          disabled={!isCont}
+          disabled={isAuto || !isCont}
         />
         <input
           type="text"
           id="maxV"
           size={4}
           placeholder="max"
-          disabled={!isCont}
+          disabled={isAuto || !isCont}
         />
+      </div>
+    );
+  } else if (useBreakpoint) {
+    // eslint-disable-next-line
+    {
+      // eslint-disable-next-line
+      useBreakpoint;
+    }
+    return (
+      <div
+        onChange={(ev) => {
+          onChangeBreakpoint(ev.target);
+        }}
+      >
+        <input type="radio" value="None" name="legend" defaultChecked />
+        None <br />
+        <input type="radio" value="domain" name="legend" />
+        <input type="text" id="breakpoint" size={16} disabled={isAuto} />
       </div>
     );
   }

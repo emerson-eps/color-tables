@@ -18,6 +18,7 @@ declare type ColorLegendProps = {
   getColorName?: any;
   reverseRange?: boolean;
   getColorRange?: any;
+  getBreakpointValue?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -33,6 +34,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getColorName,
   reverseRange,
   getColorRange,
+  getBreakpointValue,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -40,6 +42,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
+  const [breakValue, setBreakValue] = React.useState();
+  const [isNone, setNone] = React.useState(true);
 
   // callback function for modifying range
   const getRange = React.useCallback(
@@ -58,6 +62,23 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       }
     },
     [getColorRange]
+  );
+
+  const getBreakpoint = React.useCallback(
+    (data: any) => {
+      if (data === "None") {
+        setNone(true);
+        if (getBreakpointValue) getBreakpointValue({ setNone: true });
+      } else {
+        if (data) {
+          setBreakValue(data);
+          setNone(false);
+          if (getBreakpointValue)
+            getBreakpointValue({ breakpoint: [data], isNone: false });
+        }
+      }
+    },
+    [isNone]
   );
 
   const toggleColorSelector = useCallback(() => {
@@ -115,6 +136,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
+            breakPoint={breakValue && isNone === false ? breakValue : []}
           />
         )}
         {isCont === false && (
@@ -138,6 +160,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             colorTables={colorTables}
             getRange={getRange}
             isCont={isCont}
+            getBreakpoint={getBreakpoint}
           />
         )}
       </div>

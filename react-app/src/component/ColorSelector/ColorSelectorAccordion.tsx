@@ -46,7 +46,7 @@ export const ColorSelectorAccordion = (props: any) => {
         </Accordion.Item>
       </Accordion>
       <Accordion>
-        <Accordion.Item>
+        <Accordion.Item disabled={!props.isCont}>
           <Accordion.Header>Color Sampling</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
@@ -62,6 +62,19 @@ export const ColorSelectorAccordion = (props: any) => {
               </Accordion.Item>
             </Accordion>
           </Accordion.Panel>
+          {/* <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item>
+                <Accordion.Header>Breakpoint</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper
+                    useBreakpoint={true}
+                    getBreakpoint={props?.getBreakpoint}
+                  />
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel> */}
         </Accordion.Item>
       </Accordion>
     </div>

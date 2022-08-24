@@ -104,7 +104,8 @@ export function RGBToHexValue(rgb: number[], max?: number) {
 export function getRgbData(
   point: number,
   colorName: string,
-  iscolorTablesDefined: colorTablesArray | any
+  iscolorTablesDefined: colorTablesArray | any,
+  userBreakPoint?: any
 ): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
@@ -139,7 +140,29 @@ export function getRgbData(
     });
     return rgb;
   } else {
-    const colorTableColors = colorsArray(colorName, getColorTables);
+    let colorTableColors = colorsArray(colorName, getColorTables);
+    const itemColor: any = [];
+
+    if (userBreakPoint?.length > 0) {
+      colorTableColors?.forEach((value: any, index: any) => {
+        let domainIndex;
+
+        if (userBreakPoint[index]) {
+          domainIndex = userBreakPoint[index];
+        } else {
+          domainIndex = value[0];
+        }
+
+        itemColor.push([domainIndex, value[1], value[2], value[3]]);
+      });
+
+      itemColor?.sort((a: any, b: any) => {
+        if (a[0] == b[0]) return 0;
+        return a[0] < b[0] ? -1 : 1;
+      });
+      colorTableColors = itemColor;
+    }
+
     // compare the point and first value from colorTableColors
     const colorArrays = colorTableColors.find(
       (value: [number, number, number, number]) => {
