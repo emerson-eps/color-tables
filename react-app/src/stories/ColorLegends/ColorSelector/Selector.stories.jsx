@@ -1,13 +1,16 @@
 import * as React from "react";
 import { ColorSelectorAccordion } from "../../../component/ColorSelector/ColorSelectorAccordion";
 import colorTables from "../../../component/color-tables.json";
+import {CustomizedDialogs} from "../../../component/BreakPoint/Modal";
+
+
 export default {
   component: ColorSelectorAccordion,
   title: "Legends/ColorSelector",
 };
 
 const Template = (args) => {
-  return <ColorSelectorAccordion colorTables={colorTables} />;
+  return <CustomizedDialogs open={true} />;
 };
 
 export const selectorTemplate = Template.bind({});

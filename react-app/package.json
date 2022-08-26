@@ -1,6 +1,6 @@
 {
   "name": "@emerson-eps/color-tables",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Standard library of color tables for geological domain",
   "release": {
     "branches": [
@@ -24,13 +24,18 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
+    "@emotion/styled": "^11.10.0",
     "@equinor/eds-core-react": "^0.20.3",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.10.2",
+    "@storybook/addon-knobs": "^6.4.0",
     "@storybook/addon-storysource": "^6.5.9",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-resize-detector": "^7.1.2",
     "web-vitals": "^2.1.4"
   },
   "repository": {

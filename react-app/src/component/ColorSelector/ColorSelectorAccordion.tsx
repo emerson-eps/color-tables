@@ -1,8 +1,34 @@
 import * as React from "react";
 import { Accordion } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
+import { BreakPointComp } from "./breakPointModule"
 
 export const ColorSelectorAccordion = (props: any) => {
+  const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<
+      any
+    >([
+      {
+        color: "#ff0000",
+        position: 0
+      },
+      {
+        color: "#ffff00",
+        position: 0.25
+      },
+      {
+        color: "#00ff00",
+        position: 0.5
+      },
+      {
+        color: "#00ffff",
+        position: 0.75
+      },
+      {
+        color: "#0000ff",
+        position: 1
+      }
+    ]);
+
   return (
     <div
       className="Container"
@@ -62,7 +88,7 @@ export const ColorSelectorAccordion = (props: any) => {
               </Accordion.Item>
             </Accordion>
           </Accordion.Panel>
-          {/* <Accordion.Panel>
+          <Accordion.Panel>
             <Accordion>
               <Accordion.Item>
                 <Accordion.Header>Breakpoint</Accordion.Header>
@@ -71,10 +97,14 @@ export const ColorSelectorAccordion = (props: any) => {
                     useBreakpoint={true}
                     getBreakpoint={props?.getBreakpoint}
                   />
+                 <BreakPointComp
+                    colorScaleBreakpoints={colorScaleBreakpoints}
+                    setColorScaleBreakpoints={setColorScaleBreakpoints}
+                  />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
-          </Accordion.Panel> */}
+          </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
     </div>
