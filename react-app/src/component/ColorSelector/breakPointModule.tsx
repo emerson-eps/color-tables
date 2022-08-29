@@ -11,6 +11,10 @@ import {
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { convertBreakpointsToColorArray } from "../Utils/legendCommonFunction";
+import Icon from "@mui/material/Icon";
+import { green } from "@mui/material/colors";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
   declare type moduleProps = {
     colorScaleBreakpoints?: any;
@@ -72,7 +76,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
       const orderedSelectedColors = React.useMemo(() => {
         return Object.values(colorScaleBreakpoints).sort(
-          (a, b) => a.position - b.position
+          (a:any, b:any) => a.position - b.position
         );
       }, [colorScaleBreakpoints]);
 
@@ -101,10 +105,26 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         setSelectedIndex(index);
       }, []);
 
+      
+
       //const RAIL_DEFAULT_WIDTH = 250;
       const RAIL_HEIGHT = 16;
       const THUMB_OFFSET = 5;
       //const DEFAULT_THUMB_COLOR = defaultColorScales.Tableau10.colors[4];
+
+      const appendBreakpoint = React.useCallback(() => {
+        setColorScaleBreakpoints((items: any) => [
+          ...items,
+          {
+            //color: DEFAULT_THUMB_COLOR,
+            color: "#0000ff",
+            position: 0.5
+          }
+        ]);
+    
+        setSelectedIndex(colorScaleBreakpoints.length);
+        selectedIndexRef.current = colorScaleBreakpoints.length;
+      }, [colorScaleBreakpoints.length, setColorScaleBreakpoints]);
 
       const useStyles = makeStyles<Theme>((theme: Theme) =>
       createStyles({
@@ -115,7 +135,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         },
         controllersContainer: {
           display: "flex",
-          flexDirection: "row"
+          flexDirection: "row",
+          marginTop: "25px"
         },
         colorScaleContainer: {
           height: RAIL_HEIGHT,
@@ -142,7 +163,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         },
         thumb: {
           position: "absolute",
-          top: -THUMB_OFFSET,
+          //top: -THUMB_OFFSET,
+          top: 20,
           width: THUMB_WIDTH,
           height: RAIL_HEIGHT,
           borderWidth: "thin",
@@ -159,12 +181,13 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         thumbArrow: {
           position: "absolute",
           // top: RAIL_HEIGHT - THUMB_OFFSET,
-          top: 11,
+          top: 16,
           width: 0,
           height: 0,
           borderLeft: `${THUMB_WIDTH / 2}px solid transparent`,
           borderRight: `${THUMB_WIDTH / 2}px solid transparent`,
-          borderTop: "4px solid white"
+          borderTop: "4px solid black",
+          transform: "rotate(180deg)"
         },
         selectedThumbArrow: {
           borderTopColor: "orange"
@@ -179,39 +202,48 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         const width = 200;
     return (
         <div className={classes.root}>
-            <div className={classes.colorScaleContainer} style={{ width }}>
-                <div className={classes.texture}>
-                    <Texture texture={texture} />
-                </div>
-                <div className={classes.rail} ref={setBoundingClientRect}>
-                    {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
-                        const left = position * railBoundingBox.width - THUMB_WIDTH / 2;
-                        const onMoveStart = () => onMouseDown(index);
-
-                        return (
-                            <div
-                                key={index}
-                                className={classes.thumbContainer}
-                                onMouseDown={onMoveStart}
-                            >
-                                <div
-                                className={clsx(classes.thumbArrow, {
-                                    [classes.selectedThumbArrow]: selectedIndex === index
-                                })}
-                                style={{ left }}
-                                />
-                                <div
-                                className={clsx(classes.thumb, {
-                                    [classes.selectedThumb]: selectedIndex === index
-                                })}
-                                style={{ left, backgroundColor: color }}
-                                />
-                                
-                            </div>
-                        );
-                    })}
+          <div className={classes.colorScaleContainer} style={{ width }}>
+            <div className={classes.texture}>
+              <Texture texture={texture} />
             </div>
-        </div>
+            <div className={classes.rail} ref={setBoundingClientRect}>
+              {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
+                const left = position * railBoundingBox.width - THUMB_WIDTH / 2;
+                const onMoveStart = () => onMouseDown(index);
+                  return (
+                    <div
+                      key={index}
+                      className={classes.thumbContainer}
+                      onMouseDown={onMoveStart}
+                    >
+                      <div
+                        className={clsx(classes.thumbArrow, {
+                        [classes.selectedThumbArrow]: selectedIndex === index
+                        })}style={{ left }}
+                      />
+                      <div
+                        className={clsx(classes.thumb, {
+                        [classes.selectedThumb]: selectedIndex === index
+                        })}
+                        style={{ left, backgroundColor: color }}
+                      />  
+                    </div>
+                  );
+              })}
+            </div>
+          </div>
+          <div className={classes.controllersContainer}>
+            {/* <Icon baseClassName="fas" className="fa-plus-circle" sx={{ color: green[500] }}/> */}
+
+            <IconButton size="small" color="primary" onClick={appendBreakpoint}>
+              <AddCircleOutlineIcon fontSize="small" />
+            </IconButton>
+            <IconButton size="small" color="secondary" //onClick={() => deleteBreakPoint(selectedIndexRef.current)}
+                disabled={colorScaleBreakpoints.length === 1}
+              >
+                <RemoveCircleOutlineIcon fontSize="small" />
+            </IconButton>
+          </div>
         </div>
     )
 }

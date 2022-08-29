@@ -6,14 +6,7 @@ import { BreakPointComp } from "../../component/ColorSelector/breakPointModule"
 storiesOf("Breakpoint/Custom Color Scale", module)
   .addDecorator(withKnobs)
   .addDecorator(storyFn => (
-    <div
-      style={{
-        textAlign: "center",
-        border: "1px solid red",
-        borderRadius: 5,
-        width: 165
-      }}
-    >
+    <div>
       {storyFn()}
     </div>
   ))
