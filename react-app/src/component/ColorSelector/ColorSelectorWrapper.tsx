@@ -195,20 +195,10 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         />{" "}
         Auto <br />
         <input type="radio" value="Domain" name="range" disabled={!isCont} />
-        <input
-          type="text"
-          id="minV"
-          size={4}
-          placeholder="min"
-          disabled={isAuto || !isCont}
-        />
-        <input
-          type="text"
-          id="maxV"
-          size={4}
-          placeholder="max"
-          disabled={isAuto || !isCont}
-        />
+        <label style={{ marginLeft: 3, marginRight: 10 }}>Min</label>
+        <input type="text" id="minV" size={4} disabled={isAuto || !isCont} />
+        <label style={{ marginLeft: 10, marginRight: 10 }}>Max</label>
+        <input type="text" id="maxV" size={4} disabled={isAuto || !isCont} />
       </div>
     );
   } else if (useBreakpoint) {
