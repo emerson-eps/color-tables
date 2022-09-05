@@ -210,12 +210,13 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("margin-right", "2px")
           .style("margin-left", "2px")
           .append("svg")
+          .style("cursor", getColorScaleData ? "pointer" : "auto")
           .style("background-color", "#ffffffcc")
           .style("border-radius", "5px");
 
         const defs = svgLegend.append("defs");
         svgLegend
-          .attr("width", horizontal ? "190" : "77")
+          .attr("width", horizontal ? "190" : "80")
           .attr("height", horizontal ? "70" : "173");
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
@@ -281,13 +282,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg)
-          //.tickValues(colorScale.domain());
-          .ticks(3);
-
-        const VerticalAxisLeg = axisRight(yLeg)
-          // .tickSize(20).tickValues(colorScale.domain());
-          .ticks(3);
+        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
+          xLeg.ticks(0).concat(xLeg.domain(), (min + max) / 2)
+        );
+        const VerticalAxisLeg = axisRight(yLeg).tickValues(
+          yLeg.ticks(0).concat(yLeg.domain(), (min + max) / 2)
+        );
 
         svgLegend
           .attr("class", "axis")
