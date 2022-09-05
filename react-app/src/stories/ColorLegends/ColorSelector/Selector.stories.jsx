@@ -10,7 +10,8 @@ export default {
 };
 
 const Template = (args) => {
-  return <CustomizedDialogs open={true} />;
+  //return <CustomizedDialogs open={true} />;
+  return <ColorSelectorAccordion colorTables={colorTables} />;
 };
 
 export const selectorTemplate = Template.bind({});

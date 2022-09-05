@@ -5,7 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, axisBottom, axisRight } from "d3";
+import { select, scaleLinear, axisBottom, axisRight, ticks, tickStep } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -215,7 +215,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         const defs = svgLegend.append("defs");
         svgLegend
-          .attr("width", horizontal ? "190" : "77")
+          .attr("width", horizontal ? "190" : "80")
           .attr("height", horizontal ? "70" : "173");
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
@@ -281,13 +281,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg)
-          //.tickValues(colorScale.domain());
-          .ticks(3);
+        const horizontalAxisLeg = axisBottom(xLeg).tickValues( xLeg.ticks(0).concat(xLeg.domain(),(min+max)/2) );
 
-        const VerticalAxisLeg = axisRight(yLeg)
-          // .tickSize(20).tickValues(colorScale.domain());
-          .ticks(3);
+        const VerticalAxisLeg = axisRight(yLeg).tickValues(yLeg.ticks( 3 ).concat( yLeg.domain() ));
 
         svgLegend
           .attr("class", "axis")

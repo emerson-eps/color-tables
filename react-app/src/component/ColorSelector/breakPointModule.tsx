@@ -15,7 +15,8 @@ import Icon from "@mui/material/Icon";
 import { green } from "@mui/material/colors";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-
+import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
+//import App from "../BreakPoint/sample"
   declare type moduleProps = {
     colorScaleBreakpoints?: any;
     setColorScaleBreakpoints?: any;
@@ -199,7 +200,21 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         );
 
       const classes = useStyles();
-        const width = 200;
+      const width = 200;
+
+      const onChangeComplete = React.useCallback(() => {
+          console.log("######")
+        },
+        []
+      );
+
+      const openSketch = React.useCallback(() => {
+       
+         <div style={{ height: "50px", width: "50px", backgroundColor: "red" }}>
+          {/* <SketchPicker color={"#ff0000"} onChangeComplete={onChangeComplete} /></div> */}
+          {/* <App /> */}
+          </div>
+      }, []);
     return (
         <div className={classes.root}>
           <div className={classes.colorScaleContainer} style={{ width }}>
@@ -225,6 +240,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
                         className={clsx(classes.thumb, {
                         [classes.selectedThumb]: selectedIndex === index
                         })}
+                        onClick={openSketch}
                         style={{ left, backgroundColor: color }}
                       />  
                     </div>
