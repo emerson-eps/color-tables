@@ -13,6 +13,8 @@ import { BreakPointComp } from "../../component/ColorSelector/breakPointModule"
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
+    // height: "525px",
+    // width: "300px"
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
@@ -49,16 +51,26 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
-export const CustomizedDialogs = (props: any) => {
-  
-  const [open, setOpen] = React.useState(false);
+declare type dialogProps = {
+  open?: boolean,
+  scaleBreakpoints?: any
+};
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+export const CustomizedDialogs: React.FC<dialogProps> = ({
+  open,
+  scaleBreakpoints
+}: dialogProps) => {
+
+  const [openDialog, setOpen] = React.useState(open);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
   const handleClose = () => {
     setOpen(false);
   };
+
+  
 
   const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<
       any
@@ -85,17 +97,27 @@ export const CustomizedDialogs = (props: any) => {
       }
     ]);
 
+    const editedBreakpoint = React.useCallback((data) => {
+      setColorScaleBreakpoints(data)
+    },[setColorScaleBreakpoints, colorScaleBreakpoints])
+
+    console.log("colorScaleBreakpoints", colorScaleBreakpoints)
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
+    {
+      openDialog && 
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <BreakPointComp
+        colorScaleBreakpoints={colorScaleBreakpoints}
+        setColorScaleBreakpoints={setColorScaleBreakpoints}
+        editedBreakpoint={editedBreakpoint}
+      />
+        {/* <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Edit Colors
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -105,13 +127,9 @@ export const CustomizedDialogs = (props: any) => {
             setColorScaleBreakpoints={setColorScaleBreakpoints}
           />
           </Typography>
-        </DialogContent>
-        {/* <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions> */}
+        </DialogContent> */}
       </BootstrapDialog>
+    }
     </div>
   );
 }

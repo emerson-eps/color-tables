@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Accordion } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
-import { BreakPointComp } from "./breakPointModule"
+import { LegendComp } from "./legend"
 
 export const ColorSelectorAccordion = (props: any) => {
   const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<
@@ -97,7 +97,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     useBreakpoint={true}
                     getBreakpoint={props?.getBreakpoint}
                   />
-                 <BreakPointComp
+                 <LegendComp
                     colorScaleBreakpoints={colorScaleBreakpoints}
                     setColorScaleBreakpoints={setColorScaleBreakpoints}
                   />

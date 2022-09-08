@@ -10,15 +10,20 @@ import {
   import React from "react";
   //import { useDialog } from "./useDialog";
   import {CustomizedDialogs} from "./Modal";
-  
+  import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
+
+//   const onChangeComplete = React.useCallback(() => {
+//     console.log("######")
+//   },
+//   []
+// );
+
   storiesOf("modals/Dialog", module)
     .addDecorator(withKnobs)
     .addDecorator(storyFn => (
       <div
         style={{
           textAlign: "center",
-          border: "1px solid red",
-          borderRadius: 5,
           width: 400
         }}
       >
@@ -26,23 +31,15 @@ import {
       </div>
     ))
     .add("default", () => {
-        const sonfunction = () => {
-            <div>
-               <CustomizedDialogs open={true} />
-            </div>
-          };
-   
-      return (
-        <div style={{ margin: 10 }}>
-          <Button
-            title=""
-            variant="contained"
-            color="primary"
-            onClick={sonfunction}
-          >
-            Execute Something
-          </Button>
-        </div>
-      );
+const [popUpState, setPopUpState] = React.useState(false);
+const onClick = React.useCallback(() => {
+  setPopUpState(true);
+}, []);
+return (
+  <div>
+    <button onClick={onClick}>Click me</button>
+      {popUpState ? <SketchPicker color={"red"} /> : null }
+  </div>
+);
     });
   

@@ -1,32 +1,36 @@
 import * as React from "react";
 import { Texture } from "../BreakPoint/Texture";
+import { useRef } from "react";
 import clsx from "clsx";
 import {
     createStyles,
     IconButton,
     makeStyles,
+    Button,
     Theme,
-    Tooltip
   } from "@material-ui/core";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { convertBreakpointsToColorArray } from "../Utils/legendCommonFunction";
-import Icon from "@mui/material/Icon";
-import { green } from "@mui/material/colors";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
-//import App from "../BreakPoint/sample"
+import { SketchPicker } from "react-color";
+
   declare type moduleProps = {
     colorScaleBreakpoints?: any;
     setColorScaleBreakpoints?: any;
+    editedBreakpoint?: any
   };
 
 export const BreakPointComp: React.FC<moduleProps> = ({
     colorScaleBreakpoints,
-    setColorScaleBreakpoints
+    setColorScaleBreakpoints,
+    editedBreakpoint
 }: moduleProps) => {
-    
+
+
+  const divRef = useRef<HTMLDivElement>(null);
+
     const THUMB_WIDTH = 12;
 
     const [railBoundingBox, setRailBoundingBox] = React.useState<DOMRect>({
@@ -100,6 +104,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     const selectedIndexRef = React.useRef(0);
     const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
 
+    const [editedBreakpointsss, setEditedBreakPointsss] = React.useState([]);
+
     const onMouseDown = React.useCallback((index: number) => {
         isBreakpointMovingRef.current = true;
         selectedIndexRef.current = index;
@@ -113,26 +119,18 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const THUMB_OFFSET = 5;
       //const DEFAULT_THUMB_COLOR = defaultColorScales.Tableau10.colors[4];
 
-      const appendBreakpoint = React.useCallback(() => {
-        setColorScaleBreakpoints((items: any) => [
-          ...items,
-          {
-            //color: DEFAULT_THUMB_COLOR,
-            color: "#0000ff",
-            position: 0.5
-          }
-        ]);
-    
-        setSelectedIndex(colorScaleBreakpoints.length);
-        selectedIndexRef.current = colorScaleBreakpoints.length;
-      }, [colorScaleBreakpoints.length, setColorScaleBreakpoints]);
+      
 
       const useStyles = makeStyles<Theme>((theme: Theme) =>
       createStyles({
         root: {
           display: "flex",
           flexDirection: "column",
-          gap: theme.spacing(2)
+          gap: theme.spacing(2),
+          marginTop: "27px",
+          marginLeft: "50px",
+          height: "525px",
+          width: "300px"
         },
         controllersContainer: {
           display: "flex",
@@ -202,19 +200,65 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const classes = useStyles();
       const width = 200;
 
-      const onChangeComplete = React.useCallback(() => {
-          console.log("######")
+      const onChangeComplete = React.useCallback((color: any) => {
+        setColorScaleBreakpoints((items: any[]) =>
+          items.map((item, index) =>
+            index === selectedIndexRef.current
+              ? {
+                  ...item,
+                  color: color.hex
+                }
+              : item
+          )
+        );
         },
-        []
+        [setColorScaleBreakpoints]
       );
 
-      const openSketch = React.useCallback(() => {
-       
-         <div style={{ height: "50px", width: "50px", backgroundColor: "red" }}>
-          {/* <SketchPicker color={"#ff0000"} onChangeComplete={onChangeComplete} /></div> */}
-          {/* <App /> */}
-          </div>
+      const [popUpState, setPopUpState] = React.useState(false);
+      //const [applyState, setApplyState] = React.useState(false);
+
+        const onClick = React.useCallback(() => {
+            setPopUpState(true);
       }, []);
+
+      const appendBreakpoint = React.useCallback(() => {
+        setColorScaleBreakpoints((items: any) => [
+          ...items,
+          {
+            //color: DEFAULT_THUMB_COLOR,
+            color: "#0000ff",
+            position: 0.5
+          }
+        ]);
+    
+        setSelectedIndex(colorScaleBreakpoints.length);
+        selectedIndexRef.current = colorScaleBreakpoints.length;
+      }, [colorScaleBreakpoints.length, setColorScaleBreakpoints]);
+
+      const editBreakpoint = React.useCallback(() => {
+        setEditedBreakPointsss(colorScaleBreakpoints)
+        // setColorScaleBreakpoints(colorScaleBreakpoints)
+        editedBreakpoint(colorScaleBreakpoints)
+      },[setColorScaleBreakpoints, colorScaleBreakpoints]);
+
+      
+      
+
+      const deleteBreakPoint = React.useCallback(
+        (indexToDelete: number) => {
+          setColorScaleBreakpoints((items: any[]) =>
+            items.filter((_, index) => index !== indexToDelete)
+          );
+    
+          if (selectedIndexRef.current === indexToDelete) {
+            setSelectedIndex(0);
+            selectedIndexRef.current = 0;
+          }
+        },
+        [setColorScaleBreakpoints]
+      );
+
     return (
         <div className={classes.root}>
           <div className={classes.colorScaleContainer} style={{ width }}>
@@ -240,12 +284,21 @@ export const BreakPointComp: React.FC<moduleProps> = ({
                         className={clsx(classes.thumb, {
                         [classes.selectedThumb]: selectedIndex === index
                         })}
-                        onClick={openSketch}
+                        onClick={onClick}
                         style={{ left, backgroundColor: color }}
+                        
                       />  
                     </div>
                   );
               })}
+              {/* <div style={{marginTop:"100px"}}  ref={divRef}>{
+                // popUpState ? 
+                  <SketchPicker color={"red"} onChangeComplete={onChangeComplete} /> : null }
+              </div> */}
+              <Button variant="contained" style={{marginTop: "160px",backgroundColor: "#1976d2",height: "34px"}} 
+              onClick={editBreakpoint}>
+                <h4 style={{color: "#fff"}}>Apply</h4>
+              </Button>
             </div>
           </div>
           <div className={classes.controllersContainer}>
@@ -254,7 +307,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
             <IconButton size="small" color="primary" onClick={appendBreakpoint}>
               <AddCircleOutlineIcon fontSize="small" />
             </IconButton>
-            <IconButton size="small" color="secondary" //onClick={() => deleteBreakPoint(selectedIndexRef.current)}
+            <IconButton size="small" color="secondary" 
+            onClick={() => deleteBreakPoint(selectedIndexRef.current)}
                 disabled={colorScaleBreakpoints.length === 1}
               >
                 <RemoveCircleOutlineIcon fontSize="small" />
