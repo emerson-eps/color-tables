@@ -24,7 +24,7 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "@equinor/eds-core-react": "^0.20.3",
+    "@equinor/eds-core-react": "^0.21.0",
     "@storybook/addon-storysource": "^6.5.9",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
