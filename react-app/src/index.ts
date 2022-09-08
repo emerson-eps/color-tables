@@ -13,7 +13,7 @@ import { d3ColorScales } from "./component/Utils/d3ColorScale";
 import { colorTablesObj, colorTablesArray } from "./component/colorTableTypes";
 import { ContinuousLegend } from "./component/Legend/ContinuousLegend";
 import { DiscreteColorLegend } from "./component/Legend/DiscreteLegend";
-import * as colorTables from "./component/color-tables.json";
+import { default as colorTables } from "./component/color-tables.json";
 
 export {
   ColorSelectorAccordion,
