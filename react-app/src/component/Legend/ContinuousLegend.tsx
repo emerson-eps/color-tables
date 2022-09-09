@@ -213,7 +213,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
-        if (getItemColor.length > 0) {
+        if (getItemColor?.length > 0) {
           const options = getItemColor.map(function (row: any) {
             return { breakPoint: row.position * 100.0, color: row.color };
           });

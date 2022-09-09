@@ -6,10 +6,26 @@ export default {
 };
 import colorTables from "../../../component/color-tables.json";
 
-import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
+const min = 2918;
+const max = 4770;
+const dataObjectName = "Wells / MD";
+const position = [16, 10];
+const horizontal = true;
+const colorName = "Time/Depth";
+const reverseRange = false;
 
-const Template = () => {
-  return <SketchPicker />;
+const Template = (args) => {
+  return <ContinuousLegend {...args} />;
 };
 
 export const MDTemplate = Template.bind({});
+MDTemplate.args = {
+  min,
+  max,
+  dataObjectName,
+  position,
+  colorName,
+  colorTables,
+  horizontal,
+  reverseRange,
+};

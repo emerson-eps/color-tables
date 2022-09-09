@@ -86,7 +86,9 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   React.useEffect(() => {
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
-    editedBreakpoint(colorScaleBreakpoints);
+    if(editedBreakpoint) {
+      editedBreakpoint(colorScaleBreakpoints);
+    }
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
