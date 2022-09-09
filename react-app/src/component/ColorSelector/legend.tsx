@@ -10,19 +10,23 @@ import {CustomizedDialogs} from "../../component/BreakPoint/Modal";
 
   declare type moduleProps = {
     colorScaleBreakpoints?: any;
-    setColorScaleBreakpoints?: any;
+    editedData?: any;
+    // setColorScaleBreakpoints?: any;
   };
 
 export const LegendComp: React.FC<moduleProps> = ({
     colorScaleBreakpoints,
-    setColorScaleBreakpoints,
+    editedData,
+    // setColorScaleBreakpoints,
 }: moduleProps) => {
 
+    const [breakpointValues, setBreakPointValues] = React.useState(colorScaleBreakpoints);
+
       const orderedSelectedColors = React.useMemo(() => {
-        return Object.values(colorScaleBreakpoints).sort(
+        return Object.values(breakpointValues).sort(
           (a:any, b:any) => a.position - b.position
         );
-      }, [colorScaleBreakpoints]);
+      }, [breakpointValues]);
 
       const texture = React.useMemo(
         () => convertBreakpointsToColorArray(orderedSelectedColors),
@@ -47,16 +51,22 @@ export const LegendComp: React.FC<moduleProps> = ({
         );
 
         const [popUpState, setPopUpState] = React.useState(false);
-        const openEditModal = React.useCallback(() => {
-            setPopUpState(true);
-      }, []);
+
+        const openEditModal = React.useCallback((data) => {
+            setPopUpState(data.bubbles);
+        }, [popUpState]);
 
       const classes = useStyles();
       const width = 200; 
 
     const scaleBreakpoints = React.useCallback((value) => {
-        console.log("vale", value)
+      if (value) {
+        setBreakPointValues(value)
+        editedData(value)
+      }
     }, []);
+
+    
 
     return (
         <div className={classes.root}>
@@ -65,9 +75,10 @@ export const LegendComp: React.FC<moduleProps> = ({
               <Texture texture={texture} />
             </div>
           </div>
+          
           {
-            popUpState ? 
-                <CustomizedDialogs open={true} scaleBreakpoints={scaleBreakpoints} /> : null 
+            popUpState == true &&
+                <CustomizedDialogs open={openEditModal} scaleBreakpoints={scaleBreakpoints} />
             }
         </div>
     )

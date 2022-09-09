@@ -28,27 +28,21 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     editedBreakpoint
 }: moduleProps) => {
 
-
   const divRef = useRef<HTMLDivElement>(null);
-
     const THUMB_WIDTH = 12;
-
     const [railBoundingBox, setRailBoundingBox] = React.useState<DOMRect>({
         width: 0,
         left: 0
     } as DOMRect);
-
     const setBoundingClientRect = React.useCallback(
         (node: HTMLDivElement | null) => {
           node && setRailBoundingBox(node.getBoundingClientRect());
         },
         []
       );
-
       const onMouseUp = React.useCallback(() => {
         isBreakpointMovingRef.current = false;
       }, []);
-
       const onMouseMove = React.useCallback(
         (e: MouseEvent | TouchEvent) => {
           if (!isBreakpointMovingRef.current) {
@@ -76,7 +70,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
             )
           );
         },
-        [railBoundingBox, setColorScaleBreakpoints]
+        [railBoundingBox]
       );
 
       const orderedSelectedColors = React.useMemo(() => {
@@ -93,18 +87,17 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       React.useEffect(() => {
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
-    
+        editedBreakpoint(colorScaleBreakpoints);
         return () => {
           document.removeEventListener("mousemove", onMouseMove);
           document.removeEventListener("mouseup", onMouseUp);
         };
-      }, [onMouseMove]);
+       
+      }, [onMouseMove, colorScaleBreakpoints]);
 
     const isBreakpointMovingRef = React.useRef(false);
     const selectedIndexRef = React.useRef(0);
     const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
-
-    const [editedBreakpointsss, setEditedBreakPointsss] = React.useState([]);
 
     const onMouseDown = React.useCallback((index: number) => {
         isBreakpointMovingRef.current = true;
@@ -112,14 +105,10 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         setSelectedIndex(index);
       }, []);
 
-      
-
       //const RAIL_DEFAULT_WIDTH = 250;
       const RAIL_HEIGHT = 16;
       const THUMB_OFFSET = 5;
       //const DEFAULT_THUMB_COLOR = defaultColorScales.Tableau10.colors[4];
-
-      
 
       const useStyles = makeStyles<Theme>((theme: Theme) =>
       createStyles({
@@ -129,8 +118,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           gap: theme.spacing(2),
           marginTop: "27px",
           marginLeft: "50px",
-          height: "525px",
-          width: "300px"
+          height: "126px",
+          width: "240px"
         },
         controllersContainer: {
           display: "flex",
@@ -149,12 +138,13 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           height: "100%",
           borderRadius: theme.shape.borderRadius,
           cursor: "pointer",
-          overflow: "hidden"
+          overflow: "hidden",
+          zIndex: 999
         },
         rail: {
           position: "absolute",
           width: "100%",
-          height: "100%"
+          // height: "100%"
         },
         thumbContainer: {
           userSelect: "none",
@@ -216,10 +206,13 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       );
 
       const [popUpState, setPopUpState] = React.useState(false);
-      //const [applyState, setApplyState] = React.useState(false);
 
-        const onClick = React.useCallback(() => {
-            setPopUpState(true);
+      // const activatePicker = () => {
+      //   setPopUpState(true);
+      // }
+
+      const activatePicker = React.useCallback(() => {
+        setPopUpState(true);
       }, []);
 
       const appendBreakpoint = React.useCallback(() => {
@@ -236,12 +229,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         selectedIndexRef.current = colorScaleBreakpoints.length;
       }, [colorScaleBreakpoints.length, setColorScaleBreakpoints]);
 
-      const editBreakpoint = React.useCallback(() => {
-        setEditedBreakPointsss(colorScaleBreakpoints)
-        // setColorScaleBreakpoints(colorScaleBreakpoints)
-        editedBreakpoint(colorScaleBreakpoints)
-      },[setColorScaleBreakpoints, colorScaleBreakpoints]);
-
+      
       
       
 
@@ -261,8 +249,9 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
     return (
         <div className={classes.root}>
+          <label>Edit Break Points :</label>
           <div className={classes.colorScaleContainer} style={{ width }}>
-            <div className={classes.texture}>
+            <div className={classes.texture} onClick={activatePicker} >
               <Texture texture={texture} />
             </div>
             <div className={classes.rail} ref={setBoundingClientRect}>
@@ -274,6 +263,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
                       key={index}
                       className={classes.thumbContainer}
                       onMouseDown={onMoveStart}
+                      
                     >
                       <div
                         className={clsx(classes.thumbArrow, {
@@ -284,21 +274,18 @@ export const BreakPointComp: React.FC<moduleProps> = ({
                         className={clsx(classes.thumb, {
                         [classes.selectedThumb]: selectedIndex === index
                         })}
-                        onClick={onClick}
                         style={{ left, backgroundColor: color }}
                         
                       />  
                     </div>
                   );
               })}
-              {/* <div style={{marginTop:"100px"}}  ref={divRef}>{
-                // popUpState ? 
+              <div style={{marginTop:"120px",
+    position: "fixed"}}  ref={divRef}>{
+                popUpState ? 
                   <SketchPicker color={"red"} onChangeComplete={onChangeComplete} /> : null }
-              </div> */}
-              <Button variant="contained" style={{marginTop: "160px",backgroundColor: "#1976d2",height: "34px"}} 
-              onClick={editBreakpoint}>
-                <h4 style={{color: "#fff"}}>Apply</h4>
-              </Button>
+              </div>
+              
             </div>
           </div>
           <div className={classes.controllersContainer}>

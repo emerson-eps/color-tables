@@ -25,6 +25,7 @@ type Props = {
    * Whether the colors are drawn from top to bottom instead of from left to right
    */
   vertical?: boolean;
+  onClick?: any
 };
 
 /**

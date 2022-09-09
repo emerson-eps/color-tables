@@ -13,46 +13,17 @@ import { BreakPointComp } from "../../component/ColorSelector/breakPointModule"
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
-    // height: "525px",
-    // width: "300px"
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
+  '& .MuiDialog-container.MuiDialog-scrollPaper.css-hz1bth-MuiDialog-container': {
+    height: "80% !important",
+  },
 }));
 
-interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
-
-const BootstrapDialogTitle = (props: DialogTitleProps) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          {/* <CloseIcon /> */}
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
 declare type dialogProps = {
-  open?: boolean,
+  open?: any,
   scaleBreakpoints?: any
 };
 
@@ -61,13 +32,15 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
   scaleBreakpoints
 }: dialogProps) => {
 
-  const [openDialog, setOpen] = React.useState(open);
+  const [openDialog, setOpen] = React.useState(true);
 
   // const handleClickOpen = () => {
   //   setOpen(true);
   // };
+
   const handleClose = () => {
     setOpen(false);
+    open(false)
   };
 
   
@@ -98,10 +71,9 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
     ]);
 
     const editedBreakpoint = React.useCallback((data) => {
-      setColorScaleBreakpoints(data)
+      //setColorScaleBreakpoints(data)
+      scaleBreakpoints(data)
     },[setColorScaleBreakpoints, colorScaleBreakpoints])
-
-    console.log("colorScaleBreakpoints", colorScaleBreakpoints)
 
   return (
     <div>
@@ -117,17 +89,6 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
         setColorScaleBreakpoints={setColorScaleBreakpoints}
         editedBreakpoint={editedBreakpoint}
       />
-        {/* <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Edit Colors
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-          <BreakPointComp
-            colorScaleBreakpoints={colorScaleBreakpoints}
-            setColorScaleBreakpoints={setColorScaleBreakpoints}
-          />
-          </Typography>
-        </DialogContent> */}
       </BootstrapDialog>
     }
     </div>

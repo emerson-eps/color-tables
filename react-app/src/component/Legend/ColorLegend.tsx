@@ -45,6 +45,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [breakValue, setBreakValue] = React.useState();
   const [isNone, setNone] = React.useState(true);
 
+  const [getItemColor, setItemColor] = React.useState([]);
+
   // callback function for modifying range
   const getRange = React.useCallback(
     (data: any) => {
@@ -79,6 +81,15 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       }
     },
     [isNone]
+  );
+
+  const breakpointValues = React.useCallback(
+    (data: any) => {
+      if (data) {
+        setItemColor(data)
+      }
+    },
+    []
   );
 
   const toggleColorSelector = useCallback(() => {
@@ -137,6 +148,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             colorTables={colorTables}
             reverseRange={reverseRange}
             breakPoint={breakValue && isNone === false ? breakValue : []}
+            getItemColor={getItemColor}
           />
         )}
         {isCont === false && (
@@ -161,6 +173,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getRange={getRange}
             isCont={isCont}
             getBreakpoint={getBreakpoint}
+            getEditedBreakPoint={breakpointValues}
           />
         )}
       </div>

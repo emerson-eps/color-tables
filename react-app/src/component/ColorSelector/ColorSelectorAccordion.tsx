@@ -29,6 +29,15 @@ export const ColorSelectorAccordion = (props: any) => {
       }
     ]);
 
+    const [breakpointValues, setBreakPointValues] = React.useState(colorScaleBreakpoints);
+
+    const editedData = React.useCallback((data) => {
+      setBreakPointValues(data);
+      props.getEditedBreakPoint(data)
+    }, []);
+
+    
+
   return (
     <div
       className="Container"
@@ -98,8 +107,9 @@ export const ColorSelectorAccordion = (props: any) => {
                     getBreakpoint={props?.getBreakpoint}
                   />
                  <LegendComp
-                    colorScaleBreakpoints={colorScaleBreakpoints}
-                    setColorScaleBreakpoints={setColorScaleBreakpoints}
+                    colorScaleBreakpoints={breakpointValues}
+                    // setColorScaleBreakpoints={setColorScaleBreakpoints}
+                    editedData={editedData}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
