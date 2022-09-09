@@ -5,7 +5,14 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, axisBottom, axisRight, ticks, tickStep } from "d3";
+import {
+  select,
+  scaleLinear,
+  axisBottom,
+  axisRight,
+  ticks,
+  tickStep,
+} from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -207,11 +214,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         }
 
         if (getItemColor.length > 0) {
-          const options = getItemColor.map(function(row: any) {
-            return { breakPoint : row.position * 100.0, color : row.color }
-          })
-         
-          itemColor = options
+          const options = getItemColor.map(function (row: any) {
+            return { breakPoint: row.position * 100.0, color: row.color };
+          });
+
+          itemColor = options;
         }
 
         itemColor.sort((a, b) => {
@@ -295,9 +302,13 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .domain(reverseRange ? [min, max] : [max, min])
           .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg).tickValues( xLeg.ticks(0).concat(xLeg.domain(),(min+max)/2) );
+        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
+          xLeg.ticks(0).concat(xLeg.domain(), (min + max) / 2)
+        );
 
-        const VerticalAxisLeg = axisRight(yLeg).tickValues(yLeg.ticks( 3 ).concat( yLeg.domain() ));
+        const VerticalAxisLeg = axisRight(yLeg).tickValues(
+          yLeg.ticks(3).concat(yLeg.domain())
+        );
 
         svgLegend
           .attr("class", "axis")

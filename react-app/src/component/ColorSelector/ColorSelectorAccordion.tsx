@@ -1,42 +1,42 @@
 import * as React from "react";
 import { Accordion } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
-import { LegendComp } from "./legend"
+import { LegendComp } from "./legend";
 
 export const ColorSelectorAccordion = (props: any) => {
-  const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<
-      any
-    >([
+  const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<any>(
+    [
       {
         color: "#ff0000",
-        position: 0
+        position: 0,
       },
       {
         color: "#ffff00",
-        position: 0.25
+        position: 0.25,
       },
       {
         color: "#00ff00",
-        position: 0.5
+        position: 0.5,
       },
       {
         color: "#00ffff",
-        position: 0.75
+        position: 0.75,
       },
       {
         color: "#0000ff",
-        position: 1
-      }
-    ]);
+        position: 1,
+      },
+    ]
+  );
 
-    const [breakpointValues, setBreakPointValues] = React.useState(colorScaleBreakpoints);
+  const [breakpointValues, setBreakPointValues] = React.useState(
+    colorScaleBreakpoints
+  );
 
-    const editedData = React.useCallback((data) => {
-      setBreakPointValues(data);
-      props.getEditedBreakPoint(data)
-    }, []);
-
-    
+  const editedData = React.useCallback((data) => {
+    setBreakPointValues(data);
+    props.getEditedBreakPoint(data);
+  }, []);
 
   return (
     <div
@@ -106,7 +106,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     useBreakpoint={true}
                     getBreakpoint={props?.getBreakpoint}
                   />
-                 <LegendComp
+                  <LegendComp
                     colorScaleBreakpoints={breakpointValues}
                     // setColorScaleBreakpoints={setColorScaleBreakpoints}
                     editedData={editedData}

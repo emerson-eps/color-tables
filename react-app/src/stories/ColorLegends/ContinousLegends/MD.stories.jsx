@@ -8,7 +8,6 @@ import colorTables from "../../../component/color-tables.json";
 
 import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
 
-
 const Template = () => {
   return <SketchPicker />;
 };

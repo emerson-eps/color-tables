@@ -83,14 +83,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [isNone]
   );
 
-  const breakpointValues = React.useCallback(
-    (data: any) => {
-      if (data) {
-        setItemColor(data)
-      }
-    },
-    []
-  );
+  const breakpointValues = React.useCallback((data: any) => {
+    if (data) {
+      setItemColor(data);
+    }
+  }, []);
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {

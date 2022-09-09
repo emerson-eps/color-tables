@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: "100%",
       width: "100%",
-      position: "relative"
+      position: "relative",
     },
   })
 );
@@ -25,7 +25,7 @@ type Props = {
    * Whether the colors are drawn from top to bottom instead of from left to right
    */
   vertical?: boolean;
-  onClick?: any
+  onClick?: any;
 };
 
 /**
@@ -79,7 +79,7 @@ export const Texture: React.FC<Props> = React.memo(({ texture, vertical }) => {
   }, [texture, vertical]);
 
   return (
-    <div className={classes.root}  >
+    <div className={classes.root}>
       <Canvas ref={canvasRef} drawCallback={drawCanvas} />
     </div>
   );
