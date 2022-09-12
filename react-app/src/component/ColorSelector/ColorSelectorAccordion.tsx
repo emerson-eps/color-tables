@@ -2,31 +2,28 @@ import * as React from "react";
 import { Accordion } from "@equinor/eds-core-react";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "./legend";
+import defaultColorTables from "../color-tables.json";
+import { RGBToHex } from "../Utils/legendCommonFunction";
 
 export const ColorSelectorAccordion = (props: any) => {
-  const [colorScaleBreakpoints, setColorScaleBreakpoints] = React.useState<any>(
-    [
-      {
-        color: "#ff0000",
-        position: 0,
-      },
-      {
-        color: "#ffff00",
-        position: 0.25,
-      },
-      {
-        color: "#00ff00",
-        position: 0.5,
-      },
-      {
-        color: "#00ffff",
-        position: 0.75,
-      },
-      {
-        color: "#0000ff",
-        position: 1,
-      },
-    ]
+  const currentLegendName = props.currentLegendName;
+  const getColorScaleArray = defaultColorTables.find((value: any) => {
+    return value.name === currentLegendName;
+  });
+
+  //const itemColor: any = [];
+
+  const [colorScaleBreakpoints] = React.useState([]);
+
+  getColorScaleArray?.colors.forEach(
+    (value: [number, number, number, number]) => {
+      // return the color and breakPoint needed to draw the legend
+      colorScaleBreakpoints.push({
+        // to support discrete color for continous data
+        position: value[0],
+        color: RGBToHex(value).color,
+      });
+    }
   );
 
   const [breakpointValues, setBreakPointValues] = React.useState(
@@ -108,7 +105,6 @@ export const ColorSelectorAccordion = (props: any) => {
                   />
                   <LegendComp
                     colorScaleBreakpoints={breakpointValues}
-                    // setColorScaleBreakpoints={setColorScaleBreakpoints}
                     editedData={editedData}
                   />
                 </Accordion.Panel>

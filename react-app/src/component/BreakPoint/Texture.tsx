@@ -4,7 +4,7 @@ import React, { useCallback, useRef } from "react";
 import Canvas from "./Canvas";
 import { get2DContext } from "./canvass";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       height: "100%",

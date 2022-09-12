@@ -171,6 +171,9 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             isCont={isCont}
             getBreakpoint={getBreakpoint}
             getEditedBreakPoint={breakpointValues}
+            currentLegendName={
+              getColorScaleData.length > 0 ? getColorScaleData.name : colorName
+            }
           />
         )}
       </div>

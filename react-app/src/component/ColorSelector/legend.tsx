@@ -78,6 +78,7 @@ moduleProps) => {
         <CustomizedDialogs
           open={openEditModal}
           scaleBreakpoints={scaleBreakpoints}
+          scaleData={orderedSelectedColors}
         />
       )}
     </div>

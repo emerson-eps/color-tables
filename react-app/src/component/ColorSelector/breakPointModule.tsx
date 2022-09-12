@@ -2,13 +2,7 @@ import * as React from "react";
 import { Texture } from "../BreakPoint/Texture";
 import { useRef } from "react";
 import clsx from "clsx";
-import {
-  createStyles,
-  IconButton,
-  makeStyles,
-  Button,
-  Theme,
-} from "@material-ui/core";
+import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { convertBreakpointsToColorArray } from "../Utils/legendCommonFunction";
@@ -86,7 +80,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   React.useEffect(() => {
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
-    if(editedBreakpoint) {
+    if (editedBreakpoint) {
       editedBreakpoint(colorScaleBreakpoints);
     }
     return () => {
@@ -107,7 +101,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
   //const RAIL_DEFAULT_WIDTH = 250;
   const RAIL_HEIGHT = 16;
-  const THUMB_OFFSET = 5;
+  //const THUMB_OFFSET = 5;
   //const DEFAULT_THUMB_COLOR = defaultColorScales.Tableau10.colors[4];
 
   const useStyles = makeStyles<Theme>((theme: Theme) =>
