@@ -19,6 +19,7 @@ declare type ColorLegendProps = {
   reverseRange?: boolean;
   getColorRange?: any;
   getBreakpointValue?: any;
+  getScale?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -35,6 +36,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   reverseRange,
   getColorRange,
   getBreakpointValue,
+  getScale,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -43,7 +45,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
   const [breakValue, setBreakValue] = React.useState();
-  const [isNone, setNone] = React.useState(true);
+  const [isNone] = React.useState(true);
 
   const [getItemColor, setItemColor] = React.useState([]);
 
@@ -68,24 +70,18 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const getBreakpoint = React.useCallback(
     (data: any) => {
-      if (data === "None") {
-        setNone(true);
-        if (getBreakpointValue) getBreakpointValue({ setNone: true });
-      } else {
-        if (data) {
-          setBreakValue(data);
-          setNone(false);
-          if (getBreakpointValue)
-            getBreakpointValue({ breakpoint: [data], isNone: false });
-        }
+      if (data) {
+        setBreakValue(data);
+        if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
       }
     },
-    [isNone]
+    [getItemColor]
   );
 
   const breakpointValues = React.useCallback((data: any) => {
     if (data) {
       setItemColor(data);
+      getBreakpointValue(data);
     }
   }, []);
 
@@ -123,6 +119,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       else if (getColorName) {
         getColorName(data.legendColorName);
       }
+      getScale(data);
       setGetColorScaleData(data);
       setIsCont(value);
     },
@@ -164,15 +161,17 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div>
         {isOpen && (
           <ColorSelectorAccordion
-            newColorScaleData={getSelectedColorScale}
             isHorizontal={horizontal}
             colorTables={colorTables}
             getRange={getRange}
             isCont={isCont}
             getBreakpoint={getBreakpoint}
             getEditedBreakPoint={breakpointValues}
+            newColorScaleData={getSelectedColorScale}
             currentLegendName={
-              getColorScaleData.length > 0 ? getColorScaleData.name : colorName
+              getColorScaleData?.color?.length > 0
+                ? getColorScaleData.name
+                : colorName
             }
           />
         )}

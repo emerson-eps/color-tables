@@ -23,7 +23,7 @@ moduleProps) => {
     return Object.values(breakpointValues).sort(
       (a: any, b: any) => a.position - b.position
     );
-  }, [breakpointValues]);
+  }, [breakpointValues.length, breakpointValues]);
 
   const texture = React.useMemo(
     () => convertBreakpointsToColorArray(orderedSelectedColors),
