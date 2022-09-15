@@ -7,7 +7,6 @@ import { RGBToHex } from "../Utils/legendCommonFunction";
 
 export const ColorSelectorAccordion = (props: any) => {
   const currentLegendName = props.currentLegendName;
-
   const getColorScaleArray = defaultColorTables.find((value: any) => {
     return value.name === currentLegendName;
   });
@@ -25,11 +24,13 @@ export const ColorSelectorAccordion = (props: any) => {
     }
   );
 
-  //const [colorScaleBreakpoints] = React.useState([]);
-
   const [breakpointValues, setBreakPointValues] = React.useState(
     colorScaleBreakpoints
   );
+
+  React.useEffect(() => {
+    setBreakPointValues(colorScaleBreakpoints);
+  }, [colorScaleBreakpoints.length]);
 
   const editedData = React.useCallback((data) => {
     setBreakPointValues(data);

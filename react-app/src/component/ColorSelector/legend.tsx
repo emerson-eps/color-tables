@@ -18,7 +18,6 @@ moduleProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
     colorScaleBreakpoints
   );
-
   const orderedSelectedColors = React.useMemo(() => {
     return Object.values(breakpointValues).sort(
       (a: any, b: any) => a.position - b.position
