@@ -67,6 +67,7 @@ declare type continuousLegendProps = {
   reverseRange?: boolean;
   isAuto?: boolean;
   breakPoint?: any;
+  getItemColor?: any;
 };
 
 declare type ItemColor = {
@@ -87,6 +88,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorMapFunction,
   reverseRange,
   breakPoint,
+  getItemColor,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -98,7 +100,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     }
 
     async function continuousLegend() {
-      const itemColor: ItemColor[] = [];
+      let itemColor: ItemColor[] = [];
       let dataSet;
 
       try {
@@ -204,6 +206,18 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return [0, 0, 0];
         }
 
+        if (getItemColor?.length > 0) {
+          const options = getItemColor.map(function (row: any) {
+            return { breakPoint: row.position * 100.0, color: row.color };
+          });
+
+          itemColor = options;
+        }
+
+        itemColor.sort((a, b) => {
+          return a.breakPoint - b.breakPoint;
+        });
+
         //const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
@@ -245,10 +259,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .data(itemColor)
           .enter()
           .append("stop")
-          .attr("offset", function (data) {
+          .attr("offset", function (data: any) {
             return data.breakPoint + "%";
           })
-          .attr("stop-color", function (data) {
+          .attr("stop-color", function (data: { color: any }) {
             return data.color;
           });
 

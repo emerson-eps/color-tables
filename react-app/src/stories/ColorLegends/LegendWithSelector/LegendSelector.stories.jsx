@@ -7,15 +7,6 @@ export default {
   title: "Legends/LegendWithColorSelector",
 };
 
-// prop for continous legend
-const min = 0;
-const max = 0.35;
-const dataObjectName = "Legend";
-const position = [5, 10];
-const horizontal = true;
-const colorName = "Physics";
-const reverseRange = false;
-
 // prop for discrete data
 const discreteData = {
   Above_BCU: [[], 0],
@@ -36,18 +27,24 @@ const discreteData = {
 };
 
 const Template = (args) => {
-  return <ColorLegend {...args} />;
+  const [getColor, setColorName] = React.useState("Rainbow");
+
+  const getColorName = React.useCallback((data) => {
+    setColorName(data.name);
+  }, []);
+
+  return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
 };
 
 export const LegendWithColorSelector = Template.bind({});
 LegendWithColorSelector.args = {
-  min,
-  max,
-  dataObjectName,
-  position,
-  horizontal,
-  colorName,
+  min: 0,
+  max: 0.35,
+  dataObjectName: "Legend",
+  position: [5, 10],
+  horizontal: true,
+  colorName: "Rainbow",
   colorTables,
   discreteData,
-  reverseRange,
+  reverseRange: false,
 };
