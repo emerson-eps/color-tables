@@ -24,6 +24,7 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.0",
     "@equinor/eds-core-react": "^0.21.0",
     "@material-ui/core": "^4.12.4",
