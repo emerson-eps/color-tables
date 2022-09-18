@@ -8,12 +8,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(2),
   },
   "& .MuiDialogActions-root": {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
-  "& .MuiDialog-container":
-    {
-      height: "80% !important",
-    },
+  "& .MuiDialog-container": {
+    height: "80% !important",
+  },
 }));
 
 declare type dialogProps = {
