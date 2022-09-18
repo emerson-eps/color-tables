@@ -67,6 +67,7 @@ declare type continuousLegendProps = {
   reverseRange?: boolean;
   isAuto?: boolean;
   breakPoint?: any;
+  editedBreakPointValues?: any;
 };
 
 declare type ItemColor = {
@@ -87,6 +88,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorMapFunction,
   reverseRange,
   breakPoint,
+  editedBreakPointValues,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -98,7 +100,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     }
 
     async function continuousLegend() {
-      const itemColor: ItemColor[] = [];
+      let itemColor: ItemColor[] = [];
       let dataSet;
 
       try {
@@ -171,7 +173,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         });
 
         const userDefinedDomain = arrOfNum ? arrOfNum : [];
-
         legendColors.forEach(
           (value: [number, number, number, number], index: number) => {
             let domainIndex;
@@ -196,13 +197,22 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           }
         );
 
-        itemColor.sort((a, b) => {
-          return a.breakPoint - b.breakPoint;
-        });
-
         if (legendColors.length === 0) {
           return [0, 0, 0];
         }
+
+        // get the position and color from the breakpoint modal
+        if (editedBreakPointValues?.length > 0) {
+          const options = editedBreakPointValues.map(function (row: any) {
+            return { breakPoint: row.position * 100.0, color: row.color };
+          });
+
+          itemColor = options;
+        }
+
+        itemColor.sort((a, b) => {
+          return a.breakPoint - b.breakPoint;
+        });
 
         //const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
@@ -245,10 +255,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .data(itemColor)
           .enter()
           .append("stop")
-          .attr("offset", function (data) {
+          .attr("offset", function (data: any) {
             return data.breakPoint + "%";
           })
-          .attr("stop-color", function (data) {
+          .attr("stop-color", function (data: { color: any }) {
             return data.color;
           });
 

@@ -3,6 +3,8 @@ import { interpolateRgb } from "d3-interpolate";
 import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
+import * as d3 from "d3";
+import { range } from "lodash";
 
 type Color = [number, number, number];
 
@@ -374,3 +376,36 @@ export function createContinuousLibraryColorScale(
 export function createDefaultContinuousColorScale() {
   return createContinuousLibraryColorScale("Rainbow");
 }
+
+export const getColorArrayFromBreakPoints = (
+  breakpoints: any,
+  arraySize = 1024
+): string[] => {
+  if (breakpoints.length === 0) {
+    throw new Error("Couldn't provide color supplier from empty color array");
+  }
+  const colors = breakpoints.map((item: any) => item.color);
+  const ratios = breakpoints.map((item: any) => item.position);
+  let position = 0;
+  return range(0, arraySize).map((i: any) => {
+    if (ratios[position] < i / (arraySize - 1)) {
+      position++;
+    }
+    if (position === 0) {
+      return colors[0];
+    }
+    if (position === ratios.length) {
+      return colors[colors.length - 1];
+    }
+
+    const color = d3.interpolateRgb(colors[position - 1], colors[position]);
+    return d3
+      .color(
+        color(
+          (i / arraySize - ratios[position - 1]) /
+            (ratios[position] - ratios[position - 1])
+        )
+      )
+      ?.formatHex() as string;
+  });
+};
