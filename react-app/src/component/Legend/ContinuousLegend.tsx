@@ -67,7 +67,7 @@ declare type continuousLegendProps = {
   reverseRange?: boolean;
   isAuto?: boolean;
   breakPoint?: any;
-  getItemColor?: any;
+  editedBreakPointValues?: any;
 };
 
 declare type ItemColor = {
@@ -88,7 +88,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   colorMapFunction,
   reverseRange,
   breakPoint,
-  getItemColor,
+  editedBreakPointValues,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -173,7 +173,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         });
 
         const userDefinedDomain = arrOfNum ? arrOfNum : [];
-
         legendColors.forEach(
           (value: [number, number, number, number], index: number) => {
             let domainIndex;
@@ -198,16 +197,13 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           }
         );
 
-        itemColor.sort((a, b) => {
-          return a.breakPoint - b.breakPoint;
-        });
-
         if (legendColors.length === 0) {
           return [0, 0, 0];
         }
 
-        if (getItemColor?.length > 0) {
-          const options = getItemColor.map(function (row: any) {
+        // get the position and color from the breakpoint modal
+        if (editedBreakPointValues?.length > 0) {
+          const options = editedBreakPointValues.map(function (row: any) {
             return { breakPoint: row.position * 100.0, color: row.color };
           });
 

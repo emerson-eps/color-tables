@@ -7,11 +7,11 @@ import { RGBToHex } from "../Utils/legendCommonFunction";
 
 export const ColorSelectorAccordion = (props: any) => {
   const currentLegendName = props.currentLegendName;
+  let colorScaleBreakpoints: any = [];
+
   const getColorScaleArray = defaultColorTables.find((value: any) => {
     return value.name === currentLegendName;
   });
-
-  let colorScaleBreakpoints: any = [];
 
   getColorScaleArray?.colors.forEach(
     (value: [number, number, number, number]) => {
@@ -105,10 +105,12 @@ export const ColorSelectorAccordion = (props: any) => {
                     useBreakpoint={true}
                     getBreakpoint={props?.getBreakpoint}
                   /> */}
-                  <LegendComp
-                    colorScaleBreakpoints={breakpointValues}
-                    editedData={editedData}
-                  />
+                  {breakpointValues?.length > 0 && (
+                    <LegendComp
+                      colorScaleBreakpoints={breakpointValues}
+                      editedData={editedData}
+                    />
+                  )}
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>

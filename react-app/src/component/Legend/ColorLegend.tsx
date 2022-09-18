@@ -119,7 +119,9 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       else if (getColorName) {
         getColorName(data.legendColorName);
       }
-      getScale(data);
+      if (getScale) {
+        getScale(data);
+      }
       setGetColorScaleData(data);
       setIsCont(value);
     },
@@ -142,7 +144,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             colorTables={colorTables}
             reverseRange={reverseRange}
             breakPoint={breakValue && isNone === false ? breakValue : []}
-            getItemColor={getItemColor}
+            editedBreakPointValues={getItemColor}
           />
         )}
         {isCont === false && (

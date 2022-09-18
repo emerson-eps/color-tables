@@ -158,6 +158,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     // append a defs (for definition) element to your SVG
     const svgLegend = select(divRef.current)
       .append("svg")
+      .style("cursor", "pointer")
       .style("height", "30px");
 
     const defs = svgLegend.append("defs");
@@ -216,6 +217,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     // append a defs (for definition) element to your SVG
     const svgLegend = select(divRef.current)
       .append("svg")
+      .style("cursor", "pointer")
       .style("height", "50px");
 
     const defs = svgLegend.append("defs");
@@ -301,6 +303,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
 
     selectedLegend
       .append("svg")
+      .style("cursor", "pointer")
       .style("margin-top", "13px")
       .style("margin-left", "70px")
       .attr("viewBox", `0 0 ${count} 1`)
@@ -339,6 +342,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       .style("font-weight", "900");
     selectedLegend
       .append("svg")
+      .style("cursor", "pointer")
       .style("margin-top", "13px")
       .style("margin-left", "70px")
       .style("background", "grey")
