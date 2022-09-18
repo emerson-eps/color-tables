@@ -124,7 +124,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       }
       setGetColorScaleData(data);
       setIsCont(value);
-      setItemColor([])
+      setItemColor([]);
     },
     [getColorName]
   );
