@@ -125,6 +125,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setGetColorScaleData(data);
       setIsCont(value);
       setItemColor([]);
+      if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
     [getColorName]
   );

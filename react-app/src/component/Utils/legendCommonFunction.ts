@@ -101,6 +101,15 @@ export function RGBToHexValue(rgb: number[], max?: number) {
   return { color: "#" + r + g + b, offset: normalizePoint * 100.0 };
 }
 
+export function HextoRGB(hex: any) {
+  var m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+  return {
+    r: parseInt(m[1], 16),
+    g: parseInt(m[2], 16),
+    b: parseInt(m[3], 16),
+  };
+}
+
 // temporary solution, wrote for color laer discrete colors
 // return the colors based on the point
 export function getRgbData(
@@ -145,17 +154,31 @@ export function getRgbData(
     let colorTableColors = colorsArray(colorName, getColorTables);
     const itemColor: any = [];
 
+    // logic for user defined domain, might be used in future
+    // if (userBreakPoint?.length > 0) {
+    //   colorTableColors?.forEach((value: any, index: any) => {
+    //     let domainIndex;
+
+    //     if (userBreakPoint[index]) {
+    //       domainIndex = userBreakPoint[index];
+    //     } else {
+    //       domainIndex = value[0];
+    //     }
+
+    //     itemColor.push([domainIndex, value[1], value[2], value[3]]);
+    //   });
+
+    //   itemColor?.sort((a: any, b: any) => {
+    //     if (a[0] == b[0]) return 0;
+    //     return a[0] < b[0] ? -1 : 1;
+    //   });
+    //   colorTableColors = itemColor;
+    // }
+
     if (userBreakPoint?.length > 0) {
-      colorTableColors?.forEach((value: any, index: any) => {
-        let domainIndex;
-
-        if (userBreakPoint[index]) {
-          domainIndex = userBreakPoint[index];
-        } else {
-          domainIndex = value[0];
-        }
-
-        itemColor.push([domainIndex, value[1], value[2], value[3]]);
+      userBreakPoint.forEach((value: any) => {
+        const rgbColor = HextoRGB(value.color);
+        itemColor.push([value.position, rgbColor.r, rgbColor.g, rgbColor.b]);
       });
 
       itemColor?.sort((a: any, b: any) => {

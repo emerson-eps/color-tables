@@ -9,6 +9,7 @@ import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import { SketchPicker } from "react-color";
+import ColorizeIcon from "@material-ui/icons/Colorize";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -202,11 +203,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
   const [popUpState, setPopUpState] = React.useState(false);
 
-  // const activatePicker = () => {
-  //   setPopUpState(true);
-  // }
-
-  const activatePicker = React.useCallback(() => {
+  const launchPicker = React.useCallback(() => {
     setPopUpState(true);
   }, []);
 
@@ -242,7 +239,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     <div className={classes.root}>
       <label>Edit Break Points :</label>
       <div className={classes.colorScaleContainer} style={{ width }}>
-        <div className={classes.texture} onClick={activatePicker}>
+        <div className={classes.texture}>
           <ColorScale texture={texture} />
         </div>
         <div className={classes.rail} ref={setBoundingClientRect}>
@@ -290,6 +287,9 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           disabled={colorScaleBreakpoints.length === 1}
         >
           <RemoveCircleOutlineIcon fontSize="small" />
+        </IconButton>
+        <IconButton color="primary" size="small" onClick={launchPicker}>
+          <ColorizeIcon fontSize="small" />
         </IconButton>
       </div>
     </div>
