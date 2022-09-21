@@ -28,7 +28,7 @@ moduleProps) => {
     );
   }, [breakpointValues.length, breakpointValues]);
 
-  const texture = React.useMemo(
+  const arrayOfColors = React.useMemo(
     () => getColorArrayFromBreakPoints(orderedSelectedColors),
     [orderedSelectedColors]
   );
@@ -73,7 +73,7 @@ moduleProps) => {
     <div className={classes.root}>
       <div className={classes.colorScaleContainer} style={{ width }}>
         <div className={classes.texture} onClick={openEditModal}>
-          <ColorScale texture={texture} />
+          <ColorScale arrayOfColors={arrayOfColors} />
         </div>
       </div>
 

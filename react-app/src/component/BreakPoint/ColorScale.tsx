@@ -15,7 +15,7 @@ const useStyles = makeStyles(() =>
 );
 
 type Props = {
-  texture: string[] | ((index: number) => string);
+  arrayOfColors: string[] | ((index: number) => string);
   vertical?: boolean;
   onClick?: any;
 };
@@ -34,7 +34,7 @@ export const get2DContext = (
 };
 
 export const ColorScale: React.FC<Props> = React.memo(
-  ({ texture, vertical }) => {
+  ({ arrayOfColors, vertical }) => {
     const classes = useStyles();
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -53,15 +53,15 @@ export const ColorScale: React.FC<Props> = React.memo(
       const width = canvas.getBoundingClientRect().width;
       const max = vertical ? height : width;
 
-      const pixelToColor = Array.isArray(texture)
+      const pixelToColor = Array.isArray(arrayOfColors)
         ? (pixel: number) => {
             const scale = d3
               .scaleQuantize<string>()
               .domain([0, max - 1])
-              .range(texture);
+              .range(arrayOfColors);
             return scale(pixel)!;
           }
-        : (pixel: number) => texture(max > 1 ? pixel / (max - 1) : 0);
+        : (pixel: number) => arrayOfColors(max > 1 ? pixel / (max - 1) : 0);
 
       ctx.globalAlpha = 1;
       for (let pixel = 0; pixel < max; pixel++) {
@@ -73,7 +73,7 @@ export const ColorScale: React.FC<Props> = React.memo(
           ctx.fillRect(pixel, 0, pixel + 1, height);
         }
       }
-    }, [texture, vertical]);
+    }, [arrayOfColors, vertical]);
 
     return (
       <div className={classes.root}>
