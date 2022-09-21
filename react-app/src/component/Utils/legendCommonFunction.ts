@@ -402,7 +402,7 @@ export function createDefaultContinuousColorScale() {
 
 export const getColorArrayFromBreakPoints = (
   breakpoints: any,
-  arraySize = 1024
+  arraySize = 512
 ): string[] => {
   if (breakpoints.length === 0) {
     throw new Error("Couldn't provide color supplier from empty color array");
