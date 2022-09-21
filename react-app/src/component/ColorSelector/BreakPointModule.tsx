@@ -37,6 +37,9 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const onMouseUp = React.useCallback(() => {
     isBreakpointMovingRef.current = false;
   }, []);
+
+  const [getIndex, setIndex] = React.useState<number>(0);
+
   const onMouseMove = React.useCallback(
     (e: MouseEvent | TouchEvent) => {
       if (!isBreakpointMovingRef.current) {
@@ -53,29 +56,42 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const normalizer = scaleLinear().domain([0, railBoundingBox.width]);
       const normalizedPosition = normalizer(clampedNewWidth) as number;
 
-      setColorScaleBreakpoints((items: any) =>
-        items.map((item: any, index: any) =>
-          index === selectedIndexRef.current
-            ? {
-                ...item,
-                position: normalizedPosition,
-              }
-            : item
-        )
-      );
+      const firstItemIndex = 0;
+      const lastItemIndex = colorScaleBreakpoints.length - 1;
+
+      if (getIndex != firstItemIndex && getIndex != lastItemIndex) {
+        setColorScaleBreakpoints((items: any) =>
+          items.map((item: any, index: any) =>
+            index === selectedIndexRef.current
+              ? {
+                  ...item,
+                  position: normalizedPosition,
+                }
+              : item
+          )
+        );
+      }
     },
-    [railBoundingBox]
+    [railBoundingBox, getIndex]
   );
 
   const orderedSelectedColors = React.useMemo(() => {
     return Object.values(colorScaleBreakpoints).sort(
       (a: any, b: any) => a.position - b.position
     );
-  }, [colorScaleBreakpoints]);
+  }, [
+    colorScaleBreakpoints.length,
+    setColorScaleBreakpoints,
+    colorScaleBreakpoints,
+  ]);
 
   const texture = React.useMemo(
     () => getColorArrayFromBreakPoints(orderedSelectedColors),
-    [orderedSelectedColors]
+    [
+      orderedSelectedColors,
+      colorScaleBreakpoints.length,
+      setColorScaleBreakpoints,
+    ]
   );
 
   React.useEffect(() => {
@@ -88,7 +104,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
-  }, [onMouseMove, colorScaleBreakpoints]);
+  }, [onMouseMove, colorScaleBreakpoints, colorScaleBreakpoints.length]);
 
   const isBreakpointMovingRef = React.useRef(false);
   const selectedIndexRef = React.useRef(0);
@@ -97,6 +113,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const onMouseDown = React.useCallback((index: number) => {
     isBreakpointMovingRef.current = true;
     selectedIndexRef.current = index;
+    setIndex(index);
     setSelectedIndex(index);
   }, []);
 
@@ -209,30 +226,41 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
   const appendBreakpoint = React.useCallback(() => {
     setColorScaleBreakpoints((items: any) => [
-      ...items,
-      {
-        //color: DEFAULT_THUMB_COLOR,
-        color: "#0000ff",
+      ...items.splice(colorScaleBreakpoints.length - 1, 0, {
         position: 0.5,
-      },
+        color: "#FF69B4",
+      }),
+      ...items,
     ]);
-
     setSelectedIndex(colorScaleBreakpoints.length);
     selectedIndexRef.current = colorScaleBreakpoints.length;
-  }, [colorScaleBreakpoints.length, setColorScaleBreakpoints]);
+  }, [
+    colorScaleBreakpoints,
+    colorScaleBreakpoints.length,
+    setColorScaleBreakpoints,
+  ]);
 
   const deleteBreakPoint = React.useCallback(
     (indexToDelete: number) => {
-      setColorScaleBreakpoints((items: any[]) =>
-        items.filter((_, index) => index !== indexToDelete)
-      );
+      if (
+        indexToDelete != 0 &&
+        indexToDelete != colorScaleBreakpoints.length - 1
+      ) {
+        setColorScaleBreakpoints((items: any[]) =>
+          items.filter((_, index) => index !== indexToDelete)
+        );
 
-      if (selectedIndexRef.current === indexToDelete) {
-        setSelectedIndex(0);
-        selectedIndexRef.current = 0;
+        if (selectedIndexRef.current === indexToDelete) {
+          setSelectedIndex(0);
+          selectedIndexRef.current = 0;
+        }
       }
     },
-    [setColorScaleBreakpoints]
+    [
+      setColorScaleBreakpoints,
+      colorScaleBreakpoints,
+      colorScaleBreakpoints.length,
+    ]
   );
 
   return (
@@ -263,6 +291,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
                     [classes.selectedThumb]: selectedIndex === index,
                   })}
                   style={{ left, backgroundColor: color }}
+                  //disabled={colorScaleBreakpoints.length === 1}
                 />
               </div>
             );
@@ -275,8 +304,6 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         </div>
       </div>
       <div className={classes.controllersContainer}>
-        {/* <Icon baseClassName="fas" className="fa-plus-circle" sx={{ color: green[500] }}/> */}
-
         <IconButton size="small" color="primary" onClick={appendBreakpoint}>
           <AddCircleOutlineIcon fontSize="small" />
         </IconButton>
