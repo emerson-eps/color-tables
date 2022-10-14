@@ -1,6 +1,7 @@
 import * as React from "react";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
+import "../../css/styles.css";
 
 export declare type colorScaleObj = {
   name: string;
@@ -19,6 +20,7 @@ declare type legendProps = {
   isCont?: boolean;
   useBreakpoint?: boolean;
   getBreakpoint?: any;
+  currentLegendName?: string;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -30,6 +32,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   isCont,
   useBreakpoint,
   getBreakpoint,
+  currentLegendName,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -128,6 +131,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             uniqueId={index}
             colorScaleData={newColorScaleData}
             key={index}
+            currentLegendName={currentLegendName}
           />
         );
       });
@@ -140,6 +144,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             useDiscColorTable={false}
             colorScaleData={newColorScaleData}
             key={index}
+            currentLegendName={currentLegendName}
           />
         );
       });
@@ -151,10 +156,12 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         return (
           <ColorSelectorComponent
             colorsObject={value}
+            legendColorName={value.name}
             useContColorTable={true}
             uniqueId={index}
             colorScaleData={newColorScaleData}
             key={index}
+            currentLegendName={currentLegendName}
           />
         );
       });
@@ -167,6 +174,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             useDiscColorTable={true}
             colorScaleData={newColorScaleData}
             key={index}
+            currentLegendName={currentLegendName}
           />
         );
       });
