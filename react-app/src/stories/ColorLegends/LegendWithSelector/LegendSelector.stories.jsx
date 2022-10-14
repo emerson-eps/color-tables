@@ -30,7 +30,9 @@ const Template = (args) => {
   const [getColor, setColorName] = React.useState("Rainbow");
 
   const getColorName = React.useCallback((data) => {
-    setColorName(data.name);
+    // for geological color scale data (from color-table.json) => data.name
+    // for D3 color scale => data.legendColorName
+    setColorName(data?.name || data?.legendColorName);
   }, []);
 
   return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
@@ -40,9 +42,11 @@ export const LegendWithColorSelector = Template.bind({});
 LegendWithColorSelector.args = {
   min: 0,
   max: 0.35,
-  position: [5, 10],
+  position: {left: 5, top: 10},
   horizontal: true,
   colorName: "Rainbow",
   colorTables,
   discreteData,
+  isModal: true,
+  isRangeShown: true,
 };

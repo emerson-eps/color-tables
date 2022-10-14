@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
@@ -11,7 +11,7 @@ declare type ColorLegendProps = {
   min: number;
   max: number;
   dataObjectName: string;
-  position?: number[] | null;
+  position?: {left: number, top: number} | null;
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
@@ -20,6 +20,8 @@ declare type ColorLegendProps = {
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
+  isModal?: boolean;
+  isRangeShown?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -37,9 +39,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getColorRange,
   getBreakpointValue,
   getScale,
+  isModal,
+  isRangeShown
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
+  const colorSelectorRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
@@ -85,11 +90,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     }
   }, []);
 
-  const toggleColorSelector = useCallback(() => {
+  const toggleColorSelector = () => {
     if (divRef && divRef.current) {
       isOpen ? setIsOpen(false) : setIsOpen(true);
     }
-  }, [isOpen]);
+  }
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
@@ -130,9 +135,35 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [getColorName]
   );
 
+  
+  function handleModalClick(e: Event) {
+    if (!colorSelectorRef.current?.contains(e.target as Node)) {
+      setIsOpen(false)
+    }  
+  }
+
+  React.useEffect(()=>{
+    if (isOpen && isModal) {
+      document.addEventListener("mousedown", handleModalClick)
+    } else {
+      document.removeEventListener("mousedown", handleModalClick)
+    }
+    return ()=>document.removeEventListener("mousedown", handleModalClick)
+  }, [isOpen, isModal])
+
+  // define a state that controls the position of the color selector
+  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({})
+  React.useEffect(()=>{
+    if(divRef.current) {
+      const colorLegendElement = divRef.current.firstChild as Element
+      const legendBoundingBox = colorLegendElement.getBoundingClientRect()
+      setColorSelectorPosition({top: legendBoundingBox.top, left: legendBoundingBox.left})
+    }
+  }, [position])
+
   return (
-    <div>
-      <div ref={divRef} onClick={toggleColorSelector}>
+    <div style={{position: "relative"}}>
+      <div ref={divRef} onClick={toggleColorSelector} style={{display:"inline-block", cursor:"pointer"}}>
         {isCont === true && (
           <ContinuousLegend
             min={newMin && isAuto === false ? newMin : min}
@@ -147,6 +178,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             invertLegend={invertLegend}
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
+            isRangeShown={isRangeShown}
           />
         )}
         {isCont === false && (
@@ -165,20 +197,26 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       </div>
       <div>
         {isOpen && (
-          <ColorSelectorAccordion
-            isHorizontal={horizontal}
-            colorTables={colorTables}
-            getRange={getRange}
-            isCont={isCont}
-            getBreakpoint={getBreakpoint}
-            getEditedBreakPoint={breakpointValues}
-            newColorScaleData={getSelectedColorScale}
-            currentLegendName={
-              getColorScaleData?.color?.length > 0
-                ? getColorScaleData.name
-                : colorName
-            }
-          />
+            <div style={{ display: "inline-block" }} ref={colorSelectorRef} >
+              <ColorSelectorAccordion
+                setIsOpen={()=> setIsOpen(false)}
+                isModal={isModal}
+                isHorizontal={horizontal}
+                colorTables={colorTables}
+                position={colorSelectorPosition}
+                getRange={getRange}
+                isCont={isCont}
+                getBreakpoint={getBreakpoint}
+                getEditedBreakPoint={breakpointValues}
+                newColorScaleData={getSelectedColorScale}
+                handleModalClick={handleModalClick}
+                currentLegendName={
+                  getColorScaleData?.color?.length > 0
+                    ? getColorScaleData.name
+                    : colorName
+                }
+              />
+            </div>
         )}
       </div>
     </div>
