@@ -545,7 +545,7 @@ export function getColorSelectorPosition(
       && position.left + colorSelectorDimensions.width + 50 > documentDimensions.width
     ) {
         colorSelectorPosition.top = position.top;
-        colorSelectorPosition.left = position.left - colorSelectorDimensions.width;
+        colorSelectorPosition.left = position.left - colorSelectorDimensions.width - 20;
     }
     // if the legend is in the bottom-left corner => open the selector above the legend to the right
     else if (
@@ -561,7 +561,7 @@ export function getColorSelectorPosition(
       && position.left + colorSelectorDimensions.width + 50 > documentDimensions.width
     ) {
         colorSelectorPosition.top = 10;
-        colorSelectorPosition.left = position.left - colorSelectorDimensions.width;
+        colorSelectorPosition.left = position.left - colorSelectorDimensions.width - 20;
     } 
     // if the legend is on the top edge (or in the middle of the screen) => open the selector to the right to the legend
     else {
