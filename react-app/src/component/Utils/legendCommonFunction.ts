@@ -9,7 +9,9 @@ import { range } from "lodash";
 type Color = [number, number, number];
 
 function getColor(rgb: RGBColor): Color {
-  return [rgb["r"], rgb["g"], rgb["b"]];
+  if (rgb != undefined) {
+    return [rgb["r"], rgb["g"], rgb["b"]];
+  }
 }
 
 // Based on objectName return the colors array from color.tables.json file
@@ -125,10 +127,13 @@ export function getRgbData(
   const getColorTableScale = getColorTables.find((value: any) => {
     return value.name === colorName;
   });
-
+  // get d3 colorscale data
+  var getD3Scale = d3ColorScales.find(function (value) {
+    return value.name === colorName;
+  });
+  let rgb;
   // colortable discrete scale
   if (getColorTableScale?.discrete === true) {
-    let rgb;
     const getSelectedScaleLength = getColorTableScale?.colors.length;
     const minValue = 0;
     const maxValue = getSelectedScaleLength - 1;
@@ -147,6 +152,24 @@ export function getRgbData(
           )(point);
           rgb = color(interpolate)?.rgb();
         }
+      }
+    });
+    return rgb;
+  } else if (typeof getD3Scale?.colors == "function") {
+    let colorMappingRange = getD3Scale?.colors(point);
+    return (rgb = getColor(color(colorMappingRange)?.rgb()));
+  } else if (typeof getD3Scale?.colors == "object") {
+    const max = getD3Scale?.colors.length - 1;
+
+    getD3Scale?.colors.forEach((item, index) => {
+      const currentIndex = index;
+      const normalizedCurrentIndex = (currentIndex - 0) / (max - 0);
+      const nextIndex = index + 1;
+      const normalizedNextIndex = (nextIndex - 0) / (max - 0);
+      //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
+      if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
+        const interpolate = interpolateRgb(item, getD3Scale[nextIndex])(point);
+        rgb = getColor(color(interpolate)?.rgb());
       }
     });
     return rgb;
