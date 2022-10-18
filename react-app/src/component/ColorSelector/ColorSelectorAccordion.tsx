@@ -8,7 +8,7 @@ import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export const ColorSelectorAccordion = (props: any) => {
-  const containerRef = React.useRef<HTMLDivElement>(null)
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const currentLegendName = props.currentLegendName;
   let colorScaleBreakpoints: any = [];
 
@@ -33,11 +33,13 @@ export const ColorSelectorAccordion = (props: any) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
 
   const editedData = React.useCallback((data) => {
     setBreakPointValues(data);
     props.getEditedBreakPoint(data);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -53,7 +55,7 @@ export const ColorSelectorAccordion = (props: any) => {
       }}
     >
       {!props.isModal && (
-        <div style={{cursor: "pointer"}}>
+        <div style={{ cursor: "pointer" }}>
           <CancelIcon
             style={{
               position: "absolute",

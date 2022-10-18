@@ -23,7 +23,7 @@ declare type discreteLegendProps = {
   /**
    * Specify the position
    */
-  position?: {left: number, top: number} | null;
+  position?: { left: number; top: number } | null;
   /**
    * Name of the color(ex: Rainbow)
    */
@@ -221,7 +221,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         backgroundColor: "#ffffffcc",
         borderRadius: "5px",
         zIndex: 999,
-        margin: "25px 0px 0px 20px"
+        margin: "25px 0px 0px 20px",
       }}
     >
       <div
@@ -243,5 +243,5 @@ export function RGBToHex(rgb: number[]) {
 }
 
 DiscreteColorLegend.defaultProps = {
-  position: {left: 5, top: 10},
+  position: { left: 5, top: 10 },
 };

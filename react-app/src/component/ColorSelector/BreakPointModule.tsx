@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
@@ -58,7 +59,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const firstItemIndex = 0;
       const lastItemIndex = colorScaleBreakpoints.length - 1;
 
-      if (getIndex != firstItemIndex && getIndex != lastItemIndex) {
+      if (getIndex !== firstItemIndex && getIndex !== lastItemIndex) {
         setColorScaleBreakpoints((items: any) =>
           items.map((item: any, index: any) =>
             index === selectedIndexRef.current
@@ -239,8 +240,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const deleteBreakPoint = React.useCallback(
     (indexToDelete: number) => {
       if (
-        indexToDelete != 0 &&
-        indexToDelete != colorScaleBreakpoints.length - 1
+        indexToDelete !== 0 &&
+        indexToDelete !== colorScaleBreakpoints.length - 1
       ) {
         setColorScaleBreakpoints((items: any[]) =>
           items.filter((_, index) => index !== indexToDelete)

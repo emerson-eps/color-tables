@@ -28,7 +28,7 @@ declare type continuousLegendProps = {
   /**
    * Specify the position
    */
-  position?: {left: number, top: number} | null;
+  position?: { left: number; top: number } | null;
   /**
    * Name of the color(ex: Rainbow)
    */
@@ -321,6 +321,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         console.error(error);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     min,
     max,
@@ -352,5 +353,5 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 };
 
 ContinuousLegend.defaultProps = {
-  position: {left: 5, top: 10},
+  position: { left: 5, top: 10 },
 };
