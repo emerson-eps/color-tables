@@ -9,7 +9,9 @@ import { range } from "lodash";
 type Color = [number, number, number];
 
 function getColor(rgb: RGBColor): Color {
-  return [rgb["r"], rgb["g"], rgb["b"]];
+  if (rgb !== undefined) {
+    return [rgb["r"], rgb["g"], rgb["b"]];
+  }
 }
 
 // Based on objectName return the colors array from color.tables.json file
@@ -527,7 +529,7 @@ export function getColorSelectorPosition(
       }
     }
   } else {
-  /* VERTICAL LEGEND */
+    /* VERTICAL LEGEND */
     const legendDimensions = { width: 74, height: 200 };
     // if the legend is in the top-left corner => open the selector to the right
     if (

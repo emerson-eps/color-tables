@@ -89,7 +89,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleColorSelector = () => {
