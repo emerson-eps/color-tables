@@ -11,7 +11,7 @@ declare type ColorLegendProps = {
   min: number;
   max: number;
   dataObjectName: string;
-  position?: {left: number, top: number} | null;
+  position?: { left: number; top: number } | null;
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
@@ -40,7 +40,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getBreakpointValue,
   getScale,
   isModal,
-  isRangeShown
+  isRangeShown,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -80,6 +80,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getItemColor]
   );
 
@@ -88,13 +89,14 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleColorSelector = () => {
     if (divRef && divRef.current) {
       isOpen ? setIsOpen(false) : setIsOpen(true);
     }
-  }
+  };
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
@@ -132,38 +134,45 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor([]);
       if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getColorName]
   );
 
-  
   function handleModalClick(e: Event) {
     if (!colorSelectorRef.current?.contains(e.target as Node)) {
-      setIsOpen(false)
-    }  
+      setIsOpen(false);
+    }
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (isOpen && isModal) {
-      document.addEventListener("mousedown", handleModalClick)
+      document.addEventListener("mousedown", handleModalClick);
     } else {
-      document.removeEventListener("mousedown", handleModalClick)
+      document.removeEventListener("mousedown", handleModalClick);
     }
-    return ()=>document.removeEventListener("mousedown", handleModalClick)
-  }, [isOpen, isModal])
+    return () => document.removeEventListener("mousedown", handleModalClick);
+  }, [isOpen, isModal]);
 
   // define a state that controls the position of the color selector
-  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({})
-  React.useEffect(()=>{
-    if(divRef.current) {
-      const colorLegendElement = divRef.current.firstChild as Element
-      const legendBoundingBox = colorLegendElement.getBoundingClientRect()
-      setColorSelectorPosition({top: legendBoundingBox.top, left: legendBoundingBox.left})
+  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({});
+  React.useEffect(() => {
+    if (divRef.current) {
+      const colorLegendElement = divRef.current.firstChild as Element;
+      const legendBoundingBox = colorLegendElement.getBoundingClientRect();
+      setColorSelectorPosition({
+        top: legendBoundingBox.top,
+        left: legendBoundingBox.left,
+      });
     }
-  }, [position])
+  }, [position]);
 
   return (
-    <div style={{position: "relative"}}>
-      <div ref={divRef} onClick={toggleColorSelector} style={{display:"inline-block", cursor:"pointer"}}>
+    <div style={{ position: "relative" }}>
+      <div
+        ref={divRef}
+        onClick={toggleColorSelector}
+        style={{ display: "inline-block", cursor: "pointer" }}
+      >
         {isCont === true && (
           <ContinuousLegend
             min={newMin && isAuto === false ? newMin : min}
@@ -197,26 +206,26 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       </div>
       <div>
         {isOpen && (
-            <div style={{ display: "inline-block" }} ref={colorSelectorRef} >
-              <ColorSelectorAccordion
-                setIsOpen={()=> setIsOpen(false)}
-                isModal={isModal}
-                isHorizontal={horizontal}
-                colorTables={colorTables}
-                position={colorSelectorPosition}
-                getRange={getRange}
-                isCont={isCont}
-                getBreakpoint={getBreakpoint}
-                getEditedBreakPoint={breakpointValues}
-                newColorScaleData={getSelectedColorScale}
-                handleModalClick={handleModalClick}
-                currentLegendName={
-                  getColorScaleData?.color?.length > 0
-                    ? getColorScaleData.name
-                    : colorName
-                }
-              />
-            </div>
+          <div style={{ display: "inline-block" }} ref={colorSelectorRef}>
+            <ColorSelectorAccordion
+              setIsOpen={() => setIsOpen(false)}
+              isModal={isModal}
+              isHorizontal={horizontal}
+              colorTables={colorTables}
+              position={colorSelectorPosition}
+              getRange={getRange}
+              isCont={isCont}
+              getBreakpoint={getBreakpoint}
+              getEditedBreakPoint={breakpointValues}
+              newColorScaleData={getSelectedColorScale}
+              handleModalClick={handleModalClick}
+              currentLegendName={
+                getColorScaleData?.color?.length > 0
+                  ? getColorScaleData.name
+                  : colorName
+              }
+            />
+          </div>
         )}
       </div>
     </div>

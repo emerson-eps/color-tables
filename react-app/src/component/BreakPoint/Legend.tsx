@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
@@ -64,10 +65,12 @@ moduleProps) => {
   );
 
   React.useEffect(() => {
-    if(isModal) {
-      popUpState ? document.removeEventListener("mousedown", handleModalClick) : document.addEventListener("mousedown", handleModalClick)
+    if (isModal) {
+      popUpState
+        ? document.removeEventListener("mousedown", handleModalClick)
+        : document.addEventListener("mousedown", handleModalClick);
     }
-  }, [popUpState])
+  }, [popUpState]);
 
   const classes = useStyles();
   const width = 200;
@@ -87,7 +90,7 @@ moduleProps) => {
         </div>
       </div>
 
-      {popUpState == true && (
+      {popUpState === true && (
         <CustomizedDialogs
           openModal={openEditModal}
           scaleBreakpoints={scaleBreakpoints}
