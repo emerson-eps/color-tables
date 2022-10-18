@@ -550,7 +550,7 @@ export function getColorSelectorPosition(
       }
     }
   } else {
-  /* VERTICAL LEGEND */
+    /* VERTICAL LEGEND */
     const legendDimensions = { width: 74, height: 200 };
     // if the legend is in the top-left corner => open the selector to the right
     if (

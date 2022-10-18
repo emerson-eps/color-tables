@@ -33,13 +33,13 @@ export const ColorSelectorAccordion = (props: any) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
 
   const editedData = React.useCallback((data) => {
     setBreakPointValues(data);
     props.getEditedBreakPoint(data);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
