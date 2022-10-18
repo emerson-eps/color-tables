@@ -9,7 +9,7 @@ import { range } from "lodash";
 type Color = [number, number, number];
 
 function getColor(rgb: RGBColor): Color {
-  if (rgb != undefined) {
+  if (rgb !== undefined) {
     return [rgb["r"], rgb["g"], rgb["b"]];
   }
 }
