@@ -28,4 +28,5 @@ DefaultColorTable.args = {
   min,
   max,
   dataObjectName: "Default color table (Rainbow)",
+  isRangeShown: true,
 };
