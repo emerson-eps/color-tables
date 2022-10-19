@@ -333,6 +333,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     dataObjectName,
     id,
     reverseRange,
+    isRangeShown
   ]);
 
   return (

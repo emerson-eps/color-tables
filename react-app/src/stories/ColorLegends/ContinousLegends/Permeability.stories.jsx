@@ -1,10 +1,10 @@
+import colorTables from "../../../component/color-tables.json";
 import React from "react";
 import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
 export default {
   component: ContinuousLegend,
   title: "Legends/ContinousLegend",
 };
-import colorTables from "../../../component/color-tables.json";
 
 const min = 2782;
 const max = 3513;
@@ -14,6 +14,7 @@ const horizontal = true;
 const colorName = "Permeability";
 const colorMapFunction = (x) => [255 - x * 100, 255 - x * 100, 255 * x];
 const reverseRange = false;
+const isRangeShown = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -30,4 +31,5 @@ PermeabilityTemplate.args = {
   horizontal,
   colorMapFunction,
   reverseRange,
+  isRangeShown,
 };
