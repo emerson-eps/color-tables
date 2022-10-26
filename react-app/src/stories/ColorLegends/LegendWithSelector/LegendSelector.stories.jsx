@@ -45,5 +45,4 @@ LegendWithColorSelector.args = {
   colorName: "Rainbow",
   colorTables,
   discreteData,
-  reverseRange: false,
 };
