@@ -48,6 +48,7 @@ declare type discreteLegendProps = {
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables: colorTablesArray | string;
+  invertLegend?: boolean;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -59,6 +60,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   getColorScaleData,
   id,
   colorTables,
+  invertLegend,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -146,32 +148,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend,
           horizontal
         ).inputScale(ordinalValues);
-        const currentDiv = select(divRef.current);
         let totalRect;
-
-        // append the title
-        currentDiv
-          .append("div")
-          .text(dataObjectName)
-          .style("color", "grey")
-          .style("white-space", "nowrap")
-          .style("overflow", "hidden")
-          .style("width", "150px")
-          .style("text-overflow", "ellipsis")
-          .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style("transform", "none")
-          .style("font-size", "small")
-          .style(
-            "transform",
-            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
-          );
-
-        // Append svg to the div
-        const svgLegend = currentDiv
-          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
-          .style("width", horizontal ? "145px" : "50px")
-          .append("svg")
-          .call(colorLegend);
 
         // Style for main horizontal legend
         if (!useSelectorLegend) {
@@ -187,6 +164,41 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           else {
             totalRect = getColorScaleData.colorsObject.length;
           }
+        }
+
+        const currentDiv = select(divRef.current);
+
+        // append the title
+        currentDiv
+          .append("div")
+          .text(dataObjectName)
+          .style("color", "grey")
+          .style("white-space", "nowrap")
+          .style("overflow", "hidden")
+          .style("width", "150px")
+          .style("text-overflow", "ellipsis")
+          .style("margin-bottom", horizontal ? "5px" : "0px")
+          .style("font-size", "small")
+          .style(
+            "transform",
+            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+          );
+
+        // Append svg to the div
+        const svgLegend = currentDiv
+          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
+          .style("width", horizontal ? "145px" : "50px")
+          .append("svg")
+          // .style("transform", invertLegend && horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          // .style("transform", invertLegend && !horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          .call(colorLegend);
+
+        if (invertLegend && horizontal) {
+          svgLegend.style("transform", "translate(0px, -9px) rotate(180deg)");
+        } else if (invertLegend && !horizontal) {
+          svgLegend.style("transform", "translate(-20px, 0px) rotate(180deg)");
+        } else {
+          svgLegend.style("transform", "none");
         }
 
         svgLegend
@@ -210,6 +222,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     horizontal,
     getColorScaleData,
     dataObjectName,
+    invertLegend,
   ]);
 
   return (
