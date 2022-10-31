@@ -16,7 +16,7 @@ declare type ColorLegendProps = {
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
   getColorName?: any;
-  invertLegend?: boolean;
+  reverseRange?: boolean;
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
@@ -33,7 +33,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   colorName,
   discreteData,
   getColorName,
-  invertLegend,
+  reverseRange,
   getColorRange,
   getBreakpointValue,
   getScale,
@@ -144,7 +144,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
-            invertLegend={invertLegend}
+            reverseRange={reverseRange}
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
           />
@@ -159,7 +159,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
-            invertLegend={invertLegend}
           />
         )}
       </div>

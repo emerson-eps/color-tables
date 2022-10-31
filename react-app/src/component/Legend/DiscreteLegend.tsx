@@ -48,7 +48,6 @@ declare type discreteLegendProps = {
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables: colorTablesArray | string;
-  invertLegend?: boolean;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -60,7 +59,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   getColorScaleData,
   id,
   colorTables,
-  invertLegend,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -189,17 +187,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
           .style("width", horizontal ? "145px" : "50px")
           .append("svg")
-          // .style("transform", invertLegend && horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
-          // .style("transform", invertLegend && !horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
           .call(colorLegend);
-
-        if (invertLegend && horizontal) {
-          svgLegend.style("transform", "translate(0px, -9px) rotate(180deg)");
-        } else if (invertLegend && !horizontal) {
-          svgLegend.style("transform", "translate(-20px, 0px) rotate(180deg)");
-        } else {
-          svgLegend.style("transform", "none");
-        }
 
         svgLegend
           .attr(
@@ -222,7 +210,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     horizontal,
     getColorScaleData,
     dataObjectName,
-    invertLegend,
   ]);
 
   return (
