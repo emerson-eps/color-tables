@@ -51,8 +51,8 @@ declare type discreteLegendProps = {
   /**
    * Font size of legend name (in px)
    */
-   legendFontSize?: number;
-   /**
+  legendFontSize?: number;
+  /**
    * Font size of legend ticks (in px)
    */
   tickFontSize?: number;
@@ -194,7 +194,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("width", "150px")
           .style("text-overflow", "ellipsis")
           .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style("font-size", legendFontSize && legendFontSize>0 ? `${legendFontSize}` : "16px")
+          .style(
+            "font-size",
+            legendFontSize && legendFontSize > 0 ? `${legendFontSize}` : "16px"
+          )
           .style(
             "transform",
             horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
