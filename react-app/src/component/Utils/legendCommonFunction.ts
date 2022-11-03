@@ -602,3 +602,25 @@ export function getColorSelectorPosition(
   }
   return colorSelectorPosition;
 }
+
+/**
+ * Function to get legend tick values based on the number of ticks
+ */
+export function getTickValues(range:number[], numberOfTicks:number): number[] {
+  // make sure that the number of ticks is valid
+  if (numberOfTicks < 1 || !numberOfTicks) {
+    return [];
+  }
+  const min = range[0];
+  const max = range[1];
+  numberOfTicks = Math.floor(numberOfTicks)
+  const step = (max-min) / (numberOfTicks + 1);
+  let ticksArray: number[] = [];
+
+  for (let i=1; i <= numberOfTicks; i++) {
+    let currentTickValue = (step * i) + min;
+    currentTickValue = Math.round(currentTickValue * 100) / 100;
+    ticksArray.push(currentTickValue);
+  }  
+  return ticksArray
+}

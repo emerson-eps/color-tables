@@ -48,6 +48,19 @@ declare type discreteLegendProps = {
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables: colorTablesArray | string;
+  /**
+   * Font size of legend name (in px)
+   */
+   legendFontSize?: number;
+   /**
+   * Font size of legend ticks (in px)
+   */
+  tickFontSize?: number;
+  /**
+   * Number of ticks in the main legend (only shown when isRangeShown prop is true)
+   * This refers to the number between min and max range points
+   */
+  numberOfTicks: number;
   invertLegend?: boolean;
 };
 
@@ -60,6 +73,9 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   getColorScaleData,
   id,
   colorTables,
+  legendFontSize,
+  tickFontSize,
+  numberOfTicks,
   invertLegend,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
@@ -178,7 +194,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("width", "150px")
           .style("text-overflow", "ellipsis")
           .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style("font-size", "small")
+          .style("font-size", legendFontSize && legendFontSize>0 ? `${legendFontSize}` : "16px")
           .style(
             "transform",
             horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
@@ -222,6 +238,9 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     horizontal,
     getColorScaleData,
     dataObjectName,
+    legendFontSize,
+    tickFontSize,
+    numberOfTicks,
     invertLegend,
   ]);
 
