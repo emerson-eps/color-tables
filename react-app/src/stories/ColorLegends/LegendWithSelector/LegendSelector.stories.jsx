@@ -33,6 +33,7 @@ const Template = (args) => {
   const getColorName = React.useCallback((data) => {
     // for geological color scale data (from color-table.json) => data.name
     // for D3 color scale => data.legendColorName
+    console.log("data:", data);
     setColorName(data?.name || data?.legendColorName);
   }, []);
 
@@ -51,4 +52,8 @@ LegendWithColorSelector.args = {
   reverseRange: false,
   isModal: true,
   isRangeShown: true,
+  legendFontSize: 13,
+  tickFontSize: 13,
+  numberOfTicks: 3,
+  legendScaleSize: 300,
 };
