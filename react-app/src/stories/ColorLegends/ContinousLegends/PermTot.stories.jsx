@@ -9,11 +9,15 @@ export default {
 const min = -999;
 const max = 14023;
 const dataObjectName = "Wells / PERMTOT";
-const position = [16, 10];
+const position = {left: 5, top: 10};
 const horizontal = true;
 const colorName = "Porosity";
 const reverseRange = false;
 const isRangeShown = true;
+const legendFontSize = 13;
+const tickFontSize = 10;
+const numberOfTicks = 3;
+const legendScaleSize = 300;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -30,4 +34,8 @@ PermTotTemplate.args = {
   horizontal,
   reverseRange,
   isRangeShown,
+  legendFontSize,
+  tickFontSize,
+  numberOfTicks,
+  legendScaleSize,
 };

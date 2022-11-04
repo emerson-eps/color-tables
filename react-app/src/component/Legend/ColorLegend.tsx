@@ -30,7 +30,7 @@ declare type ColorLegendProps = {
 
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
-  position,
+  position = {left: 5, top: 10},
   horizontal,
   colorTables,
   min,

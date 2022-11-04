@@ -101,7 +101,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   min,
   max,
   dataObjectName,
-  position,
+  position = {left:5, top:10},
   colorName = "Rainbow",
   horizontal,
   getColorScaleData,
@@ -112,10 +112,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   breakPoint,
   editedBreakPointValues,
   isRangeShown,
-  legendFontSize,
-  tickFontSize,
-  numberOfTicks,
-  legendScaleSize,
+  legendFontSize=18,
+  tickFontSize=12,
+  numberOfTicks=3,
+  legendScaleSize=200,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
