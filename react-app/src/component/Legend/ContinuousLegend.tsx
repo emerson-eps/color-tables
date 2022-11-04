@@ -65,7 +65,7 @@ declare type continuousLegendProps = {
   /**
    * Reverse the range(min and max)
    */
-  reverseRange?: boolean;
+  invertLegend?: boolean;
   isAuto?: boolean;
   breakPoint?: any;
   editedBreakPointValues?: any;
@@ -108,7 +108,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   id,
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
-  reverseRange,
+  invertLegend,
   breakPoint,
   editedBreakPointValues,
   isRangeShown,
@@ -268,15 +268,15 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .append("linearGradient")
           .attr("id", currentIndex);
         // append a linearGradient element to the defs and give it a unique id
-        if ((horizontal && !reverseRange) || (!horizontal && reverseRange)) {
+        if ((horizontal && !invertLegend) || (!horizontal && invertLegend)) {
           linearGradient
             .attr("x1", "0%")
             .attr("x2", horizontal ? "100%" : "0%")
             .attr("y1", "0%")
             .attr("y2", horizontal ? "0%" : "100%");
         } else if (
-          (!horizontal && !reverseRange) ||
-          (horizontal && reverseRange)
+          (!horizontal && !invertLegend) ||
+          (horizontal && invertLegend)
         ) {
           linearGradient
             .attr("x1", horizontal ? "100%" : "0%")
@@ -336,10 +336,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
         let xLeg = scaleLinear()
-          .domain(reverseRange ? [max, min] : [min, max])
+          .domain(invertLegend ? [max, min] : [min, max])
           .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]); // 158 is to be manipulated
         let yLeg = scaleLinear()
-          .domain(reverseRange ? [min, max] : [max, min])
+          .domain(invertLegend ? [min, max] : [max, min])
           .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]); // 158 is to be manipulated
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
@@ -384,7 +384,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     colorMapFunction,
     dataObjectName,
     id,
-    reverseRange,
+    invertLegend,
     isRangeShown,
     legendFontSize,
     tickFontSize,

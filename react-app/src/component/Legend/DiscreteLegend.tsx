@@ -61,6 +61,7 @@ declare type discreteLegendProps = {
    * This refers to the number between min and max range points
    */
   numberOfTicks: number;
+  invertLegend?: boolean;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -75,6 +76,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   legendFontSize,
   tickFontSize,
   numberOfTicks,
+  invertLegend,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -162,7 +164,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend,
           horizontal
         ).inputScale(ordinalValues);
-        const currentDiv = select(divRef.current);
         let totalRect;
 
         // append the title
@@ -208,6 +209,41 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           }
         }
 
+        const currentDiv = select(divRef.current);
+
+        // append the title
+        currentDiv
+          .append("div")
+          .text(dataObjectName)
+          .style("color", "grey")
+          .style("white-space", "nowrap")
+          .style("overflow", "hidden")
+          .style("width", "150px")
+          .style("text-overflow", "ellipsis")
+          .style("margin-bottom", horizontal ? "5px" : "0px")
+          .style("font-size", "small")
+          .style(
+            "transform",
+            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+          );
+
+        // Append svg to the div
+        const svgLegend = currentDiv
+          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
+          .style("width", horizontal ? "145px" : "50px")
+          .append("svg")
+          // .style("transform", invertLegend && horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          // .style("transform", invertLegend && !horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          .call(colorLegend);
+
+        if (invertLegend && horizontal) {
+          svgLegend.style("transform", "translate(0px, -9px) rotate(180deg)");
+        } else if (invertLegend && !horizontal) {
+          svgLegend.style("transform", "translate(-20px, 0px) rotate(180deg)");
+        } else {
+          svgLegend.style("transform", "none");
+        }
+
         svgLegend
           .attr(
             "viewBox",
@@ -232,6 +268,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     legendFontSize,
     tickFontSize,
     numberOfTicks,
+    invertLegend,
   ]);
 
   return (
