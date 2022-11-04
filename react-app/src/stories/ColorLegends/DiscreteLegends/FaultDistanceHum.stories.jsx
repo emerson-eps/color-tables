@@ -12,7 +12,7 @@ const discreteData = {
   yes: [[], 1],
 };
 const dataObjectName = "Wells / FaultDistance_HUM";
-const position = [16, 10];
+const position = {left: 5, top: 10};
 const horizontal = true;
 const colorName = "GasOilWater";
 

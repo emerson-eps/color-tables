@@ -9,11 +9,15 @@ export default {
 const min = 0;
 const max = 0.35;
 const dataObjectName = "Wells / POROTOT";
-const position = [16, 10];
+const position = {left: 5, top: 10};
 const horizontal = true;
 const colorName = "Porosity";
 const reverseRange = false;
 const isRangeShown = true;
+const legendFontSize = 13;
+const tickFontSize = 13;
+const numberOfTicks = 3;
+const legendScaleSize = 300;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -30,4 +34,8 @@ PoroTotTemplate.args = {
   horizontal,
   reverseRange,
   isRangeShown,
+  legendFontSize,
+  tickFontSize,
+  numberOfTicks,
+  legendScaleSize,
 };
