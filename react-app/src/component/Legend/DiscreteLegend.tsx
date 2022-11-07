@@ -167,6 +167,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         let totalRect;
 
         // append the title
+        const currentDiv = select(divRef.current);
+
         currentDiv
           .append("div")
           .text(dataObjectName)
@@ -209,7 +211,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           }
         }
 
-        const currentDiv = select(divRef.current);
 
         // append the title
         currentDiv
@@ -228,7 +229,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           );
 
         // Append svg to the div
-        const svgLegend = currentDiv
+        svgLegend
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
           .style("width", horizontal ? "145px" : "50px")
           .append("svg")
