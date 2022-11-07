@@ -12,6 +12,9 @@
 **/build/
 **/dist/
 
+# storybook
+**/storybook-static
+
 # misc
 .dccache
 .DS_Store
