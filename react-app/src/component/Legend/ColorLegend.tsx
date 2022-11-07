@@ -25,7 +25,7 @@ declare type ColorLegendProps = {
   legendFontSize?: number;
   tickFontSize?: number;
   numberOfTicks?: number;
-  legendScaleSize?: number;
+  legendScaleSize?: number; // in pixils (to be changed to something more responsive)
 };
 
 // Todo: Adapt it for other layers too
