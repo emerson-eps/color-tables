@@ -287,7 +287,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
 
-        
         let xLeg = (isLog ? scaleSymlog() : scaleLinear())
           .domain(reverseRange ? [max, min] : [min, max])
           /*@ts-ignore*/

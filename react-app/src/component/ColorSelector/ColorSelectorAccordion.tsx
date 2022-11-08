@@ -84,7 +84,7 @@ export const ColorSelectorAccordion = (props: any) => {
           <Accordion.Header>Color Sampling</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
-              <Accordion.Item>
+              <Accordion.Item disabled={!props.isCont}>
                 <Accordion.Header>Range</Accordion.Header>
                 <Accordion.Panel>
                   <ColorSelectorWrapper
@@ -98,7 +98,7 @@ export const ColorSelectorAccordion = (props: any) => {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion>
-              <Accordion.Item>
+              <Accordion.Item disabled={!props.isCont}>
                 <Accordion.Header>Domain</Accordion.Header>
                 <Accordion.Panel>
                   {breakpointValues?.length > 0 && (
@@ -113,7 +113,7 @@ export const ColorSelectorAccordion = (props: any) => {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion>
-              <Accordion.Item>
+              <Accordion.Item disabled={!props.isCont}>
                 <Accordion.Header>Interpolation</Accordion.Header>
                 <Accordion.Panel>
                   <ColorSelectorWrapper

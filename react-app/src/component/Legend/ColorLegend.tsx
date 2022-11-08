@@ -20,6 +20,7 @@ declare type ColorLegendProps = {
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
+  getInterpolateMethod?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -37,6 +38,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getColorRange,
   getBreakpointValue,
   getScale,
+  getInterpolateMethod,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -89,8 +91,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     (data: any) => {
       if (data === "Logarithmic") {
         setLog(true);
+        // code to update map layer
+        if (getInterpolateMethod) getInterpolateMethod({ isLog: true });
       } else {
         setLog(false);
+        // code to update map layer
+        if (getInterpolateMethod) getInterpolateMethod({ isLog: false });
       }
     },
     [isLog]

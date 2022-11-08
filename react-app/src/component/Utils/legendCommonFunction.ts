@@ -442,28 +442,6 @@ export function createDefaultContinuousColorScale() {
   return createContinuousLibraryColorScale("Rainbow");
 }
 
-// export function logarithmicColorScale(
-//   name: string,
-//   library = colorTables as colorTablesArray
-// ) {
-//     const breakpoints = colorsArray(name, library);
-//     console.log("breakpoints", breakpoints)
-//     const domain = breakpoints.map((row: any) => row[0]);
-//     console.log("domain", domain)
-//     return (value: number) => {
-//       breakpoints.map((row: any) => row
-//       )
-//     //   return scaleLog(domain) * breakpoint.map((row: any) => row[1]);
-//     }
-//   }
-// return (value: number) => {
-//   return rgbValues(value, name, library);
-// };
-
-// export function createLogarithmicContinuousColorScale() {
-//   return logarithmicColorScale("Rainbow");
-// }
-
 export const getColorArrayFromBreakPoints = (
   breakpoints: any,
   arraySize = 512
