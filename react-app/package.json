@@ -20,6 +20,7 @@
     "typecheck": "tsc --noEmit",
     "prettier:check": "prettier --check src",
     "prettier:fix": "prettier --write src",
+    "lint:check": "eslint --ignore-path ../.gitignore src",
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
