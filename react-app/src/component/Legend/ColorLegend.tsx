@@ -20,7 +20,6 @@ declare type ColorLegendProps = {
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
-  isLog?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -38,7 +37,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getColorRange,
   getBreakpointValue,
   getScale,
-  isLog,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -48,7 +46,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [newMax, setNewMax] = React.useState();
   const [breakValue, setBreakValue] = React.useState();
   const [isNone] = React.useState(true);
-
+  const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
 
   // callback function for modifying range
@@ -86,6 +84,17 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       if (getBreakpointValue) getBreakpointValue(data);
     }
   }, []);
+
+  const getInterpolation = React.useCallback(
+    (data: any) => {
+      if (data === "Logarithmic") {
+        setLog(true);
+      } else {
+        setLog(false);
+      }
+    },
+    [isLog]
+  );
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -137,7 +146,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div ref={divRef} onClick={toggleColorSelector}>
         {isCont === true && (
           <ContinuousLegend
-            min={newMin && isAuto === false ? newMin : min}
+            min={newMin && !isAuto ? newMin : min}
             max={newMax && !isAuto ? newMax : max}
             dataObjectName={dataObjectName}
             position={position}
@@ -180,6 +189,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                 ? getColorScaleData.name
                 : colorName
             }
+            getInterpolation={getInterpolation}
           />
         )}
       </div>

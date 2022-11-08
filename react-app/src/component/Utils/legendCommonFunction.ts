@@ -92,7 +92,7 @@ export function getRgbData(
   // condition for logarithmic values
   if (isLog) {
     const log = scaleSymlog().domain([0, 1]);
-    point = log(point)
+    point = log(point);
   }
   // colortable discrete scale
   if (getColorTableScale?.discrete === true) {
@@ -236,11 +236,10 @@ export function rgbValues(
   iscolorTablesDefined: colorTablesArray | any,
   isLog?: boolean
 ): Color {
-
   // condition for logarithmic values
   if (isLog) {
     const log = scaleSymlog().domain([0, 1]);
-    point = log(point)
+    point = log(point);
   }
 
   // check if the user has there own colortables else use defualt one
@@ -273,7 +272,6 @@ export function rgbValues(
     const secondColorArray = colorTableColors[index];
 
     if ((firstColorArray || secondColorArray) !== undefined) {
-      
       const t0 = firstColorArray[0];
       const t1 = secondColorArray[0];
       const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
@@ -441,7 +439,7 @@ export function createContinuousLibraryColorScale(
 }
 
 export function createDefaultContinuousColorScale() {
-  return createContinuousLibraryColorScale("Permeability");
+  return createContinuousLibraryColorScale("Rainbow");
 }
 
 // export function logarithmicColorScale(
@@ -458,9 +456,9 @@ export function createDefaultContinuousColorScale() {
 //     //   return scaleLog(domain) * breakpoint.map((row: any) => row[1]);
 //     }
 //   }
-  // return (value: number) => {
-  //   return rgbValues(value, name, library);
-  // };
+// return (value: number) => {
+//   return rgbValues(value, name, library);
+// };
 
 // export function createLogarithmicContinuousColorScale() {
 //   return logarithmicColorScale("Rainbow");

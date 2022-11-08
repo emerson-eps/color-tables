@@ -19,6 +19,8 @@ declare type legendProps = {
   isCont?: boolean;
   useBreakpoint?: boolean;
   getBreakpoint?: any;
+  useInterpolation?: boolean;
+  getInterpolation?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -30,6 +32,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   isCont,
   useBreakpoint,
   getBreakpoint,
+  useInterpolation,
+  getInterpolation,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -59,6 +63,20 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     [getRange]
   );
 
+  // For interpolation
+  const onChangeInterpolation = React.useCallback(
+    (e) => {
+      if (e.value === "Logarithmic") {
+        getInterpolation("Logarithmic");
+      } else if (e.value === "Linear") {
+        getInterpolation("Linear");
+      } else {
+        getInterpolation("Nearest");
+      }
+    },
+    [getInterpolation]
+  );
+
   const onChangeBreakpoint = React.useCallback(
     (e) => {
       if (e.value === "None") {
@@ -80,7 +98,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     [getBreakpoint]
   );
 
-  if (!useRange) {
+  if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
     const colorTableContinuousData = colorTables?.filter((element: any) => {
       return element.discrete === false;
@@ -217,6 +235,43 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         None <br />
         <input type="radio" value="domain" name="legend" />
         <input type="text" id="breakpoint" size={16} disabled={isAuto} />
+      </div>
+    );
+  } // Interpolation methods
+  else if (useInterpolation) {
+    // eslint-disable-next-line
+    {
+      // eslint-disable-next-line
+      useInterpolation;
+    }
+    return (
+      <div
+        onChange={(ev) => {
+          onChangeInterpolation(ev.target);
+        }}
+      >
+        <input
+          type="radio"
+          value="Linear"
+          name="interpolation"
+          disabled={!isCont}
+          defaultChecked
+        />
+        Linear <br />
+        <input
+          type="radio"
+          value="Logarithmic"
+          name="interpolation"
+          disabled={!isCont}
+        />
+        Logarithmic <br />
+        <input
+          type="radio"
+          value="Nearest"
+          name="interpolation"
+          disabled={!isCont}
+        />
+        Nearest <br />
       </div>
     );
   }

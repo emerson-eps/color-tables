@@ -90,7 +90,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   reverseRange = false,
   breakPoint,
   editedBreakPointValues,
-  isLog = false,
+  isLog,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -287,13 +287,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
 
-        /*@ts-ignore*/
-        let xLeg = (isLog ? scaleSymlog() : scaleLinear()).domain(reverseRange ? [max, min] : [min, max]).range([10, 158]);
-        /*@ts-ignore*/
-        let yLeg = (isLog ? scaleSymlog() : scaleLinear()).domain(reverseRange ? [min, max] : [max, min]).range([10, 158]);
+        
+        let xLeg = (isLog ? scaleSymlog() : scaleLinear())
+          .domain(reverseRange ? [max, min] : [min, max])
+          /*@ts-ignore*/
+          .range([10, 158]);
+        let yLeg = (isLog ? scaleSymlog() : scaleLinear())
+          .domain(reverseRange ? [min, max] : [max, min])
+          /*@ts-ignore*/
+          .range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg)
-        .tickValues(
+        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
           xLeg.ticks(0).concat(xLeg.domain(), (min + max) / 2)
         );
         const VerticalAxisLeg = axisRight(yLeg).tickValues(
