@@ -20,6 +20,7 @@ declare type ColorLegendProps = {
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
+  isLog?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -37,6 +38,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getColorRange,
   getBreakpointValue,
   getScale,
+  isLog,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -147,6 +149,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             reverseRange={reverseRange}
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
+            isLog={isLog}
           />
         )}
         {isCont === false && (

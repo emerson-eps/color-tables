@@ -5,7 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, scaleLog, axisBottom, axisRight } from "d3";
+import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -90,7 +90,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   reverseRange = false,
   breakPoint,
   editedBreakPointValues,
-  isLog,
+  isLog = false,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -216,7 +216,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return a.breakPoint - b.breakPoint;
         });
 
-        //const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
+        //const colorScale = scaleSymlog().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -287,13 +287,13 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
 
-        let xLeg = (isLog ? scaleLog() : scaleLinear()).domain(reverseRange ? [max, min] : [min, max])
-          .range([10, 158]);
-        let yLeg = (isLog ? scaleLog() : scaleLinear())
-          .domain(reverseRange ? [min, max] : [max, min])
-          .range([10, 158]);
+        /*@ts-ignore*/
+        let xLeg = (isLog ? scaleSymlog() : scaleLinear()).domain(reverseRange ? [max, min] : [min, max]).range([10, 158]);
+        /*@ts-ignore*/
+        let yLeg = (isLog ? scaleSymlog() : scaleLinear()).domain(reverseRange ? [min, max] : [max, min]).range([10, 158]);
 
-        const horizontalAxisLeg = axisBottom(xLeg).tickValues(
+        const horizontalAxisLeg = axisBottom(xLeg)
+        .tickValues(
           xLeg.ticks(0).concat(xLeg.domain(), (min + max) / 2)
         );
         const VerticalAxisLeg = axisRight(yLeg).tickValues(

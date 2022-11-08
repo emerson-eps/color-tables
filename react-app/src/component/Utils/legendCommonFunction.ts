@@ -5,6 +5,7 @@ import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
 import * as d3 from "d3";
 import { range } from "lodash";
+import { scaleSymlog } from "d3";
 
 type Color = [number, number, number];
 
@@ -27,52 +28,6 @@ export function colorsArray(
       value.name.toLowerCase() === colorName.toLowerCase()
   );
   return colorTableData.length > 0 ? colorTableData[0].colors : [];
-}
-
-// return the colors based on the point
-export function rgbValues(
-  point: number,
-  colorName: string,
-  iscolorTablesDefined: colorTablesArray | any
-): Color {
-  const getColorTables = iscolorTablesDefined
-    ? iscolorTablesDefined
-    : colorTables;
-  const colorTableColors = colorsArray(colorName, getColorTables);
-  // compare the point and first value from colorTableColors
-  const colorArrays = colorTableColors.find(
-    (value: [number, number, number, number]) => {
-      return point === value[0];
-    }
-  );
-
-  // if point and value in color table matches then return particular colors
-  if (colorArrays) {
-    return colorArrays.slice(1);
-  }
-  // if no match then need to do interpolation
-  else {
-    // Get index of first match of colortable point greater than point
-    const index = colorTableColors.findIndex((value: number[]) => {
-      return value[0] > point;
-    });
-
-    const firstColorArray = colorTableColors[index - 1];
-    const secondColorArray = colorTableColors[index];
-
-    if ((firstColorArray || secondColorArray) !== undefined) {
-      const t0 = firstColorArray[0];
-      const t1 = secondColorArray[0];
-      const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
-      const interpolatedValues = interpolateRgb(
-        RGBToHex(firstColorArray).color,
-        RGBToHex(secondColorArray).color
-      )(t);
-      const c = color(interpolatedValues)?.rgb();
-      return getColor(c);
-    }
-    return undefined;
-  }
 }
 
 // return the hex color code and offset
@@ -118,7 +73,8 @@ export function getRgbData(
   point: number,
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any,
-  userBreakPoint?: any
+  userBreakPoint?: any,
+  isLog?: boolean
 ): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
@@ -132,6 +88,12 @@ export function getRgbData(
     return value.name === colorName;
   });
   let rgb;
+
+  // condition for logarithmic values
+  if (isLog) {
+    const log = scaleSymlog().domain([0, 1]);
+    point = log(point)
+  }
   // colortable discrete scale
   if (getColorTableScale?.discrete === true) {
     const getSelectedScaleLength = getColorTableScale?.colors.length;
@@ -265,6 +227,65 @@ export function getColors(
   });
 
   return colorTableData.length > 0 ? colorArrays : [];
+}
+
+// return the colors based on the point
+export function rgbValues(
+  point: number,
+  colorName: string,
+  iscolorTablesDefined: colorTablesArray | any,
+  isLog?: boolean
+): Color {
+
+  // condition for logarithmic values
+  if (isLog) {
+    const log = scaleSymlog().domain([0, 1]);
+    point = log(point)
+  }
+
+  // check if the user has there own colortables else use defualt one
+  const getColorTables = iscolorTablesDefined
+    ? iscolorTablesDefined
+    : colorTables;
+
+  // get the colors from the colortable for matching colorname
+  const colorTableColors = colorsArray(colorName, getColorTables);
+
+  // compare the point and first value from colorTableColors
+  const colorArrays = colorTableColors.find(
+    (value: [number, number, number, number]) => {
+      return point === value[0];
+    }
+  );
+
+  // if point and value in color table matches then return particular colors
+  if (colorArrays) {
+    return colorArrays.slice(1);
+  }
+  // if no match then need to do interpolation
+  else {
+    // Get index of first match of colortable point greater than point
+    const index = colorTableColors.findIndex((value: number[]) => {
+      return value[0] > point;
+    });
+
+    const firstColorArray = colorTableColors[index - 1];
+    const secondColorArray = colorTableColors[index];
+
+    if ((firstColorArray || secondColorArray) !== undefined) {
+      
+      const t0 = firstColorArray[0];
+      const t1 = secondColorArray[0];
+      const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
+      const interpolatedValues = interpolateRgb(
+        RGBToHex(firstColorArray).color,
+        RGBToHex(secondColorArray).color
+      )(t);
+      const c = color(interpolatedValues)?.rgb();
+      return getColor(c);
+    }
+    return undefined;
+  }
 }
 
 export function sampledColor(
@@ -420,8 +441,30 @@ export function createContinuousLibraryColorScale(
 }
 
 export function createDefaultContinuousColorScale() {
-  return createContinuousLibraryColorScale("Rainbow");
+  return createContinuousLibraryColorScale("Permeability");
 }
+
+// export function logarithmicColorScale(
+//   name: string,
+//   library = colorTables as colorTablesArray
+// ) {
+//     const breakpoints = colorsArray(name, library);
+//     console.log("breakpoints", breakpoints)
+//     const domain = breakpoints.map((row: any) => row[0]);
+//     console.log("domain", domain)
+//     return (value: number) => {
+//       breakpoints.map((row: any) => row
+//       )
+//     //   return scaleLog(domain) * breakpoint.map((row: any) => row[1]);
+//     }
+//   }
+  // return (value: number) => {
+  //   return rgbValues(value, name, library);
+  // };
+
+// export function createLogarithmicContinuousColorScale() {
+//   return logarithmicColorScale("Rainbow");
+// }
 
 export const getColorArrayFromBreakPoints = (
   breakpoints: any,

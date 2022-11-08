@@ -6,8 +6,8 @@ export default {
 };
 import colorTables from "../../../component/color-tables.json";
 
-const min = 29;
-const max = 47;
+const min = 2917;
+const max = 4723;
 const dataObjectName = "Wells / MD";
 const position = [16, 10];
 const horizontal = true;
