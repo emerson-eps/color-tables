@@ -16,10 +16,11 @@ declare type ColorLegendProps = {
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
   getColorName?: any;
-  invertLegend?: boolean;
+  reverseRange?: boolean;
   getColorRange?: any;
   getBreakpointValue?: any;
   getScale?: any;
+  getInterpolateMethod?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -33,10 +34,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   colorName,
   discreteData,
   getColorName,
-  invertLegend,
+  reverseRange,
   getColorRange,
   getBreakpointValue,
   getScale,
+  getInterpolateMethod,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -46,7 +48,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [newMax, setNewMax] = React.useState();
   const [breakValue, setBreakValue] = React.useState();
   const [isNone] = React.useState(true);
-
+  const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
 
   // callback function for modifying range
@@ -84,6 +86,21 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       if (getBreakpointValue) getBreakpointValue(data);
     }
   }, []);
+
+  const getInterpolation = React.useCallback(
+    (data: any) => {
+      if (data === "Logarithmic") {
+        setLog(true);
+        // code to update map layer
+        if (getInterpolateMethod) getInterpolateMethod({ isLog: true });
+      } else {
+        setLog(false);
+        // code to update map layer
+        if (getInterpolateMethod) getInterpolateMethod({ isLog: false });
+      }
+    },
+    [isLog]
+  );
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -135,7 +152,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       <div ref={divRef} onClick={toggleColorSelector}>
         {isCont === true && (
           <ContinuousLegend
-            min={newMin && isAuto === false ? newMin : min}
+            min={newMin && !isAuto ? newMin : min}
             max={newMax && !isAuto ? newMax : max}
             dataObjectName={dataObjectName}
             position={position}
@@ -144,9 +161,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
-            invertLegend={invertLegend}
+            reverseRange={reverseRange}
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
+            isLog={isLog}
           />
         )}
         {isCont === false && (
@@ -159,7 +177,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
-            invertLegend={invertLegend}
           />
         )}
       </div>
@@ -178,6 +195,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                 ? getColorScaleData.name
                 : colorName
             }
+            getInterpolation={getInterpolation}
           />
         )}
       </div>

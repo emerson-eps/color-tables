@@ -6,12 +6,13 @@ export default {
 };
 import colorTables from "../../../component/color-tables.json";
 
-const min = 2918;
-const max = 4770;
+const min = 2917;
+const max = 4723;
 const dataObjectName = "Wells / MD";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Time/Depth";
+const isLog = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +27,5 @@ MDTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  isLog,
 };

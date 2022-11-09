@@ -5,7 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, axisBottom, axisRight } from "d3";
+import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { color } from "d3-color";
 import { range } from "d3";
@@ -64,10 +64,11 @@ declare type continuousLegendProps = {
   /**
    * Reverse the range(min and max)
    */
-  invertLegend?: boolean;
+  reverseRange?: boolean;
   isAuto?: boolean;
   breakPoint?: any;
   editedBreakPointValues?: any;
+  isLog?: boolean;
 };
 
 declare type ItemColor = {
@@ -86,9 +87,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   id,
   colorTables = defaultColorTables as colorTablesArray,
   colorMapFunction,
-  invertLegend,
+  reverseRange = false,
   breakPoint,
   editedBreakPointValues,
+  isLog,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -214,7 +216,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           return a.breakPoint - b.breakPoint;
         });
 
-        //const colorScale = scaleLinear().domain([min, max]).range([0, 150]);
+        //const colorScale = scaleSymlog().domain([min, max]).range([0, 150]);
         // append a defs (for definition) element to your SVG
         const svgLegend = select(divRef.current)
           .style("margin-right", "2px")
@@ -233,15 +235,15 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .append("linearGradient")
           .attr("id", currentIndex);
         // append a linearGradient element to the defs and give it a unique id
-        if ((horizontal && !invertLegend) || (!horizontal && invertLegend)) {
+        if ((horizontal && !reverseRange) || (!horizontal && reverseRange)) {
           linearGradient
             .attr("x1", "0%")
             .attr("x2", horizontal ? "100%" : "0%")
             .attr("y1", "0%")
             .attr("y2", horizontal ? "0%" : "100%");
         } else if (
-          (!horizontal && !invertLegend) ||
-          (horizontal && invertLegend)
+          (!horizontal && !reverseRange) ||
+          (horizontal && reverseRange)
         ) {
           linearGradient
             .attr("x1", horizontal ? "100%" : "0%")
@@ -282,14 +284,16 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("fill", "grey")
           .style("font-size", "small")
           .text(dataObjectName);
-
         // create tick marks
         // range varies the size of the axis
-        let xLeg = scaleLinear()
-          .domain(invertLegend ? [max, min] : [min, max])
+
+        let xLeg = (isLog ? scaleSymlog() : scaleLinear())
+          .domain(reverseRange ? [max, min] : [min, max])
+          /*@ts-ignore*/
           .range([10, 158]);
-        let yLeg = scaleLinear()
-          .domain(invertLegend ? [min, max] : [max, min])
+        let yLeg = (isLog ? scaleSymlog() : scaleLinear())
+          .domain(reverseRange ? [min, max] : [max, min])
+          /*@ts-ignore*/
           .range([10, 158]);
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
@@ -324,7 +328,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     colorMapFunction,
     dataObjectName,
     id,
-    invertLegend,
+    reverseRange,
+    isLog,
   ]);
   return (
     <div

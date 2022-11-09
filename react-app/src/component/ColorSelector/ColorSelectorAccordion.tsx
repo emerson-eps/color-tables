@@ -84,7 +84,7 @@ export const ColorSelectorAccordion = (props: any) => {
           <Accordion.Header>Color Sampling</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
-              <Accordion.Item>
+              <Accordion.Item disabled={!props.isCont}>
                 <Accordion.Header>Range</Accordion.Header>
                 <Accordion.Panel>
                   <ColorSelectorWrapper
@@ -98,19 +98,29 @@ export const ColorSelectorAccordion = (props: any) => {
           </Accordion.Panel>
           <Accordion.Panel>
             <Accordion>
-              <Accordion.Item>
-                <Accordion.Header>Breakpoint</Accordion.Header>
+              <Accordion.Item disabled={!props.isCont}>
+                <Accordion.Header>Domain</Accordion.Header>
                 <Accordion.Panel>
-                  {/* <ColorSelectorWrapper
-                    useBreakpoint={true}
-                    getBreakpoint={props?.getBreakpoint}
-                  /> */}
                   {breakpointValues?.length > 0 && (
                     <LegendComp
                       colorScaleBreakpoints={breakpointValues}
                       editedData={editedData}
                     />
                   )}
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Panel>
+          <Accordion.Panel>
+            <Accordion>
+              <Accordion.Item disabled={!props.isCont}>
+                <Accordion.Header>Interpolation</Accordion.Header>
+                <Accordion.Panel>
+                  <ColorSelectorWrapper
+                    useInterpolation={true}
+                    isCont={props?.isCont}
+                    getInterpolation={props?.getInterpolation}
+                  />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
