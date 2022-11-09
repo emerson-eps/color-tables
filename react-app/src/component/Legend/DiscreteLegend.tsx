@@ -166,9 +166,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         ).inputScale(ordinalValues);
         let totalRect;
 
-        const currentDiv = select(divRef.current);
         
         // append the title
+        const currentDiv = select(divRef.current);
+
         currentDiv
           .append("div")
           .text(dataObjectName)
@@ -194,6 +195,56 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("width", horizontal ? "145px" : "50px")
           .append("svg")
           .call(colorLegend);
+
+        // Style for main horizontal legend
+        if (!useSelectorLegend) {
+          totalRect = itemColor.length;
+        }
+        // Style for color selector legend
+        else {
+          // calculate width for legend using colortable colors
+          if (getColorScaleData?.color) {
+            totalRect = getColorScaleData.color.length;
+          }
+          // calculate width for legend using d3 colors
+          else {
+            totalRect = getColorScaleData.colorsObject.length;
+          }
+        }
+
+
+        // append the title
+        currentDiv
+          .append("div")
+          .text(dataObjectName)
+          .style("color", "grey")
+          .style("white-space", "nowrap")
+          .style("overflow", "hidden")
+          .style("width", "150px")
+          .style("text-overflow", "ellipsis")
+          .style("margin-bottom", horizontal ? "5px" : "0px")
+          .style("font-size", "small")
+          .style(
+            "transform",
+            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+          );
+
+        // Append svg to the div
+        svgLegend
+          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
+          .style("width", horizontal ? "145px" : "50px")
+          .append("svg")
+          // .style("transform", invertLegend && horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          // .style("transform", invertLegend && !horizontal ? "translate(0px, -9px) rotate(180deg)" : "none")
+          .call(colorLegend);
+
+        if (invertLegend && horizontal) {
+          svgLegend.style("transform", "translate(0px, -9px) rotate(180deg)");
+        } else if (invertLegend && !horizontal) {
+          svgLegend.style("transform", "translate(-20px, 0px) rotate(180deg)");
+        } else {
+          svgLegend.style("transform", "none");
+        }
 
         svgLegend
           .attr(

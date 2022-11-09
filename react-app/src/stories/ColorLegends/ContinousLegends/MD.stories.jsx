@@ -32,6 +32,7 @@ MDTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  reverseRange,
   isRangeShown,
   legendFontSize,
   tickFontSize,
