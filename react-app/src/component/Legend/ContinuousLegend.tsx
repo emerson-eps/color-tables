@@ -28,7 +28,7 @@ declare type continuousLegendProps = {
   /**
    * Specify the position
    */
-  position?: number[] | null;
+  position?: { left: number; top: number } | null;
   /**
    * Name of the color(ex: Rainbow)
    */
@@ -69,6 +69,10 @@ declare type continuousLegendProps = {
   breakPoint?: any;
   editedBreakPointValues?: any;
   isLog?: boolean;
+  /**
+   * Should the range be shown or not
+   */
+   isRangeShown?: boolean;
 };
 
 declare type ItemColor = {
@@ -80,7 +84,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   min,
   max,
   dataObjectName,
-  position,
+  position = {left:5, top:10},
   colorName = "Rainbow",
   horizontal,
   getColorScaleData,
@@ -91,6 +95,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   breakPoint,
   editedBreakPointValues,
   isLog,
+  isRangeShown=true,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -303,21 +308,24 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           yLeg.ticks(0).concat(yLeg.domain(), (min + max) / 2)
         );
 
-        svgLegend
-          .attr("class", "axis")
-          .append("g")
-          .attr(
-            "transform",
-            horizontal ? "translate(16, 50)" : "translate(45, 7.5)"
-          )
-          .style("font-size", "10px")
-          .style("font-weight", "700")
-          .call(horizontal ? horizontalAxisLeg : VerticalAxisLeg)
-          .style("height", 15);
+        if (isRangeShown) {
+          svgLegend
+            .attr("class", "axis")
+            .append("g")
+            .attr(
+              "transform",
+              horizontal ? "translate(16, 50)" : "translate(45, 7.5)"
+            )
+            .style("font-size", "10px")
+            .style("font-weight", "700")
+            .call(horizontal ? horizontalAxisLeg : VerticalAxisLeg)
+            .style("height", 15);
+        }
       } catch (error) {
         console.error(error);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     min,
     max,
@@ -330,12 +338,14 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     id,
     reverseRange,
     isLog,
+    isRangeShown,
   ]);
   return (
     <div
       style={{
-        right: position ? position[0] : " ",
-        top: position ? position[1] : " ",
+        position: "absolute",
+        left: position?.left,
+        top: position?.top,
         zIndex: 999,
       }}
     >
@@ -348,5 +358,5 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 };
 
 ContinuousLegend.defaultProps = {
-  position: [5, 10],
+  position: {left: 5, top: 10},
 };

@@ -15,6 +15,7 @@ declare type legendProps = {
   useDiscColorTable?: boolean;
   uniqueId?: number;
   colorScaleData: any;
+  currentLegendName?: string;
 };
 
 declare type ItemColor = {
@@ -57,6 +58,10 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
    * Returns the function
    */
   colorScaleData,
+  /**
+   * The name of the current (selected) color legend
+   */
+  currentLegendName,
 }: legendProps) => {
   const divRef = useRef<HTMLDivElement>(null);
   // create an array of steps based on the color scale
@@ -355,7 +360,11 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   }
 
   return (
-    <div>
+    <div
+      className={`${
+        currentLegendName === legendColorName ? "legend selected" : "legend"
+      }`}
+    >
       <div
         id="legend"
         style={{ height: 30 }}

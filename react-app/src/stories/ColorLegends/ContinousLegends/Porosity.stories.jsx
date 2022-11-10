@@ -1,17 +1,19 @@
+import colorTables from "../../../component/color-tables.json";
 import React from "react";
 import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   component: ContinuousLegend,
   title: "Legends/ContinousLegend",
 };
-import colorTables from "../../../component/color-tables.json";
 
 const min = 0;
 const max = 0.35;
 const dataObjectName = "Wells / PORO";
-const position = [16, 10];
+const position = {left: 5, top: 10};
 const horizontal = true;
 const colorName = "Porosity";
+const isRangeShown = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +28,5 @@ PorosityTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  isRangeShown,
 };
