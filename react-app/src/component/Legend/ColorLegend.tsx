@@ -27,7 +27,7 @@ declare type ColorLegendProps = {
 
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
-  position = {left: 5, top: 10},
+  position = { left: 5, top: 10 },
   horizontal,
   colorTables,
   min,
@@ -194,7 +194,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   return (
     <div style={{ position: "relative" }}>
-      <div ref={divRef} onClick={toggleColorSelector} style={{ display: "inline-block", cursor: "pointer" }}>
+      <div
+        ref={divRef}
+        onClick={toggleColorSelector}
+        style={{ display: "inline-block", cursor: "pointer" }}
+      >
         {isCont === true && (
           <ContinuousLegend
             min={newMin && !isAuto ? newMin : min}

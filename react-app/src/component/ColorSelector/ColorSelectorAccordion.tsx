@@ -44,7 +44,7 @@ export const ColorSelectorAccordion = (props: any) => {
 
   return (
     <div
-    ref={containerRef}
+      ref={containerRef}
       className="Container"
       style={{
         width: "316px",

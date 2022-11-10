@@ -12,7 +12,7 @@ const discreteData = {
   yes: [[], 1],
 };
 const dataObjectName = "Wells / FAULT_PROXIMITY_FLAG";
-const position = {left: 16, top: 10};
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Time/Depth";
 

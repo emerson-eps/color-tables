@@ -25,7 +25,7 @@ moduleProps) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
   const orderedSelectedColors = React.useMemo(() => {
     return Object.values(breakpointValues).sort(

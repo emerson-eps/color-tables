@@ -25,7 +25,7 @@ const discreteData = {
   BELOW: [[], 14],
 };
 const dataObjectName = "Wells / ZONELOG";
-const position = {left: 16, top: 10};
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Stratigraphy";
 

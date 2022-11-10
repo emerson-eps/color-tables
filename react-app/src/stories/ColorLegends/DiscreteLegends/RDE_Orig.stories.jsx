@@ -26,7 +26,7 @@ const discreteData = {
   R_LSF: [[], 15],
 };
 const dataObjectName = "Wells / RDE_ORIG";
-const position = {left: 16, top: 10};
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Stratigraphy";
 

@@ -20,7 +20,7 @@ const discreteData = {
   F_CALCITE: [[], 9],
 };
 const dataObjectName = "Wells / FACIES_NoCalcite";
-const position = {left: 16, top: 10};
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Facies";
 

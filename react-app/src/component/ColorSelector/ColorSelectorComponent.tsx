@@ -361,9 +361,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
 
   return (
     <div
-    className={`${
-      currentLegendName === legendColorName ? "legend selected" : "legend"
-    }`}
+      className={`${
+        currentLegendName === legendColorName ? "legend selected" : "legend"
+      }`}
     >
       <div
         id="legend"
