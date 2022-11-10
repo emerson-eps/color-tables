@@ -7,12 +7,16 @@ import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
   editedData?: any;
+  isModal?: boolean;
+  handleModalClick?: any;
   // setColorScaleBreakpoints?: any;
 };
 
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
+  isModal,
+  handleModalClick,
 }: // setColorScaleBreakpoints,
 moduleProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
@@ -59,6 +63,14 @@ moduleProps) => {
     [popUpState]
   );
 
+  React.useEffect(() => {
+    if (isModal) {
+      popUpState
+        ? document.removeEventListener("mousedown", handleModalClick)
+        : document.addEventListener("mousedown", handleModalClick);
+    }
+  }, [popUpState]);
+
   const classes = useStyles();
   const width = 200;
 
@@ -77,7 +89,7 @@ moduleProps) => {
         </div>
       </div>
 
-      {popUpState == true && (
+      {popUpState === true && (
         <CustomizedDialogs
           openModal={openEditModal}
           scaleBreakpoints={scaleBreakpoints}

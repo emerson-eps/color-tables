@@ -21,6 +21,7 @@ StandardColorTableLibrary.args = {
   max,
   dataObjectName,
   colorName: colorName,
+  isRangeShown: true,
 };
 
 export const DefaultColorTable = Story.bind({});
@@ -28,4 +29,5 @@ DefaultColorTable.args = {
   min,
   max,
   dataObjectName: "Default color table (Rainbow)",
+  isRangeShown: true,
 };

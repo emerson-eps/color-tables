@@ -11,7 +11,7 @@ declare type ColorLegendProps = {
   min: number;
   max: number;
   dataObjectName: string;
-  position?: number[] | null;
+  position?: { left: number; top: number } | null;
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
@@ -21,11 +21,13 @@ declare type ColorLegendProps = {
   getBreakpointValue?: any;
   getScale?: any;
   getInterpolateMethod?: any;
+  isModal?: boolean;
+  isRangeShown?: boolean;
 };
 
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
-  position,
+  position = {left: 5, top: 10},
   horizontal,
   colorTables,
   min,
@@ -39,9 +41,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getBreakpointValue,
   getScale,
   getInterpolateMethod,
+  isModal,
+  isRangeShown,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
+  const colorSelectorRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
@@ -144,17 +149,54 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor([]);
       if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getColorName]
   );
 
+  function handleModalClick(e: Event) {
+    if (!colorSelectorRef.current?.contains(e.target as Node)) {
+      setIsOpen(false);
+    }
+  }
+
+  React.useEffect(() => {
+    if (isOpen && isModal) {
+      document.addEventListener("mousedown", handleModalClick);
+    } else {
+      document.removeEventListener("mousedown", handleModalClick);
+    }
+    return () => document.removeEventListener("mousedown", handleModalClick);
+  }, [isOpen, isModal]);
+
+  // define a state that controls the position of the color selector
+  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({});
+  React.useEffect(() => {
+    if (divRef.current) {
+      const colorLegendElement = divRef.current.firstChild as Element;
+      const legendBoundingBox = colorLegendElement.getBoundingClientRect();
+      setColorSelectorPosition({
+        top: legendBoundingBox.top,
+        left: legendBoundingBox.left,
+      });
+    }
+  }, [position]);
+
+  /* Defining some states to rerender the component upon prop change in storybook */
+
+  // defining a state that controls the legend name and allows editing it
+  const [legendName, setLegendName] = React.useState(dataObjectName);
+  React.useEffect(() => {
+    setLegendName(dataObjectName);
+  }, [dataObjectName]);
+
   return (
-    <div>
-      <div ref={divRef} onClick={toggleColorSelector}>
+    <div style={{ position: "relative" }}>
+      <div ref={divRef} onClick={toggleColorSelector} style={{ display: "inline-block", cursor: "pointer" }}>
         {isCont === true && (
           <ContinuousLegend
             min={newMin && !isAuto ? newMin : min}
             max={newMax && !isAuto ? newMax : max}
-            dataObjectName={dataObjectName}
+            dataObjectName={legendName}
             position={position}
             colorName={colorName}
             horizontal={horizontal}
@@ -165,12 +207,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
             isLog={isLog}
+            isRangeShown={isRangeShown}
           />
         )}
         {isCont === false && (
           <DiscreteColorLegend
             discreteData={discreteData}
-            dataObjectName={dataObjectName}
+            dataObjectName={legendName}
             position={position}
             colorName={colorName}
             horizontal={horizontal}
@@ -182,21 +225,28 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       </div>
       <div>
         {isOpen && (
-          <ColorSelectorAccordion
-            isHorizontal={horizontal}
-            colorTables={colorTables}
-            getRange={getRange}
-            isCont={isCont}
-            getBreakpoint={getBreakpoint}
-            getEditedBreakPoint={breakpointValues}
-            newColorScaleData={getSelectedColorScale}
-            currentLegendName={
-              getColorScaleData?.color?.length > 0
-                ? getColorScaleData.name
-                : colorName
-            }
-            getInterpolation={getInterpolation}
-          />
+          <div style={{ display: "inline-block" }} ref={colorSelectorRef}>
+            <ColorSelectorAccordion
+              setIsOpen={() => setIsOpen(false)}
+              isModal={isModal}
+              dataObjectName={legendName}
+              setDataObjectName={setLegendName}
+              isHorizontal={horizontal}
+              colorTables={colorTables}
+              position={colorSelectorPosition}
+              getRange={getRange}
+              isCont={isCont}
+              getBreakpoint={getBreakpoint}
+              getEditedBreakPoint={breakpointValues}
+              newColorScaleData={getSelectedColorScale}
+              currentLegendName={
+                getColorScaleData?.color?.length > 0
+                  ? getColorScaleData.name
+                  : colorName
+              }
+              getInterpolation={getInterpolation}
+            />
+          </div>
         )}
       </div>
     </div>
