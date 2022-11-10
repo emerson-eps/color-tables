@@ -20,7 +20,7 @@ const discreteData = {
   CAL: [[], 9],
 };
 const dataObjectName = "Wells / FACIES";
-const position = [16, 10];
+const position = {left: 16, top: 10};
 const horizontal = true;
 const colorName = "Facies";
 

@@ -1,10 +1,10 @@
+import colorTables from "../../../component/color-tables.json";
 import React from "react";
 import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
 export default {
   component: ContinuousLegend,
   title: "Legends/ContinousLegend",
 };
-import colorTables from "../../../component/color-tables.json";
 
 const min = 2917;
 const max = 4723;
@@ -13,6 +13,7 @@ const position = [16, 10];
 const horizontal = true;
 const colorName = "Time/Depth";
 const isLog = true;
+const isRangeShown = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -28,4 +29,5 @@ MDTemplate.args = {
   colorTables,
   horizontal,
   isLog,
+  isRangeShown,
 };

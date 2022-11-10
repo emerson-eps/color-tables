@@ -12,6 +12,7 @@ const dataObjectName = "Wells / SW";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Rainbow";
+const isRangeShown = true;
 
 const Template = (args) => {
   return <ContinuousLegend {...args} />;
@@ -26,4 +27,5 @@ SWTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  isRangeShown,
 };

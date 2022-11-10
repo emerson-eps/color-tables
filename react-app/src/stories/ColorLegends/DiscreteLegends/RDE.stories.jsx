@@ -15,7 +15,7 @@ const discreteData = {
   ONSHORE: [[], 5],
 };
 const dataObjectName = "Wells / RDE";
-const position = [16, 10];
+const position = {left: 16, top: 10};
 const horizontal = true;
 const colorName = "Accent";
 
