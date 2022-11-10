@@ -82,6 +82,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [getItemColor]
   );
 
@@ -90,6 +91,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getInterpolation = React.useCallback(
@@ -104,6 +106,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         if (getInterpolateMethod) getInterpolateMethod({ isLog: false });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLog]
   );
 

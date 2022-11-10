@@ -41,6 +41,7 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
       //setColorScaleBreakpoints(data)
       scaleBreakpoints(data);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setColorScaleBreakpoints, colorScaleBreakpoints]
   );
 

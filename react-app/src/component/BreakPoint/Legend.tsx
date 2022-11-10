@@ -25,11 +25,13 @@ moduleProps) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
   const orderedSelectedColors = React.useMemo(() => {
     return Object.values(breakpointValues).sort(
       (a: any, b: any) => a.position - b.position
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakpointValues.length, breakpointValues]);
 
   const arrayOfColors = React.useMemo(
@@ -60,6 +62,7 @@ moduleProps) => {
     (data) => {
       setPopUpState(data.bubbles);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [popUpState]
   );
 
@@ -69,6 +72,7 @@ moduleProps) => {
         ? document.removeEventListener("mousedown", handleModalClick)
         : document.addEventListener("mousedown", handleModalClick);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popUpState]);
 
   const classes = useStyles();
@@ -79,6 +83,7 @@ moduleProps) => {
       setBreakPointValues(value);
       editedData(value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

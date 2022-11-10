@@ -58,7 +58,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const firstItemIndex = 0;
       const lastItemIndex = colorScaleBreakpoints.length - 1;
 
-      if (getIndex != firstItemIndex && getIndex != lastItemIndex) {
+      if (getIndex !== firstItemIndex && getIndex !== lastItemIndex) {
         setColorScaleBreakpoints((items: any) =>
           items.map((item: any, index: any) =>
             index === selectedIndexRef.current
@@ -71,6 +71,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         );
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [rectBox, colorScaleBreakpoints.length, getIndex]
   );
 
@@ -78,6 +79,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     return Object.values(colorScaleBreakpoints).sort(
       (a: any, b: any) => a.position - b.position
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     colorScaleBreakpoints.length,
     setColorScaleBreakpoints,
@@ -86,6 +88,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
   const arrayOfColors = React.useMemo(
     () => getColorArrayFromBreakPoints(orderedSelectedColors),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       orderedSelectedColors,
       colorScaleBreakpoints.length,
@@ -103,6 +106,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onMouseMove, colorScaleBreakpoints, colorScaleBreakpoints.length]);
 
   const isBreakpointMovingRef = React.useRef(false);
@@ -230,6 +234,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     ]);
     setSelectedIndex(colorScaleBreakpoints.length);
     selectedIndexRef.current = colorScaleBreakpoints.length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     colorScaleBreakpoints,
     colorScaleBreakpoints.length,
@@ -239,8 +244,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const deleteBreakPoint = React.useCallback(
     (indexToDelete: number) => {
       if (
-        indexToDelete != 0 &&
-        indexToDelete != colorScaleBreakpoints.length - 1
+        indexToDelete !== 0 &&
+        indexToDelete !== colorScaleBreakpoints.length - 1
       ) {
         setColorScaleBreakpoints((items: any[]) =>
           items.filter((_, index) => index !== indexToDelete)
@@ -252,6 +257,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       setColorScaleBreakpoints,
       colorScaleBreakpoints,

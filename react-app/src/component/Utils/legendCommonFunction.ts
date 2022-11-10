@@ -167,7 +167,7 @@ export function getRgbData(
       });
 
       itemColor?.sort((a: any, b: any) => {
-        if (a[0] == b[0]) return 0;
+        if (a[0] === b[0]) return 0;
         return a[0] < b[0] ? -1 : 1;
       });
       colorTableColors = itemColor;
