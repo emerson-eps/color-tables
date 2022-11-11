@@ -89,16 +89,23 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
 
+        console.log("discreteData", discreteData);
+
+        const entries = Object.entries(discreteData);
+        //eslint-disable-next-line
+        const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
+
         // Main discrete legend
         if (!getColorScaleData || getColorScaleData.length === 0) {
-          Object.keys(discreteData).forEach((key) => {
-            //eslint-disable-next-line
-            let code = (discreteData as { [key: string]: any })[key][1];
+          sorted.forEach((value) => {
+            const key = value[0];
+            const val = value[1];
+            const code = val[1];
             // for colortable colors
             if (arrayOfColors.length > 0) {
               //compare the first value in colorarray(colortable) and code from discreteData
               const matchedColorsArrays = arrayOfColors.find(
-                (value: number[]) => {
+                (value: [number[], number][]) => {
                   return value[0] === code;
                 }
               );
@@ -112,7 +119,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             // for d3 colors
             else {
               var matchedColorsArrays = d3ColorArrays.find(
-                (_value: number, index: number) => {
+                (_value: number, index: [number[], number]) => {
                   return index === code;
                 }
               );
