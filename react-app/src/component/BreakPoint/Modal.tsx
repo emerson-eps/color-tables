@@ -45,11 +45,6 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
     [setColorScaleBreakpoints, colorScaleBreakpoints]
   );
 
-  // React.useEffect(()=>{
-  //   console.log("openDialog", openDialog);    
-  //   console.log("openModal", openModal);    
-  // }, [openDialog, openModal])
-
   return (
     <div>
       {openDialog && (
