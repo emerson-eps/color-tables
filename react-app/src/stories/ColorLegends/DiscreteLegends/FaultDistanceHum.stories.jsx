@@ -12,7 +12,7 @@ const discreteData = {
   yes: [[], 1],
 };
 const dataObjectName = "Wells / FaultDistance_HUM";
-const position = [16, 10];
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "GasOilWater";
 
@@ -28,4 +28,8 @@ FaultDistanceHumTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  legendFontSize: 13,
+  legendScaleSize: 300,
+  // tickFontSize: 13,
+  // numberOfTicks: 3,
 };

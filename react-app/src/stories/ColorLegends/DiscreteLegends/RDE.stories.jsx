@@ -15,7 +15,7 @@ const discreteData = {
   ONSHORE: [[], 5],
 };
 const dataObjectName = "Wells / RDE";
-const position = [16, 10];
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Accent";
 
@@ -31,4 +31,8 @@ RDETemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  legendFontSize: 13,
+  legendScaleSize: 300,
+  // tickFontSize: 13,
+  // numberOfTicks: 3,
 };

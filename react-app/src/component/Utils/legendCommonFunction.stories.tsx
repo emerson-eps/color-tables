@@ -33,6 +33,7 @@ ColorMapFunction.args = {
   max,
   dataObjectName,
   colorMapFunction: colorMap,
+  legendFontSize: 13,
 };
 
 export const DefaultColorMapFunction = ContinuousLegendTemplate.bind({});
@@ -41,4 +42,5 @@ DefaultColorMapFunction.args = {
   max,
   dataObjectName: "Default color scale (Rainbow)",
   colorMapFunction: createDefaultContinuousColorScale(),
+  legendFontSize: 13,
 };

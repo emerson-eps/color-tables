@@ -26,7 +26,7 @@ const discreteData = {
   R_LSF: [[], 15],
 };
 const dataObjectName = "Wells / RDE_ORIG";
-const position = [16, 10];
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Stratigraphy";
 
@@ -42,4 +42,8 @@ RDEOrigTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  legendFontSize: 13,
+  legendScaleSize: 300,
+  // tickFontSize: 13,
+  // numberOfTicks: 3,
 };

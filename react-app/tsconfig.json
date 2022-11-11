@@ -18,11 +18,8 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src", "./src/custom.d.ts"],
-  "exclude": [
-    "node_modules",
-    "**/*.stories.jsx"
-  ]
+  "exclude": ["node_modules", "**/*.stories.jsx"]
 }

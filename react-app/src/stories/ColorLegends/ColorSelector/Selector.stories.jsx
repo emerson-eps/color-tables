@@ -7,7 +7,12 @@ export default {
 };
 
 const Template = (args) => {
-  return <ColorSelectorAccordion colorTables={colorTables} />;
+  return (
+    <ColorSelectorAccordion
+      colorTables={colorTables}
+      position={{ top: 10, left: 5 }}
+    />
+  );
 };
 
 export const selectorTemplate = Template.bind({});

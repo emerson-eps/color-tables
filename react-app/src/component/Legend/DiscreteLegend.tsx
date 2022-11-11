@@ -23,7 +23,7 @@ declare type discreteLegendProps = {
   /**
    * Specify the position
    */
-  position?: number[] | null;
+  position?: { left: number; top: number } | null;
   /**
    * Name of the color(ex: Rainbow)
    */
@@ -48,6 +48,23 @@ declare type discreteLegendProps = {
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
   colorTables: colorTablesArray | string;
+  /**
+   * Font size of legend name (in px)
+   */
+  legendFontSize?: number;
+  /**
+   * Font size of legend ticks (in px)
+   */
+  tickFontSize?: number;
+  /**
+   * Number of ticks in the main legend (only shown when isRangeShown prop is true)
+   * This refers to the number between min and max range points
+   */
+  numberOfTicks?: number;
+  /**
+   * This prop controls the number of ticks shown on the scale of the color legend (in px)
+   */
+  legendScaleSize?: number;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -59,6 +76,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   getColorScaleData,
   id,
   colorTables,
+  legendFontSize,
+  tickFontSize,
+  numberOfTicks,
+  legendScaleSize,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -176,7 +197,12 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("width", "150px")
           .style("text-overflow", "ellipsis")
           .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style("font-size", "small")
+          .style(
+            "font-size",
+            legendFontSize && legendFontSize > 0
+              ? `${legendFontSize}px`
+              : "16px"
+          )
           .style(
             "transform",
             horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
@@ -185,7 +211,15 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         // Append svg to the div
         const svgLegend = currentDiv
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
-          .style("width", horizontal ? "145px" : "50px")
+          // .style("width", horizontal ? "145px" : "50px")
+          .style(
+            "width",
+            horizontal
+              ? legendScaleSize < 200
+                ? 200
+                : legendScaleSize
+              : "50px"
+          )
           .append("svg")
           .call(colorLegend);
 
@@ -197,8 +231,24 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .attr("preserveAspectRatio", "none")
           .style("font-size", ".4")
           .style("margin-left", horizontal ? "0" : "20px")
-          .attr("height", horizontal ? "30px" : "153px")
-          .attr("width", horizontal ? "150px" : "40px");
+          // .attr("height", horizontal ? "30px" : "153px")
+          .attr(
+            "height",
+            horizontal
+              ? "30px"
+              : legendScaleSize < 200
+              ? 190
+              : legendScaleSize - 10
+          )
+          // .attr("width", horizontal ? "150px" : "40px");
+          .attr(
+            "width",
+            horizontal
+              ? legendScaleSize < 200
+                ? 190
+                : legendScaleSize - 10
+              : "40px"
+          );
       } catch (error) {
         console.error(error);
       }
@@ -210,16 +260,22 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     horizontal,
     getColorScaleData,
     dataObjectName,
+    legendFontSize,
+    tickFontSize,
+    numberOfTicks,
+    legendScaleSize,
   ]);
 
   return (
     <div
       style={{
-        right: position ? position[0] : " ",
-        top: position ? position[1] : " ",
+        position: "absolute",
+        left: position ? position.left : " ",
+        top: position ? position.top : " ",
         backgroundColor: "#ffffffcc",
         borderRadius: "5px",
         zIndex: 999,
+        margin: "5px 0px 0px 0px",
       }}
     >
       <div
@@ -241,5 +297,5 @@ export function RGBToHex(rgb: number[]) {
 }
 
 DiscreteColorLegend.defaultProps = {
-  position: [5, 10],
+  position: { left: 5, top: 10 },
 };

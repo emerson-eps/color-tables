@@ -25,7 +25,7 @@ const discreteData = {
   BELOW: [[], 14],
 };
 const dataObjectName = "Wells / ZONELOG";
-const position = [16, 10];
+const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Stratigraphy";
 
@@ -41,4 +41,8 @@ ZonelogTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  legendFontSize: 13,
+  legendScaleSize: 300,
+  // tickFontSize: 13,
+  // numberOfTicks: 3,
 };

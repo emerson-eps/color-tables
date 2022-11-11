@@ -4,8 +4,11 @@ import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
 import defaultColorTables from "../color-tables.json";
 import { RGBToHex } from "../Utils/legendCommonFunction";
+import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 export const ColorSelectorAccordion = (props: any) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const currentLegendName = props.currentLegendName;
   let colorScaleBreakpoints: any = [];
 
@@ -30,24 +33,50 @@ export const ColorSelectorAccordion = (props: any) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
 
   const editedData = React.useCallback((data) => {
     setBreakPointValues(data);
     props.getEditedBreakPoint(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div
+      ref={containerRef}
       className="Container"
       style={{
         width: "316px",
         position: "absolute",
-        zIndex: 1,
-        top: props.isHorizontal ? 100 : 30,
-        right: props.isHorizontal ? 5 : 165,
+        zIndex: 1000,
+        top: getColorSelectorPosition(props.position, props.isHorizontal).top,
+        left: getColorSelectorPosition(props.position, props.isHorizontal).left,
       }}
     >
+      {!props.isModal && (
+        <div style={{ cursor: "pointer" }}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: "-10px",
+              right: "-10px",
+              cursor: "pointer",
+              color: "#007079",
+            }}
+            onMouseOver={(e) => {
+              e.preventDefault();
+              const target = e.target as SVGAElement;
+              target.style.color = "#1099a5";
+            }}
+            onMouseOut={(e) => {
+              const target = e.target as SVGAElement;
+              target.style.color = "#007079";
+            }}
+            onClick={props.setIsOpen}
+          />
+        </div>
+      )}
       <Accordion>
         <Accordion.Item isExpanded>
           <Accordion.Header>Color Scales</Accordion.Header>
@@ -60,6 +89,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     useColorTableColors={true}
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
+                    currentLegendName={props?.currentLegendName}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
@@ -72,6 +102,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     useColorTableColors={false}
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
+                    currentLegendName={props?.currentLegendName}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
@@ -105,6 +136,8 @@ export const ColorSelectorAccordion = (props: any) => {
                     <LegendComp
                       colorScaleBreakpoints={breakpointValues}
                       editedData={editedData}
+                      isModal={props.isModal}
+                      handleModalClick={props.handleModalClick}
                     />
                   )}
                 </Accordion.Panel>

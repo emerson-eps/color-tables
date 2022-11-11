@@ -7,12 +7,16 @@ import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
   editedData?: any;
+  isModal?: boolean;
+  handleModalClick?: any;
   // setColorScaleBreakpoints?: any;
 };
 
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
+  isModal,
+  handleModalClick,
 }: // setColorScaleBreakpoints,
 moduleProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
@@ -21,11 +25,13 @@ moduleProps) => {
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
   const orderedSelectedColors = React.useMemo(() => {
     return Object.values(breakpointValues).sort(
       (a: any, b: any) => a.position - b.position
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakpointValues.length, breakpointValues]);
 
   const arrayOfColors = React.useMemo(
@@ -56,8 +62,18 @@ moduleProps) => {
     (data) => {
       setPopUpState(data.bubbles);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [popUpState]
   );
+
+  React.useEffect(() => {
+    if (isModal) {
+      popUpState
+        ? document.removeEventListener("mousedown", handleModalClick)
+        : document.addEventListener("mousedown", handleModalClick);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [popUpState]);
 
   const classes = useStyles();
   const width = 200;
@@ -67,6 +83,7 @@ moduleProps) => {
       setBreakPointValues(value);
       editedData(value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -77,7 +94,7 @@ moduleProps) => {
         </div>
       </div>
 
-      {popUpState == true && (
+      {popUpState === true && (
         <CustomizedDialogs
           openModal={openEditModal}
           scaleBreakpoints={scaleBreakpoints}
