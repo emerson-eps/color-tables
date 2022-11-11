@@ -625,7 +625,7 @@ export function getColorSelectorPosition(
 /**
  * Function to get legend tick values based on the number of ticks
  */
- export function getTickValues(
+export function getTickValues(
   range: number[],
   numberOfTicks: number
 ): number[] {

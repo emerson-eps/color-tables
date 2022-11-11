@@ -199,7 +199,9 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("margin-bottom", horizontal ? "5px" : "0px")
           .style(
             "font-size",
-            legendFontSize && legendFontSize > 0 ? `${legendFontSize}px` : "16px"
+            legendFontSize && legendFontSize > 0
+              ? `${legendFontSize}px`
+              : "16px"
           )
           .style(
             "transform",
@@ -210,7 +212,14 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         const svgLegend = currentDiv
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
           // .style("width", horizontal ? "145px" : "50px")
-          .style("width", horizontal ? (legendScaleSize < 200 ? 200 : legendScaleSize) : "50px")
+          .style(
+            "width",
+            horizontal
+              ? legendScaleSize < 200
+                ? 200
+                : legendScaleSize
+              : "50px"
+          )
           .append("svg")
           .call(colorLegend);
 
@@ -223,9 +232,23 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .style("font-size", ".4")
           .style("margin-left", horizontal ? "0" : "20px")
           // .attr("height", horizontal ? "30px" : "153px")
-          .attr("height", horizontal ? "30px" : (legendScaleSize < 200 ? 190 : legendScaleSize - 10))
+          .attr(
+            "height",
+            horizontal
+              ? "30px"
+              : legendScaleSize < 200
+              ? 190
+              : legendScaleSize - 10
+          )
           // .attr("width", horizontal ? "150px" : "40px");
-          .attr("width", horizontal ? (legendScaleSize < 200 ? 190 : legendScaleSize - 10) : "40px");
+          .attr(
+            "width",
+            horizontal
+              ? legendScaleSize < 200
+                ? 190
+                : legendScaleSize - 10
+              : "40px"
+          );
       } catch (error) {
         console.error(error);
       }

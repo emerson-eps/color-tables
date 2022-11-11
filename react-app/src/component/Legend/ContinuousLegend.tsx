@@ -114,10 +114,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   editedBreakPointValues,
   isLog,
   isRangeShown,
-  legendFontSize=18,
-  tickFontSize=12,
-  numberOfTicks=3,
-  legendScaleSize=200,
+  legendFontSize = 18,
+  tickFontSize = 12,
+  numberOfTicks = 3,
+  legendScaleSize = 200,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -263,7 +263,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             "height",
             horizontal
               ? "70"
-              : (legendScaleSize < 200 ? 200 : legendScaleSize - 17)
+              : legendScaleSize < 200
+              ? 200
+              : legendScaleSize - 17
           );
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
@@ -347,10 +349,14 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]);
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
-          xLeg.ticks(0).concat(xLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
+          xLeg
+            .ticks(0)
+            .concat(xLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
         );
         const VerticalAxisLeg = axisRight(yLeg).tickValues(
-          yLeg.ticks(0).concat(yLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
+          yLeg
+            .ticks(0)
+            .concat(yLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
         );
 
         if (isRangeShown) {

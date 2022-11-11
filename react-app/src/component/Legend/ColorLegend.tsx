@@ -201,25 +201,29 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [dataObjectName]);
 
   // defining a state that controls the legend name FONT SIZE and allows editing it
-  const [legendFontSizeState, setLegendFontSize] = React.useState<number>(legendFontSize);
+  const [legendFontSizeState, setLegendFontSize] =
+    React.useState<number>(legendFontSize);
   React.useEffect(() => {
     setLegendFontSize(legendFontSize);
   }, [legendFontSize]);
 
   // defining a state that controls the legend ticks' FONT SIZE and allows editing them
-  const [tickFontSizeState, setTickFontSize] = React.useState<number>(tickFontSize);
+  const [tickFontSizeState, setTickFontSize] =
+    React.useState<number>(tickFontSize);
   React.useEffect(() => {
     setTickFontSize(tickFontSize);
   }, [tickFontSize]);
 
   // defining a state that manages number of ticks
-  const [numberOfTicksState, setNumberOfTicks] = React.useState<number>(numberOfTicks);
+  const [numberOfTicksState, setNumberOfTicks] =
+    React.useState<number>(numberOfTicks);
   React.useEffect(() => {
     setNumberOfTicks(numberOfTicks);
   }, [numberOfTicks]);
 
   // defining a state managing the legend scale size
-  const [legendScaleSizeState, setLegendScaleSize] = React.useState<number>(legendScaleSize);
+  const [legendScaleSizeState, setLegendScaleSize] =
+    React.useState<number>(legendScaleSize);
   React.useEffect(() => {
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
