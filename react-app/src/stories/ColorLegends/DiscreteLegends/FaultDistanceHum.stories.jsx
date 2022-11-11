@@ -28,4 +28,8 @@ FaultDistanceHumTemplate.args = {
   colorName,
   colorTables,
   horizontal,
+  legendFontSize: 13,
+  legendScaleSize: 300,
+  // tickFontSize: 13,
+  // numberOfTicks: 3,
 };

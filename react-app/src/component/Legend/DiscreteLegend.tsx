@@ -60,7 +60,7 @@ declare type discreteLegendProps = {
    * Number of ticks in the main legend (only shown when isRangeShown prop is true)
    * This refers to the number between min and max range points
    */
-  numberOfTicks: number;
+  numberOfTicks?: number;
   /**
    * This prop controls the number of ticks shown on the scale of the color legend (in px)
    */

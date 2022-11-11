@@ -30,4 +30,8 @@ MDTemplate.args = {
   horizontal,
   isLog,
   isRangeShown,
+  legendFontSize: 13,
+  tickFontSize: 13,
+  numberOfTicks: 3,
+  legendScaleSize: 300,
 };

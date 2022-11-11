@@ -30,4 +30,8 @@ PermeabilityTemplate.args = {
   horizontal,
   colorMapFunction,
   isRangeShown,
+  legendFontSize: 13,
+  tickFontSize: 13,
+  numberOfTicks: 3,
+  legendScaleSize: 300,
 };

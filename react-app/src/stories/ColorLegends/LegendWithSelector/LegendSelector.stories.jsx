@@ -47,6 +47,7 @@ LegendWithColorSelector.args = {
   position: { left: 5, top: 10 },
   horizontal: true,
   colorName: "Rainbow",
+  dataObjectName: "Legend w\\ Selector",
   colorTables,
   discreteData,
   isModal: true,

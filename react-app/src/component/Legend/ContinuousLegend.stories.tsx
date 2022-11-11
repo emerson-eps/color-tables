@@ -22,6 +22,10 @@ StandardColorTableLibrary.args = {
   dataObjectName,
   colorName: colorName,
   isRangeShown: true,
+  legendFontSize: 13,
+  tickFontSize: 13,
+  numberOfTicks: 3,
+  legendScaleSize: 300,
 };
 
 export const DefaultColorTable = Story.bind({});
@@ -30,4 +34,8 @@ DefaultColorTable.args = {
   max,
   dataObjectName: "Default color table (Rainbow)",
   isRangeShown: true,
+  legendFontSize: 13,
+  tickFontSize: 13,
+  numberOfTicks: 3,
+  legendScaleSize: 300,
 };
