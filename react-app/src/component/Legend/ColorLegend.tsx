@@ -23,6 +23,10 @@ declare type ColorLegendProps = {
   getInterpolateMethod?: any;
   isModal?: boolean;
   isRangeShown?: boolean;
+  legendFontSize?: number;
+  tickFontSize?: number;
+  numberOfTicks?: number;
+  legendScaleSize?: number;
 };
 
 // Todo: Adapt it for other layers too
@@ -43,6 +47,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   getInterpolateMethod,
   isModal,
   isRangeShown,
+  legendFontSize = 18,
+  tickFontSize = 12,
+  numberOfTicks = 1,
+  legendScaleSize = 200,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -192,6 +200,30 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendName(dataObjectName);
   }, [dataObjectName]);
 
+  // defining a state that controls the legend name FONT SIZE and allows editing it
+  const [legendFontSizeState, setLegendFontSize] = React.useState<number>(legendFontSize);
+  React.useEffect(() => {
+    setLegendFontSize(legendFontSize);
+  }, [legendFontSize]);
+
+  // defining a state that controls the legend ticks' FONT SIZE and allows editing them
+  const [tickFontSizeState, setTickFontSize] = React.useState<number>(tickFontSize);
+  React.useEffect(() => {
+    setTickFontSize(tickFontSize);
+  }, [tickFontSize]);
+
+  // defining a state that manages number of ticks
+  const [numberOfTicksState, setNumberOfTicks] = React.useState<number>(numberOfTicks);
+  React.useEffect(() => {
+    setNumberOfTicks(numberOfTicks);
+  }, [numberOfTicks]);
+
+  // defining a state managing the legend scale size
+  const [legendScaleSizeState, setLegendScaleSize] = React.useState<number>(legendScaleSize);
+  React.useEffect(() => {
+    setLegendScaleSize(legendScaleSize);
+  }, [legendScaleSize]);
+
   return (
     <div style={{ position: "relative" }}>
       <div
@@ -215,6 +247,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             editedBreakPointValues={getItemColor}
             isLog={isLog}
             isRangeShown={isRangeShown}
+            legendFontSize={legendFontSizeState}
+            tickFontSize={tickFontSizeState}
+            numberOfTicks={numberOfTicksState}
+            legendScaleSize={legendScaleSizeState}
           />
         )}
         {isCont === false && (
@@ -227,6 +263,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             getColorScaleData={getColorScaleData}
             id={generateUniqueId}
             colorTables={colorTables}
+            legendFontSize={legendFontSizeState}
+            tickFontSize={tickFontSizeState}
+            numberOfTicks={numberOfTicksState}
+            legendScaleSize={legendScaleSizeState}
           />
         )}
       </div>
@@ -246,6 +286,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               getBreakpoint={getBreakpoint}
               getEditedBreakPoint={breakpointValues}
               newColorScaleData={getSelectedColorScale}
+              handleModalClick={handleModalClick}
               currentLegendName={
                 getColorScaleData?.color?.length > 0
                   ? getColorScaleData.name

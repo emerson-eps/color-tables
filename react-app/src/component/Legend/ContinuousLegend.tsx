@@ -4,6 +4,7 @@ import {
   RGBToHex,
   colorsArray,
   RGBToHexValue,
+  getTickValues,
 } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
@@ -73,6 +74,23 @@ declare type continuousLegendProps = {
    * Should the range be shown or not
    */
   isRangeShown?: boolean;
+  /**
+   * Font size of legend name (in px)
+   */
+  legendFontSize?: number;
+  /**
+   * Font size of legend ticks (in px)
+   */
+  tickFontSize?: number;
+  /**
+   * Number of ticks in the main legend (only shown when isRangeShown prop is true)
+   * This refers to the number between min and max range points
+   */
+  numberOfTicks?: number;
+  /**
+   * This prop controls the number of ticks shown on the scale of the color legend (in px)
+   */
+  legendScaleSize?: number;
 };
 
 declare type ItemColor = {
@@ -96,6 +114,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   editedBreakPointValues,
   isLog,
   isRangeShown,
+  legendFontSize=18,
+  tickFontSize=12,
+  numberOfTicks=3,
+  legendScaleSize=200,
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -233,8 +255,16 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         const defs = svgLegend.append("defs");
         svgLegend
-          .attr("width", horizontal ? "190" : "80")
-          .attr("height", horizontal ? "70" : "173");
+          .attr(
+            "width",
+            horizontal ? (legendScaleSize < 200 ? 200 : legendScaleSize) : "80"
+          )
+          .attr(
+            "height",
+            horizontal
+              ? "70"
+              : (legendScaleSize < 200 ? 200 : legendScaleSize - 17)
+          );
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
           .append("linearGradient")
@@ -274,8 +304,18 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .append("rect")
           .attr("x", 25)
           .attr("y", horizontal ? 30 : 18)
-          .attr("width", horizontal ? "149" : 20)
-          .attr("height", horizontal ? 20 : "149")
+          .attr(
+            "width",
+            horizontal
+              ? legendScaleSize < 200
+                ? 159
+                : legendScaleSize - 40
+              : 20
+          )
+          .attr(
+            "height",
+            horizontal ? 20 : legendScaleSize < 200 ? 159 : legendScaleSize - 40
+          )
           .style("fill", "url(#" + currentIndex + ")");
 
         // append title
@@ -287,7 +327,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("transform", horizontal ? "none" : "left")
           .style("transform", horizontal ? "none" : "rotate(270deg)")
           .style("fill", "grey")
-          .style("font-size", "small")
+          .style(
+            "font-size",
+            legendFontSize && legendFontSize > 0
+              ? `${legendFontSize}px`
+              : "16px"
+          )
           .text(dataObjectName);
         // create tick marks
         // range varies the size of the axis
@@ -295,17 +340,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         let xLeg = (isLog ? scaleSymlog() : scaleLinear())
           .domain(reverseRange ? [max, min] : [min, max])
           /*@ts-ignore*/
-          .range([10, 158]);
+          .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]);
         let yLeg = (isLog ? scaleSymlog() : scaleLinear())
           .domain(reverseRange ? [min, max] : [max, min])
           /*@ts-ignore*/
-          .range([10, 158]);
+          .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]);
 
         const horizontalAxisLeg = axisBottom(xLeg).tickValues(
-          xLeg.ticks(0).concat(xLeg.domain(), (min + max) / 2)
+          xLeg.ticks(0).concat(xLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
         );
         const VerticalAxisLeg = axisRight(yLeg).tickValues(
-          yLeg.ticks(0).concat(yLeg.domain(), (min + max) / 2)
+          yLeg.ticks(0).concat(yLeg.domain(), getTickValues(xLeg.domain(), numberOfTicks))
         );
 
         if (isRangeShown) {
@@ -316,7 +361,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
               "transform",
               horizontal ? "translate(16, 50)" : "translate(45, 7.5)"
             )
-            .style("font-size", "10px")
+            .style(
+              "font-size",
+              tickFontSize && tickFontSize > 0 ? `${tickFontSize}px` : "12px"
+            )
             .style("font-weight", "700")
             .call(horizontal ? horizontalAxisLeg : VerticalAxisLeg)
             .style("height", 15);
@@ -339,6 +387,10 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     reverseRange,
     isLog,
     isRangeShown,
+    legendFontSize,
+    tickFontSize,
+    numberOfTicks,
+    legendScaleSize,
   ]);
   return (
     <div
