@@ -6,6 +6,22 @@ import { select, range } from "d3";
 import * as d3 from "d3";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
+import { createStyles, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    legend: {
+      paddingLeft: "5px",
+      "&:hover": {
+        background: "#f1f1f1",
+        cursor: "pointer",
+      },
+    },
+    selected: {
+      background: "#c1c1c1 !important",
+    },
+  })
+);
 
 declare type legendProps = {
   colorsObject?: any;
@@ -64,6 +80,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   currentLegendName,
 }: legendProps) => {
   const divRef = useRef<HTMLDivElement>(null);
+
+  const classes = useStyles();
   // create an array of steps based on the color scale
   // returns an array of evenly-spaced numbers. Returns the integers from zero to the specified end minus one.
   // d3.range(start, stop, step)
@@ -163,9 +181,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     // append a defs (for definition) element to your SVG
     const svgLegend = select(divRef.current)
       .append("svg")
+
       .style("cursor", "pointer")
       .style("height", "30px");
-
     const defs = svgLegend.append("defs");
     const currentIndex = "linear-gradient-" + uniqueId + "0";
     // append a linearGradient element to the defs and give it a unique id
@@ -297,6 +315,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     // colorname as label for the legend (ex: facies)
     selectedLegend
       .append("label")
+
       .text(legendColorName ? legendColorName : "")
       .attr("y", 7)
       .style("float", "left")
@@ -304,7 +323,9 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       .style("margin", "10px 0px")
       .style("white-space", "nowrap")
       .style("font-size", "smaller")
-      .style("font-weight", "900");
+      .style("font-weight", "900")
+      .append(":hover")
+      .style("cursor", "pointer");
 
     selectedLegend
       .append("svg")
@@ -362,12 +383,14 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   return (
     <div
       className={`${
-        currentLegendName === legendColorName ? "legend selected" : "legend"
+        currentLegendName === legendColorName
+          ? `${classes.selected} ${classes.legend}`
+          : classes.legend
       }`}
     >
       <div
         id="legend"
-        style={{ height: 30 }}
+        style={{ height: 30, paddingLeft: "5px" }}
         ref={divRef}
         onClick={handleChange}
       ></div>
