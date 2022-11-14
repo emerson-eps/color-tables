@@ -401,8 +401,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   return (
     <div
       style={{
-        position: "absolute",
-        left: position ? position.left : " ",
+        // position: "absolute",
+        right: position ? position.left : " ",
         top: position ? position.top : " ",
         zIndex: 999,
       }}

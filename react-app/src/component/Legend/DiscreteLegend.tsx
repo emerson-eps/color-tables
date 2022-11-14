@@ -274,8 +274,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   return (
     <div
       style={{
-        position: "absolute",
-        left: position ? position.left : " ",
+        // position: "absolute",
+        right: position ? position.left : " ",
         top: position ? position.top : " ",
         backgroundColor: "#ffffffcc",
         borderRadius: "5px",
