@@ -79,7 +79,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   legendFontSize,
   tickFontSize,
   numberOfTicks,
-  legendScaleSize,
+  legendScaleSize = 153,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -210,7 +210,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           )
           .style(
             "transform",
-            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+            horizontal ? "none" : "translate(-69px, 85px) rotate(270deg)"
           );
 
         // Append svg to the div

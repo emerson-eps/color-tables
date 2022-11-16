@@ -113,7 +113,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   breakPoint,
   editedBreakPointValues,
   isLog,
-  isRangeShown,
+  isRangeShown = true,
   legendFontSize = 18,
   tickFontSize = 12,
   numberOfTicks = 3,

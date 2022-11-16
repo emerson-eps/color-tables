@@ -48,7 +48,7 @@ export const ColorSelectorAccordion = (props: any) => {
       className="Container"
       style={{
         width: "316px",
-        // position: "absolute",
+        position: "absolute",
         zIndex: 1000,
         top: getColorSelectorPosition(props.position, props.isHorizontal).top,
         left: getColorSelectorPosition(props.position, props.isHorizontal).left,
@@ -62,7 +62,7 @@ export const ColorSelectorAccordion = (props: any) => {
               <div style={{ cursor: "pointer" }}>
                 <CancelIcon
                   style={{
-                    // position: "absolute",
+                    //position: "absolute",
                     top: "-10px",
                     right: "-10px",
                     cursor: "pointer",
