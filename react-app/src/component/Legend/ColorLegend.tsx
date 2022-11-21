@@ -63,6 +63,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isNone] = React.useState(true);
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
+  const [isNearest, setIsNearest] = React.useState(false);
 
   // callback function for modifying range
   const getRange = React.useCallback(
@@ -106,16 +107,22 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     (data: any) => {
       if (data === "Logarithmic") {
         setLog(true);
+        setIsNearest(false);
         // code to update map layer
         if (getInterpolateMethod) getInterpolateMethod({ isLog: true });
+      } else if (data === "Nearest") {
+        setIsNearest(true);
+        if (getInterpolateMethod) getInterpolateMethod({ isNearest: true });
       } else {
         setLog(false);
+        setIsNearest(false);
         // code to update map layer
-        if (getInterpolateMethod) getInterpolateMethod({ isLog: false });
+        if (getInterpolateMethod)
+          getInterpolateMethod({ isLog: false, isNearest: false });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLog]
+    [isLog, isNearest]
   );
 
   const toggleColorSelector = useCallback(() => {
@@ -250,6 +257,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
             isLog={isLog}
+            isNearest={isNearest}
             isRangeShown={isRangeShown}
             legendFontSize={legendFontSizeState}
             tickFontSize={tickFontSizeState}

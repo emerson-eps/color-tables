@@ -5,6 +5,7 @@ import {
   colorsArray,
   RGBToHexValue,
   getTickValues,
+  RGBToHex1,
 } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
@@ -70,6 +71,7 @@ declare type continuousLegendProps = {
   breakPoint?: any;
   editedBreakPointValues?: any;
   isLog?: boolean;
+  isNearest?: boolean;
   /**
    * Should the range be shown or not
    */
@@ -113,6 +115,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   breakPoint,
   editedBreakPointValues,
   isLog,
+  isNearest,
   isRangeShown,
   legendFontSize = 18,
   tickFontSize = 12,
@@ -143,6 +146,25 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           typeof colorTables === "string"
             ? colorsArray(colorName, dataSet)
             : colorsArray(colorName, colorTables);
+
+        let nearestData: any = [];
+        // condition for nearest interpolation
+        if (isNearest) {
+          legendColors.forEach(function (val: any, index: any) {
+            nearestData.push({
+              breakPoint: val[0],
+              color: RGBToHex1([val[1], val[2], val[3]]).color,
+            });
+            if (legendColors[index + 1]) {
+              let middle =
+                ((val[0] + legendColors[index + 1][0]) / 2).toFixed(1) + 999;
+              nearestData.push({
+                breakPoint: Number(middle),
+                color: RGBToHex1([val[1], val[2], val[3]]).color,
+              });
+            }
+          });
+        }
 
         // Update color of legend based on color selector scales
         // data is passed on click upon color scales
@@ -288,14 +310,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             .attr("y1", horizontal ? "0%" : "100%")
             .attr("y2", "0%");
         }
+        const colorScale = scaleLinear().domain([0, 1]).range([0, 400]);
         // append multiple color stops by using D3's data/enter step
         linearGradient
           .selectAll("stop")
-          .data(itemColor)
+          .data(nearestData.length > 0 ? nearestData : itemColor)
           .enter()
           .append("stop")
           .attr("offset", function (data: any) {
-            return data.breakPoint + "%";
+            return nearestData.length > 0
+              ? colorScale(data.breakPoint) / 4 + "%"
+              : data.breakPoint + "%";
           })
           .attr("stop-color", function (data: { color: any }) {
             return data.color;

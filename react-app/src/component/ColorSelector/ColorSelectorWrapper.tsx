@@ -72,10 +72,9 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         getInterpolation("Logarithmic");
       } else if (e.value === "Linear") {
         getInterpolation("Linear");
+      } else {
+        getInterpolation("Nearest");
       }
-      // else {
-      //   getInterpolation("Nearest");
-      // }
     },
     [getInterpolation]
   );
