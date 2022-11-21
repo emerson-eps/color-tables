@@ -109,10 +109,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         setLog(true);
         setIsNearest(false);
         // code to update map layer
-        if (getInterpolateMethod) getInterpolateMethod({ isLog: true });
+        if (getInterpolateMethod)
+          getInterpolateMethod({ isLog: true, isNearest: false });
       } else if (data === "Nearest") {
         setIsNearest(true);
-        if (getInterpolateMethod) getInterpolateMethod({ isNearest: true });
+        setLog(false);
+        if (getInterpolateMethod)
+          getInterpolateMethod({ isNearest: true, isLog: false });
       } else {
         setLog(false);
         setIsNearest(false);
