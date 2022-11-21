@@ -5,7 +5,6 @@ import {
   colorsArray,
   RGBToHexValue,
   getTickValues,
-  RGBToHex1,
 } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
 import { d3ColorScales } from "../Utils/d3ColorScale";
@@ -150,19 +149,24 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         let nearestData: any = [];
         // condition for nearest interpolation
         if (isNearest) {
-          legendColors.forEach(function (val: any, index: any) {
-            nearestData.push({
-              breakPoint: val[0],
-              color: RGBToHex1([val[1], val[2], val[3]]).color,
-            });
-            if (legendColors[index + 1]) {
-              let middle =
-                ((val[0] + legendColors[index + 1][0]) / 2).toFixed(1) + 999;
-              nearestData.push({
-                breakPoint: Number(middle),
-                color: RGBToHex1([val[1], val[2], val[3]]).color,
-              });
-            }
+          const nColors = legendColors.length;
+          const delta = 1 / nColors;
+          let leftEnd = 0;
+          let rightEnd = 0 + delta;
+
+          legendColors.forEach((val: any) => {
+            nearestData.push(
+              {
+                breakPoint: Number(leftEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              },
+              {
+                breakPoint: Number(rightEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              }
+            );
+            leftEnd += delta;
+            rightEnd += delta;
           });
         }
 

@@ -43,17 +43,6 @@ export function RGBToHex(rgb: number[]) {
   return { color: "#" + r + g + b, offset: offset };
 }
 
-export function RGBToHex1(rgb: number[]) {
-  let r = Math.round(rgb[0]).toString(16),
-    g = Math.round(rgb[1]).toString(16),
-    b = Math.round(rgb[2]).toString(16);
-  if (r.length === 1) r = "0" + r;
-  if (g.length === 1) g = "0" + g;
-  if (b.length === 1) b = "0" + b;
-
-  return { color: "#" + r + g + b };
-}
-
 // temporary code to support colorlayer discrete color continous legend
 // return the hex color code and offset
 export function RGBToHexValue(rgb: number[], max?: number) {
@@ -178,7 +167,7 @@ export function getRgbData(
     }
     // if no match then need to do interpolation
     else {
-      let colore: any = [];
+      let nearestColor: any = [];
       if (isNearest) {
         colorTableColors.forEach(function (val: any, index: any) {
           if (
@@ -186,19 +175,19 @@ export function getRgbData(
             point > val[0] &&
             point < colorTableColors[index + 1][0]
           ) {
-            let middle: any =
-              ((val[0] + colorTableColors[index + 1][0]) / 2).toFixed(1) + 999;
+            let middle: any = (val[0] + colorTableColors[index + 1][0]) / 2;
             if (point < middle) {
-              colore.push([val[1], val[2], val[3]]);
+              nearestColor.push(val[1], val[2], val[3]);
             } else {
-              colore.push({
-                offset: point,
-                color: colorTableColors[index + 1].color,
-              });
+              nearestColor.push(
+                colorTableColors[index + 1][1],
+                colorTableColors[index + 1][2],
+                colorTableColors[index + 1][3]
+              );
             }
           }
-          return colore;
         });
+        return nearestColor;
       } else {
         // Get index of first match of colortable point greater than point
         const index = colorTableColors.findIndex((value: number[]) => {
