@@ -238,7 +238,8 @@ export function rgbValues(
   point: number,
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any,
-  isLog?: boolean
+  isLog?: boolean,
+  isNearest?: boolean
 ): Color {
   // condition for logarithmic values
   if (isLog) {
@@ -267,26 +268,49 @@ export function rgbValues(
   }
   // if no match then need to do interpolation
   else {
-    // Get index of first match of colortable point greater than point
-    const index = colorTableColors.findIndex((value: number[]) => {
-      return value[0] > point;
-    });
+    var nearestColor: any = [];
+    if (isNearest) {
+      colorTableColors.forEach(function (val: any, index: any) {
+        if (
+          colorTableColors[index + 1] &&
+          point > val[0] &&
+          point < colorTableColors[index + 1][0]
+        ) {
+          var middle = (val[0] + colorTableColors[index + 1][0]) / 2;
+          if (point < middle) {
+            nearestColor.push(val[1], val[2], val[3]);
+          } else {
+            nearestColor.push(
+              colorTableColors[index + 1][1],
+              colorTableColors[index + 1][2],
+              colorTableColors[index + 1][3]
+            );
+          }
+        }
+      });
+      return nearestColor;
+    } else {
+      // Get index of first match of colortable point greater than point
+      const index = colorTableColors.findIndex((value: number[]) => {
+        return value[0] > point;
+      });
 
-    const firstColorArray = colorTableColors[index - 1];
-    const secondColorArray = colorTableColors[index];
+      const firstColorArray = colorTableColors[index - 1];
+      const secondColorArray = colorTableColors[index];
 
-    if ((firstColorArray || secondColorArray) !== undefined) {
-      const t0 = firstColorArray[0];
-      const t1 = secondColorArray[0];
-      const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
-      const interpolatedValues = interpolateRgb(
-        RGBToHex(firstColorArray).color,
-        RGBToHex(secondColorArray).color
-      )(t);
-      const c = color(interpolatedValues)?.rgb();
-      return getColor(c);
+      if ((firstColorArray || secondColorArray) !== undefined) {
+        const t0 = firstColorArray[0];
+        const t1 = secondColorArray[0];
+        const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
+        const interpolatedValues = interpolateRgb(
+          RGBToHex(firstColorArray).color,
+          RGBToHex(secondColorArray).color
+        )(t);
+        const c = color(interpolatedValues)?.rgb();
+        return getColor(c);
+      }
+      return undefined;
     }
-    return undefined;
   }
 }
 
@@ -296,7 +320,9 @@ export function sampledColor(
   categorial?: boolean,
   min?: number,
   max?: number,
-  iscolorTablesDefined?: colorTablesArray | any
+  iscolorTablesDefined?: colorTablesArray | any,
+  isLog?: boolean,
+  isNearest?: boolean
 ) {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
@@ -311,9 +337,15 @@ export function sampledColor(
     return value.name === colorScaleName;
   });
 
+  // condition for logarithmic values
+  if (isLog) {
+    const log = scaleSymlog().domain([0, 1]);
+    point = log(point);
+  }
+
   // return the color for matched point
   // does interpolation for non-matching point
-  let rgb = rgbValues(point, colorScaleName, getColorTables);
+  let rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest);
 
   // colortable continuous scale
   if (getColorTableScale?.discrete === false) {
@@ -322,10 +354,16 @@ export function sampledColor(
       // condition added to resolve typescript error
       //if (min && max) {
       const normalizedPoint = (point - min) / (max - min);
-      rgb = rgbValues(normalizedPoint, colorScaleName, getColorTables);
+      rgb = rgbValues(
+        normalizedPoint,
+        colorScaleName,
+        getColorTables,
+        isLog,
+        isNearest
+      );
       //}
     } else {
-      rgb = rgbValues(point, colorScaleName, getColorTables);
+      rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest);
     }
   }
 
@@ -414,7 +452,11 @@ export function sampledColor(
   return rgb;
 }
 
-export function createColorMapFunction(colorScaleName: string) {
+export function createColorMapFunction(
+  colorScaleName: string,
+  isLog: boolean,
+  isNearest: boolean
+) {
   return (
     x: number,
     categorial: boolean = false,
@@ -428,7 +470,9 @@ export function createColorMapFunction(colorScaleName: string) {
       categorial,
       min,
       max,
-      iscolorTablesDefined
+      iscolorTablesDefined,
+      isLog,
+      isNearest
     );
   };
 }
