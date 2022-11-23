@@ -44,8 +44,9 @@ export const LegendWithColorSelector = Template.bind({});
 LegendWithColorSelector.args = {
   min: 0,
   max: 0.35,
-  position: { left: 5, top: 10 },
+  cssLegendStyles: { left: "0vw", top: "0vh" },
   horizontal: true,
+  position: { left: 5, top: 10 },
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
   colorTables,

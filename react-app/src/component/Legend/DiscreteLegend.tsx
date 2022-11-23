@@ -65,6 +65,10 @@ declare type discreteLegendProps = {
    * This prop controls the number of ticks shown on the scale of the color legend (in px)
    */
   legendScaleSize?: number;
+  /**
+   * 
+   */
+   cssLegendStyles?: any;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -80,6 +84,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   tickFontSize,
   numberOfTicks,
   legendScaleSize,
+  cssLegendStyles = { left: "0vw", top: "0vh" },
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -270,12 +275,15 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     <div
       style={{
         position: "absolute",
-        left: position ? position.left : " ",
-        top: position ? position.top : " ",
+        minHeight: "70px",
+        // left: position ? position.left : " ",
+        // top: position ? position.top : " ",
         backgroundColor: "#ffffffcc",
         borderRadius: "5px",
         zIndex: 999,
-        margin: "5px 0px 0px 0px",
+        // margin: "5px 0px 0px 0px",
+        margin: "10px",
+        ...cssLegendStyles,
       }}
     >
       <div

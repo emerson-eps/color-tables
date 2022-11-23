@@ -50,8 +50,14 @@ export const ColorSelectorAccordion = (props: any) => {
         width: "316px",
         position: "absolute",
         zIndex: 1000,
-        top: getColorSelectorPosition(props.position, props.isHorizontal).top,
-        left: getColorSelectorPosition(props.position, props.isHorizontal).left,
+        margin: "10px",
+        // top: getColorSelectorPosition(props.position, props.isHorizontal).top,
+        // left: getColorSelectorPosition(props.position, props.isHorizontal).left,
+        top: getColorSelectorPosition(props.cssLegendStyles, props.isHorizontal, props.legendScaleSize).top,
+        left: getColorSelectorPosition(props.cssLegendStyles, props.isHorizontal, props.legendScaleSize).left,
+        right: getColorSelectorPosition(props.cssLegendStyles, props.isHorizontal, props.legendScaleSize).right,
+        bottom: getColorSelectorPosition(props.cssLegendStyles, props.isHorizontal, props.legendScaleSize).bottom,
+        
       }}
     >
       {!props.isModal && (

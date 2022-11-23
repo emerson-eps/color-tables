@@ -27,6 +27,7 @@ declare type ColorLegendProps = {
   tickFontSize?: number;
   numberOfTicks?: number;
   legendScaleSize?: number;
+  cssLegendStyles?: any;
 };
 
 // Todo: Adapt it for other layers too
@@ -51,6 +52,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 1,
   legendScaleSize = 200,
+  cssLegendStyles = { left: "0vw", top: "0vh" },
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -228,8 +230,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
 
+  // React.useEffect(()=>{
+  //   console.log(cssLegendStyles);    
+  // }, [cssLegendStyles])
+
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", height: "92vh", width: "97vw" }}>
       <div
         ref={divRef}
         onClick={toggleColorSelector}
@@ -255,6 +261,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             tickFontSize={tickFontSizeState}
             numberOfTicks={numberOfTicksState}
             legendScaleSize={legendScaleSizeState}
+            cssLegendStyles={cssLegendStyles}
           />
         )}
         {isCont === false && (
@@ -271,6 +278,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             tickFontSize={tickFontSizeState}
             numberOfTicks={numberOfTicksState}
             legendScaleSize={legendScaleSizeState}
+            cssLegendStyles={cssLegendStyles}
           />
         )}
       </div>
@@ -297,6 +305,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                   : colorName
               }
               getInterpolation={getInterpolation}
+              legendScaleSize={legendScaleSizeState}
+              cssLegendStyles={cssLegendStyles}
             />
           </div>
         )}

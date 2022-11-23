@@ -91,6 +91,10 @@ declare type continuousLegendProps = {
    * This prop controls the number of ticks shown on the scale of the color legend (in px)
    */
   legendScaleSize?: number;
+  /**
+   * 
+   */
+   cssLegendStyles?: any;
 };
 
 declare type ItemColor = {
@@ -118,6 +122,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 3,
   legendScaleSize = 200,
+  cssLegendStyles = { left: "0vw", top: "0vh" },
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -261,11 +266,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           )
           .attr(
             "height",
-            horizontal
-              ? "70"
-              : legendScaleSize < 200
-              ? 200
-              : legendScaleSize - 17
+            horizontal ? "70" : (legendScaleSize < 200 ? 200 : legendScaleSize - 17)
           );
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
@@ -308,15 +309,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .attr("y", horizontal ? 30 : 18)
           .attr(
             "width",
-            horizontal
-              ? legendScaleSize < 200
-                ? 159
-                : legendScaleSize - 40
-              : 20
+            horizontal ? (legendScaleSize < 200 ? 159 : legendScaleSize - 40) : 20
           )
           .attr(
             "height",
-            horizontal ? 20 : legendScaleSize < 200 ? 159 : legendScaleSize - 40
+            horizontal ? 20 : (legendScaleSize < 200 ? 159 : legendScaleSize - 40)
           )
           .style("fill", "url(#" + currentIndex + ")");
 
@@ -402,9 +399,13 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     <div
       style={{
         position: "absolute",
-        left: position ? position.left : " ",
-        top: position ? position.top : " ",
+        minHeight: "70px",
+        // left: position ? position.left : " ",
+        // top: position ? position.top : " ",
         zIndex: 999,
+        // border: "2px solid orange",
+        margin: "10px",
+        ...cssLegendStyles,
       }}
     >
       <div
@@ -418,3 +419,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 ContinuousLegend.defaultProps = {
   position: { left: 5, top: 10 },
 };
+
+function calculateCssOperation (operation: string): string {
+  let unit;
+  const cssUnits = ["px", "em", "rem", "vh", "vw", "%", "ch", "vmin", "vmax"]
+
+
+  return ""
+}

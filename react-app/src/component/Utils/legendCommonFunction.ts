@@ -476,150 +476,59 @@ export const getColorArrayFromBreakPoints = (
 };
 
 export function getColorSelectorPosition(
-  position: { left: number; top: number },
-  isHorizontal: boolean
-): { top: number; left: number } {
-  const documentWidth = Math.max(
-    document.documentElement["clientWidth"],
-    document.body["scrollWidth"],
-    document.documentElement["scrollWidth"],
-    document.body["offsetWidth"],
-    document.documentElement["offsetWidth"]
-  );
-  const documentHeight = Math.max(
-    document.documentElement["clientHeight"],
-    document.body["scrollHeight"],
-    document.documentElement["scrollHeight"],
-    document.body["offsetHeight"],
-    document.documentElement["offsetHeight"]
-  );
-  const documentDimensions = { width: documentWidth, height: documentHeight };
-  const colorSelectorDimensions = { width: 316, height: 187 };
-  let colorSelectorPosition = { top: position.top, left: position.left }; // default => to be changed based on the legend's position
+  styles: any,
+  isHorizontal: boolean,
+  legendScaleSize: number
+): { top?: string; left?: string, right?: string, bottom?: string } {
+  // when horizontal, the legend dimentions are: width = legendWidth & height = 80px
+  // when vertical, the legend dimentions are: height = legendWidth & width = 80px
+  let legendWidth = isHorizontal ? legendScaleSize + "px" : "100px";
+  let legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
 
-  /* HORIZONTAL LEGEND */
-  if (isHorizontal) {
-    const legendDimensions = { width: 210, height: 70 };
-    // if the legend is on the top-left corner => open the selector below it
-    if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height <
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width + 50 <
-        documentDimensions.width
-    ) {
-      colorSelectorPosition.top = position.top + legendDimensions.height;
-      colorSelectorPosition.left = position.left;
-    }
-    // if the legend is on the top-right corner => open the selector below it and adjust the right edge to fit inside the screen
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height <
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width > documentDimensions.width
-    ) {
-      colorSelectorPosition.top = position.top + legendDimensions.height;
-      colorSelectorPosition.left =
-        documentDimensions.width - colorSelectorDimensions.width - 50;
-    }
-    // if the legend is on the bottom-left corner => open the selector above it
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height >
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width < documentDimensions.width
-    ) {
-      colorSelectorPosition.top = 10;
-      colorSelectorPosition.left = position.left + 5;
-    }
-    // if the legend is on the bottom-right corner => open the selector above it and adjust the edge to fit it inside the screen
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height >
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width > documentDimensions.width
-    ) {
-      colorSelectorPosition.top = 10;
-      colorSelectorPosition.left =
-        documentDimensions.width - colorSelectorDimensions.width - 50;
-    }
-    // if the legend is on the top edge => open the selector below it
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height <
-      documentDimensions.height
-    ) {
-      colorSelectorPosition.top = position.top + legendDimensions.height;
-      colorSelectorPosition.left = position.left;
-      // if the legend is on the top edge too close to the right edge => adjust the selector to fit in the screen
-      if (
-        position.left + colorSelectorDimensions.width >
-        documentDimensions.width
-      ) {
-        colorSelectorPosition.left =
-          documentDimensions.width - colorSelectorDimensions.width - 50;
-      }
-    }
-    // if the legend is on too close to the bottom => open the selector above it
-    else {
-      colorSelectorPosition.top = 30;
-      colorSelectorPosition.left = position.left;
-      // if it is on the bottom edge too close to the right edge => adjust the selector to fit in the screen
-      if (
-        position.left + colorSelectorDimensions.width >
-        documentDimensions.width
-      ) {
-        colorSelectorPosition.left =
-          documentDimensions.width - colorSelectorDimensions.width - 50;
-      }
-    }
-  } else {
-    /* VERTICAL LEGEND */
-    const legendDimensions = { width: 74, height: 200 };
-    // if the legend is in the top-left corner => open the selector to the right
-    if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height <
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width + 50 <
-        documentDimensions.width
-    ) {
-      colorSelectorPosition.top = position.top;
-      colorSelectorPosition.left = position.left + legendDimensions.width;
-    }
-    // if the legend is in the top-right corner => open the selector to the left
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height <
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width + 50 >
-        documentDimensions.width
-    ) {
-      colorSelectorPosition.top = position.top;
-      colorSelectorPosition.left =
-        position.left - colorSelectorDimensions.width - 20;
-    }
-    // if the legend is in the bottom-left corner => open the selector above the legend to the right
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height >
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width + 50 <
-        documentDimensions.width
-    ) {
-      colorSelectorPosition.top = 10;
-      colorSelectorPosition.left = position.left + legendDimensions.width - 20;
-    }
-    // if the legend is in the bottom-right corner => open the selector above the legend to the left
-    else if (
-      position.top + colorSelectorDimensions.height + legendDimensions.height >
-        documentDimensions.height &&
-      position.left + colorSelectorDimensions.width + 50 >
-        documentDimensions.width
-    ) {
-      colorSelectorPosition.top = 10;
-      colorSelectorPosition.left =
-        position.left - colorSelectorDimensions.width - 20;
-    }
-    // if the legend is on the top edge (or in the middle of the screen) => open the selector to the right to the legend
-    else {
-      colorSelectorPosition.top = position.top;
-      colorSelectorPosition.left = position.left + legendDimensions.width;
-    }
+  const accordWidth = "350px";
+  const accordHeight = "250px";
+  
+  let accordionPosition = {left: "", top: "", right: "", bottom: ""};
+
+  // when any of the styles positions is zero, convert to string so that it can pass the conditions afteron
+  /* eslint-disable */
+  styles.left = styles.left == 0 ? "0px" : styles.left
+  styles.right = styles.right == 0 ? "0px" : styles.right
+  styles.top = styles.top == 0 ? "0px" : styles.top
+  styles.bottom = styles.bottom == 0 ? "0px" : styles.bottom
+  /* eslint-enable */
+
+  /* When legend is close to the top-left corner */
+  if (styles.left && styles.top) {
+    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
   }
-  return colorSelectorPosition;
+  /* When legend is close to bottom-left corner */
+  else if (styles.left && styles.bottom) {
+    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.bottom = isHorizontal ? `calc(${styles.bottom} + ${legendHeight})` : styles.bottom;
+  }
+  /* When the legend is close to the top-right corner */
+  else if ( styles.top && styles.right) {
+    accordionPosition.right = isHorizontal ? styles.right : `calc(${styles.right} + ${legendWidth})`
+    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
+  }
+
+  /* When the legend is close to the bottom-right corner */
+  else if (styles.bottom && styles.right) {
+    accordionPosition.bottom = isHorizontal ? `calc(${styles.bottom} + ${legendHeight})` : styles.bottom;
+    accordionPosition.right = isHorizontal ? styles.right : `calc(${styles.right} + ${legendWidth})`
+  }
+  /* Set a default */
+  // eslint-disable-next-line eqeqeq
+  else if (styles.top == "undefined" && styles.left == "undefined" && styles.right == "undefined" && styles.bottom == "undefined") {
+    styles.left = "0px";
+    styles.top = "0px";
+    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
+  }
+
+  return accordionPosition
 }
 
 /**
