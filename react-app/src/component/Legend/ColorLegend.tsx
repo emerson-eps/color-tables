@@ -184,17 +184,17 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [isOpen, isModal]);
 
   // define a state that controls the position of the color selector
-  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({});
-  React.useEffect(() => {
-    if (divRef.current) {
-      const colorLegendElement = divRef.current.firstChild as Element;
-      const legendBoundingBox = colorLegendElement.getBoundingClientRect();
-      setColorSelectorPosition({
-        top: legendBoundingBox.top,
-        left: legendBoundingBox.left,
-      });
-    }
-  }, [position]);
+  // const [colorSelectorPosition, setColorSelectorPosition] = React.useState({});
+  // React.useEffect(() => {
+  //   if (divRef.current) {
+  //     const colorLegendElement = divRef.current.firstChild as Element;
+  //     const legendBoundingBox = colorLegendElement.getBoundingClientRect();
+  //     setColorSelectorPosition({
+  //       top: legendBoundingBox.top,
+  //       left: legendBoundingBox.left,
+  //     });
+  //   }
+  // }, [position]);
 
   /* Defining some states to rerender the component upon prop change in storybook */
 
@@ -294,7 +294,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               setDataObjectName={setLegendName}
               isHorizontal={horizontal}
               colorTables={colorTables}
-              position={colorSelectorPosition}
+              // position={colorSelectorPosition}
               getRange={getRange}
               isCont={isCont}
               getBreakpoint={getBreakpoint}

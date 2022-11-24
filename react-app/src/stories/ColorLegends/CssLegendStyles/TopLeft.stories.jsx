@@ -48,7 +48,7 @@ const defaultProps = {
   isOpenProp: true,
   min: 0,
   max: 0.35,
-  position: { left: 5, top: 10 },
+  // position: { left: 5, top: 10 },
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
   colorTables,

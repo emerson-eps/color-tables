@@ -476,7 +476,7 @@ export const getColorArrayFromBreakPoints = (
 };
 
 export function getColorSelectorPosition(
-  styles: any,
+  styles: any = { top: "0vh", left: "0vw" },
   isHorizontal: boolean,
   legendScaleSize: number
 ): { top?: string; left?: string, right?: string, bottom?: string } {
@@ -486,7 +486,7 @@ export function getColorSelectorPosition(
   let legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
   
   let accordionPosition = {left: "", top: "", right: "", bottom: ""};
-
+  
   // when any of the styles positions is zero, convert to string so that it can pass the conditions afteron
   /* eslint-disable */
   styles.left = styles.left == 0 ? "0px" : styles.left
