@@ -95,9 +95,6 @@ BottomLeftPosition.args = {
 export const BackgroundColor = Template.bind({});
 BackgroundColor.args = {
   ...defaultProps,
-  cssLegendStyles: { backgroundColor: "gray", borderRadius: "5px", fontSize: "larger" },
+  cssLegendStyles: { backgroundColor: "gray", borderRadius: "5px", padding: "5px" },
   horizontal: false,
 };
-
-
-
