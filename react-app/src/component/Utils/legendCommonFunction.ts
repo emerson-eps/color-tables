@@ -484,9 +484,6 @@ export function getColorSelectorPosition(
   // when vertical, the legend dimentions are: height = legendWidth & width = 80px
   let legendWidth = isHorizontal ? legendScaleSize + "px" : "100px";
   let legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
-
-  const accordWidth = "350px";
-  const accordHeight = "250px";
   
   let accordionPosition = {left: "", top: "", right: "", bottom: ""};
 
@@ -497,7 +494,7 @@ export function getColorSelectorPosition(
   styles.top = styles.top == 0 ? "0px" : styles.top
   styles.bottom = styles.bottom == 0 ? "0px" : styles.bottom
   /* eslint-enable */
-
+  
   /* When legend is close to the top-left corner */
   if (styles.left && styles.top) {
     accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
@@ -521,11 +518,11 @@ export function getColorSelectorPosition(
   }
   /* Set a default */
   // eslint-disable-next-line eqeqeq
-  else if (styles.top == "undefined" && styles.left == "undefined" && styles.right == "undefined" && styles.bottom == "undefined") {
+  else if (typeof styles.top === "undefined" && typeof styles.left === "undefined" && typeof styles.right === "undefined" && typeof styles.bottom === "undefined") {
     styles.left = "0px";
     styles.top = "0px";
     accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
-    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
+    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;  
   }
 
   return accordionPosition

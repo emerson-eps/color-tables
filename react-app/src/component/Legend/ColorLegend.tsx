@@ -28,6 +28,7 @@ declare type ColorLegendProps = {
   numberOfTicks?: number;
   legendScaleSize?: number;
   cssLegendStyles?: any;
+  isOpenProp?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -53,11 +54,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   numberOfTicks = 1,
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
+  isOpenProp = false,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   const colorSelectorRef = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(isOpenProp);
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();

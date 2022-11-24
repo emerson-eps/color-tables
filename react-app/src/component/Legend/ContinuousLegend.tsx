@@ -106,7 +106,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   min,
   max,
   dataObjectName,
-  position = { left: 5, top: 10 },
+  // position = { left: 5, top: 10 },
   colorName = "Rainbow",
   horizontal,
   getColorScaleData,
@@ -419,11 +419,3 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 ContinuousLegend.defaultProps = {
   position: { left: 5, top: 10 },
 };
-
-function calculateCssOperation (operation: string): string {
-  let unit;
-  const cssUnits = ["px", "em", "rem", "vh", "vw", "%", "ch", "vmin", "vmax"]
-
-
-  return ""
-}

@@ -74,7 +74,7 @@ declare type discreteLegendProps = {
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   discreteData,
   dataObjectName,
-  position,
+  // position,
   colorName = "Stratigraphy",
   horizontal,
   getColorScaleData,
