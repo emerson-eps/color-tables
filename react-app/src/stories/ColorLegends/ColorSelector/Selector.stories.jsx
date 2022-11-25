@@ -7,12 +7,13 @@ export default {
 };
 
 const Template = (args) => {
-  return (
-    <ColorSelectorAccordion
-      colorTables={colorTables}
-      position={{ top: 10, left: 5 }}
-    />
-  );
+  return <ColorSelectorAccordion {...args} />;
 };
 
 export const selectorTemplate = Template.bind({});
+selectorTemplate.args = {
+  cssLegendStyles: { top: "0%", left: "0%" },
+  isHorizontal: true,
+  isModal: false,
+  colorTables,
+};

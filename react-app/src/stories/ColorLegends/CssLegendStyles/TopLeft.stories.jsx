@@ -5,7 +5,7 @@ import { ColorLegend } from "../../../component/Legend/ColorLegend";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   component: ColorLegend,
-  title: "Legends/LegendWithColorSelector",
+  title: "Legends/cssLegendStyles",
 };
 
 // prop for discrete data
@@ -40,12 +40,12 @@ const Template = (args) => {
   return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
 };
 
-export const LegendWithColorSelector = Template.bind({});
-LegendWithColorSelector.args = {
-  min: 0,
-  max: 0.35,
+const defaultProps = {
   cssLegendStyles: { left: "0vw", top: "0vh" },
   horizontal: true,
+  isOpenProp: true,
+  min: 0,
+  max: 0.35,
   // position: { left: 5, top: 10 },
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
@@ -53,8 +53,49 @@ LegendWithColorSelector.args = {
   discreteData,
   isModal: true,
   isRangeShown: true,
-  legendFontSize: 13,
+  legendFontSize: 16,
   tickFontSize: 13,
   numberOfTicks: 3,
   legendScaleSize: 300,
+};
+
+export const TopLeftPosition = Template.bind({});
+TopLeftPosition.args = {
+  ...defaultProps,
+};
+
+export const TopRightPosition = Template.bind({});
+TopRightPosition.args = {
+  ...defaultProps,
+  cssLegendStyles: { right: "0vw", top: "0vh" },
+};
+
+export const VerticalPositioning = Template.bind({});
+VerticalPositioning.args = {
+  ...defaultProps,
+  cssLegendStyles: { right: "0vw", top: "0vh" },
+  horizontal: false,
+};
+
+export const BottomRightPosition = Template.bind({});
+BottomRightPosition.args = {
+  ...defaultProps,
+  cssLegendStyles: { right: "0vw", bottom: "0vh" },
+};
+
+export const BottomLeftPosition = Template.bind({});
+BottomLeftPosition.args = {
+  ...defaultProps,
+  cssLegendStyles: { left: "0vw", bottom: "0vh" },
+};
+
+export const BackgroundColor = Template.bind({});
+BackgroundColor.args = {
+  ...defaultProps,
+  cssLegendStyles: {
+    backgroundColor: "gray",
+    borderRadius: "5px",
+    padding: "5px",
+  },
+  horizontal: false,
 };

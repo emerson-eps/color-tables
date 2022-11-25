@@ -11,7 +11,6 @@ declare type ColorLegendProps = {
   min: number;
   max: number;
   dataObjectName: string;
-  position?: { left: number; top: number } | null;
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
@@ -27,11 +26,12 @@ declare type ColorLegendProps = {
   tickFontSize?: number;
   numberOfTicks?: number;
   legendScaleSize?: number;
+  cssLegendStyles?: any;
+  isOpenProp?: boolean;
 };
 
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
-  position = { left: 5, top: 10 },
   horizontal,
   colorTables,
   min,
@@ -51,11 +51,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 1,
   legendScaleSize = 200,
+  cssLegendStyles = { left: "0vw", top: "0vh" },
+  isOpenProp = false,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   const colorSelectorRef = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(isOpenProp);
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
@@ -189,19 +191,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     return () => document.removeEventListener("mousedown", handleModalClick);
   }, [isOpen, isModal]);
 
-  // define a state that controls the position of the color selector
-  const [colorSelectorPosition, setColorSelectorPosition] = React.useState({});
-  React.useEffect(() => {
-    if (divRef.current) {
-      const colorLegendElement = divRef.current.firstChild as Element;
-      const legendBoundingBox = colorLegendElement.getBoundingClientRect();
-      setColorSelectorPosition({
-        top: legendBoundingBox.top,
-        left: legendBoundingBox.left,
-      });
-    }
-  }, [position]);
-
   /* Defining some states to rerender the component upon prop change in storybook */
 
   // defining a state that controls the legend name and allows editing it
@@ -239,7 +228,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [legendScaleSize]);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", height: "92vh", width: "97vw" }}>
       <div
         ref={divRef}
         onClick={toggleColorSelector}
@@ -250,7 +239,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             min={newMin && !isAuto ? newMin : min}
             max={newMax && !isAuto ? newMax : max}
             dataObjectName={legendName}
-            position={position}
             colorName={colorName}
             horizontal={horizontal}
             getColorScaleData={getColorScaleData}
@@ -266,13 +254,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             tickFontSize={tickFontSizeState}
             numberOfTicks={numberOfTicksState}
             legendScaleSize={legendScaleSizeState}
+            cssLegendStyles={cssLegendStyles}
           />
         )}
         {isCont === false && (
           <DiscreteColorLegend
             discreteData={discreteData}
             dataObjectName={legendName}
-            position={position}
             colorName={colorName}
             horizontal={horizontal}
             getColorScaleData={getColorScaleData}
@@ -282,6 +270,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             tickFontSize={tickFontSizeState}
             numberOfTicks={numberOfTicksState}
             legendScaleSize={legendScaleSizeState}
+            cssLegendStyles={cssLegendStyles}
           />
         )}
       </div>
@@ -295,7 +284,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               setDataObjectName={setLegendName}
               isHorizontal={horizontal}
               colorTables={colorTables}
-              position={colorSelectorPosition}
               getRange={getRange}
               isCont={isCont}
               getBreakpoint={getBreakpoint}
@@ -308,6 +296,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                   : colorName
               }
               getInterpolation={getInterpolation}
+              legendScaleSize={legendScaleSizeState}
+              cssLegendStyles={cssLegendStyles}
             />
           </div>
         )}

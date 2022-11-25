@@ -27,10 +27,6 @@ declare type continuousLegendProps = {
    */
   dataObjectName: string;
   /**
-   * Specify the position
-   */
-  position?: { left: number; top: number } | null;
-  /**
    * Name of the color(ex: Rainbow)
    */
   colorName?: string;
@@ -92,6 +88,10 @@ declare type continuousLegendProps = {
    * This prop controls the number of ticks shown on the scale of the color legend (in px)
    */
   legendScaleSize?: number;
+  /**
+   * apply css styles
+   */
+  cssLegendStyles?: any;
 };
 
 declare type ItemColor = {
@@ -103,7 +103,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   min,
   max,
   dataObjectName,
-  position = { left: 5, top: 10 },
   colorName = "Rainbow",
   horizontal,
   getColorScaleData,
@@ -115,11 +114,12 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   editedBreakPointValues,
   isLog,
   isNearest,
-  isRangeShown = true,
+  isRangeShown = false,
   legendFontSize = 18,
   tickFontSize = 12,
   numberOfTicks = 3,
   legendScaleSize = 200,
+  cssLegendStyles = { left: "0vw", top: "0vh" },
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -431,10 +431,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   return (
     <div
       style={{
-        // position: "absolute",
-        right: position ? position.left : " ",
-        top: position ? position.top : " ",
+        position: "absolute",
+        minHeight: "70px",
         zIndex: 999,
+        margin: "10px",
+        ...cssLegendStyles,
       }}
     >
       <div
@@ -443,8 +444,4 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
       ></div>
     </div>
   );
-};
-
-ContinuousLegend.defaultProps = {
-  position: { left: 5, top: 10 },
 };

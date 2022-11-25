@@ -48,41 +48,57 @@ export const ColorSelectorAccordion = (props: any) => {
       className="Container"
       style={{
         width: "316px",
-        // position: "absolute",
+        position: "absolute",
         zIndex: 1000,
-        top: getColorSelectorPosition(props.position, props.isHorizontal).top,
-        left: getColorSelectorPosition(props.position, props.isHorizontal).left,
+        margin: "10px",
+        top: getColorSelectorPosition(
+          props.cssLegendStyles,
+          props.isHorizontal,
+          props.legendScaleSize
+        ).top,
+        left: getColorSelectorPosition(
+          props.cssLegendStyles,
+          props.isHorizontal,
+          props.legendScaleSize
+        ).left,
+        right: getColorSelectorPosition(
+          props.cssLegendStyles,
+          props.isHorizontal,
+          props.legendScaleSize
+        ).right,
+        bottom: getColorSelectorPosition(
+          props.cssLegendStyles,
+          props.isHorizontal,
+          props.legendScaleSize
+        ).bottom,
       }}
     >
+      {!props.isModal && (
+        <div style={{ cursor: "pointer" }}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: "-10px",
+              right: "-10px",
+              cursor: "pointer",
+              color: "#007079",
+            }}
+            onMouseOver={(e) => {
+              e.preventDefault();
+              const target = e.target as SVGAElement;
+              target.style.color = "#1099a5";
+            }}
+            onMouseOut={(e) => {
+              const target = e.target as SVGAElement;
+              target.style.color = "#007079";
+            }}
+            onClick={props.setIsOpen}
+          />
+        </div>
+      )}
       <Accordion>
         <Accordion.Item isExpanded>
-          <Accordion.Header>
-            Color Scales
-            {!props.isModal && (
-              <div style={{ cursor: "pointer" }}>
-                <CancelIcon
-                  style={{
-                    // position: "absolute",
-                    top: "-10px",
-                    right: "-10px",
-                    cursor: "pointer",
-                    color: "#007079",
-                  }}
-                  onMouseOver={(e) => {
-                    e.preventDefault();
-                    const target = e.target as SVGAElement;
-                    target.style.color = "#1099a5";
-                  }}
-                  onMouseOut={(e) => {
-                    const target = e.target as SVGAElement;
-                    target.style.color = "#007079";
-                  }}
-                  onClick={props.setIsOpen}
-                />
-              </div>
-            )}
-          </Accordion.Header>
-
+          <Accordion.Header>Color Scales</Accordion.Header>
           <Accordion.Panel>
             <Accordion>
               <Accordion.Item>
