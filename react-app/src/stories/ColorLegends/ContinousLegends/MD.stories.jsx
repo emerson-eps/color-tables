@@ -12,7 +12,6 @@ const dataObjectName = "Wells / MD";
 const position = [16, 10];
 const horizontal = true;
 const colorName = "Time/Depth";
-const isLog = true;
 const isRangeShown = true;
 
 const Template = (args) => {
@@ -28,7 +27,6 @@ MDTemplate.args = {
   colorName,
   colorTables,
   horizontal,
-  isLog,
   isRangeShown,
   legendFontSize: 13,
   tickFontSize: 13,
