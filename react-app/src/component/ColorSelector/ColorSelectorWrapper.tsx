@@ -1,7 +1,6 @@
 import * as React from "react";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
-import "../../css/styles.css";
 
 export declare type colorScaleObj = {
   name: string;
@@ -73,10 +72,9 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         getInterpolation("Logarithmic");
       } else if (e.value === "Linear") {
         getInterpolation("Linear");
+      } else {
+        getInterpolation("Nearest");
       }
-      // else {
-      //   getInterpolation("Nearest");
-      // }
     },
     [getInterpolation]
   );

@@ -70,6 +70,7 @@ declare type continuousLegendProps = {
   breakPoint?: any;
   editedBreakPointValues?: any;
   isLog?: boolean;
+  isNearest?: boolean;
   /**
    * Should the range be shown or not
    */
@@ -117,7 +118,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   breakPoint,
   editedBreakPointValues,
   isLog,
-  isRangeShown,
+  isNearest,
+  isRangeShown = false,
   legendFontSize = 18,
   tickFontSize = 12,
   numberOfTicks = 3,
@@ -148,6 +150,30 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           typeof colorTables === "string"
             ? colorsArray(colorName, dataSet)
             : colorsArray(colorName, colorTables);
+
+        let nearestData: any = [];
+        // condition for nearest interpolation
+        if (isNearest) {
+          const nColors = legendColors.length;
+          const delta = 1 / nColors;
+          let leftEnd = 0;
+          let rightEnd = 0 + delta;
+
+          legendColors.forEach((val: any) => {
+            nearestData.push(
+              {
+                breakPoint: Number(leftEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              },
+              {
+                breakPoint: Number(rightEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              }
+            );
+            leftEnd += delta;
+            rightEnd += delta;
+          });
+        }
 
         // Update color of legend based on color selector scales
         // data is passed on click upon color scales
@@ -289,14 +315,17 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             .attr("y1", horizontal ? "0%" : "100%")
             .attr("y2", "0%");
         }
+        const colorScale = scaleLinear().domain([0, 1]).range([0, 400]);
         // append multiple color stops by using D3's data/enter step
         linearGradient
           .selectAll("stop")
-          .data(itemColor)
+          .data(nearestData.length > 0 ? nearestData : itemColor)
           .enter()
           .append("stop")
           .attr("offset", function (data: any) {
-            return data.breakPoint + "%";
+            return nearestData.length > 0
+              ? colorScale(data.breakPoint) / 4 + "%"
+              : data.breakPoint + "%";
           })
           .attr("stop-color", function (data: { color: any }) {
             return data.color;
@@ -389,6 +418,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     id,
     reverseRange,
     isLog,
+    isNearest,
     isRangeShown,
     legendFontSize,
     tickFontSize,

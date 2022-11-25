@@ -26,6 +26,7 @@ StandardColorTableLibrary.args = {
   tickFontSize: 13,
   numberOfTicks: 3,
   legendScaleSize: 300,
+  cssLegendStyles: {top: "0%", left: "0%"},
 };
 
 export const DefaultColorTable = Story.bind({});
@@ -38,4 +39,5 @@ DefaultColorTable.args = {
   tickFontSize: 13,
   numberOfTicks: 3,
   legendScaleSize: 300,
+  cssLegendStyles: {top: "0%", left: "0%"},
 };
