@@ -45,6 +45,4 @@ RDEOrigTemplate.args = {
   legendFontSize: 13,
   legendScaleSize: 300,
   cssLegendStyles: { top: "0%", left: "0%" },
-  // tickFontSize: 13,
-  // numberOfTicks: 3,
 };
