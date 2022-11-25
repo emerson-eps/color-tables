@@ -243,7 +243,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [legendScaleSize]);
 
   // React.useEffect(()=>{
-  //   console.log(cssLegendStyles);    
+  //   console.log(cssLegendStyles);
   // }, [cssLegendStyles])
 
   return (

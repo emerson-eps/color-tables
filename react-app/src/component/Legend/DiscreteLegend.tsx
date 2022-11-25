@@ -66,9 +66,9 @@ declare type discreteLegendProps = {
    */
   legendScaleSize?: number;
   /**
-   * 
+   *
    */
-   cssLegendStyles?: any;
+  cssLegendStyles?: any;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({

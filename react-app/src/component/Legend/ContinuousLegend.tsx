@@ -93,9 +93,9 @@ declare type continuousLegendProps = {
    */
   legendScaleSize?: number;
   /**
-   * 
+   *
    */
-   cssLegendStyles?: any;
+  cssLegendStyles?: any;
 };
 
 declare type ItemColor = {
@@ -292,7 +292,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           )
           .attr(
             "height",
-            horizontal ? "70" : (legendScaleSize < 200 ? 200 : legendScaleSize - 17)
+            horizontal
+              ? "70"
+              : legendScaleSize < 200
+              ? 200
+              : legendScaleSize - 17
           );
         const currentIndex = "linear-gradient-" + id + "0";
         let linearGradient = defs
@@ -338,11 +342,15 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .attr("y", horizontal ? 30 : 18)
           .attr(
             "width",
-            horizontal ? (legendScaleSize < 200 ? 159 : legendScaleSize - 40) : 20
+            horizontal
+              ? legendScaleSize < 200
+                ? 159
+                : legendScaleSize - 40
+              : 20
           )
           .attr(
             "height",
-            horizontal ? 20 : (legendScaleSize < 200 ? 159 : legendScaleSize - 40)
+            horizontal ? 20 : legendScaleSize < 200 ? 159 : legendScaleSize - 40
           )
           .style("fill", "url(#" + currentIndex + ")");
 

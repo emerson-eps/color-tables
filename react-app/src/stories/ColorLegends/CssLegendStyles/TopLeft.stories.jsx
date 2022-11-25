@@ -37,9 +37,7 @@ const Template = (args) => {
     setColorName(data?.name || data?.legendColorName);
   }, []);
 
-  return (
-    <ColorLegend {...args} colorName={getColor} getScale={getColorName} />
-  );
+  return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
 };
 
 const defaultProps = {
@@ -59,13 +57,12 @@ const defaultProps = {
   tickFontSize: 13,
   numberOfTicks: 3,
   legendScaleSize: 300,
-}
+};
 
 export const TopLeftPosition = Template.bind({});
 TopLeftPosition.args = {
   ...defaultProps,
 };
-
 
 export const TopRightPosition = Template.bind({});
 TopRightPosition.args = {
@@ -95,6 +92,10 @@ BottomLeftPosition.args = {
 export const BackgroundColor = Template.bind({});
 BackgroundColor.args = {
   ...defaultProps,
-  cssLegendStyles: { backgroundColor: "gray", borderRadius: "5px", padding: "5px" },
+  cssLegendStyles: {
+    backgroundColor: "gray",
+    borderRadius: "5px",
+    padding: "5px",
+  },
   horizontal: false,
 };

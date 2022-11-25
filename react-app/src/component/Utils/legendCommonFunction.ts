@@ -527,53 +527,75 @@ export function getColorSelectorPosition(
   styles: any = { top: "0vh", left: "0vw" },
   isHorizontal: boolean,
   legendScaleSize: number
-): { top?: string; left?: string, right?: string, bottom?: string } {
+): { top?: string; left?: string; right?: string; bottom?: string } {
   // when horizontal, the legend dimentions are: width = legendWidth & height = 80px
   // when vertical, the legend dimentions are: height = legendWidth & width = 80px
   let legendWidth = isHorizontal ? legendScaleSize + "px" : "100px";
   let legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
-  
-  let accordionPosition = {left: "", top: "", right: "", bottom: ""};
-  
+
+  let accordionPosition = { left: "", top: "", right: "", bottom: "" };
+
   // when any of the styles positions is zero, convert to string so that it can pass the conditions afteron
   /* eslint-disable */
-  styles.left = styles.left == 0 ? "0px" : styles.left
-  styles.right = styles.right == 0 ? "0px" : styles.right
-  styles.top = styles.top == 0 ? "0px" : styles.top
-  styles.bottom = styles.bottom == 0 ? "0px" : styles.bottom
+  styles.left = styles.left == 0 ? "0px" : styles.left;
+  styles.right = styles.right == 0 ? "0px" : styles.right;
+  styles.top = styles.top == 0 ? "0px" : styles.top;
+  styles.bottom = styles.bottom == 0 ? "0px" : styles.bottom;
   /* eslint-enable */
-  
+
   /* When legend is close to the top-left corner */
   if (styles.left && styles.top) {
-    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
-    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
-  }
+    accordionPosition.left = isHorizontal
+      ? styles.left
+      : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.top = isHorizontal
+      ? `calc(${styles.top} + ${legendHeight})`
+      : styles.top;
+  } else if (styles.left && styles.bottom) {
   /* When legend is close to bottom-left corner */
-  else if (styles.left && styles.bottom) {
-    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
-    accordionPosition.bottom = isHorizontal ? `calc(${styles.bottom} + ${legendHeight})` : styles.bottom;
-  }
+    accordionPosition.left = isHorizontal
+      ? styles.left
+      : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.bottom = isHorizontal
+      ? `calc(${styles.bottom} + ${legendHeight})`
+      : styles.bottom;
+  } else if (styles.top && styles.right) {
   /* When the legend is close to the top-right corner */
-  else if ( styles.top && styles.right) {
-    accordionPosition.right = isHorizontal ? styles.right : `calc(${styles.right} + ${legendWidth})`
-    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;
-  }
+    accordionPosition.right = isHorizontal
+      ? styles.right
+      : `calc(${styles.right} + ${legendWidth})`;
+    accordionPosition.top = isHorizontal
+      ? `calc(${styles.top} + ${legendHeight})`
+      : styles.top;
+  } else if (styles.bottom && styles.right) {
 
   /* When the legend is close to the bottom-right corner */
-  else if (styles.bottom && styles.right) {
-    accordionPosition.bottom = isHorizontal ? `calc(${styles.bottom} + ${legendHeight})` : styles.bottom;
-    accordionPosition.right = isHorizontal ? styles.right : `calc(${styles.right} + ${legendWidth})`
+    accordionPosition.bottom = isHorizontal
+      ? `calc(${styles.bottom} + ${legendHeight})`
+      : styles.bottom;
+    accordionPosition.right = isHorizontal
+      ? styles.right
+      : `calc(${styles.right} + ${legendWidth})`;
   }
   /* Set a default */
   // eslint-disable-next-line eqeqeq
-  else if (typeof styles.top === "undefined" && typeof styles.left === "undefined" && typeof styles.right === "undefined" && typeof styles.bottom === "undefined") {
+  else if (
+    typeof styles.top === "undefined" &&
+    typeof styles.left === "undefined" &&
+    typeof styles.right === "undefined" &&
+    typeof styles.bottom === "undefined"
+  ) {
     styles.left = "0px";
     styles.top = "0px";
-    accordionPosition.left = isHorizontal ? styles.left : `calc(${styles.left} + ${legendWidth})`;
-    accordionPosition.top = isHorizontal ? `calc(${styles.top} + ${legendHeight})` : styles.top;  
+    accordionPosition.left = isHorizontal
+      ? styles.left
+      : `calc(${styles.left} + ${legendWidth})`;
+    accordionPosition.top = isHorizontal
+      ? `calc(${styles.top} + ${legendHeight})`
+      : styles.top;
   }
 
-  return accordionPosition
+  return accordionPosition;
 }
 
 /**
