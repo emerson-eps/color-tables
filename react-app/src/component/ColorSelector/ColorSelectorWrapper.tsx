@@ -262,23 +262,26 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Linear"
           name="interpolation"
           disabled={!isCont}
+          id="Linear"
           defaultChecked
         />
-        Linear <br />
+        <label htmlFor="Linear">Linear</label><br />
         <input
           type="radio"
           value="Logarithmic"
           name="interpolation"
+          id="Logarithmic"
           disabled={!isCont}
         />
-        Logarithmic <br />
+        <label htmlFor="Logarithmic">Logarithmic</label><br />
         <input
           type="radio"
           value="Nearest"
           name="interpolation"
+          id="Nearest"
           disabled={!isCont}
         />
-        Nearest <br />
+        <label htmlFor="Nearest">Nearest</label><br />
       </div>
     );
   }
