@@ -1,2 +1,15 @@
-- name: Conventional Commit Checker
-  - uses: agenthunt/conventional-commit-checker-action@4b707c8037a1b6c09d7ae4539112f95411bd2e56
+name: Conventional Commits
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: webiny/action-conventional-commits@v1.0.3
+
