@@ -51,7 +51,7 @@ LegendWithColorSelector.args = {
   dataObjectName: "Legend with Selector",
   colorTables,
   discreteData,
-  isModal: false,
+  isModal: true,
   isRangeShown: true,
   legendFontSize: 13,
   tickFontSize: 13,
