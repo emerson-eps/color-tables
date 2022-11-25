@@ -46,7 +46,6 @@ LegendWithColorSelector.args = {
   max: 0.35,
   cssLegendStyles: { left: "0vw", top: "0vh" },
   horizontal: true,
-  // position: { left: 5, top: 10 },
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
   colorTables,
