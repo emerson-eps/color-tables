@@ -73,9 +73,9 @@ export function getRgbData(
   point: number,
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any,
-  userBreakPoint?: any,
   isLog?: boolean,
-  isNearest?: boolean
+  isNearest?: boolean,
+  userBreakPoint?: any
 ): number[] | { r: number; g: number; b: number; opacity: number } | undefined {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
@@ -239,7 +239,8 @@ export function rgbValues(
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any,
   isLog?: boolean,
-  isNearest?: boolean
+  isNearest?: boolean,
+  breakPoints?: any
 ): Color {
   // condition for logarithmic values
   if (isLog) {
@@ -253,7 +254,21 @@ export function rgbValues(
     : colorTables;
 
   // get the colors from the colortable for matching colorname
-  const colorTableColors = colorsArray(colorName, getColorTables);
+  let colorTableColors = colorsArray(colorName, getColorTables);
+  const itemColor: any = [];
+
+  if (breakPoints?.length > 0) {
+    breakPoints.forEach((value: any) => {
+      const rgbColor = HextoRGB(value.color);
+      itemColor.push([value.position, rgbColor.r, rgbColor.g, rgbColor.b]);
+    });
+
+    itemColor?.sort((a: any, b: any) => {
+      if (a[0] === b[0]) return 0;
+      return a[0] < b[0] ? -1 : 1;
+    });
+    colorTableColors = itemColor;
+  }
 
   // compare the point and first value from colorTableColors
   const colorArrays = colorTableColors.find(
@@ -322,7 +337,8 @@ export function sampledColor(
   max?: number,
   iscolorTablesDefined?: colorTablesArray | any,
   isLog?: boolean,
-  isNearest?: boolean
+  isNearest?: boolean,
+  breakPoints?: any
 ) {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
@@ -345,10 +361,11 @@ export function sampledColor(
 
   // return the color for matched point
   // does interpolation for non-matching point
-  let rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest);
+  let rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest,breakPoints);
 
   // colortable continuous scale
   if (getColorTableScale?.discrete === false) {
+  
     // if log is discrete, then need to normalize
     if (categorial) {
       // condition added to resolve typescript error
@@ -363,7 +380,7 @@ export function sampledColor(
       );
       //}
     } else {
-      rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest);
+      rgb = rgbValues(point, colorScaleName, getColorTables, isLog, isNearest, breakPoints);
     }
   }
 
@@ -455,7 +472,8 @@ export function sampledColor(
 export function createColorMapFunction(
   colorScaleName: string,
   isLog: boolean,
-  isNearest: boolean
+  isNearest: boolean,
+  breakPoints: any
 ) {
   return (
     x: number,
@@ -472,7 +490,8 @@ export function createColorMapFunction(
       max,
       iscolorTablesDefined,
       isLog,
-      isNearest
+      isNearest,
+      breakPoints
     );
   };
 }
