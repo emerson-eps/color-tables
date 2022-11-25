@@ -552,7 +552,7 @@ export function getColorSelectorPosition(
       ? `calc(${styles.top} + ${legendHeight})`
       : styles.top;
   } else if (styles.left && styles.bottom) {
-  /* When legend is close to bottom-left corner */
+    /* When legend is close to bottom-left corner */
     accordionPosition.left = isHorizontal
       ? styles.left
       : `calc(${styles.left} + ${legendWidth})`;
@@ -560,7 +560,7 @@ export function getColorSelectorPosition(
       ? `calc(${styles.bottom} + ${legendHeight})`
       : styles.bottom;
   } else if (styles.top && styles.right) {
-  /* When the legend is close to the top-right corner */
+    /* When the legend is close to the top-right corner */
     accordionPosition.right = isHorizontal
       ? styles.right
       : `calc(${styles.right} + ${legendWidth})`;
@@ -568,8 +568,7 @@ export function getColorSelectorPosition(
       ? `calc(${styles.top} + ${legendHeight})`
       : styles.top;
   } else if (styles.bottom && styles.right) {
-
-  /* When the legend is close to the bottom-right corner */
+    /* When the legend is close to the bottom-right corner */
     accordionPosition.bottom = isHorizontal
       ? `calc(${styles.bottom} + ${legendHeight})`
       : styles.bottom;
