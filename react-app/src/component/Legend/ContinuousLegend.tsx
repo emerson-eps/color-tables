@@ -27,10 +27,6 @@ declare type continuousLegendProps = {
    */
   dataObjectName: string;
   /**
-   * Specify the position
-   */
-  position?: { left: number; top: number } | null;
-  /**
    * Name of the color(ex: Rainbow)
    */
   colorName?: string;
@@ -93,7 +89,7 @@ declare type continuousLegendProps = {
    */
   legendScaleSize?: number;
   /**
-   *
+   * apply css styles
    */
   cssLegendStyles?: any;
 };
@@ -107,7 +103,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   min,
   max,
   dataObjectName,
-  // position = { left: 5, top: 10 },
   colorName = "Rainbow",
   horizontal,
   getColorScaleData,
@@ -438,10 +433,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
       style={{
         position: "absolute",
         minHeight: "70px",
-        // left: position ? position.left : " ",
-        // top: position ? position.top : " ",
         zIndex: 999,
-        // border: "2px solid orange",
         margin: "10px",
         ...cssLegendStyles,
       }}
@@ -452,8 +444,4 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
       ></div>
     </div>
   );
-};
-
-ContinuousLegend.defaultProps = {
-  position: { left: 5, top: 10 },
 };

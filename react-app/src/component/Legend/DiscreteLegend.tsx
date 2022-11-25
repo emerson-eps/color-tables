@@ -21,10 +21,6 @@ declare type discreteLegendProps = {
    */
   dataObjectName: string;
   /**
-   * Specify the position
-   */
-  position?: { left: number; top: number } | null;
-  /**
    * Name of the color(ex: Rainbow)
    */
   colorName: string;
@@ -66,7 +62,7 @@ declare type discreteLegendProps = {
    */
   legendScaleSize?: number;
   /**
-   *
+   * css styles to be applied
    */
   cssLegendStyles?: any;
 };
@@ -74,7 +70,6 @@ declare type discreteLegendProps = {
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   discreteData,
   dataObjectName,
-  // position,
   colorName = "Stratigraphy",
   horizontal,
   getColorScaleData,
@@ -281,12 +276,9 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       style={{
         position: "absolute",
         minHeight: "70px",
-        // left: position ? position.left : " ",
-        // top: position ? position.top : " ",
         backgroundColor: "#ffffffcc",
         borderRadius: "5px",
         zIndex: 999,
-        // margin: "5px 0px 0px 0px",
         margin: "10px",
         ...cssLegendStyles,
       }}
@@ -308,7 +300,3 @@ export function RGBToHex(rgb: number[]) {
   if (b.length === 1) b = "0" + b;
   return "#" + r + g + b;
 }
-
-DiscreteColorLegend.defaultProps = {
-  position: { left: 5, top: 10 },
-};
