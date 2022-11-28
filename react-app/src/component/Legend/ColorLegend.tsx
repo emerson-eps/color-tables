@@ -176,11 +176,14 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [getColorName]
   );
 
-  const handleModalClick = React.useCallback((e: Event) => {
-    if (!colorSelectorRef.current?.contains(e.target as Node) && isOpen) {
-      setIsOpen(false);
-    }
-  }, [isOpen])
+  const handleModalClick = React.useCallback(
+    (e: Event) => {
+      if (!colorSelectorRef.current?.contains(e.target as Node) && isOpen) {
+        setIsOpen(false);
+      }
+    },
+    [isOpen]
+  );
 
   React.useEffect(() => {
     if (isOpen && isModal) {
