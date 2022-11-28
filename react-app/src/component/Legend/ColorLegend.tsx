@@ -176,11 +176,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [getColorName]
   );
 
-  function handleModalClick(e: Event) {
-    if (!colorSelectorRef.current?.contains(e.target as Node)) {
+  const handleModalClick = React.useCallback((e: Event) => {
+    if (!colorSelectorRef.current?.contains(e.target as Node) && isOpen) {
       setIsOpen(false);
     }
-  }
+  }, [isOpen])
 
   React.useEffect(() => {
     if (isOpen && isModal) {
@@ -189,7 +189,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       document.removeEventListener("mousedown", handleModalClick);
     }
     return () => document.removeEventListener("mousedown", handleModalClick);
-  }, [isOpen, isModal]);
+  }, [isOpen, isModal, handleModalClick]);
 
   /* Defining some states to rerender the component upon prop change in storybook */
 
