@@ -22,6 +22,7 @@ declare type legendProps = {
   useInterpolation?: boolean;
   getInterpolation?: any;
   currentLegendName?: string;
+  selectedInterpolationType?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -31,11 +32,12 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useRange,
   getRange,
   isCont,
-  useBreakpoint,
-  getBreakpoint,
+  // useBreakpoint,
+  // getBreakpoint,
   useInterpolation,
   getInterpolation,
   currentLegendName,
+  selectedInterpolationType
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
@@ -79,26 +81,26 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     [getInterpolation]
   );
 
-  const onChangeBreakpoint = React.useCallback(
-    (e) => {
-      if (e.value === "None") {
-        setAuto(true);
-        getBreakpoint("None");
-      } else {
-        setAuto(false);
-        let breakpoint = (
-          document.getElementById("breakpoint") as HTMLInputElement
-        ).value;
-        let breakpointArray: any;
-        if (breakpoint.length > 0) {
-          breakpointArray = breakpoint?.split(",");
-        }
+  // const onChangeBreakpoint = React.useCallback(
+  //   (e) => {
+  //     if (e.value === "None") {
+  //       setAuto(true);
+  //       getBreakpoint("None");
+  //     } else {
+  //       setAuto(false);
+  //       let breakpoint = (
+  //         document.getElementById("breakpoint") as HTMLInputElement
+  //       ).value;
+  //       let breakpointArray: any;
+  //       if (breakpoint.length > 0) {
+  //         breakpointArray = breakpoint?.split(",");
+  //       }
 
-        getBreakpoint(breakpointArray);
-      }
-    },
-    [getBreakpoint]
-  );
+  //       getBreakpoint(breakpointArray);
+  //     }
+  //   },
+  //   [getBreakpoint]
+  // );
 
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
@@ -200,11 +202,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // Sampling through range
   if (useRange) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useRange;
-    }
     return (
       <div
         onChange={(ev) => {
@@ -226,31 +223,23 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         <input type="text" id="maxV" size={4} disabled={isAuto || !isCont} />
       </div>
     );
-  } else if (useBreakpoint) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useBreakpoint;
-    }
-    return (
-      <div
-        onChange={(ev) => {
-          onChangeBreakpoint(ev.target);
-        }}
-      >
-        <input type="radio" value="None" name="legend" defaultChecked />
-        None <br />
-        <input type="radio" value="domain" name="legend" />
-        <input type="text" id="breakpoint" size={16} disabled={isAuto} />
-      </div>
-    );
-  } // Interpolation methods
+  }
+  // else if (useBreakpoint) {
+  //   return (
+  //     <div
+  //       onChange={(ev) => {
+  //         onChangeBreakpoint(ev.target);
+  //       }}
+  //     >
+  //       {/* <input type="radio" value="None" name="legend" defaultChecked />
+  //       None <br />
+  //       <input type="radio" value="domain" name="legend" />
+  //       <input type="text" id="breakpoint" size={16} disabled={isAuto} /> */}
+  //     </div>
+  //   );
+  // }
+  // Interpolation methods
   else if (useInterpolation) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useInterpolation;
-    }
     return (
       <div
         onChange={(ev) => {
@@ -262,7 +251,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Linear"
           name="interpolation"
           disabled={!isCont}
-          defaultChecked
+          defaultChecked={selectedInterpolationType.isLinear}
         />
         Linear <br />
         <input
@@ -270,6 +259,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Logarithmic"
           name="interpolation"
           disabled={!isCont}
+          defaultChecked={selectedInterpolationType.isLog}
         />
         Logarithmic <br />
         <input
@@ -277,6 +267,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Nearest"
           name="interpolation"
           disabled={!isCont}
+          defaultChecked={selectedInterpolationType.isNearest}
         />
         Nearest <br />
       </div>

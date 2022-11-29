@@ -66,7 +66,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
-
   // callback function for modifying range
   const getRange = React.useCallback(
     (data: any) => {
@@ -84,17 +83,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       }
     },
     [getColorRange]
-  );
-
-  const getBreakpoint = React.useCallback(
-    (data: any) => {
-      if (data) {
-        setBreakValue(data);
-        if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getItemColor]
   );
 
   const breakpointValues = React.useCallback((data: any) => {
@@ -131,6 +119,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   );
 
   const toggleColorSelector = useCallback(() => {
+   // getInterpolateMethod({ isLog: isLog, isNearest: isNearest });
     if (divRef && divRef.current) {
       isOpen ? setIsOpen(false) : setIsOpen(true);
     }
@@ -283,13 +272,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             <ColorSelectorAccordion
               setIsOpen={() => setIsOpen(false)}
               isModal={isModal}
-              dataObjectName={legendName}
-              setDataObjectName={setLegendName}
               isHorizontal={horizontal}
               colorTables={colorTables}
               getRange={getRange}
               isCont={isCont}
-              getBreakpoint={getBreakpoint}
               getEditedBreakPoint={breakpointValues}
               newColorScaleData={getSelectedColorScale}
               handleModalClick={handleModalClick}
@@ -301,6 +287,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               getInterpolation={getInterpolation}
               legendScaleSize={legendScaleSizeState}
               cssLegendStyles={cssLegendStyles}
+              selectedInterpolationType={isNearest ? {isNearest: true} : (isLog ? {isLog: true} : {isLinear: true})}
             />
           </div>
         )}

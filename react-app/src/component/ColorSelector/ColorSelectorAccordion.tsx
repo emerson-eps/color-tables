@@ -122,6 +122,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
                     currentLegendName={props?.currentLegendName}
+                    
                   />
                 </Accordion.Panel>
               </Accordion.Item>
@@ -172,6 +173,7 @@ export const ColorSelectorAccordion = (props: any) => {
                     useInterpolation={true}
                     isCont={props?.isCont}
                     getInterpolation={props?.getInterpolation}
+                    selectedInterpolationType={props?.selectedInterpolationType}
                   />
                 </Accordion.Panel>
               </Accordion.Item>
