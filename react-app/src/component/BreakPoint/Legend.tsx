@@ -16,7 +16,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
   isModal,
-  handleModalClick,
+  handleModalClick
 }: // setColorScaleBreakpoints,
 moduleProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(

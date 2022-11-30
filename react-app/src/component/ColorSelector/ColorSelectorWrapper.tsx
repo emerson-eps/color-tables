@@ -251,7 +251,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Linear"
           name="interpolation"
           disabled={!isCont}
-          defaultChecked={selectedInterpolationType.isLinear}
+          defaultChecked={selectedInterpolationType?.isLinear}
         />
         Linear <br />
         <input
@@ -259,7 +259,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Logarithmic"
           name="interpolation"
           disabled={!isCont}
-          defaultChecked={selectedInterpolationType.isLog}
+          defaultChecked={selectedInterpolationType?.isLog}
         />
         Logarithmic <br />
         <input
@@ -267,7 +267,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           value="Nearest"
           name="interpolation"
           disabled={!isCont}
-          defaultChecked={selectedInterpolationType.isNearest}
+          defaultChecked={selectedInterpolationType?.isNearest}
         />
         Nearest <br />
       </div>

@@ -61,7 +61,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
-  const [breakValue, setBreakValue] = React.useState();
+  const [breakValue] = React.useState();
   const [isNone] = React.useState(true);
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
@@ -85,6 +85,16 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     [getColorRange]
   );
 
+  const getBreakpoint = React.useCallback(
+    (data: any) => {
+      if (data) {
+        if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getItemColor]
+  );
+
   const breakpointValues = React.useCallback((data: any) => {
     if (data) {
       setItemColor(data);
@@ -93,6 +103,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // logic for different interpolation types
   const getInterpolation = React.useCallback(
     (data: any) => {
       if (data === "Logarithmic") {
@@ -276,6 +287,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               colorTables={colorTables}
               getRange={getRange}
               isCont={isCont}
+              getBreakpoint={getBreakpoint}
               getEditedBreakPoint={breakpointValues}
               newColorScaleData={getSelectedColorScale}
               handleModalClick={handleModalClick}
@@ -288,6 +300,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               legendScaleSize={legendScaleSizeState}
               cssLegendStyles={cssLegendStyles}
               selectedInterpolationType={isNearest ? {isNearest: true} : (isLog ? {isLog: true} : {isLinear: true})}
+              breakPointFlag={getItemColor}
             />
           </div>
         )}

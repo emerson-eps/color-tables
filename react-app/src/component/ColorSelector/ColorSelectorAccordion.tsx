@@ -27,17 +27,17 @@ export const ColorSelectorAccordion = (props: any) => {
     }
   );
 
-  const [breakpointValues, setBreakPointValues] = React.useState(
-    colorScaleBreakpoints
-  );
+  const breakpointValues = props.breakPointFlag?.length > 0 ? props.breakPointFlag : colorScaleBreakpoints;
 
-  React.useEffect(() => {
-    setBreakPointValues(colorScaleBreakpoints);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorScaleBreakpoints.length]);
+  // React.useEffect(() => {
+  //   console.log(",,,", colorScaleBreakpoints)
+  //   setBreakPointValues(props.breakPointFlag.length > 0 ? props.breakPointFlag : colorScaleBreakpoints);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [colorScaleBreakpoints.length]);
 
   const editedData = React.useCallback((data) => {
-    setBreakPointValues(data);
+    //console.log(",,", data)
+    //setBreakPointValues(data);
     props.getEditedBreakPoint(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
