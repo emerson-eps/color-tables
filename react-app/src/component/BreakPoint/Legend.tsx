@@ -16,7 +16,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
   isModal,
-  handleModalClick
+  handleModalClick,
 }: // setColorScaleBreakpoints,
 moduleProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
@@ -27,7 +27,7 @@ moduleProps) => {
     setBreakPointValues(colorScaleBreakpoints);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
-  const orderedSelectedColors = React.useMemo(() => {
+  const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(breakpointValues).sort(
       (a: any, b: any) => a.position - b.position
     );

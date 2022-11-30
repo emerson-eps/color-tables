@@ -37,7 +37,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useInterpolation,
   getInterpolation,
   currentLegendName,
-  selectedInterpolationType
+  selectedInterpolationType,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;

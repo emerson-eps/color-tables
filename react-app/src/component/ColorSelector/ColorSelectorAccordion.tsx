@@ -27,7 +27,10 @@ export const ColorSelectorAccordion = (props: any) => {
     }
   );
 
-  const breakpointValues = props.breakPointFlag?.length > 0 ? props.breakPointFlag : colorScaleBreakpoints;
+  const breakpointValues =
+    props.breakPointFlag?.length > 0
+      ? props.breakPointFlag
+      : colorScaleBreakpoints;
 
   // React.useEffect(() => {
   //   console.log(",,,", colorScaleBreakpoints)
@@ -122,7 +125,6 @@ export const ColorSelectorAccordion = (props: any) => {
                     newColorScaleData={props?.newColorScaleData}
                     colorTables={props?.colorTables}
                     currentLegendName={props?.currentLegendName}
-                    
                   />
                 </Accordion.Panel>
               </Accordion.Item>
