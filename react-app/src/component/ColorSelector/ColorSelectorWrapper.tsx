@@ -32,8 +32,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useRange,
   getRange,
   isCont,
-  // useBreakpoint,
-  // getBreakpoint,
   useInterpolation,
   getInterpolation,
   currentLegendName,
@@ -46,9 +44,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const continuosD3ColorData: colorScaleArray = [];
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
-
   const [isAuto, setAuto] = React.useState(true);
-
   // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
@@ -80,27 +76,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     },
     [getInterpolation]
   );
-
-  // const onChangeBreakpoint = React.useCallback(
-  //   (e) => {
-  //     if (e.value === "None") {
-  //       setAuto(true);
-  //       getBreakpoint("None");
-  //     } else {
-  //       setAuto(false);
-  //       let breakpoint = (
-  //         document.getElementById("breakpoint") as HTMLInputElement
-  //       ).value;
-  //       let breakpointArray: any;
-  //       if (breakpoint.length > 0) {
-  //         breakpointArray = breakpoint?.split(",");
-  //       }
-
-  //       getBreakpoint(breakpointArray);
-  //     }
-  //   },
-  //   [getBreakpoint]
-  // );
 
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
@@ -224,20 +199,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       </div>
     );
   }
-  // else if (useBreakpoint) {
-  //   return (
-  //     <div
-  //       onChange={(ev) => {
-  //         onChangeBreakpoint(ev.target);
-  //       }}
-  //     >
-  //       {/* <input type="radio" value="None" name="legend" defaultChecked />
-  //       None <br />
-  //       <input type="radio" value="domain" name="legend" />
-  //       <input type="text" id="breakpoint" size={16} disabled={isAuto} /> */}
-  //     </div>
-  //   );
-  // }
   // Interpolation methods
   else if (useInterpolation) {
     return (

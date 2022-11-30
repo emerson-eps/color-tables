@@ -61,8 +61,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
-  const [breakValue] = React.useState();
-  const [isNone] = React.useState(true);
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
@@ -238,7 +236,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
-            breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
             isLog={isLog}
             isNearest={isNearest}
