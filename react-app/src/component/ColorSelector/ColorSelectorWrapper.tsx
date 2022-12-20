@@ -45,24 +45,21 @@ declare type legendProps = {
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
-  useColorTableColors,
   newColorScaleData,
   colorTables,
   useRange,
   getRange,
   isCont,
-  useBreakpoint,
-  getBreakpoint,
   useInterpolation,
   getInterpolation,
   currentLegendName,
   isCustomScale,
   getDuplicatedLegendData,
 }: legendProps) => {
+  let continuousD3Legend;
+  let discreteD3Legend;
   let continuousLegend;
   let discreteLegend;
-  let continuousLegend1;
-  let discreteLegend1;
 
   const continuosColorData: colorScaleArray = [];
   const continuosD3ColorData: colorScaleArray = [];
@@ -71,7 +68,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const classes = useStyles();
 
   const [isAuto, setAuto] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
@@ -104,27 +100,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     [getInterpolation]
   );
 
-  const onChangeBreakpoint = React.useCallback(
-    (e) => {
-      if (e.value === "None") {
-        setAuto(true);
-        getBreakpoint("None");
-      } else {
-        setAuto(false);
-        let breakpoint = (
-          document.getElementById("breakpoint") as HTMLInputElement
-        ).value;
-        let breakpointArray: any;
-        if (breakpoint.length > 0) {
-          breakpointArray = breakpoint?.split(",");
-        }
-
-        getBreakpoint(breakpointArray);
-      }
-    },
-    [getBreakpoint]
-  );
-
   const [duplicatedLegendData, setDuplicatedLegendData] = React.useState([]);
 
   const copyLegend = (value: any) => {
@@ -137,8 +112,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     });
     setDuplicatedLegendData([...duplicatedLegendData, test]);
     isCustomScale(value.name);
-
-    //setAnchorEl(event.currentTarget);
   };
 
   React.useEffect(() => {
@@ -186,8 +159,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     });
 
     // return continuous and discrete legend which uses d3 data
-    //if (!useColorTableColors) {
-    continuousLegend = continuosD3ColorData.map((val: any, index: any) => {
+    continuousD3Legend = continuosD3ColorData.map((val: any, index: any) => {
       return (
         <ColorSelectorComponent
           legendColor={val.color}
@@ -201,7 +173,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       );
     });
 
-    discreteLegend = d3discreteData.map((val: any, index: any) => {
+    discreteD3Legend = d3discreteData.map((val: any, index: any) => {
       return (
         <ColorSelectorComponent
           colorsObject={val.colors}
@@ -213,11 +185,9 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         />
       );
     });
-    //}
 
     // return continuous and discrete legend which uses colortable data
-    //else if (useColorTableColors) {
-    continuousLegend1 = continuosColorData.map((value: any, index: any) => {
+    continuousLegend = continuosColorData.map((value: any, index: any) => {
       return (
         <div className={classes.parentDiv} key={index}>
           <div>
@@ -246,7 +216,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       );
     });
 
-    discreteLegend1 = discreteColorData.map((val: any, index: any) => {
+    discreteLegend = discreteColorData.map((val: any, index: any) => {
       return (
         <ColorSelectorComponent
           colorsObject={discreteColorData[index]}
@@ -258,7 +228,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         />
       );
     });
-    //}
   }
 
   // Sampling through range
@@ -292,20 +261,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
       </div>
     );
   }
-  // else if (useBreakpoint) {
-  //   return (
-  //     <div
-  //       onChange={(ev) => {
-  //         onChangeBreakpoint(ev.target);
-  //       }}
-  //     >
-  //       <input type="radio" value="None" name="legend" defaultChecked />
-  //       None <br />
-  //       <input type="radio" value="domain" name="legend" />
-  //       <input type="text" id="breakpoint" size={16} disabled={isAuto} />
-  //     </div>
-  //   );
-  // }
   // Interpolation methods
   else if (useInterpolation) {
     return (
@@ -359,10 +314,10 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         marginLeft: -12,
       }}
     >
-      {continuousLegend1}
       {continuousLegend}
-      {discreteLegend1}
+      {continuousD3Legend}
       {discreteLegend}
+      {discreteD3Legend}
     </div>
   );
 };

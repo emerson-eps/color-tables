@@ -1,11 +1,9 @@
 import * as React from "react";
-//import { Accordion } from "@equinor/eds-core-react";
 import {
   Accordion,
   Box,
   AccordionSummary,
   AccordionDetails,
-  Typography,
 } from "@material-ui/core";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
@@ -70,10 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ColorSelectorAccordion = (props: any) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  //const currentLegendName = props.currentLegendName;
   let colorScaleBreakpoints: any = [];
-  //const continuosColorData: any = [];
-
   const [customScalesName, setCustomScalesName] = React.useState();
   const [duplicatedData, setDuplicatedData] = React.useState([]);
   let getColorScaleArray;
@@ -97,8 +92,6 @@ export const ColorSelectorAccordion = (props: any) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
     colorScaleBreakpoints
   );
-
-  //const [continuosColorData, setContinuosColorData] = React.useState([breakpointValues]);
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
@@ -161,7 +154,6 @@ export const ColorSelectorAccordion = (props: any) => {
         width: "316px",
         position: "absolute",
         zIndex: 1000,
-        // margin: "10px",
         top: getColorSelectorPosition(
           props.cssLegendStyles,
           props.isHorizontal,
@@ -224,7 +216,6 @@ export const ColorSelectorAccordion = (props: any) => {
               currentLegendName={props?.currentLegendName}
               isCustomScale={isCustomScale}
               getDuplicatedLegendData={getDuplicatedLegendData}
-              // getCustomScaleName={getCustomScaleName}
             />
             {(breakpointValues?.colorArray?.length > 0 ||
               breakpointValues?.length > 0) &&

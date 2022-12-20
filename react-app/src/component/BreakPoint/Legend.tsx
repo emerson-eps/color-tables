@@ -8,7 +8,6 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
-import { pointer } from "d3";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -56,7 +55,6 @@ export const LegendComp: React.FC<moduleProps> = ({
     createStyles({
       root: {
         display: "flex",
-        // flexDirection: "column",
         gap: theme.spacing(2),
         height: 20,
       },
@@ -69,11 +67,10 @@ export const LegendComp: React.FC<moduleProps> = ({
 
         "&:hover": {
           backgroundColor: "#f1f1f1",
-          cursor: pointer,
+          cursor: "pointer",
         },
       },
       texture: {
-        // position: "absolute",
         height: "13px",
         width: "100px",
         marginTop: "6px",
@@ -112,7 +109,6 @@ export const LegendComp: React.FC<moduleProps> = ({
 
   const deleteLegend = () => {
     setBreakPointValues([]);
-    //editedData({colorArray: []})
   };
 
   React.useEffect(() => {
@@ -125,7 +121,6 @@ export const LegendComp: React.FC<moduleProps> = ({
   }, [popUpState]);
 
   const classes = useStyles();
-  const width = 200;
 
   const scaleBreakpoints = React.useCallback((value) => {
     if (value) {

@@ -308,10 +308,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       return "#" + r + g + b;
     }
 
-    //const ordinalValues = scaleOrdinal().domain(itemName);
     let count = itemName.length;
     const colorLegend = discreteLegendUtil(itemColor, true);
-    //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
     const selectedLegend = select(divRef.current);
 
     selectedLegend
