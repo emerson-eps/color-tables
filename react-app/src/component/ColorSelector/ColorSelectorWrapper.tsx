@@ -1,6 +1,24 @@
 import * as React from "react";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { RGBToHex } from "../Utils/legendCommonFunction";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    parentDiv: {
+      display: "flex",
+    },
+
+    contentCopyIcon: {
+      "&:hover": {
+        background: "#f1f1f1",
+        cursor: "pointer",
+      },
+    },
+  })
+);
 
 export declare type colorScaleObj = {
   name: string;
@@ -22,6 +40,8 @@ declare type legendProps = {
   useInterpolation?: boolean;
   getInterpolation?: any;
   currentLegendName?: string;
+  isCustomScale?: any;
+  getDuplicatedLegendData?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -36,17 +56,22 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   useInterpolation,
   getInterpolation,
   currentLegendName,
+  isCustomScale,
+  getDuplicatedLegendData,
 }: legendProps) => {
   let continuousLegend;
   let discreteLegend;
+  let continuousLegend1;
+  let discreteLegend1;
 
   const continuosColorData: colorScaleArray = [];
   const continuosD3ColorData: colorScaleArray = [];
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
+  const classes = useStyles();
 
   const [isAuto, setAuto] = React.useState(true);
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // For altering data range
   const onChangeRange = React.useCallback(
     (e) => {
@@ -100,6 +125,29 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     [getBreakpoint]
   );
 
+  const [duplicatedLegendData, setDuplicatedLegendData] = React.useState([]);
+
+  const copyLegend = (value: any) => {
+    let test = value.color.map((item: any) => {
+      return {
+        position: item[0],
+        color: RGBToHex(item).color,
+        name: value.name,
+      };
+    });
+    setDuplicatedLegendData([...duplicatedLegendData, test]);
+    isCustomScale(value.name);
+
+    //setAnchorEl(event.currentTarget);
+  };
+
+  React.useEffect(() => {
+    if (getDuplicatedLegendData) {
+      getDuplicatedLegendData(duplicatedLegendData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duplicatedLegendData?.length]);
+
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
     const colorTableContinuousData = colorTables?.filter((element: any) => {
@@ -138,147 +186,163 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     });
 
     // return continuous and discrete legend which uses d3 data
-    if (!useColorTableColors) {
-      continuousLegend = continuosD3ColorData.map((val: any, index: any) => {
-        return (
-          <ColorSelectorComponent
-            legendColor={val.color}
-            legendColorName={val.name}
-            useContColorTable={false}
-            uniqueId={index}
-            colorScaleData={newColorScaleData}
-            key={index}
-            currentLegendName={currentLegendName}
-          />
-        );
-      });
+    //if (!useColorTableColors) {
+    continuousLegend = continuosD3ColorData.map((val: any, index: any) => {
+      return (
+        <ColorSelectorComponent
+          legendColor={val.color}
+          legendColorName={val.name}
+          useContColorTable={false}
+          uniqueId={index}
+          colorScaleData={newColorScaleData}
+          key={index}
+          currentLegendName={currentLegendName}
+        />
+      );
+    });
 
-      discreteLegend = d3discreteData.map((val: any, index: any) => {
-        return (
-          <ColorSelectorComponent
-            colorsObject={val.colors}
-            legendColorName={val.name}
-            useDiscColorTable={false}
-            colorScaleData={newColorScaleData}
-            key={index}
-            currentLegendName={currentLegendName}
-          />
-        );
-      });
-    }
+    discreteLegend = d3discreteData.map((val: any, index: any) => {
+      return (
+        <ColorSelectorComponent
+          colorsObject={val.colors}
+          legendColorName={val.name}
+          useDiscColorTable={false}
+          colorScaleData={newColorScaleData}
+          key={index}
+          currentLegendName={currentLegendName}
+        />
+      );
+    });
+    //}
 
     // return continuous and discrete legend which uses colortable data
-    else if (useColorTableColors) {
-      continuousLegend = continuosColorData.map((value: any, index: any) => {
-        return (
-          <ColorSelectorComponent
-            colorsObject={value}
-            legendColorName={value.name}
-            useContColorTable={true}
-            uniqueId={index}
-            colorScaleData={newColorScaleData}
-            key={index}
-            currentLegendName={currentLegendName}
-          />
-        );
-      });
+    //else if (useColorTableColors) {
+    continuousLegend1 = continuosColorData.map((value: any, index: any) => {
+      return (
+        <div className={classes.parentDiv} key={index}>
+          <div>
+            <ColorSelectorComponent
+              colorsObject={value}
+              legendColorName={value.name}
+              useContColorTable={true}
+              uniqueId={index}
+              colorScaleData={newColorScaleData}
+              key={index}
+              currentLegendName={currentLegendName}
+            />
+          </div>
+          <div
+            className={classes.contentCopyIcon}
+            title="Duplicate"
+            style={{ cursor: "pointer" }}
+          >
+            <ContentCopyIcon
+              fontSize="small"
+              color="action"
+              onClick={() => copyLegend(value)}
+            />
+          </div>
+        </div>
+      );
+    });
 
-      discreteLegend = discreteColorData.map((val: any, index: any) => {
-        return (
-          <ColorSelectorComponent
-            colorsObject={discreteColorData[index]}
-            legendColorName={val.name}
-            useDiscColorTable={true}
-            colorScaleData={newColorScaleData}
-            key={index}
-            currentLegendName={currentLegendName}
-          />
-        );
-      });
-    }
+    discreteLegend1 = discreteColorData.map((val: any, index: any) => {
+      return (
+        <ColorSelectorComponent
+          colorsObject={discreteColorData[index]}
+          legendColorName={val.name}
+          useDiscColorTable={true}
+          colorScaleData={newColorScaleData}
+          key={index}
+          currentLegendName={currentLegendName}
+        />
+      );
+    });
+    //}
   }
 
   // Sampling through range
   if (useRange) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useRange;
-    }
     return (
       <div
         onChange={(ev) => {
           onChangeRange(ev.target);
         }}
-      >
-        <input
-          type="radio"
-          value="Auto"
-          name="range"
-          disabled={!isCont}
-          defaultChecked
-        />{" "}
-        Auto <br />
-        <input type="radio" value="Domain" name="range" disabled={!isCont} />
-        <label style={{ marginLeft: 3, marginRight: 10 }}>Min</label>
-        <input type="text" id="minV" size={4} disabled={isAuto || !isCont} />
-        <label style={{ marginLeft: 10, marginRight: 10 }}>Max</label>
-        <input type="text" id="maxV" size={4} disabled={isAuto || !isCont} />
-      </div>
-    );
-  } else if (useBreakpoint) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useBreakpoint;
-    }
-    return (
-      <div
-        onChange={(ev) => {
-          onChangeBreakpoint(ev.target);
+        style={{
+          height: 58,
+          borderRadius: "0.5em",
+          border: "1px solid #dadada",
         }}
       >
-        <input type="radio" value="None" name="legend" defaultChecked />
-        None <br />
-        <input type="radio" value="domain" name="legend" />
-        <input type="text" id="breakpoint" size={16} disabled={isAuto} />
+        <div style={{ marginTop: 8, marginLeft: 13 }}>
+          <input
+            type="radio"
+            value="Auto"
+            name="range"
+            disabled={!isCont}
+            defaultChecked
+          />{" "}
+          Auto <br />
+          <input type="radio" value="Domain" name="range" disabled={!isCont} />
+          <label style={{ marginLeft: 3, marginRight: 10 }}>Min</label>
+          <input type="text" id="minV" size={3} disabled={isAuto || !isCont} />
+          <label style={{ marginLeft: 10, marginRight: 10 }}>Max</label>
+          <input type="text" id="maxV" size={3} disabled={isAuto || !isCont} />
+        </div>
       </div>
     );
-  } // Interpolation methods
+  }
+  // else if (useBreakpoint) {
+  //   return (
+  //     <div
+  //       onChange={(ev) => {
+  //         onChangeBreakpoint(ev.target);
+  //       }}
+  //     >
+  //       <input type="radio" value="None" name="legend" defaultChecked />
+  //       None <br />
+  //       <input type="radio" value="domain" name="legend" />
+  //       <input type="text" id="breakpoint" size={16} disabled={isAuto} />
+  //     </div>
+  //   );
+  // }
+  // Interpolation methods
   else if (useInterpolation) {
-    // eslint-disable-next-line
-    {
-      // eslint-disable-next-line
-      useInterpolation;
-    }
     return (
       <div
         onChange={(ev) => {
           onChangeInterpolation(ev.target);
         }}
+        style={{
+          height: 72,
+          borderRadius: "0.5em",
+          border: "1px solid #dadada",
+        }}
       >
-        <input
-          type="radio"
-          value="Linear"
-          name="interpolation"
-          disabled={!isCont}
-          defaultChecked
-        />
-        Linear <br />
-        <input
-          type="radio"
-          value="Logarithmic"
-          name="interpolation"
-          disabled={!isCont}
-        />
-        Logarithmic <br />
-        <input
-          type="radio"
-          value="Nearest"
-          name="interpolation"
-          disabled={!isCont}
-        />
-        Nearest <br />
+        <div style={{ marginTop: 8, marginLeft: 13 }}>
+          <input
+            type="radio"
+            value="Linear"
+            name="interpolation"
+            disabled={!isCont}
+            defaultChecked
+          />
+          Linear <br />
+          <input
+            type="radio"
+            value="Logarithmic"
+            name="interpolation"
+            disabled={!isCont}
+          />
+          Logarithmic <br />
+          <input
+            type="radio"
+            value="Nearest"
+            name="interpolation"
+            disabled={!isCont}
+          />
+          Nearest <br />
+        </div>
       </div>
     );
   }
@@ -287,14 +351,17 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     <div
       className="legendWrapper"
       style={{
-        height: 200,
+        height: 120,
         overflow: "auto",
         display: "flex",
         flexDirection: "column",
         overflowX: "hidden",
+        marginLeft: -12,
       }}
     >
+      {continuousLegend1}
       {continuousLegend}
+      {discreteLegend1}
       {discreteLegend}
     </div>
   );

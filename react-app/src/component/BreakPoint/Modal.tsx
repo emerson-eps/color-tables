@@ -19,12 +19,14 @@ declare type dialogProps = {
   openModal?: any;
   scaleBreakpoints?: any;
   scaleData?: any;
+  customScalesName?: string;
 };
 
 export const CustomizedDialogs: React.FC<dialogProps> = ({
   openModal,
   scaleBreakpoints,
   scaleData,
+  customScalesName,
 }: dialogProps) => {
   const [openDialog, setOpen] = React.useState(true);
 
@@ -38,7 +40,7 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
 
   const editedBreakpoint = React.useCallback(
     (data) => {
-      //setColorScaleBreakpoints(data)
+      setColorScaleBreakpoints(data);
       scaleBreakpoints(data);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,6 +59,7 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
             colorScaleBreakpoints={colorScaleBreakpoints}
             setColorScaleBreakpoints={setColorScaleBreakpoints}
             editedBreakpoint={editedBreakpoint}
+            customScalesName={customScalesName}
           />
         </BootstrapDialog>
       )}

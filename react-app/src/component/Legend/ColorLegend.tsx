@@ -89,6 +89,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const getBreakpoint = React.useCallback(
     (data: any) => {
       if (data) {
+        console;
         setBreakValue(data);
         if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
       }
@@ -99,6 +100,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const breakpointValues = React.useCallback((data: any) => {
     if (data) {
+      console.log("data", data);
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
@@ -236,6 +238,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         ref={divRef}
         onClick={toggleColorSelector}
         style={{ display: "inline-block", cursor: "pointer" }}
+        title="Click here to edit"
       >
         {isCont === true && (
           <ContinuousLegend

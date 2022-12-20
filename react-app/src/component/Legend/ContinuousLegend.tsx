@@ -257,8 +257,14 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         }
 
         // get the position and color from the breakpoint modal
-        if (editedBreakPointValues?.length > 0) {
-          const options = editedBreakPointValues.map(function (row: any) {
+        // updates main legend onclicking the custom scales
+        if (
+          editedBreakPointValues?.colorArray?.length > 0 &&
+          editedBreakPointValues?.customizeFlag == true
+        ) {
+          const options = editedBreakPointValues.colorArray.map(function (
+            row: any
+          ) {
             return { breakPoint: row.position * 100.0, color: row.color };
           });
 
