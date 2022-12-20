@@ -34,7 +34,7 @@ export const LegendComp: React.FC<moduleProps> = ({
     setBreakPointValues(colorScaleBreakpoints);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorScaleBreakpoints.length]);
-  const orderedSelectedColors = React.useMemo(() => {
+  const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(
       breakpointValues.colorArray
         ? breakpointValues.colorArray

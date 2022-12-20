@@ -302,6 +302,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               getInterpolation={getInterpolation}
               legendScaleSize={legendScaleSizeState}
               cssLegendStyles={cssLegendStyles}
+              selectedInterpolationType={
+                isNearest
+                  ? { isNearest: true }
+                  : isLog
+                  ? { isLog: true }
+                  : { isLinear: true }
+              }
             />
           </div>
         )}

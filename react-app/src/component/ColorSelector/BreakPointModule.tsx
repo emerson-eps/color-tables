@@ -77,7 +77,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     [rectBox, colorScaleBreakpoints.length, getIndex]
   );
 
-  const orderedSelectedColors = React.useMemo(() => {
+  const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(colorScaleBreakpoints).sort(
       (a: any, b: any) => a.position - b.position
     );

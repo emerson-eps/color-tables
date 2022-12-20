@@ -250,6 +250,7 @@ export const ColorSelectorAccordion = (props: any) => {
               useInterpolation={true}
               isCont={props?.isCont}
               getInterpolation={props?.getInterpolation}
+              selectedInterpolationType={props?.selectedInterpolationType}
             />
           </AccordionDetails>
         </Accordion>
