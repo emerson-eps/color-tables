@@ -236,6 +236,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         ref={divRef}
         onClick={toggleColorSelector}
         style={{ display: "inline-block", cursor: "pointer" }}
+        title="Click here to edit"
       >
         {isCont === true && (
           <ContinuousLegend
@@ -301,6 +302,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               getInterpolation={getInterpolation}
               legendScaleSize={legendScaleSizeState}
               cssLegendStyles={cssLegendStyles}
+              selectedInterpolationType={
+                isNearest
+                  ? { isNearest: true }
+                  : isLog
+                  ? { isLog: true }
+                  : { isLinear: true }
+              }
             />
           </div>
         )}

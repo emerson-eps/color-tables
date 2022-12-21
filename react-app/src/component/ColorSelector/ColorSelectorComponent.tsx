@@ -183,7 +183,8 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       .append("svg")
 
       .style("cursor", "pointer")
-      .style("height", "30px");
+      .style("height", "30px")
+      .style("width", 220);
     const defs = svgLegend.append("defs");
     const currentIndex = "linear-gradient-" + uniqueId + "0";
     // append a linearGradient element to the defs and give it a unique id
@@ -208,24 +209,24 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
         return data.color;
       });
 
+    // draw the rectangle and fill with gradient
+    svgLegend
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", 5)
+      .attr("width", "100")
+      .attr("height", 15)
+      .style("fill", "url(#" + currentIndex + ")");
+
     // append title
     svgLegend
       .append("text")
       .attr("id", "legendTitle")
-      .attr("x", 0)
-      .attr("y", 15)
-      .style("font-size", "smaller")
-      .style("font-weight", "900")
+      .attr("x", 106)
+      .attr("y", 17.5)
+      .style("font-size", "small")
+      .style("font-weight", "700")
       .text(colorsObject.name);
-
-    // draw the rectangle and fill with gradient
-    svgLegend
-      .append("rect")
-      .attr("x", 85)
-      .attr("y", 5)
-      .attr("width", "110")
-      .attr("height", 20)
-      .style("fill", "url(#" + currentIndex + ")");
   }
 
   // continuous legend using d3 colors (using linear gradiend)
@@ -271,19 +272,19 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     svgLegend
       .append("text")
       .attr("id", "legendTitle")
-      .attr("x", 0)
-      .attr("y", 15)
-      .style("font-size", "smaller")
-      .style("font-weight", "900")
+      .attr("x", 106)
+      .attr("y", 17.5)
+      .style("font-size", "small")
+      .style("font-weight", "700")
       .text(legendColorName ? legendColorName : "");
 
     // draw the rectangle and fill with gradient
     svgLegend
       .append("rect")
-      .attr("x", 85)
+      .attr("x", 0)
       .attr("y", 5)
-      .attr("width", "110")
-      .attr("height", 20)
+      .attr("width", "100")
+      .attr("height", 15)
       .style("fill", "url(#" + currentIndex + ")");
   }
 
@@ -307,37 +308,32 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       return "#" + r + g + b;
     }
 
-    //const ordinalValues = scaleOrdinal().domain(itemName);
     let count = itemName.length;
     const colorLegend = discreteLegendUtil(itemColor, true);
-    //const calcLegendHeight = 22 * itemColor.length + 4 * itemColor.length;
     const selectedLegend = select(divRef.current);
-    // colorname as label for the legend (ex: facies)
-    selectedLegend
-      .append("label")
-
-      .text(legendColorName ? legendColorName : "")
-      .attr("y", 7)
-      .style("float", "left")
-      .style("width", "15px")
-      .style("margin", "10px 0px")
-      .style("white-space", "nowrap")
-      .style("font-size", "smaller")
-      .style("font-weight", "900")
-      .append(":hover")
-      .style("cursor", "pointer");
 
     selectedLegend
       .append("svg")
       .style("cursor", "pointer")
-      .style("margin-top", "13px")
-      .style("margin-left", "70px")
+      .style("margin-top", "5px")
       .attr("viewBox", `0 0 ${count} 1`)
       .attr("preserveAspectRatio", "none")
-
-      .style("width", "109px")
-      .style("height", "20px")
+      .style("width", "101px")
+      .style("height", "15px")
       .call(colorLegend);
+
+    // colorname as label for the legend (ex: facies)
+    selectedLegend
+      .append("label")
+      .text(legendColorName ? legendColorName : "")
+      // .attr("y", 7)
+      .style("width", "15px")
+      .style("margin-left", "10px")
+      .style("white-space", "nowrap")
+      .style("font-size", "small")
+      .style("font-weight", "700")
+      .append(":hover")
+      .style("cursor", "pointer");
   }
 
   // discrete legend using d3 colors
@@ -358,26 +354,23 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       .call(discreteLegend);
     const selectedLegend = select(divRef.current);
     selectedLegend
-      .append("text")
-      .text(legendColorName ? legendColorName : "")
-      .attr("y", 7)
-      .style("float", "left")
-      .style("width", "15px")
-      .style("margin", "10px 0px")
-      .style("font-size", "smaller")
-      .style("font-weight", "900");
-    selectedLegend
       .append("svg")
       .style("cursor", "pointer")
-      .style("margin-top", "13px")
-      .style("margin-left", "70px")
+      .style("margin-top", "5px")
       .style("background", "grey")
       .attr("viewBox", `0 0 ${count} 1`)
       .attr("preserveAspectRatio", "none")
 
-      .style("width", "109px")
-      .style("height", "20px")
+      .style("width", "101px")
+      .style("height", "15px")
       .call(discreteLegend);
+    selectedLegend
+      .append("text")
+      .text(legendColorName ? legendColorName : "")
+      .style("width", "15px")
+      .style("margin-left", "10px")
+      .style("font-size", "small")
+      .style("font-weight", "700");
   }
 
   return (
@@ -390,7 +383,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
     >
       <div
         id="legend"
-        style={{ height: 30, paddingLeft: "5px" }}
+        style={{ height: 30 }}
         ref={divRef}
         onClick={handleChange}
       ></div>

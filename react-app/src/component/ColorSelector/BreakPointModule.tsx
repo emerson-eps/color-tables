@@ -15,12 +15,14 @@ declare type moduleProps = {
   colorScaleBreakpoints?: any;
   setColorScaleBreakpoints?: any;
   editedBreakpoint?: any;
+  customScalesName?: string;
 };
 
 export const BreakPointComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   setColorScaleBreakpoints,
   editedBreakpoint,
+  customScalesName,
 }: moduleProps) => {
   const divRef = useRef<HTMLDivElement>(null);
   const pointer_width = 12;
@@ -75,7 +77,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     [rectBox, colorScaleBreakpoints.length, getIndex]
   );
 
-  const orderedSelectedColors = React.useMemo(() => {
+  const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(colorScaleBreakpoints).sort(
       (a: any, b: any) => a.position - b.position
     );
@@ -267,8 +269,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
 
   return (
     <div className={classes.root}>
-      <label style={{ fontWeight: "bold", marginLeft: "46px" }}>
-        Edit Colors :
+      <label style={{ fontWeight: "bold" }}>
+        Edit : {customScalesName + " " + "Copy"}
       </label>
       <div className={classes.colorScaleContainer} style={{ width }}>
         <div className={classes.texture}>
