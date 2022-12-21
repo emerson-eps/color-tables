@@ -109,6 +109,7 @@ export const LegendComp: React.FC<moduleProps> = ({
 
   const deleteLegend = () => {
     setBreakPointValues([]);
+    editedData({ colorArray: colorScaleBreakpoints, customizeFlag: false });
   };
 
   React.useEffect(() => {
@@ -124,6 +125,7 @@ export const LegendComp: React.FC<moduleProps> = ({
 
   const scaleBreakpoints = React.useCallback((value) => {
     if (value) {
+      editedData({ colorArray: value, customizeFlag: true });
       setBreakPointValues(value);
       setCustomizedBreakpoints(value);
     }

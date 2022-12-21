@@ -254,16 +254,6 @@ export const ColorSelectorAccordion = (props: any) => {
             />
           </AccordionDetails>
         </Accordion>
-        <Accordion
-          expanded={expanded === "panel3"}
-          onChange={handleChange("panel3")}
-        >
-          <AccordionSummary>
-            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
-            <h5>Discrete Code Mapping</h5>
-          </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
-        </Accordion>
       </Box>
     </div>
   );

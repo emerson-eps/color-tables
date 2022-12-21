@@ -211,6 +211,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             <ContentCopyIcon
               fontSize="small"
               color="action"
+              style={{ marginTop: 5 }}
               onClick={() => copyLegend(value)}
             />
           </div>
