@@ -99,6 +99,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const breakpointValues = React.useCallback((data: any) => {
     if (data) {
+      if (getColorName) getColorName(data.colorArray[0].name);
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
