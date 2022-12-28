@@ -261,7 +261,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // updates main legend onclicking the custom scales
         if (
           editedBreakPointValues?.colorArray?.length > 0 &&
-          editedBreakPointValues?.customizeFlag == true
+          editedBreakPointValues?.customizeFlag === true
         ) {
           const options = editedBreakPointValues.colorArray.map(function (
             row: any
