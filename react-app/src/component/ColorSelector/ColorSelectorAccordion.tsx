@@ -114,12 +114,9 @@ export const ColorSelectorAccordion = (props: any) => {
     setCustomScalesName(data);
   }, []);
 
-  const getDuplicatedLegendData = React.useCallback(
-    (data) => {
-      setDuplicatedData(data);
-    },
-    [duplicatedData]
-  );
+  const getDuplicatedLegendData = React.useCallback((data) => {
+    setDuplicatedData(data);
+  }, []);
 
   const classes = useStyles();
 

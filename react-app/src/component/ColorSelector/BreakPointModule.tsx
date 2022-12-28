@@ -270,7 +270,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   return (
     <div className={classes.root}>
       <label style={{ fontWeight: "bold" }}>
-        Edit : {customScalesName + " " + "Copy"}
+        Edit : {customScalesName + " Copy"}
       </label>
       <div className={classes.colorScaleContainer} style={{ width }}>
         <div className={classes.texture}>
