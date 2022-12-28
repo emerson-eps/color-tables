@@ -147,28 +147,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             : colorsArray(colorName, colorTables);
 
         let nearestData: any = [];
-        // condition for nearest interpolation
-        if (isNearest) {
-          const nColors = legendColors.length;
-          const delta = 1 / nColors;
-          let leftEnd = 0;
-          let rightEnd = 0 + delta;
-
-          legendColors.forEach((val: any) => {
-            nearestData.push(
-              {
-                breakPoint: Number(leftEnd.toFixed(2)),
-                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
-              },
-              {
-                breakPoint: Number(rightEnd.toFixed(2)),
-                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
-              }
-            );
-            leftEnd += delta;
-            rightEnd += delta;
-          });
-        }
 
         // Update color of legend based on color selector scales
         // data is passed on click upon color scales
@@ -212,6 +190,29 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         });
 
         const maxValue = legendColors.length - 1;
+
+        // condition for nearest interpolation
+        if (isNearest) {
+          const nColors = legendColors.length;
+          const delta = 1 / nColors;
+          let leftEnd = 0;
+          let rightEnd = 0 + delta;
+
+          legendColors.forEach((val: any) => {
+            nearestData.push(
+              {
+                breakPoint: Number(leftEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              },
+              {
+                breakPoint: Number(rightEnd.toFixed(2)),
+                color: RGBToHex([val[0], val[1], val[2], val[3]]).color,
+              }
+            );
+            leftEnd += delta;
+            rightEnd += delta;
+          });
+        }
 
         // if colorMapFunction prop is passed
         if (colorMapFunction) {
@@ -260,7 +261,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // updates main legend onclicking the custom scales
         if (
           editedBreakPointValues?.colorArray?.length > 0 &&
-          editedBreakPointValues?.customizeFlag == true
+          editedBreakPointValues?.customizeFlag === true
         ) {
           const options = editedBreakPointValues.colorArray.map(function (
             row: any

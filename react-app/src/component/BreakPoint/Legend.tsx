@@ -167,7 +167,7 @@ export const LegendComp: React.FC<moduleProps> = ({
               cursor: "pointer",
             }}
           >
-            {customScalesName + " " + "Copy"}
+            {customScalesName + " Copy"}
           </div>
         </div>
         <div className="breadCrumbs">

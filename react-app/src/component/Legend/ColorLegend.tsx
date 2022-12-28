@@ -5,6 +5,7 @@ import { useCallback, useRef } from "react";
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
+import defaultColorTables from "../color-tables.json";
 
 declare type ColorLegendProps = {
   colorTables: colorTablesArray;
@@ -14,7 +15,7 @@ declare type ColorLegendProps = {
   colorName: string;
   horizontal?: boolean | null;
   discreteData: { objects: Record<string, [number[], number]> };
-  getColorName?: any;
+  colorNameFromSelector?: any;
   reverseRange?: boolean;
   getColorRange?: any;
   getBreakpointValue?: any;
@@ -33,20 +34,20 @@ declare type ColorLegendProps = {
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
   horizontal,
-  colorTables,
+  colorTables = defaultColorTables as colorTablesArray,
   min,
   max,
   dataObjectName,
   colorName,
   discreteData,
-  getColorName,
+  colorNameFromSelector,
   reverseRange,
   getColorRange,
   getBreakpointValue,
   getScale,
   getInterpolateMethod,
   isModal,
-  isRangeShown,
+  isRangeShown = true,
   legendFontSize = 18,
   tickFontSize = 12,
   numberOfTicks = 1,
@@ -139,11 +140,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
   const isColortableColors = colorTables.find((value: any) => {
-    return value?.name === colorName || getColorName;
+    return value?.name === colorName || colorNameFromSelector;
   });
 
   const isD3Colors = d3ColorScales.find((value: any) => {
-    return value?.name === colorName || getColorName;
+    return value?.name === colorName || colorNameFromSelector;
   });
 
   const [isCont, setIsCont] = React.useState(
@@ -157,12 +158,12 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const getSelectedColorScale = React.useCallback(
     (data: any, value: any) => {
       // update color map layer
-      if (data.name && getColorName) {
-        getColorName(data.name);
+      if (data.name && colorNameFromSelector) {
+        colorNameFromSelector(data.name);
       }
       // d3 color name
-      else if (getColorName) {
-        getColorName(data.legendColorName);
+      else if (colorNameFromSelector) {
+        colorNameFromSelector(data.legendColorName);
       }
       if (getScale) {
         getScale(data);
@@ -173,7 +174,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getColorName]
+    [colorNameFromSelector]
   );
 
   const handleModalClick = React.useCallback(
