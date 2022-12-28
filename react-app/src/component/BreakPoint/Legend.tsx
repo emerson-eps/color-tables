@@ -189,7 +189,7 @@ export const LegendComp: React.FC<moduleProps> = ({
             horizontal: "right",
           }}
         >
-          <div style={{ height: "60px", width: "80" }}>
+          <div style={{ height: "60px", width: "80px" }}>
             <div
               className={classes.edit}
               style={{ height: "50%", width: "100%", cursor: "pointer" }}
