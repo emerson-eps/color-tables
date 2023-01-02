@@ -32,11 +32,6 @@ export const d3ColorScales = [
     colors: d3.interpolateInferno,
   },
   {
-    name: "Accent",
-    discrete: true,
-    colors: d3.schemeAccent,
-  },
-  {
     name: "Dark2",
     discrete: true,
     colors: d3.schemeDark2,

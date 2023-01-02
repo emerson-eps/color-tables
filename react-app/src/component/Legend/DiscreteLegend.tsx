@@ -1,10 +1,13 @@
 import * as React from "react";
 import { useRef } from "react";
-import discreteLegendUtil from "../Utils/discreteLegend";
-import { select, scaleOrdinal } from "d3";
+//import {DiscreteLegendUtil} from "../Utils/discreteLegend";
+import { select } from "d3";
 import { colorsArray } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
+import defaultColorTables from "../color-tables.json";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { IconButton } from "@material-ui/core";
 
 declare type ItemColor = {
   color: string;
@@ -13,17 +16,17 @@ declare type ItemColor = {
 
 declare type discreteLegendProps = {
   /**
-   * Discrete data to build legend
-   */
-  discreteData: { objects: Record<string, [number[], number]> };
-  /**
-   * Title for the legend
-   */
-  dataObjectName: string;
-  /**
    * Name of the color(ex: Rainbow)
    */
   colorName: string;
+  /**
+   * Discrete data to build legend
+   */
+  discreteData?: { objects: Record<string, [number[], number]> };
+   /**
+   * Title for the legend
+   */
+   dataObjectName?: string;
   /**
    * Orientation for legend
    */
@@ -43,20 +46,11 @@ declare type discreteLegendProps = {
    *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
-  colorTables: colorTablesArray | string;
+  colorTables?: colorTablesArray | string;
   /**
    * Font size of legend name (in px)
    */
   legendFontSize?: number;
-  /**
-   * Font size of legend ticks (in px)
-   */
-  tickFontSize?: number;
-  /**
-   * Number of ticks in the main legend (only shown when isRangeShown prop is true)
-   * This refers to the number between min and max range points
-   */
-  numberOfTicks?: number;
   /**
    * This prop controls the number of ticks shown on the scale of the color legend (in px)
    */
@@ -65,21 +59,21 @@ declare type discreteLegendProps = {
    * css styles to be applied
    */
   cssLegendStyles?: any;
+  useCodeMaping?: boolean
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   discreteData,
-  dataObjectName,
+  dataObjectName = "Legend",
   colorName = "Stratigraphy",
   horizontal,
   getColorScaleData,
   id,
-  colorTables,
+  colorTables = defaultColorTables as colorTablesArray,
   legendFontSize,
-  tickFontSize,
-  numberOfTicks,
-  legendScaleSize,
+  legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
+  useCodeMaping,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -109,13 +103,11 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             : colorsArray(colorName, colorTables);
 
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
-
-        const entries = Object.entries(discreteData);
-        //eslint-disable-next-line
-        const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
-
-        // Main discrete legend
-        if (!getColorScaleData || getColorScaleData.length === 0) {
+        // Single discrete legend
+        if ((!getColorScaleData || getColorScaleData.length === 0) && discreteData) {
+          const entries = Object.entries(discreteData);
+          //eslint-disable-next-line
+          const sorted = entries?.sort((a: any, b: any) => a[1][1] - b[1][1]);
           sorted.forEach((value) => {
             const key = value[0];
             const val = value[1];
@@ -148,8 +140,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           });
           useSelectorLegend = false;
         }
-        // Discrete legend using Colortable colors
+       
+        // Discrete legend using Colortable colors (color selector component)
         else if (getColorScaleData?.color) {
+          
           getColorScaleData.color.forEach((key: any) => {
             itemColor.push({ color: RGBToHex(key) });
           });
@@ -164,14 +158,17 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
           itemName = getColorScaleData.legendColorName;
           useSelectorLegend = true;
+        } else if (useCodeMaping) {
+          arrayOfColors.forEach((key: any) => {
+            itemColor.push({ color: RGBToHex(key) });
+          });
         }
 
-        const ordinalValues = scaleOrdinal().domain(itemName);
-        const colorLegend = discreteLegendUtil(
-          itemColor,
-          useSelectorLegend,
-          horizontal
-        ).inputScale(ordinalValues);
+        // const ordinalValues = scaleOrdinal().domain(itemName);
+        const colorLegend = DiscreteLegendUtil(itemColor,useSelectorLegend,horizontal)
+        
+       
+        // .inputScale(ordinalValues);
         let totalRect;
 
         // Style for main horizontal legend
@@ -195,8 +192,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         // append the title
         currentDiv
           .append("div")
-          .text(dataObjectName)
-          .style("color", "grey")
+          // .text(dataObjectName)
+          // .style("color", "grey")
           .style("white-space", "nowrap")
           .style("overflow", "hidden")
           .style("width", "150px")
@@ -227,22 +224,25 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           )
           .append("svg")
           .call(colorLegend);
+          
+          
 
         svgLegend
           .attr(
             "viewBox",
-            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`
+            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 3 ${totalRect}`
           )
           .attr("preserveAspectRatio", "none")
           .style("font-size", ".4")
           .style("margin-left", horizontal ? "0" : "20px")
+          .style("margin-top", horizontal ? "0" : "30px")
           // .attr("height", horizontal ? "30px" : "153px")
           .attr(
             "height",
             horizontal
               ? "30px"
               : legendScaleSize < 200
-              ? 190
+              ? 40
               : legendScaleSize - 10
           )
           // .attr("width", horizontal ? "150px" : "40px");
@@ -250,7 +250,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             "width",
             horizontal
               ? legendScaleSize < 200
-                ? 190
+                ? 40
                 : legendScaleSize - 10
               : "40px"
           );
@@ -266,8 +266,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     getColorScaleData,
     dataObjectName,
     legendFontSize,
-    tickFontSize,
-    numberOfTicks,
     legendScaleSize,
   ]);
 
@@ -276,7 +274,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       style={{
         position: "absolute",
         minHeight: "70px",
-        backgroundColor: "#ffffffcc",
+        // backgroundColor: "#ffffffcc",
         borderRadius: "5px",
         zIndex: 999,
         margin: "10px",
@@ -287,6 +285,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         id={id ? id : `disc-legend - ${generateUniqueId}`}
         ref={divRef}
       ></div>
+      
     </div>
   );
 };
@@ -299,4 +298,117 @@ export function RGBToHex(rgb: number[]) {
   if (g.length === 1) g = "0" + g;
   if (b.length === 1) b = "0" + b;
   return "#" + r + g + b;
+}
+
+export function DiscreteLegendUtil (itemColor: any,isSelectorLegend?: any,horizontal?: any) {
+  
+  function legend(g: any) {
+    function drawLegend() {
+      g.append("symbol").attr("viewBox",`0 0 24 24`).attr("id","PenIcon")
+        .append("path").attr("d","M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z")
+        
+      // Code to fill the color
+      // Styling for color selector legend
+      g.selectAll("g.legendCells")
+      
+        .data(itemColor)
+        .enter()
+        .append("g")
+        .attr("id", "myCell")
+        .append("rect")
+        .attr("id", "myRect")
+        .append("title")
+        .text(function (d: Record<string, unknown>) {
+          return d["name"];
+        })
+        .attr("class", "rectLabel")
+        .style("cursor", "pointer")
+        .style("pointer-events", "all");
+      g.selectAll("rect")
+      
+        .attr("height", 1)
+        .attr("width", 1)
+        .style("fill", function (d: Record<string, unknown>) {
+          return d["color"];
+        }).append("text");
+      g.selectAll("g").append("use").attr("id", "myUse").attr("xlink:href", "#PenIcon").attr("height", 1).attr("width", 1);
+
+      if (horizontal && !isSelectorLegend) {
+        g.selectAll("rect")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+          g.selectAll("image")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+      } else if (!horizontal && !isSelectorLegend) {
+        g.selectAll("rect")
+          .attr("y", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("x", 0);
+        g.selectAll("use")
+          .attr("y", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("x", 2);
+      } else if (horizontal === true && isSelectorLegend) {
+        g.selectAll("rect")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+          g.selectAll("image")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+      } else if (horizontal === false && isSelectorLegend) {
+        g.selectAll("rect")
+          .attr("y", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("x", 0);
+          g.selectAll("image")
+          .attr("y", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("x", 0);
+      } else {
+        g.selectAll("rect")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+          g.selectAll("image")
+          .attr("x", function (_d: number, i: number) {
+            return i;
+          })
+          .attr("y", 0);
+      }
+    }
+    // const testData = React.useCallback(() => {
+    //   console.log("comes")
+    // }, []);
+ 
+
+    drawLegend();
+
+    
+  }
+  const useElement = document.getElementById('myRect');
+  if (useElement) {
+    useElement.addEventListener("onClick", handleClick);
+    //console.log("useElement", useElement)
+  }
+
+ 
+
+  function handleClick(event: any) {
+    console.log("event", event.type)
+  }
+  return legend;
 }

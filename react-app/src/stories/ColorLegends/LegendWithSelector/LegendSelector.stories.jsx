@@ -8,25 +8,6 @@ export default {
   title: "Legends/LegendWithColorSelector",
 };
 
-// prop for discrete data
-const discreteData = {
-  Above_BCU: [[], 0],
-  ABOVE: [[], 1],
-  H12: [[], 2],
-  H11: [[], 3],
-  H10: [[], 4],
-  H9: [[], 5],
-  H8: [[], 6],
-  H7: [[], 7],
-  H6: [[], 8],
-  H5: [[], 9],
-  H4: [[], 10],
-  H3: [[], 11],
-  H2: [[], 12],
-  H1: [[], 13],
-  BELOW: [[], 14],
-};
-
 const Template = (args) => {
   const [getColor, setColorName] = React.useState("Rainbow");
 
@@ -49,7 +30,6 @@ LegendWithColorSelector.args = {
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
   colorTables,
-  discreteData,
   isModal: true,
   isRangeShown: true,
   legendFontSize: 13,
