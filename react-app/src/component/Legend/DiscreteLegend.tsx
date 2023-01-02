@@ -5,6 +5,7 @@ import { select, scaleOrdinal } from "d3";
 import { colorsArray } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
+import defaultColorTables from "../color-tables.json";
 
 declare type ItemColor = {
   color: string;
@@ -74,11 +75,11 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   horizontal,
   getColorScaleData,
   id,
-  colorTables,
+  colorTables = defaultColorTables as colorTablesArray,
   legendFontSize,
   tickFontSize,
   numberOfTicks,
-  legendScaleSize,
+  legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
@@ -110,12 +111,14 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
 
-        const entries = Object.entries(discreteData);
-        //eslint-disable-next-line
-        const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
-
-        // Main discrete legend
-        if (!getColorScaleData || getColorScaleData.length === 0) {
+        // Main single discrete legend
+        if (
+          (!getColorScaleData || getColorScaleData.length === 0) &&
+          discreteData
+        ) {
+          const entries = Object.entries(discreteData);
+          //eslint-disable-next-line
+          const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
           sorted.forEach((value) => {
             const key = value[0];
             const val = value[1];
@@ -148,7 +151,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           });
           useSelectorLegend = false;
         }
-        // Discrete legend using Colortable colors
+        // Discrete legend using Colortable colors (color selector component)
         else if (getColorScaleData?.color) {
           getColorScaleData.color.forEach((key: any) => {
             itemColor.push({ color: RGBToHex(key) });
