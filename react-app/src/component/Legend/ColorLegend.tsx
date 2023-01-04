@@ -271,7 +271,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               setIsOpen={() => setIsOpen(false)}
               isModal={isModal}
               dataObjectName={legendName}
-              setDataObjectName={setLegendName}
               isHorizontal={horizontal}
               colorTables={colorTables}
               getRange={getRange}

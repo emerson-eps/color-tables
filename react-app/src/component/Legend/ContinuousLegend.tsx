@@ -3,7 +3,6 @@ import { useRef } from "react";
 import {
   RGBToHex,
   colorsArray,
-  RGBToHexValue,
   getTickValues,
 } from "../Utils/legendCommonFunction";
 import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
@@ -244,7 +243,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
               // to support discrete color for continous data
               breakPoint:
                 getColorTableScale?.discrete === true
-                  ? RGBToHexValue(value, maxValue).offset
+                  ? RGBToHex(value, maxValue).offset
                   : breakPoint?.length > 0
                   ? domainIndex * 100.0
                   : value[0] * 100.0,
