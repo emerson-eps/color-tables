@@ -8,8 +8,6 @@ export default function discreteLegendUtil(
   isSelectorLegend?: boolean,
   horizontal?: any
 ): any {
-  const legendValues: ItemColor[] = [];
-
   // eslint-disable-next-line
   function legend(g: any) {
     function drawLegend() {
@@ -68,18 +66,5 @@ export default function discreteLegendUtil(
 
     drawLegend();
   }
-  // eslint-disable-next-line
-  legend.inputScale = function (newScale: any) {
-    // eslint-disable-next-line
-    let scale: any = {};
-    scale = newScale;
-
-    scale.domain().forEach(function (el: any) {
-      const cellObject = { color: scale(el), label: el };
-      legendValues.push(cellObject);
-    });
-    return this;
-  };
-
   return legend;
 }
