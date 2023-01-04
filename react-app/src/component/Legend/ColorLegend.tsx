@@ -81,7 +81,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         }
       }
     },
-    [getColorRange, isAuto]
+    [getColorRange]
   );
 
   const getInterpolation = React.useCallback(

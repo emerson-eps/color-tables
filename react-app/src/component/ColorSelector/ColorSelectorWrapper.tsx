@@ -260,7 +260,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             value="Domain"
             name="range"
             disabled={!isCont}
-            defaultChecked={selectedRangeType?.isAuto == false}
+            defaultChecked={selectedRangeType?.isAuto === false}
           />
           <label style={{ marginLeft: 3, marginRight: 10 }}>Min</label>
           <input type="text" id="minV" size={3} disabled={isAuto || !isCont} />
