@@ -89,20 +89,12 @@ export const ColorSelectorAccordion = (props: any) => {
     }
   );
 
-  const [breakpointValues, setBreakPointValues] = React.useState(
-    colorScaleBreakpoints
-  );
-
-  React.useEffect(() => {
-    setBreakPointValues(colorScaleBreakpoints);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorScaleBreakpoints.length]);
+  const breakpointValues =
+    props.breakPointFlag?.length > 0
+      ? props.breakPointFlag
+      : colorScaleBreakpoints;
 
   const editedData = React.useCallback((data) => {
-    setBreakPointValues({
-      colorArray: data.colorArray,
-      customizeFlag: data.customizeFlag,
-    });
     props.getEditedBreakPoint({
       colorArray: data.colorArray,
       customizeFlag: data.customizeFlag,
@@ -241,6 +233,7 @@ export const ColorSelectorAccordion = (props: any) => {
               useRange={true}
               getRange={props?.getRange}
               isCont={props?.isCont}
+              selectedRangeType={props?.selectedRangeType}
             />
             <h5 style={{ marginTop: 10 }}>Interpolations :</h5>
             <ColorSelectorWrapper

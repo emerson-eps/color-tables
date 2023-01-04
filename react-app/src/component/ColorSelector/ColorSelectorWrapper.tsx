@@ -36,13 +36,13 @@ declare type legendProps = {
   getRange?: any;
   isCont?: boolean;
   useBreakpoint?: boolean;
-  getBreakpoint?: any;
   useInterpolation?: boolean;
   getInterpolation?: any;
   currentLegendName?: string;
   isCustomScale?: any;
   getDuplicatedLegendData?: any;
   selectedInterpolationType?: any;
+  selectedRangeType?: any;
 };
 
 export const ColorSelectorWrapper: React.FC<legendProps> = ({
@@ -57,6 +57,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   isCustomScale,
   getDuplicatedLegendData,
   selectedInterpolationType,
+  selectedRangeType,
 }: legendProps) => {
   let continuousD3Legend;
   let discreteD3Legend;
@@ -101,7 +102,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     },
     [getInterpolation]
   );
-
   const [duplicatedLegendData, setDuplicatedLegendData] = React.useState([]);
 
   const copyLegend = (value: any) => {
@@ -252,10 +252,16 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             value="Auto"
             name="range"
             disabled={!isCont}
-            defaultChecked
+            defaultChecked={selectedRangeType?.isAuto}
           />{" "}
           Auto <br />
-          <input type="radio" value="Domain" name="range" disabled={!isCont} />
+          <input
+            type="radio"
+            value="Domain"
+            name="range"
+            disabled={!isCont}
+            defaultChecked={selectedRangeType?.isAuto == false}
+          />
           <label style={{ marginLeft: 3, marginRight: 10 }}>Min</label>
           <input type="text" id="minV" size={3} disabled={isAuto || !isCont} />
           <label style={{ marginLeft: 10, marginRight: 10 }}>Max</label>
