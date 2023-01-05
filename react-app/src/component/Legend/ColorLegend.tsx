@@ -6,7 +6,6 @@ import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
-
 declare type ColorLegendProps = {
   colorTables: colorTablesArray;
   min: number;
@@ -62,8 +61,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [isAuto, setAuto] = React.useState(true);
   const [newMin, setNewMin] = React.useState();
   const [newMax, setNewMax] = React.useState();
-  const [breakValue, setBreakValue] = React.useState();
-  const [isNone] = React.useState(true);
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
@@ -75,10 +72,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         setAuto(true);
         if (getColorRange) getColorRange({ isAuto: true });
       } else {
+        setAuto(false);
         if (data?.[0] && data?.[1]) {
           setNewMin(data[0]);
           setNewMax(data[1]);
-          setAuto(false);
           if (getColorRange)
             getColorRange({ range: [data[0], data[1]], isAuto: false });
         }
@@ -86,25 +83,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     },
     [getColorRange]
   );
-
-  const getBreakpoint = React.useCallback(
-    (data: any) => {
-      if (data) {
-        setBreakValue(data);
-        if (getBreakpointValue) getBreakpointValue({ breakpoint: [data] });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getItemColor]
-  );
-
-  const breakpointValues = React.useCallback((data: any) => {
-    if (data) {
-      setItemColor(data);
-      if (getBreakpointValue) getBreakpointValue(data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getInterpolation = React.useCallback(
     (data: any) => {
@@ -130,6 +108,14 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLog, isNearest]
   );
+
+  const breakpointValues = React.useCallback((data: any) => {
+    if (data) {
+      setItemColor(data);
+      if (getBreakpointValue) getBreakpointValue(data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -250,7 +236,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             id={generateUniqueId}
             colorTables={colorTables}
             reverseRange={reverseRange}
-            breakPoint={breakValue && isNone === false ? breakValue : []}
             editedBreakPointValues={getItemColor}
             isLog={isLog}
             isNearest={isNearest}
@@ -286,12 +271,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
               setIsOpen={() => setIsOpen(false)}
               isModal={isModal}
               dataObjectName={legendName}
-              setDataObjectName={setLegendName}
               isHorizontal={horizontal}
               colorTables={colorTables}
               getRange={getRange}
               isCont={isCont}
-              getBreakpoint={getBreakpoint}
               getEditedBreakPoint={breakpointValues}
               newColorScaleData={getSelectedColorScale}
               handleModalClick={handleModalClick}
@@ -310,6 +293,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                   ? { isLog: true }
                   : { isLinear: true }
               }
+              selectedRangeType={isAuto ? { isAuto: true } : { isAuto: false }}
             />
           </div>
         )}

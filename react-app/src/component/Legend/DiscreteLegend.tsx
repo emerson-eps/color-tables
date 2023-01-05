@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
-import { select, scaleOrdinal } from "d3";
+import { select } from "d3";
 import { colorsArray } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
@@ -169,12 +169,11 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend = true;
         }
 
-        const ordinalValues = scaleOrdinal().domain(itemName);
         const colorLegend = discreteLegendUtil(
           itemColor,
           useSelectorLegend,
           horizontal
-        ).inputScale(ordinalValues);
+        );
         let totalRect;
 
         // Style for main horizontal legend

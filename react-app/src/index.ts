@@ -7,7 +7,6 @@ import {
   createColorMapFunction,
   getColors,
   getRgbData,
-  RGBToHexValue,
 } from "./component/Utils/legendCommonFunction";
 import { d3ColorScales } from "./component/Utils/d3ColorScale";
 import { colorTablesObj, colorTablesArray } from "./component/colorTableTypes";
@@ -26,7 +25,6 @@ export {
   createColorMapFunction,
   getColors,
   getRgbData,
-  RGBToHexValue,
   d3ColorScales,
   colorTablesObj,
   colorTablesArray,
