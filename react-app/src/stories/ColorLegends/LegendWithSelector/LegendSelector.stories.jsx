@@ -8,8 +8,21 @@ export default {
   title: "Legends/LegendWithColorSelector",
 };
 
+const discreteData = {
+  OS: [[], 0],
+  LSF: [[], 1],
+  USF: [[], 2],
+  MB: [[], 3],
+  TB: [[], 4],
+  TC: [[], 5],
+  TFS: [[], 6],
+  TFM: [[], 7],
+  MSH: [[], 8],
+  CAL: [[], 9],
+};
+
 const Template = (args) => {
-  const [getColor, setColorName] = React.useState("Rainbow");
+  const [getColor, setColorName] = React.useState("GasOilWater");
 
   const getColorName = React.useCallback((data) => {
     // for geological color scale data (from color-table.json) => data.name
@@ -27,7 +40,7 @@ LegendWithColorSelector.args = {
   max: 0.35,
   cssLegendStyles: { left: "0vw", top: "0vh" },
   horizontal: true,
-  colorName: "Rainbow",
+  colorName: "GasOilWater",
   dataObjectName: "Legend with Selector",
   colorTables,
   isModal: true,
@@ -36,4 +49,5 @@ LegendWithColorSelector.args = {
   tickFontSize: 13,
   numberOfTicks: 3,
   legendScaleSize: 300,
+  discreteData
 };

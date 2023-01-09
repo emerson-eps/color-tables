@@ -77,6 +77,20 @@ export const ColorSelectorAccordion = (props: any) => {
   const [customScalesName, setCustomScalesName] = React.useState();
   const [duplicatedData, setDuplicatedData] = React.useState([]);
   let getColorScaleArray;
+
+  const discreteData = {
+    OS: [[], 0],
+    LSF: [[], 1],
+    USF: [[], 2],
+    MB: [[], 3],
+    TB: [[], 4],
+    TC: [[], 5],
+    TFS: [[], 6],
+    TFM: [[], 7],
+    MSH: [[], 8],
+    CAL: [[], 9],
+  };
+
   if (customScalesName) {
     getColorScaleArray = defaultColorTables.find((value: any) => {
       return value.name === customScalesName;
@@ -259,7 +273,7 @@ export const ColorSelectorAccordion = (props: any) => {
           </AccordionSummary>
           <AccordionDetails className={"codeMappingDetails"}>
             <div>
-              <DiscreteColorLegend colorName={props.currentLegendName} useCodeMaping={true} />
+              <DiscreteColorLegend discreteData={discreteData} colorName={props.currentLegendName} useCodeMaping={true} />
             </div>
           </AccordionDetails>
         </Accordion>
