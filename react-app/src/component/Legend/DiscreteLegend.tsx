@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useRef } from "react";
-import discreteLegendUtil from "../Utils/discreteLegend";
+import TestLegend from "../Utils/discreteLegend";
 import { select, scaleOrdinal } from "d3";
 import { colorsArray } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+//import { FontAwesomeIcon } from '@fortawesome/fortawesome-free'
 
 declare type ItemColor = {
   color: string;
@@ -86,7 +87,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
-
+ 
   React.useEffect(() => {
     if (divRef.current) {
       select(divRef.current).select("div").remove();
@@ -226,46 +227,52 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         }
 
         const currentDiv = select(divRef.current);
-        // append the title
+        if(!useCodeMaping) {
+            // append the title
         currentDiv
-          .append("div")
-          .text(dataObjectName)
-          .style("color", "grey")
-          .style("white-space", "nowrap")
-          .style("overflow", "hidden")
-          .style("width", "150px")
-          .style("text-overflow", "ellipsis")
-          .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style(
-            "font-size",
-            legendFontSize && legendFontSize > 0
-              ? `${legendFontSize}px`
-              : "16px"
-          )
-          .style(
-            "transform",
-            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
-          );
+        .append("div")
+        .text(dataObjectName)
+        .style("color", "grey")
+        .style("white-space", "nowrap")
+        .style("overflow", "hidden")
+        .style("width", "150px")
+        .style("text-overflow", "ellipsis")
+        .style("margin-bottom", horizontal ? "5px" : "0px")
+        .style(
+          "font-size",
+          legendFontSize && legendFontSize > 0
+            ? `${legendFontSize}px`
+            : "16px"
+        )
+        .style(
+          "transform",
+          horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+        );
+        }
 
         // Append svg to the div
         const svgLegend = currentDiv
-          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
+          .style("margin", !useCodeMaping && horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
           // .style("width", horizontal ? "145px" : "50px")
           .style(
             "width",
-            horizontal
-              ? legendScaleSize < 200
+             !useCodeMaping ?  (horizontal
+              ? (legendScaleSize < 200
                 ? 200
-                : legendScaleSize
-              : "50px"
+                : legendScaleSize)
+              : "50px") : "100%"
           )
-          .append("svg")
+          .append("div")
+         // .attr("id", useCodeMaping ? "testing" : null)
+          //.attr("height", 0)
+          .append(useCodeMaping ? "div" : "svg").attr("id", useCodeMaping ? "mappingDiv" : "")
           .call(colorLegend);
-
-        svgLegend
+          
+        if (!useCodeMaping) {
+          svgLegend
           .attr(
             "viewBox",
-            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 5 ${totalRect}`
+            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 3 ${totalRect}`
           )
           .attr("preserveAspectRatio", "none")
           .style("font-size", ".4")
@@ -287,8 +294,10 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
               ? legendScaleSize < 200
                 ? 40
                 : legendScaleSize - 10
-              : "180px"
+              : "80px"
           );
+        }
+        
       } catch (error) {
         console.error(error);
       }
@@ -308,7 +317,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
   return (
     <div
-      style={{
+      style={!useCodeMaping ? {
         position: "absolute",
         minHeight: "70px",
         //backgroundColor: "#ffffffcc",
@@ -316,7 +325,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         zIndex: 999,
         margin: "10px",
         ...cssLegendStyles,
-      }}
+      } : {}}
     >
       <div
         id={id ? id : `disc-legend - ${generateUniqueId}`}
@@ -337,210 +346,171 @@ export function RGBToHex(rgb: number[]) {
 }
 
 export function DiscreteLegendUtil (itemColor: any,isSelectorLegend?: any,horizontal?: any, useCodeMaping?: any) {
-  //const [isEditable, setIsEditable] = React.useState(false);
-  let isEditable = false;
   function legend(g: any) {
     function drawLegend(this: any) {
-      
-
       // Code to fill the color
       // Styling for color selector legend
-      g.selectAll("g.legendCells")
+      if (!useCodeMaping) {
+
+          g.selectAll("g.legendCells")
+            .data(itemColor)
+            .enter()
+            .append("g")
+            
+            .attr("class", useCodeMaping ? "myCell" : "")
+            .style("pointer-events", "auto")
+            .append("rect")
+            .attr("class", useCodeMaping ? "myRect" : "")
+            .attr("class", "rectLabel")
+            .style("cursor", "pointer")
+            .style("pointer-events", "auto");
+            g.selectAll("rect")
+            .attr("height", useCodeMaping ? "0.5" : "1")
+            .attr("width", useCodeMaping ? "0.5" : "1")
+            .style("fill", function (d: Record<string, unknown>) {
+              return d["color"];
+            });
+            g.selectAll("g")
+              .append("text")
+              .attr("id", "editable")
+              .text(function (d: Record<string, unknown>) {
+                return d["name"];
+              })
+    
+          if (horizontal && !isSelectorLegend) {
+            g.selectAll("rect")
+              .attr("x", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("y", 0);
+          } else if (!horizontal && !isSelectorLegend) {
+            g.selectAll("rect")
+              .attr("y", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("x", 0);
+            
+            if (useCodeMaping) {
+              g.selectAll("text")
+              .attr("y", function (_d: number, i: number) {
+                return i + 0.3;
+              })
+              .attr("x", 1.25);
+    
+              g.selectAll("use")
+              .attr("y", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("x", 2);
+            }
+          } else if (horizontal === true && isSelectorLegend) {
+            g.selectAll("rect")
+              .attr("x", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("y", 0);
+              
+          } else if (horizontal === false && isSelectorLegend) {
+            g.selectAll("rect")
+              .attr("y", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("x", 0);
+            
+          } else {
+            g.selectAll("rect")
+              .attr("x", function (_d: number, i: number) {
+                return i;
+              })
+              .attr("y", 0);
+              
+          }
+        } 
+        
+      }
+
+      if (useCodeMaping) {
+        g.selectAll("div")
+        .remove()
         .data(itemColor)
         .enter()
-        .append("g")
-        
-        .attr("class", useCodeMaping ? "myCell" : "")
-        .style("pointer-events", "auto")
-        .append("rect")
-        .attr("class", useCodeMaping ? "myRect" : "")
-        .attr("class", "rectLabel")
-        .style("cursor", "pointer")
-        .style("pointer-events", "auto");
-        g.selectAll("rect")
-        .attr("height", 1)
-        .attr("width", 1)
-        .style("fill", function (d: Record<string, unknown>) {
-          return d["color"];
-        });
-        g.selectAll("g")
-          .append("text")
-          .attr("id", "editable")
-          //.on("click", handleClick)
-          .attr("contentEditable", true)
-          .text(function (d: Record<string, unknown>) {
-            return d["name"];
-          })
-          .on("keyup", function(d: any) { d.text = "test"; });
-        // .on("click", handleClick(event, this))
-        // .attr("height", 0.5)
-        // .attr("width", 1);
-
-      if (useCodeMaping) {
-        g.selectAll("g")
-        .append("use")
-        .attr("id", "myUse")
-        .attr("xlink:href", "#PenIcon")
-        .on("click", handleClick)
-        .attr("height", 0.5)
-        .attr("width", 1)
-        // .append("foreignObject")
-        // .attr("width", 0.5)
-        // .attr("height", 1)
-        // .append("input")
-        // .attr("type", "text")
-        // .attr("id", "myInput");
-      }
-      if (useCodeMaping) {
-        g.select("svg g:first-child")
-        .append("foreignObject")
-        // .attr("x", "3")
-        // .attr("y", "0")
-        .attr("width", 3)
-        .attr("height", 1)
-        .style("background", "lightgrey")
+        // main div
+        .append("div")
+        .attr("class", "row")
+        .style("min-height", "30px")
+        .style("width", "100%")
+        // rect box
+        .append("span")
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("margin-right", "10px")
+        .style("display", "inline-block")
+        .style("position", "relative")
+        .style("top", "6px")
+        .style("background", (d:any)=>d["color"]);
+        // label
+        g.selectAll("div.row")
+        .append("span")
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("margin-right", "10px")
+        .style("display", "inline-block")
+        .text((d:any)=>d["name"])
+        .attr("id", `label-${(d:any)=>d["name"]}`);
+        // input field
+        g.selectAll("div.row")
         .append("input")
-        
-        .attr("type", "text")
-        .attr("name", "Test")
-        .attr("value", "Sample")
-        // .attr("focusable", true)
-        .attr("autofocus", true)
-        .style("font-size", "10px")
-        .style("cursor", "help")
-        .attr("class", "myInput")
-        // .append("input")
-        // .attr("id", "myInput")
-        // .style("cursor", "pointer")
-        // .attr("type", "text")
-        // .attr("value", "Sample")
-        // .attr("placeholder", "Enter")
-        // .attr("x", "3")
-        // .attr("y", "0")
-        // .attr("width", 2)
-        // .attr("height", 1)
+        .style("display", "none");
+        // edit icon
+        g.selectAll("div.row")
+        // .append("title", "Click to edit")
+        .append("text")
+        .style("cursor", "pointer")
+        .style("transform", "rotate(90deg) !important")
+        .attr("font-family", "FontAwesome")
+        .text(()=>"\u270D")
+        .style("position", "relative")
+        .style("top", "-3px")
+        .attr("font-size", "12px")
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("margin-right", "10px")
+        .style("display", "inline-block")
+        .on("click", startEditing);
+        // done button
+        g.selectAll("div.row")
+        .append("text")
+        .attr("font-family", "FontAwesome")
+        .text(()=>"\u2714")
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("display", "none")
+        .style("cursor", "pointer")
+        .on("click", finishEditing)
       }
-      
-
-      if (horizontal && !isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-      } else if (!horizontal && !isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("y", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("x", 0);
-        
-        if (useCodeMaping) {
-          g.selectAll("text")
-          .attr("y", function (_d: number, i: number) {
-            return i + 0.5;
-          })
-          .attr("x", 1.25);
-          g.selectAll("use")
-          .attr("y", function (_d: number, i: number) {
-            return i + 0.3;
-          })
-          .attr("x", 2);
-          g.selectAll("foreignObject")
-          .attr("y", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("x", 3);
-          //if (isEditable) {
-     
-        }
-      } else if (horizontal === true && isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-          g.selectAll("image")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-      } else if (horizontal === false && isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("y", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("x", 0);
-          g.selectAll("image")
-          .attr("y", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("x", 0);
-      } else {
-        g.selectAll("rect")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-          g.selectAll("image")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-      }
-      g.append("symbol").attr("viewBox",`0 0 24 24`).attr("id","PenIcon")
-      .append("path").attr("d","M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z")
-    }
-
     drawLegend();
   }
 
-  function handleClick(evt: any) {
-    // Array.from(document.querySelector('.myCell').querySelectorAll('text')).forEach(el => {
-    //   el.addEventListener('click', function(evt) {
-    //     console.log("text", evt.target)
-    //   });
-    // });
-    var orginaltext = evt.target.textContent
-    const test = document.querySelector('.myInput');
-    //test.focus();
-    console.log("test", test)
-    // evt.stopImmediatePropagation();
-    // const rect_text = evt.target.getBoundingClientRect();
-    // const svgCell = document.getElementsByClassName("myCell")
-    // const input = document.createElement("input");
-    // console.log("svgCell", svgCell)
-
-    // input.value = orginaltext;
-    // input.onkeyup = function(e) {
-    //   if (["Enter", "Escape"].includes(e.key)) {
-    //     blur();
-    //     return;
-    //   }
-    //   orginaltext = "test";
-    // };
-    // input.onblur = function(e) {
-    //   input.remove();
-    // };
-    // input.style.left = rect_text.left + 'px';
-    // input.style.top = rect_text.top + 'px';
-    // input.style.width = 2 + 'ch';
-    // input.style.height = rect_text.height + 'px';
-    // document.querySelector('.myCell').append(input);
-    //console.log("target", evt.target.innerHTML)
-    // input.focus();
-    //svgCell.append(input);
-    // svgtext.target.__data__.name = "shruthi"
-    // var text = document.getElementById("myRect");
-    // var input = document.createElement("input");
-    // input.type = "text";
-    // input.value = text.textContent;
-    // input.addEventListener("blur", function() {
-    //   text.textContent = input.value;
-    //   input.parentNode.replaceChild(text, input);
-    // });
-    // text.parentNode.replaceChild(input, text);
-    // input.focus();
+  function startEditing(e: any) {
+    const labelSpan = e.target.parentElement.children[1]
+    const input = e.target.parentElement.children[2]
+    const button = e.target.parentElement.children[4]
+    const oldLabel = labelSpan.innerHTML;
+    labelSpan.style.display = "none";
+    button.style.display = "inline";
+    input.style.display = "inline";
+    input.value = oldLabel;
   }
+
+  function finishEditing(e: any) {
+    const labelSpan = e.target.parentElement.children[1]
+    const input = e.target.parentElement.children[2]
+    const button = e.target.parentElement.children[4]
+    labelSpan.innerHTML = input.value
+    labelSpan.style.display = "inline"
+    input.style.display = "none"
+    button.style.display = "none"
+  }
+
   return legend;
 }

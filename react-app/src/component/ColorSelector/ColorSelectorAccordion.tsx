@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
 
       "& .codeMappingDetails": {
-        height: 180,
+       // height: 200,
       },
 
       "& .MuiPaper-root.MuiAccordion-root.Mui-expanded.MuiAccordion-rounded.MuiPaper-elevation1.MuiPaper-rounded":
