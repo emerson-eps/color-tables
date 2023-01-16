@@ -69,7 +69,7 @@ declare type discreteLegendProps = {
   /**
    * This props is for discrete code mapping
    */
-  discreteCodeMaping?: boolean;
+  discreteCodeMapping?: boolean;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -85,7 +85,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   numberOfTicks,
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
-  discreteCodeMaping,
+  discreteCodeMapping,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -186,7 +186,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
           itemName = getColorScaleData.legendColorName;
           useSelectorLegend = true;
-        } else if (discreteCodeMaping) {
+        } else if (discreteCodeMapping) {
           const entries = Object.entries(
             discreteData ? discreteData : defaultDiscreteData
           );
@@ -219,7 +219,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           itemColor,
           useSelectorLegend,
           horizontal,
-          discreteCodeMaping
+          discreteCodeMapping
         );
         let totalRect;
 
@@ -240,7 +240,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         }
 
         const currentDiv = select(divRef.current);
-        if (!discreteCodeMaping) {
+        if (!discreteCodeMapping) {
           // append the title
           currentDiv
             .append("div")
@@ -324,13 +324,13 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     tickFontSize,
     numberOfTicks,
     legendScaleSize,
-    discreteCodeMaping,
+    discreteCodeMapping,
   ]);
 
   return (
     <div
       style={
-        !discreteCodeMaping
+        !discreteCodeMapping
           ? {
               position: "absolute",
               minHeight: "70px",

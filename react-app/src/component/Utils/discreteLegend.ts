@@ -7,12 +7,12 @@ export default function discreteLegendUtil(
   itemColor: ItemColor[],
   isSelectorLegend?: boolean,
   horizontal?: boolean,
-  discreteCodeMaping?: boolean
+  discreteCodeMapping?: boolean
 ): any {
   // eslint-disable-next-line
   function legend(g: any) {
     function drawLegend() {
-      if (!discreteCodeMaping) {
+      if (!discreteCodeMapping) {
         // Code to fill the color
         // Styling for color selector legend
         g.selectAll("g.legendCells")
@@ -96,10 +96,8 @@ export default function discreteLegendUtil(
         g.selectAll("div.row").append("input").style("display", "none");
         // edit icon
         g.selectAll("div.row")
-          // .append("title", "Click to edit")
           .append("text")
           .style("cursor", "pointer")
-          .style("transform", "rotate(90deg) !important")
           .attr("font-family", "FontAwesome")
           .text(() => "\u270D")
           .style("position", "relative")
@@ -119,14 +117,14 @@ export default function discreteLegendUtil(
           .style("height", "20px")
           .style("display", "none")
           .style("cursor", "pointer")
-          .on("click", finishEditing);
+          .on("click", doneEditing);
       }
     }
 
     drawLegend();
   }
 
-  function startEditing(e: any) {
+  function startEditing(e: { target: { parentElement: { children: any[] } } }) {
     const labelSpan = e.target.parentElement.children[1];
     const input = e.target.parentElement.children[2];
     const button = e.target.parentElement.children[4];
@@ -137,7 +135,7 @@ export default function discreteLegendUtil(
     input.value = oldLabel;
   }
 
-  function finishEditing(e: any) {
+  function doneEditing(e: { target: { parentElement: { children: any[] } } }) {
     const labelSpan = e.target.parentElement.children[1];
     const input = e.target.parentElement.children[2];
     const button = e.target.parentElement.children[4];

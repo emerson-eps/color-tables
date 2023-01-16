@@ -257,7 +257,7 @@ export const ColorSelectorAccordion = (props: any) => {
             <div>
               <DiscreteColorLegend
                 colorName={props.currentLegendName}
-                discreteCodeMaping={true}
+                discreteCodeMapping={true}
               />
             </div>
           </AccordionDetails>
