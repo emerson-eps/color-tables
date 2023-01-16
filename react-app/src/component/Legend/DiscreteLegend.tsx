@@ -90,19 +90,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
-  const defaultDiscreteData: any = {
-    OS: [[], 0],
-    LSF: [[], 1],
-    USF: [[], 2],
-    MB: [[], 3],
-    TB: [[], 4],
-    TC: [[], 5],
-    TFS: [[], 6],
-    TFM: [[], 7],
-    MSH: [[], 8],
-    CAL: [[], 9],
-  };
-
   React.useEffect(() => {
     if (divRef.current) {
       select(divRef.current).select("div").remove();
@@ -115,6 +102,20 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       let useSelectorLegend = false;
       let itemName: string[] = [];
       let itemColor: ItemColor[] = [];
+
+      const defaultDiscreteData: any = {
+        OS: [[], 0],
+        LSF: [[], 1],
+        USF: [[], 2],
+        MB: [[], 3],
+        TB: [[], 4],
+        TC: [[], 5],
+        TFS: [[], 6],
+        TFM: [[], 7],
+        MSH: [[], 8],
+        CAL: [[], 9],
+      };
+
       try {
         // fix for dash wrapper
         if (typeof colorTables === "string") {
@@ -324,7 +325,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     numberOfTicks,
     legendScaleSize,
     discreteCodeMaping,
-    defaultDiscreteData
   ]);
 
   return (
