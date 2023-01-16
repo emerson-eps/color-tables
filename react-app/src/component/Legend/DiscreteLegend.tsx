@@ -323,6 +323,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     tickFontSize,
     numberOfTicks,
     legendScaleSize,
+    discreteCodeMaping,
+    defaultDiscreteData
   ]);
 
   return (
