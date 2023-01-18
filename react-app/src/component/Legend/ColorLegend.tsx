@@ -125,7 +125,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
-  const isColortableColors = colorTables.find((value: any) => {
+  const isColortableColors = colorTables?.find((value: any) => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
