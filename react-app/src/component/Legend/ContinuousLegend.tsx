@@ -131,18 +131,18 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
     async function continuousLegend() {
       let itemColor: ItemColor[] = [];
-      let dataSet;
+      let parsedColorTables;
 
       try {
         // fix for dash wrapper
         if (typeof colorTables === "string") {
           const res = await fetch(colorTables);
-          dataSet = await res.json();
+          parsedColorTables = await res.json();
         }
         //Return the matched colors array from color.tables.json file
         let legendColors =
           typeof colorTables === "string"
-            ? colorsArray(colorName, dataSet)
+            ? colorsArray(colorName, parsedColorTables)
             : colorsArray(colorName, colorTables);
 
         let nearestData: any = [];
@@ -180,7 +180,9 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         }
 
         // condition to check if the legend is selected from color selector or not
-        const getColorTableScale = colorTables.find((value: any) => {
+        const getColorTableScale = (
+          typeof colorTables === "string" ? parsedColorTables : colorTables
+        )?.find((value: any) => {
           if (getColorScaleData) {
             return value.name === getColorScaleData?.name;
           } else {
