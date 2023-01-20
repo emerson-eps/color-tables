@@ -218,7 +218,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [legendScaleSize]);
 
   return (
-    <div style={{ position: "relative", height: "92vh", width: "97vw" }}>
+    <div style={{ position: "relative" }}>
       <div
         ref={divRef}
         onClick={toggleColorSelector}
