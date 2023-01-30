@@ -12,6 +12,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=18.0"
+  },
   "scripts": {
     "build": "git clean -xdff dist && tsc",
     "storybook": "start-storybook -p 6006",
