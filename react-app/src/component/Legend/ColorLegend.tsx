@@ -125,7 +125,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
-  const isColortableColors = colorTables.find((value: any) => {
+  const isColortableColors = colorTables?.find((value: any) => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
@@ -218,7 +218,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   }, [legendScaleSize]);
 
   return (
-    <div style={{ position: "relative", height: "92vh", width: "97vw" }}>
+    <div style={{ position: "relative" }}>
       <div
         ref={divRef}
         onClick={toggleColorSelector}
