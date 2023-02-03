@@ -219,8 +219,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
 
-  console.log("isOpen", isOpen);
-
   return (
     <div style={{ position: "relative" }}>
       <div
