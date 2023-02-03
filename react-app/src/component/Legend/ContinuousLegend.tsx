@@ -16,15 +16,15 @@ declare type continuousLegendProps = {
   /**
    * Min value
    */
-  min: number;
+  min?: number;
   /**
    * Max value
    */
-  max: number;
+  max?: number;
   /**
    * Title for the legend
    */
-  dataObjectName: string;
+  dataObjectName?: string;
   /**
    * Name of the color(ex: Rainbow)
    */

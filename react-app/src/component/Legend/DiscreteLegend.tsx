@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRef } from "react";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { select } from "d3";
-import { colorsArray } from "../Utils/legendCommonFunction";
+import { colorsArray, RGBToHex } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
@@ -16,15 +16,15 @@ declare type discreteLegendProps = {
   /**
    * Discrete data to build legend
    */
-  discreteData: { objects: Record<string, [number[], number]> };
+  discreteData?: { objects: Record<string, [number[], number]> };
   /**
    * Title for the legend
    */
-  dataObjectName: string;
+  dataObjectName?: string;
   /**
    * Name of the color(ex: Rainbow)
    */
-  colorName: string;
+  colorName?: string;
   /**
    * Orientation for legend
    */
@@ -44,7 +44,7 @@ declare type discreteLegendProps = {
    *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
-  colorTables: colorTablesArray | string;
+  colorTables?: colorTablesArray | string;
   /**
    * Font size of legend name (in px)
    */
@@ -111,12 +111,25 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
 
+        // temporary fix, will be removed later
+        const defaultDiscreteData: any = {
+          discrete_1: [[], 0],
+          discrete_2: [[], 1],
+          discrete_3: [[], 2],
+          discrete_4: [[], 3],
+          discrete_5: [[], 4],
+          discrete_6: [[], 5],
+          discrete_7: [[], 6],
+          discrete_8: [[], 7],
+          discrete_9: [[], 8],
+          discrete_10: [[], 9],
+        };
+
         // Main single discrete legend
-        if (
-          (!getColorScaleData || getColorScaleData.length === 0) &&
-          discreteData
-        ) {
-          const entries = Object.entries(discreteData);
+        if (!getColorScaleData || getColorScaleData.length === 0) {
+          const entries = Object.entries(
+            discreteData ? discreteData : defaultDiscreteData
+          );
           //eslint-disable-next-line
           const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
           sorted.forEach((value) => {
@@ -133,7 +146,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
               );
               if (matchedColorsArrays)
                 itemColor.push({
-                  color: RGBToHex(matchedColorsArrays),
+                  color: RGBToHex(matchedColorsArrays).color,
                   name: key,
                 });
               itemName.push(key);
@@ -152,15 +165,15 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend = false;
         }
         // Discrete legend using Colortable colors (color selector component)
-        else if (getColorScaleData?.color) {
+        if (getColorScaleData?.color) {
           getColorScaleData.color.forEach((key: any) => {
-            itemColor.push({ color: RGBToHex(key) });
+            itemColor.push({ color: RGBToHex(key).color });
           });
 
           useSelectorLegend = true;
         }
         // Discrete legend using d3 colors
-        else if (getColorScaleData?.colorsObject) {
+        if (getColorScaleData?.colorsObject) {
           getColorScaleData.colorsObject.forEach((key: any) => {
             itemColor.push({ color: key });
           });
@@ -292,13 +305,3 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     </div>
   );
 };
-
-export function RGBToHex(rgb: number[]) {
-  let r = rgb[1].toString(16),
-    g = rgb[2].toString(16),
-    b = rgb[3].toString(16);
-  if (r.length === 1) r = "0" + r;
-  if (g.length === 1) g = "0" + g;
-  if (b.length === 1) b = "0" + b;
-  return "#" + r + g + b;
-}
