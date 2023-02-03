@@ -85,8 +85,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
-  console.log("discreteData", discreteData)
-
   React.useEffect(() => {
     if (divRef.current) {
       select(divRef.current).select("div").remove();
@@ -113,12 +111,25 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
         const d3ColorArrays = colorsArray(colorName, d3ColorScales);
 
+        // temporary fix, will be removed later
+        const defaultDiscreteData: any = {
+          discrete_1: [[], 0],
+          discrete_2: [[], 1],
+          discrete_3: [[], 2],
+          discrete_4: [[], 3],
+          discrete_5: [[], 4],
+          discrete_6: [[], 5],
+          discrete_7: [[], 6],
+          discrete_8: [[], 7],
+          discrete_9: [[], 8],
+          discrete_10: [[], 9],
+        };
+
         // Main single discrete legend
-        if (
-          (!getColorScaleData || getColorScaleData.length === 0) &&
-          discreteData
-        ) {
-          const entries = Object.entries(discreteData);
+        if (!getColorScaleData || getColorScaleData.length === 0) {
+          const entries = Object.entries(
+            discreteData ? discreteData : defaultDiscreteData
+          );
           //eslint-disable-next-line
           const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
           sorted.forEach((value) => {
@@ -154,7 +165,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend = false;
         }
         // Discrete legend using Colortable colors (color selector component)
-        else if (getColorScaleData?.color) {
+        if (getColorScaleData?.color) {
           getColorScaleData.color.forEach((key: any) => {
             itemColor.push({ color: RGBToHex(key).color });
           });
@@ -162,7 +173,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           useSelectorLegend = true;
         }
         // Discrete legend using d3 colors
-        else if (getColorScaleData?.colorsObject) {
+        if (getColorScaleData?.colorsObject) {
           getColorScaleData.colorsObject.forEach((key: any) => {
             itemColor.push({ color: key });
           });

@@ -28,7 +28,7 @@ declare type ColorLegendProps = {
   legendScaleSize?: number;
   cssLegendStyles?: any;
   isOpenProp?: boolean;
-  openColorSelector?: boolean
+  openColorSelector?: boolean;
 };
 
 // Todo: Adapt it for other layers too
@@ -219,7 +219,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
 
-  console.log("isOpen", isOpen)
+  console.log("isOpen", isOpen);
 
   return (
     <div style={{ position: "relative" }}>
