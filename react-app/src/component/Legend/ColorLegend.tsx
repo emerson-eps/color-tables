@@ -7,13 +7,13 @@ import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 declare type ColorLegendProps = {
-  colorTables: colorTablesArray;
-  min: number;
-  max: number;
-  dataObjectName: string;
-  colorName: string;
+  colorTables?: colorTablesArray;
+  min?: number;
+  max?: number;
+  dataObjectName?: string;
+  colorName?: string;
   horizontal?: boolean | null;
-  discreteData: { objects: Record<string, [number[], number]> };
+  discreteData?: { objects: Record<string, [number[], number]> };
   colorNameFromSelector?: any;
   reverseRange?: boolean;
   getColorRange?: any;
@@ -28,16 +28,17 @@ declare type ColorLegendProps = {
   legendScaleSize?: number;
   cssLegendStyles?: any;
   isOpenProp?: boolean;
+  openColorSelector?: boolean;
 };
 
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
   horizontal,
   colorTables = defaultColorTables as colorTablesArray,
-  min,
-  max,
+  min = 0,
+  max = 1,
   dataObjectName,
-  colorName,
+  colorName = "Rainbow",
   discreteData,
   colorNameFromSelector,
   reverseRange,
@@ -53,6 +54,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
   isOpenProp = false,
+  openColorSelector = true,
 }: ColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -265,7 +267,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         )}
       </div>
       <div>
-        {isOpen && (
+        {isOpen && openColorSelector && (
           <div style={{ display: "inline-block" }} ref={colorSelectorRef}>
             <ColorSelectorAccordion
               setIsOpen={() => setIsOpen(false)}
