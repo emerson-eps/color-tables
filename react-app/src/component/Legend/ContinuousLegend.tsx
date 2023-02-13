@@ -291,7 +291,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         svgLegend
           .attr(
             "width",
-            horizontal ? (legendScaleSize < 200 ? 200 : legendScaleSize) : "80"
+            horizontal ? (legendScaleSize < 200 ? 200 : legendScaleSize) : "100"
           )
           .attr(
             "height",
