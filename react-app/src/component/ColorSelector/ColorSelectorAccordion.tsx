@@ -13,6 +13,7 @@ import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { DiscreteColorLegend } from "../Legend/DiscreteLegend";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -242,6 +243,23 @@ export const ColorSelectorAccordion = (props: any) => {
               getInterpolation={props?.getInterpolation}
               selectedInterpolationType={props?.selectedInterpolationType}
             />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel3"}
+          onChange={handleChange("panel3")}
+        >
+          <AccordionSummary>
+            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
+            <h5>Discrete Code Mapping</h5>
+          </AccordionSummary>
+          <AccordionDetails className={"codeMappingDetails"}>
+            <div>
+              <DiscreteColorLegend
+                colorName={props.currentLegendName}
+                discreteCodeMapping={true}
+              />
+            </div>
           </AccordionDetails>
         </Accordion>
       </Box>

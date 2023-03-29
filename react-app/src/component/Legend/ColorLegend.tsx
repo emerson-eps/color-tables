@@ -225,7 +225,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         ref={divRef}
         onClick={toggleColorSelector}
         style={{ display: "inline-block", cursor: "pointer" }}
-        title="Click here to edit"
+        title="Click to edit"
       >
         {isCont === true && (
           <ContinuousLegend

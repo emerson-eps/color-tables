@@ -66,6 +66,10 @@ declare type discreteLegendProps = {
    * css styles to be applied
    */
   cssLegendStyles?: any;
+  /**
+   * This props is for discrete code mapping
+   */
+  discreteCodeMapping?: boolean;
 };
 
 export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
@@ -81,6 +85,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   numberOfTicks,
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
+  discreteCodeMapping,
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
@@ -97,6 +102,20 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       let useSelectorLegend = false;
       let itemName: string[] = [];
       let itemColor: ItemColor[] = [];
+
+      const defaultDiscreteData: any = {
+        OS: [[], 0],
+        LSF: [[], 1],
+        USF: [[], 2],
+        MB: [[], 3],
+        TB: [[], 4],
+        TC: [[], 5],
+        TFS: [[], 6],
+        TFM: [[], 7],
+        MSH: [[], 8],
+        CAL: [[], 9],
+      };
+
       try {
         // fix for dash wrapper
         if (typeof colorTables === "string") {
@@ -180,12 +199,40 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
 
           itemName = getColorScaleData.legendColorName;
           useSelectorLegend = true;
+        } else if (discreteCodeMapping) {
+          const entries = Object.entries(
+            discreteData ? discreteData : defaultDiscreteData
+          );
+
+          //eslint-disable-next-line
+          const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
+          sorted.forEach((value) => {
+            const key = value[0];
+            const val = value[1];
+            const code = val[1];
+            // for colortable colors
+            if (arrayOfColors.length > 0) {
+              //compare the first value in colorarray(colortable) and code from discreteData
+              const matchedColorsArrays = arrayOfColors.find(
+                (value: [number[], number][]) => {
+                  return value[0] === code;
+                }
+              );
+              if (matchedColorsArrays)
+                itemColor.push({
+                  color: RGBToHex(matchedColorsArrays),
+                  name: key,
+                });
+              itemName.push(key);
+            }
+          });
         }
 
         const colorLegend = discreteLegendUtil(
           itemColor,
           useSelectorLegend,
-          horizontal
+          horizontal,
+          discreteCodeMapping
         );
         let totalRect;
 
@@ -206,69 +253,75 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         }
 
         const currentDiv = select(divRef.current);
+        if (!discreteCodeMapping) {
+          // append the title
+          currentDiv
+            .append("div")
+            .text(dataObjectName)
+            .style("color", "grey")
+            .style("white-space", "nowrap")
+            .style("overflow", "hidden")
+            .style("width", "150px")
+            .style("text-overflow", "ellipsis")
+            .style("margin-bottom", horizontal ? "5px" : "0px")
+            .style(
+              "font-size",
+              legendFontSize && legendFontSize > 0
+                ? `${legendFontSize}px`
+                : "16px"
+            )
+            .style(
+              "transform",
+              horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
+            );
 
-        // append the title
-        currentDiv
-          .append("div")
-          .text(dataObjectName)
-          .style("color", "grey")
-          .style("white-space", "nowrap")
-          .style("overflow", "hidden")
-          .style("width", "150px")
-          .style("text-overflow", "ellipsis")
-          .style("margin-bottom", horizontal ? "5px" : "0px")
-          .style(
-            "font-size",
-            legendFontSize && legendFontSize > 0
-              ? `${legendFontSize}px`
-              : "16px"
-          )
-          .style(
-            "transform",
-            horizontal ? "none" : "translate(-69px, 80px) rotate(270deg)"
-          );
+          // Append svg to the div
+          const svgLegend = currentDiv
+            .style(
+              "margin",
+              horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px"
+            )
+            // .style("width", horizontal ? "145px" : "50px")
+            .style(
+              "width",
+              horizontal
+                ? legendScaleSize < 200
+                  ? 200
+                  : legendScaleSize
+                : "50px"
+            )
+            .append("svg")
+            .call(colorLegend);
 
-        // Append svg to the div
-        const svgLegend = currentDiv
-          .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
-          // .style("width", horizontal ? "145px" : "50px")
-          .style(
-            "width",
-            horizontal
-              ? legendScaleSize < 200
-                ? 200
-                : legendScaleSize
-              : "50px"
-          )
-          .append("svg")
-          .call(colorLegend);
-
-        svgLegend
-          .attr(
-            "viewBox",
-            horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`
-          )
-          .attr("preserveAspectRatio", "none")
-          .style("font-size", ".4")
-          .style("margin-left", horizontal ? "0" : "20px")
-          // .attr("height", horizontal ? "30px" : "153px")
-          .attr(
-            "height",
-            horizontal
-              ? "30px"
-              : legendScaleSize < 200
-              ? 190
-              : legendScaleSize - 10
-          )
-          // .attr("width", horizontal ? "150px" : "40px");
-          .attr(
-            "width",
-            horizontal
-              ? legendScaleSize < 200
+          svgLegend
+            .attr(
+              "viewBox",
+              horizontal ? `0 0 ${totalRect} 1.5` : `0 0 2 ${totalRect}`
+            )
+            .attr("preserveAspectRatio", "none")
+            .style("font-size", ".4")
+            .style("margin-left", horizontal ? "0" : "20px")
+            // .attr("height", horizontal ? "30px" : "153px")
+            .attr(
+              "height",
+              horizontal
+                ? "30px"
+                : legendScaleSize < 200
                 ? 190
                 : legendScaleSize - 10
-              : "40px"
-          );
+            )
+            // .attr("width", horizontal ? "150px" : "40px");
+            .attr(
+              "width",
+              horizontal
+                ? legendScaleSize < 200
+                  ? 190
+                  : legendScaleSize - 10
+                : "40px"
+            );
+        } else {
+          currentDiv.append("div").call(colorLegend);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -284,19 +337,24 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     tickFontSize,
     numberOfTicks,
     legendScaleSize,
+    discreteCodeMapping,
   ]);
 
   return (
     <div
-      style={{
-        position: "absolute",
-        minHeight: "70px",
-        backgroundColor: "#ffffffcc",
-        borderRadius: "5px",
-        zIndex: 999,
-        margin: "10px",
-        ...cssLegendStyles,
-      }}
+      style={
+        !discreteCodeMapping
+          ? {
+              position: "absolute",
+              minHeight: "70px",
+              backgroundColor: "#ffffffcc",
+              borderRadius: "5px",
+              zIndex: 999,
+              margin: "10px",
+              ...cssLegendStyles,
+            }
+          : {}
+      }
     >
       <div
         id={id ? id : `disc-legend - ${generateUniqueId}`}
