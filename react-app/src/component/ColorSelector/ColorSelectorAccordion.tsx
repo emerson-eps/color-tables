@@ -4,15 +4,18 @@ import {
   Box,
   AccordionSummary,
   AccordionDetails,
-} from "@material-ui/core";
+  ThemeProvider,
+} from "@mui/material";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
 import defaultColorTables from "../color-tables.json";
 import { RGBToHex } from "../Utils/legendCommonFunction";
 import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -135,6 +138,8 @@ export const ColorSelectorAccordion = (props: any) => {
     });
   }
 
+  const theme = useTheme();
+
   return (
     <div
       ref={containerRef}
@@ -188,63 +193,65 @@ export const ColorSelectorAccordion = (props: any) => {
           />
         </div>
       )}
-      <Box className={classes.accordion}>
-        <Accordion
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
-        >
-          <AccordionSummary className={"colorScaleSummary"}>
-            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
-            <h5>Color Scales</h5>
-          </AccordionSummary>
-          <AccordionDetails className={"colorScaleDetails"}>
-            <ColorSelectorWrapper
-              useColorTableColors={true}
-              newColorScaleData={props?.newColorScaleData}
-              colorTables={props?.colorTables}
-              currentLegendName={props?.currentLegendName}
-              isCustomScale={isCustomScale}
-              getDuplicatedLegendData={getDuplicatedLegendData}
-            />
-            {(breakpointValues?.colorArray?.length > 0 ||
-              breakpointValues?.length > 0) &&
-              customScalesName && (
-                <>
-                  <h5>Custom scales: </h5>
-                  <div style={{ marginTop: -12, marginBottom: -15 }}>
-                    {testComponent}
-                    <br />
-                  </div>
-                </>
-              )}
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === "panel2"}
-          onChange={handleChange("panel2")}
-        >
-          <AccordionSummary>
-            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
-            <h5>Color Sampling</h5>
-          </AccordionSummary>
-          <AccordionDetails>
-            <h5>Range :</h5>
-            <ColorSelectorWrapper
-              useRange={true}
-              getRange={props?.getRange}
-              isCont={props?.isCont}
-              selectedRangeType={props?.selectedRangeType}
-            />
-            <h5 style={{ marginTop: 10 }}>Interpolations :</h5>
-            <ColorSelectorWrapper
-              useInterpolation={true}
-              isCont={props?.isCont}
-              getInterpolation={props?.getInterpolation}
-              selectedInterpolationType={props?.selectedInterpolationType}
-            />
-          </AccordionDetails>
-        </Accordion>
-      </Box>
+      <ThemeProvider theme={theme}>
+        <Box className={classes.accordion}>
+          <Accordion
+            expanded={expanded === "panel1"}
+            onChange={handleChange("panel1")}
+          >
+            <AccordionSummary className={"colorScaleSummary"}>
+              <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
+              <h5>Color Scales</h5>
+            </AccordionSummary>
+            <AccordionDetails className={"colorScaleDetails"}>
+              <ColorSelectorWrapper
+                useColorTableColors={true}
+                newColorScaleData={props?.newColorScaleData}
+                colorTables={props?.colorTables}
+                currentLegendName={props?.currentLegendName}
+                isCustomScale={isCustomScale}
+                getDuplicatedLegendData={getDuplicatedLegendData}
+              />
+              {(breakpointValues?.colorArray?.length > 0 ||
+                breakpointValues?.length > 0) &&
+                customScalesName && (
+                  <>
+                    <h5>Custom scales: </h5>
+                    <div style={{ marginTop: -12, marginBottom: -15 }}>
+                      {testComponent}
+                      <br />
+                    </div>
+                  </>
+                )}
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel2"}
+            onChange={handleChange("panel2")}
+          >
+            <AccordionSummary>
+              <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
+              <h5>Color Sampling</h5>
+            </AccordionSummary>
+            <AccordionDetails>
+              <h5>Range :</h5>
+              <ColorSelectorWrapper
+                useRange={true}
+                getRange={props?.getRange}
+                isCont={props?.isCont}
+                selectedRangeType={props?.selectedRangeType}
+              />
+              <h5 style={{ marginTop: 10 }}>Interpolations :</h5>
+              <ColorSelectorWrapper
+                useInterpolation={true}
+                isCont={props?.isCont}
+                getInterpolation={props?.getInterpolation}
+                selectedInterpolationType={props?.selectedInterpolationType}
+              />
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };

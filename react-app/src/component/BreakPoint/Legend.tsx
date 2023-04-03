@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
-import { createStyles, makeStyles, Theme, IconButton } from "@material-ui/core";
+import { Theme, IconButton, ThemeProvider } from "@mui/material";
+import { createStyles, makeStyles } from "@mui/styles";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
 import { Popover } from "@mui/material";
@@ -8,6 +9,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
+import { useTheme } from "@mui/material/styles";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -146,84 +148,87 @@ export const LegendComp: React.FC<moduleProps> = ({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
   const divRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
   return (
     arrayOfColors.length > 0 && (
-      <div className={classes.root} ref={divRef}>
-        <div
-          className={classes.colorScaleContainer}
-          onClick={appendCustomizedBreakPoints}
-        >
-          <div className={classes.texture}>
-            <ColorScale arrayOfColors={arrayOfColors} />
-          </div>
+      <ThemeProvider theme={theme}>
+        <div className={classes.root} ref={divRef}>
           <div
-            className={classes.customScaleName}
-            style={{
-              whiteSpace: "nowrap",
-              fontSize: "small",
-              fontWeight: "700",
-              margin: "6px 0px 0px 6px",
-              cursor: "pointer",
+            className={classes.colorScaleContainer}
+            onClick={appendCustomizedBreakPoints}
+          >
+            <div className={classes.texture}>
+              <ColorScale arrayOfColors={arrayOfColors} />
+            </div>
+            <div
+              className={classes.customScaleName}
+              style={{
+                whiteSpace: "nowrap",
+                fontSize: "small",
+                fontWeight: "700",
+                margin: "6px 0px 0px 6px",
+                cursor: "pointer",
+              }}
+            >
+              {customScalesName + " Copy"}
+            </div>
+          </div>
+          <div className="breadCrumbs">
+            <IconButton
+              size="small"
+              style={{ marginTop: "8px" }}
+              onClick={handleClick}
+            >
+              <MoreHorizIcon fontSize="small" />
+            </IconButton>
+          </div>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
             }}
           >
-            {customScalesName + " Copy"}
-          </div>
-        </div>
-        <div className="breadCrumbs">
-          <IconButton
-            size="small"
-            style={{ marginTop: "8px" }}
-            onClick={handleClick}
-          >
-            <MoreHorizIcon fontSize="small" />
-          </IconButton>
-        </div>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <div style={{ height: "60px", width: "80px" }}>
-            <div
-              className={classes.edit}
-              style={{ height: "50%", width: "100%", cursor: "pointer" }}
-              onClick={openEditModal}
-            >
-              <EditIcon
-                style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
-                fontSize="small"
-              />{" "}
-              Edit
+            <div style={{ height: "60px", width: "80px" }}>
+              <div
+                className={classes.edit}
+                style={{ height: "50%", width: "100%", cursor: "pointer" }}
+                onClick={openEditModal}
+              >
+                <EditIcon
+                  style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
+                  fontSize="small"
+                />{" "}
+                Edit
+              </div>
+              <div
+                className={classes.edit}
+                style={{ height: "50%", width: "100%", cursor: "pointer" }}
+                onClick={deleteLegend}
+              >
+                <DeleteOutlinedIcon
+                  style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
+                  fontSize="small"
+                />{" "}
+                Delete
+              </div>
             </div>
-            <div
-              className={classes.edit}
-              style={{ height: "50%", width: "100%", cursor: "pointer" }}
-              onClick={deleteLegend}
-            >
-              <DeleteOutlinedIcon
-                style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
-                fontSize="small"
-              />{" "}
-              Delete
-            </div>
-          </div>
-        </Popover>
+          </Popover>
 
-        {popUpState === true && (
-          <CustomizedDialogs
-            openModal={openEditModal}
-            scaleBreakpoints={scaleBreakpoints}
-            scaleData={orderedSelectedColors}
-            customScalesName={customScalesName}
-          />
-        )}
-      </div>
+          {popUpState === true && (
+            <CustomizedDialogs
+              openModal={openEditModal}
+              scaleBreakpoints={scaleBreakpoints}
+              scaleData={orderedSelectedColors}
+              customScalesName={customScalesName}
+            />
+          )}
+        </div>
+      </ThemeProvider>
     )
   );
 };

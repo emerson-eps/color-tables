@@ -2,14 +2,16 @@ import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
 import clsx from "clsx";
-import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
+import { IconButton, Theme, ThemeProvider } from "@mui/material";
+import { createStyles, makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/material/styles";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
-import AddCircleOutlineSharpIcon from "@material-ui/icons/AddCircleOutlineSharp";
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import AddCircleOutlineSharpIcon from "@mui/icons-material/AddCircleOutlineSharp";
+import RemoveCircleOutlineSharpIcon from "@mui/icons-material/RemoveCircleOutlineSharp";
 import { SketchPicker } from "react-color";
-import ColorizeIcon from "@material-ui/icons/Colorize";
+import ColorizeIcon from "@mui/icons-material/Colorize";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -267,63 +269,72 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     ]
   );
 
+  const theme = useTheme();
+
   return (
-    <div className={classes.root}>
-      <label style={{ fontWeight: "bold" }}>
-        Edit : {customScalesName + " Copy"}
-      </label>
-      <div className={classes.colorScaleContainer} style={{ width }}>
-        <div className={classes.texture}>
-          <ColorScale arrayOfColors={arrayOfColors} />
-        </div>
-        <div className={classes.rail} ref={setBoundingClientRect}>
-          {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
-            const left = position * rectBox.width - pointer_width / 2;
-            const onMoveStart = () => onMouseDown(index);
-            return (
-              <div
-                key={index}
-                className={classes.pointerContainer}
-                onMouseDown={onMoveStart}
-              >
-                <div
-                  className={clsx(classes.pointerArrow, {
-                    [classes.selectedPointerArrow]: selectedIndex === index,
-                  })}
-                  style={{ left }}
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <label style={{ fontWeight: "bold" }}>
+          Edit : {customScalesName + " Copy"}
+        </label>
+        <div className={classes.colorScaleContainer} style={{ width }}>
+          <div className={classes.texture}>
+            <ColorScale arrayOfColors={arrayOfColors} />
+          </div>
+          <div className={classes.rail} ref={setBoundingClientRect}>
+            {colorScaleBreakpoints.map(
+              ({ color, position }: any, index: any) => {
+                const left = position * rectBox.width - pointer_width / 2;
+                const onMoveStart = () => onMouseDown(index);
+                return (
+                  <div
+                    key={index}
+                    className={classes.pointerContainer}
+                    onMouseDown={onMoveStart}
+                  >
+                    <div
+                      className={clsx(classes.pointerArrow, {
+                        [classes.selectedPointerArrow]: selectedIndex === index,
+                      })}
+                      style={{ left }}
+                    />
+                    <div
+                      className={clsx(classes.pointer, {
+                        [classes.selectedPointer]: selectedIndex === index,
+                      })}
+                      style={{ left, backgroundColor: color }}
+                    />
+                  </div>
+                );
+              }
+            )}
+            <div style={{ marginTop: "120px", position: "fixed" }} ref={divRef}>
+              {popUpState ? (
+                <SketchPicker
+                  color={"red"}
+                  onChangeComplete={onChangeComplete}
                 />
-                <div
-                  className={clsx(classes.pointer, {
-                    [classes.selectedPointer]: selectedIndex === index,
-                  })}
-                  style={{ left, backgroundColor: color }}
-                />
-              </div>
-            );
-          })}
-          <div style={{ marginTop: "120px", position: "fixed" }} ref={divRef}>
-            {popUpState ? (
-              <SketchPicker color={"red"} onChangeComplete={onChangeComplete} />
-            ) : null}
+              ) : null}
+            </div>
           </div>
         </div>
+        <div className={classes.controllersContainer}>
+          <IconButton size="medium" color="primary" onClick={addBreakpoint}>
+            <AddCircleOutlineSharpIcon fontSize="medium" />
+          </IconButton>
+          <IconButton
+            size="medium"
+            color="secondary"
+            onClick={() => deleteBreakPoint(selectedIndexRef.current)}
+            disabled={colorScaleBreakpoints.length === 1}
+          >
+            <RemoveCircleOutlineSharpIcon fontSize="medium" />
+          </IconButton>
+          <IconButton color="primary" size="medium" onClick={launchPicker}>
+            <ColorizeIcon fontSize="medium" />
+          </IconButton>
+        </div>
       </div>
-      <div className={classes.controllersContainer}>
-        <IconButton size="medium" color="primary" onClick={addBreakpoint}>
-          <AddCircleOutlineSharpIcon fontSize="medium" />
-        </IconButton>
-        <IconButton
-          size="medium"
-          color="secondary"
-          onClick={() => deleteBreakPoint(selectedIndexRef.current)}
-          disabled={colorScaleBreakpoints.length === 1}
-        >
-          <RemoveCircleOutlineSharpIcon fontSize="medium" />
-        </IconButton>
-        <IconButton color="primary" size="medium" onClick={launchPicker}>
-          <ColorizeIcon fontSize="medium" />
-        </IconButton>
-      </div>
-    </div>
+    </ThemeProvider>
   );
 };

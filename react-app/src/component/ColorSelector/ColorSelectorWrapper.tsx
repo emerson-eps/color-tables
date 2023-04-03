@@ -3,7 +3,7 @@ import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { RGBToHex } from "../Utils/legendCommonFunction";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() =>
   createStyles({
