@@ -6,6 +6,8 @@ import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+import { useTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material";
 declare type ColorLegendProps = {
   colorTables?: colorTablesArray;
   min?: number;
@@ -219,7 +221,10 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
 
+  const theme = useTheme();
+
   return (
+    <ThemeProvider theme={theme}>
     <div style={{ position: "relative" }}>
       <div
         ref={divRef}
@@ -301,5 +306,6 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
         )}
       </div>
     </div>
+    </ThemeProvider>
   );
 };

@@ -3,8 +3,9 @@ import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
 import clsx from "clsx";
 import { IconButton, Theme, ThemeProvider } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
-import { useTheme } from "@mui/material/styles";
+import { createStyles } from "@mui/styles";
+import {  makeStyles } from "@mui/styles";
+import { createTheme } from "@mui/material/styles";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
@@ -269,10 +270,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     ]
   );
 
-  const theme = useTheme();
 
   return (
-    <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <label style={{ fontWeight: "bold" }}>
           Edit : {customScalesName + " Copy"}
@@ -335,6 +334,5 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           </IconButton>
         </div>
       </div>
-    </ThemeProvider>
   );
 };

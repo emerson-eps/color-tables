@@ -4,7 +4,6 @@ import {
   Box,
   AccordionSummary,
   AccordionDetails,
-  ThemeProvider,
 } from "@mui/material";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
@@ -15,7 +14,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { createStyles, makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,7 +136,6 @@ export const ColorSelectorAccordion = (props: any) => {
     });
   }
 
-  const theme = useTheme();
 
   return (
     <div
@@ -193,7 +190,6 @@ export const ColorSelectorAccordion = (props: any) => {
           />
         </div>
       )}
-      <ThemeProvider theme={theme}>
         <Box className={classes.accordion}>
           <Accordion
             expanded={expanded === "panel1"}
@@ -251,7 +247,6 @@ export const ColorSelectorAccordion = (props: any) => {
             </AccordionDetails>
           </Accordion>
         </Box>
-      </ThemeProvider>
     </div>
   );
 };
