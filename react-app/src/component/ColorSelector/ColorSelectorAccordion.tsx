@@ -136,7 +136,6 @@ export const ColorSelectorAccordion = (props: any) => {
     });
   }
 
-
   return (
     <div
       ref={containerRef}
@@ -190,63 +189,63 @@ export const ColorSelectorAccordion = (props: any) => {
           />
         </div>
       )}
-        <Box className={classes.accordion}>
-          <Accordion
-            expanded={expanded === "panel1"}
-            onChange={handleChange("panel1")}
-          >
-            <AccordionSummary className={"colorScaleSummary"}>
-              <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
-              <h5>Color Scales</h5>
-            </AccordionSummary>
-            <AccordionDetails className={"colorScaleDetails"}>
-              <ColorSelectorWrapper
-                useColorTableColors={true}
-                newColorScaleData={props?.newColorScaleData}
-                colorTables={props?.colorTables}
-                currentLegendName={props?.currentLegendName}
-                isCustomScale={isCustomScale}
-                getDuplicatedLegendData={getDuplicatedLegendData}
-              />
-              {(breakpointValues?.colorArray?.length > 0 ||
-                breakpointValues?.length > 0) &&
-                customScalesName && (
-                  <>
-                    <h5>Custom scales: </h5>
-                    <div style={{ marginTop: -12, marginBottom: -15 }}>
-                      {testComponent}
-                      <br />
-                    </div>
-                  </>
-                )}
-            </AccordionDetails>
-          </Accordion>
-          <Accordion
-            expanded={expanded === "panel2"}
-            onChange={handleChange("panel2")}
-          >
-            <AccordionSummary>
-              <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
-              <h5>Color Sampling</h5>
-            </AccordionSummary>
-            <AccordionDetails>
-              <h5>Range :</h5>
-              <ColorSelectorWrapper
-                useRange={true}
-                getRange={props?.getRange}
-                isCont={props?.isCont}
-                selectedRangeType={props?.selectedRangeType}
-              />
-              <h5 style={{ marginTop: 10 }}>Interpolations :</h5>
-              <ColorSelectorWrapper
-                useInterpolation={true}
-                isCont={props?.isCont}
-                getInterpolation={props?.getInterpolation}
-                selectedInterpolationType={props?.selectedInterpolationType}
-              />
-            </AccordionDetails>
-          </Accordion>
-        </Box>
+      <Box className={classes.accordion}>
+        <Accordion
+          expanded={expanded === "panel1"}
+          onChange={handleChange("panel1")}
+        >
+          <AccordionSummary className={"colorScaleSummary"}>
+            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
+            <h5>Color Scales</h5>
+          </AccordionSummary>
+          <AccordionDetails className={"colorScaleDetails"}>
+            <ColorSelectorWrapper
+              useColorTableColors={true}
+              newColorScaleData={props?.newColorScaleData}
+              colorTables={props?.colorTables}
+              currentLegendName={props?.currentLegendName}
+              isCustomScale={isCustomScale}
+              getDuplicatedLegendData={getDuplicatedLegendData}
+            />
+            {(breakpointValues?.colorArray?.length > 0 ||
+              breakpointValues?.length > 0) &&
+              customScalesName && (
+                <>
+                  <h5>Custom scales: </h5>
+                  <div style={{ marginTop: -12, marginBottom: -15 }}>
+                    {testComponent}
+                    <br />
+                  </div>
+                </>
+              )}
+          </AccordionDetails>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel2"}
+          onChange={handleChange("panel2")}
+        >
+          <AccordionSummary>
+            <ExpandMoreIcon className={"expandMoreIcon"} fontSize="medium" />
+            <h5>Color Sampling</h5>
+          </AccordionSummary>
+          <AccordionDetails>
+            <h5>Range :</h5>
+            <ColorSelectorWrapper
+              useRange={true}
+              getRange={props?.getRange}
+              isCont={props?.isCont}
+              selectedRangeType={props?.selectedRangeType}
+            />
+            <h5 style={{ marginTop: 10 }}>Interpolations :</h5>
+            <ColorSelectorWrapper
+              useInterpolation={true}
+              isCont={props?.isCont}
+              getInterpolation={props?.getInterpolation}
+              selectedInterpolationType={props?.selectedInterpolationType}
+            />
+          </AccordionDetails>
+        </Accordion>
+      </Box>
     </div>
   );
 };
