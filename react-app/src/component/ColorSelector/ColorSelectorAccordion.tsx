@@ -4,14 +4,15 @@ import {
   Box,
   AccordionSummary,
   AccordionDetails,
-} from "@material-ui/core";
+} from "@mui/material";
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
 import defaultColorTables from "../color-tables.json";
 import { RGBToHex } from "../Utils/legendCommonFunction";
 import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const useStyles = makeStyles((theme: Theme) =>
