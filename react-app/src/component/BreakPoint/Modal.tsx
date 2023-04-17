@@ -1,7 +1,8 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
+import { ThemeProvider, styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import { BreakPointComp } from "../../component/ColorSelector/BreakPointModule";
+import { useTheme } from "@mui/material/styles";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -47,21 +48,25 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
     [setColorScaleBreakpoints, colorScaleBreakpoints]
   );
 
+  const theme = useTheme();
+
   return (
     <div>
       {openDialog && (
-        <BootstrapDialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={openDialog}
-        >
-          <BreakPointComp
-            colorScaleBreakpoints={colorScaleBreakpoints}
-            setColorScaleBreakpoints={setColorScaleBreakpoints}
-            editedBreakpoint={editedBreakpoint}
-            customScalesName={customScalesName}
-          />
-        </BootstrapDialog>
+        <ThemeProvider theme={theme}>
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={openDialog}
+          >
+            <BreakPointComp
+              colorScaleBreakpoints={colorScaleBreakpoints}
+              setColorScaleBreakpoints={setColorScaleBreakpoints}
+              editedBreakpoint={editedBreakpoint}
+              customScalesName={customScalesName}
+            />
+          </BootstrapDialog>
+        </ThemeProvider>
       )}
     </div>
   );

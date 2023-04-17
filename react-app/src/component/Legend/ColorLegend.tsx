@@ -6,6 +6,8 @@ import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion"
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+import { useTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material";
 declare type ColorLegendProps = {
   colorTables?: colorTablesArray;
   min?: number;
@@ -219,87 +221,93 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
     setLegendScaleSize(legendScaleSize);
   }, [legendScaleSize]);
 
+  const theme = useTheme();
+
   return (
-    <div style={{ position: "relative" }}>
-      <div
-        ref={divRef}
-        onClick={toggleColorSelector}
-        style={{ display: "inline-block", cursor: "pointer" }}
-        title="Click here to edit"
-      >
-        {isCont === true && (
-          <ContinuousLegend
-            min={newMin && !isAuto ? newMin : min}
-            max={newMax && !isAuto ? newMax : max}
-            dataObjectName={legendName}
-            colorName={colorName}
-            horizontal={horizontal}
-            getColorScaleData={getColorScaleData}
-            id={generateUniqueId}
-            colorTables={colorTables}
-            reverseRange={reverseRange}
-            editedBreakPointValues={getItemColor}
-            isLog={isLog}
-            isNearest={isNearest}
-            isRangeShown={isRangeShown}
-            legendFontSize={legendFontSizeState}
-            tickFontSize={tickFontSizeState}
-            numberOfTicks={numberOfTicksState}
-            legendScaleSize={legendScaleSizeState}
-            cssLegendStyles={cssLegendStyles}
-          />
-        )}
-        {isCont === false && (
-          <DiscreteColorLegend
-            discreteData={discreteData}
-            dataObjectName={legendName}
-            colorName={colorName}
-            horizontal={horizontal}
-            getColorScaleData={getColorScaleData}
-            id={generateUniqueId}
-            colorTables={colorTables}
-            legendFontSize={legendFontSizeState}
-            tickFontSize={tickFontSizeState}
-            numberOfTicks={numberOfTicksState}
-            legendScaleSize={legendScaleSizeState}
-            cssLegendStyles={cssLegendStyles}
-          />
-        )}
-      </div>
-      <div>
-        {isOpen && openColorSelector && (
-          <div style={{ display: "inline-block" }} ref={colorSelectorRef}>
-            <ColorSelectorAccordion
-              setIsOpen={() => setIsOpen(false)}
-              isModal={isModal}
+    <ThemeProvider theme={theme}>
+      <div style={{ position: "relative" }}>
+        <div
+          ref={divRef}
+          onClick={toggleColorSelector}
+          style={{ display: "inline-block", cursor: "pointer" }}
+          title="Click here to edit"
+        >
+          {isCont === true && (
+            <ContinuousLegend
+              min={newMin && !isAuto ? newMin : min}
+              max={newMax && !isAuto ? newMax : max}
               dataObjectName={legendName}
-              isHorizontal={horizontal}
+              colorName={colorName}
+              horizontal={horizontal}
+              getColorScaleData={getColorScaleData}
+              id={generateUniqueId}
               colorTables={colorTables}
-              getRange={getRange}
-              isCont={isCont}
-              getEditedBreakPoint={breakpointValues}
-              newColorScaleData={getSelectedColorScale}
-              handleModalClick={handleModalClick}
-              currentLegendName={
-                getColorScaleData?.color?.length > 0
-                  ? getColorScaleData.name
-                  : colorName
-              }
-              getInterpolation={getInterpolation}
+              reverseRange={reverseRange}
+              editedBreakPointValues={getItemColor}
+              isLog={isLog}
+              isNearest={isNearest}
+              isRangeShown={isRangeShown}
+              legendFontSize={legendFontSizeState}
+              tickFontSize={tickFontSizeState}
+              numberOfTicks={numberOfTicksState}
               legendScaleSize={legendScaleSizeState}
               cssLegendStyles={cssLegendStyles}
-              selectedInterpolationType={
-                isNearest
-                  ? { isNearest: true }
-                  : isLog
-                  ? { isLog: true }
-                  : { isLinear: true }
-              }
-              selectedRangeType={isAuto ? { isAuto: true } : { isAuto: false }}
             />
-          </div>
-        )}
+          )}
+          {isCont === false && (
+            <DiscreteColorLegend
+              discreteData={discreteData}
+              dataObjectName={legendName}
+              colorName={colorName}
+              horizontal={horizontal}
+              getColorScaleData={getColorScaleData}
+              id={generateUniqueId}
+              colorTables={colorTables}
+              legendFontSize={legendFontSizeState}
+              tickFontSize={tickFontSizeState}
+              numberOfTicks={numberOfTicksState}
+              legendScaleSize={legendScaleSizeState}
+              cssLegendStyles={cssLegendStyles}
+            />
+          )}
+        </div>
+        <div>
+          {isOpen && openColorSelector && (
+            <div style={{ display: "inline-block" }} ref={colorSelectorRef}>
+              <ColorSelectorAccordion
+                setIsOpen={() => setIsOpen(false)}
+                isModal={isModal}
+                dataObjectName={legendName}
+                isHorizontal={horizontal}
+                colorTables={colorTables}
+                getRange={getRange}
+                isCont={isCont}
+                getEditedBreakPoint={breakpointValues}
+                newColorScaleData={getSelectedColorScale}
+                handleModalClick={handleModalClick}
+                currentLegendName={
+                  getColorScaleData?.color?.length > 0
+                    ? getColorScaleData.name
+                    : colorName
+                }
+                getInterpolation={getInterpolation}
+                legendScaleSize={legendScaleSizeState}
+                cssLegendStyles={cssLegendStyles}
+                selectedInterpolationType={
+                  isNearest
+                    ? { isNearest: true }
+                    : isLog
+                    ? { isLog: true }
+                    : { isLinear: true }
+                }
+                selectedRangeType={
+                  isAuto ? { isAuto: true } : { isAuto: false }
+                }
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };

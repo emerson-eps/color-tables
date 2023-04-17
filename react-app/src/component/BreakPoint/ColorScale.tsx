@@ -1,4 +1,4 @@
-import { createStyles, makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles } from "@mui/styles";
 import * as d3 from "d3";
 import React, { useCallback, useRef } from "react";
 import Canvas from "./Canvas";

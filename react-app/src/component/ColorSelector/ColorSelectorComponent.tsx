@@ -6,7 +6,7 @@ import { select, range } from "d3";
 import * as d3 from "d3";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
-import { createStyles, makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() =>
   createStyles({

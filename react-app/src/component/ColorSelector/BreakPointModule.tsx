@@ -2,14 +2,16 @@ import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
 import clsx from "clsx";
-import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
+import { IconButton, Theme } from "@mui/material";
+import { createStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
-import AddCircleOutlineSharpIcon from "@material-ui/icons/AddCircleOutlineSharp";
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import AddCircleOutlineSharpIcon from "@mui/icons-material/AddCircleOutlineSharp";
+import RemoveCircleOutlineSharpIcon from "@mui/icons-material/RemoveCircleOutlineSharp";
 import { SketchPicker } from "react-color";
-import ColorizeIcon from "@material-ui/icons/Colorize";
+import ColorizeIcon from "@mui/icons-material/Colorize";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
