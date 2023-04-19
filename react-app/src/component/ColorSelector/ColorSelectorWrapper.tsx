@@ -3,22 +3,18 @@ import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { RGBToHex } from "../Utils/legendCommonFunction";
-import { createStyles, makeStyles } from "@mui/styles";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    parentDiv: {
-      display: "flex",
-    },
+const StyledParentDiv = styled("div")({
+  display: "flex",
+});
 
-    contentCopyIcon: {
-      "&:hover": {
-        background: "#f1f1f1",
-        cursor: "pointer",
-      },
-    },
-  })
-);
+const StyledContentCopyIcon = styled("div")({
+  "&:hover": {
+    background: "#f1f1f1",
+    cursor: "pointer",
+  },
+});
 
 export declare type colorScaleObj = {
   name: string;
@@ -68,7 +64,6 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const continuosD3ColorData: colorScaleArray = [];
   const discreteColorData: colorScaleArray = [];
   const discreteD3ColorData: colorScaleArray = [];
-  const classes = useStyles();
 
   const [isAuto, setAuto] = React.useState(true);
   // For altering data range
@@ -191,7 +186,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     // return continuous and discrete legend which uses colortable data
     continuousLegend = continuosColorData.map((value: any, index: any) => {
       return (
-        <div className={classes.parentDiv} key={index}>
+        <StyledParentDiv key={index}>
           <div>
             <ColorSelectorComponent
               colorsObject={value}
@@ -203,8 +198,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
               currentLegendName={currentLegendName}
             />
           </div>
-          <div
-            className={classes.contentCopyIcon}
+          <StyledContentCopyIcon
             title="Duplicate"
             style={{ cursor: "pointer" }}
           >
@@ -214,8 +208,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
               style={{ marginTop: 5 }}
               onClick={() => copyLegend(value)}
             />
-          </div>
-        </div>
+          </StyledContentCopyIcon>
+        </StyledParentDiv>
       );
     });
 
