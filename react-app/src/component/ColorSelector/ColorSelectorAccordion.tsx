@@ -11,61 +11,56 @@ import defaultColorTables from "../color-tables.json";
 import { RGBToHex } from "../Utils/legendCommonFunction";
 import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { createStyles, makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    accordion: {
-      margin: theme.spacing(3),
-      width: theme.spacing(38),
+const StyledBox = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(3),
+  width: theme.spacing(38),
+  border: "1px solid #dadada",
+
+  "& .MuiButtonBase-root.MuiAccordionSummary-root": {
+    minHeight: 30,
+    marginLeft: -15,
+  },
+
+  "& .MuiAccordionSummary-content": {
+    height: 0,
+    marginTop: 0,
+  },
+
+  "& .expandMoreIcon": {
+    marginRight: 8,
+    marginTop: -4,
+  },
+
+  "& .MuiPaper-root.MuiAccordion-root.Mui-expanded.MuiAccordion-rounded.MuiPaper-elevation1.MuiPaper-rounded":
+    {
       border: "1px solid #dadada",
-
-      "& .MuiButtonBase-root.MuiAccordionSummary-root": {
-        minHeight: 30,
-        marginLeft: -15,
-      },
-
-      "& .MuiAccordionSummary-content": {
-        height: 0,
-        marginTop: 0,
-      },
-
-      "& .expandMoreIcon": {
-        marginRight: 8,
-        marginTop: -4,
-      },
-
-      "& .MuiPaper-root.MuiAccordion-root.Mui-expanded.MuiAccordion-rounded.MuiPaper-elevation1.MuiPaper-rounded":
-        {
-          border: "1px solid #dadada",
-        },
-
-      "& .makeStyles-accordion-1 .MuiAccordionDetails-root": {
-        marginTop: -15,
-      },
-
-      "& .MuiAccordionDetails-root": {
-        display: "block",
-
-        "& .colorScalesDetails": {
-          marginLeft: -27,
-        },
-      },
-
-      "& .MuiAccordion-root.Mui-expanded": {
-        margin: "auto",
-      },
-
-      "& h5": {
-        marginTop: 0,
-        marginLeft: -7,
-        height: 0,
-      },
     },
-  })
-);
+
+  "& .makeStyles-accordion-1 .MuiAccordionDetails-root": {
+    marginTop: -15,
+  },
+
+  "& .MuiAccordionDetails-root": {
+    display: "block",
+
+    "& .colorScalesDetails": {
+      marginLeft: -27,
+    },
+  },
+
+  "& .MuiAccordion-root.Mui-expanded": {
+    margin: "auto",
+  },
+
+  "& h5": {
+    marginTop: 0,
+    marginLeft: -7,
+    height: 0,
+  },
+}));
 
 export const ColorSelectorAccordion = (props: any) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -110,8 +105,6 @@ export const ColorSelectorAccordion = (props: any) => {
   const getDuplicatedLegendData = React.useCallback((data) => {
     setDuplicatedData(data);
   }, []);
-
-  const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
@@ -189,7 +182,7 @@ export const ColorSelectorAccordion = (props: any) => {
           />
         </div>
       )}
-      <Box className={classes.accordion}>
+      <StyledBox>
         <Accordion
           expanded={expanded === "panel1"}
           onChange={handleChange("panel1")}
@@ -245,7 +238,7 @@ export const ColorSelectorAccordion = (props: any) => {
             />
           </AccordionDetails>
         </Accordion>
-      </Box>
+      </StyledBox>
     </div>
   );
 };
