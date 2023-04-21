@@ -592,7 +592,7 @@ export function getColorSelectorPosition(
       ? styles.right
       : `calc(${styles.right} + ${legendWidth})`;
   } else if (
-  /* Set a default */
+    /* Set a default */
     typeof styles.top === "undefined" &&
     typeof styles.left === "undefined" &&
     typeof styles.right === "undefined" &&
