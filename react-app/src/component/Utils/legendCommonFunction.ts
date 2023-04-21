@@ -591,10 +591,8 @@ export function getColorSelectorPosition(
     accordionPosition.right = isHorizontal
       ? styles.right
       : `calc(${styles.right} + ${legendWidth})`;
-  }
+  } else if (
   /* Set a default */
-  // eslint-disable-next-line eqeqeq
-  else if (
     typeof styles.top === "undefined" &&
     typeof styles.left === "undefined" &&
     typeof styles.right === "undefined" &&
