@@ -96,9 +96,8 @@ export const ColorSelectorAccordion = (props: any) => {
         colorArray: data.colorArray,
         customizeFlag: data.customizeFlag,
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    []
+    [props]
   );
 
   const isCustomScale = React.useCallback(

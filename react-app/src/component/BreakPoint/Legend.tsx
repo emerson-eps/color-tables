@@ -132,9 +132,8 @@ export const LegendComp: React.FC<moduleProps> = ({
         setBreakPointValues(value);
         setCustomizedBreakpoints(value);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    []
+    [editedData]
   );
 
   const appendCustomizedBreakPoints = React.useCallback(() => {
