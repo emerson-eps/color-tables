@@ -90,8 +90,9 @@ export const LegendComp: React.FC<moduleProps> = ({
 
   const [popUpState, setPopUpState] = React.useState(false);
 
-  const [anchorEl, setAnchorEl] =
-    React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     document.removeEventListener("mousedown", handleModalClick);
