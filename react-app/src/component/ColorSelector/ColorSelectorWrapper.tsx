@@ -68,8 +68,8 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const [isAuto, setAuto] = React.useState(true);
   // For altering data range
   const onChangeRange = React.useCallback(
-    (e: { value: string }) => {
-      if (e.value === "Auto") {
+    (e: EventTarget) => {
+      if ((e as any).value === "Auto") {
         getRange("Auto");
         setAuto(true);
       } else {
@@ -86,10 +86,10 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // For interpolation
   const onChangeInterpolation = React.useCallback(
-    (e: { value: string }) => {
-      if (e.value === "Logarithmic") {
+    (e: EventTarget) => {
+      if ((e as any).value === "Logarithmic") {
         getInterpolation("Logarithmic");
-      } else if (e.value === "Linear") {
+      } else if ((e as any).value === "Linear") {
         getInterpolation("Linear");
       } else {
         getInterpolation("Nearest");
@@ -232,7 +232,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     return (
       <div
         onChange={(ev) => {
-          onChangeRange(ev.target as unknown as { value: string });
+          onChangeRange(ev.target);
         }}
         style={{
           height: 58,
@@ -269,7 +269,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     return (
       <div
         onChange={(ev) => {
-          onChangeInterpolation(ev.target as unknown as { value: string });
+          onChangeInterpolation(ev.target);
         }}
         style={{
           height: 72,
