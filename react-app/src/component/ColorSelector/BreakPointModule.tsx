@@ -32,14 +32,14 @@ const StyledRail = styled("div")({
   position: "absolute",
   width: "100%",
   height: "100%",
-})
+});
 
 const StyledPointerContainer = styled("div")({
   userSelect: "none",
   cursor: "pointer",
-})
+});
 
-const StyledRoot = styled("div")(({theme}) => ({
+const StyledRoot = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: theme.spacing(2),
@@ -49,7 +49,7 @@ const StyledRoot = styled("div")(({theme}) => ({
   width: "240px",
 }));
 
-const StyledColorScaleContainer = styled("div")(({theme}) => ({
+const StyledColorScaleContainer = styled("div")(({ theme }) => ({
   height: RAIL_HEIGHT,
   borderRadius: theme.shape.borderRadius,
   overflow: "visible",
@@ -57,7 +57,7 @@ const StyledColorScaleContainer = styled("div")(({theme}) => ({
   marginTop: "9px",
 }));
 
-const StyledTextureContainer = styled("div")(({theme}) => ({
+const StyledTextureContainer = styled("div")(({ theme }) => ({
   position: "absolute",
   width: "100%",
   height: "100%",
@@ -67,7 +67,7 @@ const StyledTextureContainer = styled("div")(({theme}) => ({
   zIndex: 999,
 }));
 
-const StyledPointer = styled("div")(({theme}) => ({
+const StyledPointer = styled("div")(({ theme }) => ({
   position: "absolute",
   top: 20,
   width: pointer_width,
@@ -90,7 +90,6 @@ const StyledPointerArrow = styled("div")({
   borderTop: "4px solid black",
   transform: "rotate(180deg)",
 });
-
 
 export const BreakPointComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
@@ -203,7 +202,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const selectedPointerStyle = {
     borderColor: "black",
     borderWidth: 2,
-  }
+  };
 
   const width = 200;
 
@@ -284,18 +283,14 @@ export const BreakPointComp: React.FC<moduleProps> = ({
             const left = position * rectBox.width - pointer_width / 2;
             const onMoveStart = () => onMouseDown(index);
 
-            const pointerArrowStyle = selectedIndex === index ? selectedPointerArrowStyle : {};
-            const pointerStyle = selectedIndex === index ? selectedPointerStyle : {};
+            const pointerArrowStyle =
+              selectedIndex === index ? selectedPointerArrowStyle : {};
+            const pointerStyle =
+              selectedIndex === index ? selectedPointerStyle : {};
 
             return (
-              <StyledPointerContainer
-                key={index}
-                onMouseDown={onMoveStart}
-              >
-                <StyledPointerArrow
-                  sx={pointerArrowStyle}
-                  style={{ left }}
-                />
+              <StyledPointerContainer key={index} onMouseDown={onMoveStart}>
+                <StyledPointerArrow sx={pointerArrowStyle} style={{ left }} />
                 <StyledPointer
                   sx={pointerStyle}
                   style={{ left, backgroundColor: color }}

@@ -19,7 +19,7 @@ declare type moduleProps = {
   customScalesName?: string;
 };
 
-const StyledRootContainer = styled('div')(({ theme }) => ({
+const StyledRootContainer = styled("div")(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
   height: 20,
@@ -49,9 +49,10 @@ const StyledEditContainer = styled("div")({
   "&:hover": {
     backgroundColor: "#f1f1f1",
   },
-  height: "50%", width: "100%", cursor: "pointer",
+  height: "50%",
+  width: "100%",
+  cursor: "pointer",
 });
-
 
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
@@ -102,7 +103,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   };
 
   const openEditModal = React.useCallback(
-    (data: { bubbles: boolean | ((prevState: boolean) => boolean); }) => {
+    (data: { bubbles: boolean | ((prevState: boolean) => boolean) }) => {
       setPopUpState(data.bubbles);
       setAnchorEl(null);
     },
@@ -124,14 +125,17 @@ export const LegendComp: React.FC<moduleProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popUpState]);
 
-  const scaleBreakpoints = React.useCallback((value: (prevState: undefined) => undefined) => {
-    if (value) {
-      editedData({ colorArray: value, customizeFlag: true });
-      setBreakPointValues(value);
-      setCustomizedBreakpoints(value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const scaleBreakpoints = React.useCallback(
+    (value: (prevState: undefined) => undefined) => {
+      if (value) {
+        editedData({ colorArray: value, customizeFlag: true });
+        setBreakPointValues(value);
+        setCustomizedBreakpoints(value);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    []
+  );
 
   const appendCustomizedBreakPoints = React.useCallback(() => {
     // if breakpoints are editted then use customizedBreakpoints
@@ -153,9 +157,7 @@ export const LegendComp: React.FC<moduleProps> = ({
     arrayOfColors.length > 0 && (
       <ThemeProvider theme={theme}>
         <StyledRootContainer ref={divRef}>
-          <StyledColorScaleContainer
-            onClick={appendCustomizedBreakPoints}
-          >
+          <StyledColorScaleContainer onClick={appendCustomizedBreakPoints}>
             <StyledTextureContainer>
               <ColorScale arrayOfColors={arrayOfColors} />
             </StyledTextureContainer>
@@ -191,18 +193,14 @@ export const LegendComp: React.FC<moduleProps> = ({
             }}
           >
             <div style={{ height: "60px", width: "80px" }}>
-              <StyledEditContainer
-                onClick={openEditModal}
-              >
+              <StyledEditContainer onClick={openEditModal}>
                 <EditIcon
                   style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
                   fontSize="small"
                 />{" "}
                 Edit
               </StyledEditContainer>
-              <StyledEditContainer
-                onClick={deleteLegend}
-              >
+              <StyledEditContainer onClick={deleteLegend}>
                 <DeleteOutlinedIcon
                   style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
                   fontSize="small"

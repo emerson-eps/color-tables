@@ -1,7 +1,7 @@
 import React from "react";
 import ReactResizeDetector from "react-resize-detector";
 import { styled } from "@mui/system";
- 
+
 const StyledCanvas = styled("canvas")({
   position: "absolute",
   left: 0,
@@ -24,7 +24,6 @@ export const Canvas = React.forwardRef<
   > &
     Props
 >(({ drawCallback, onResize, ...props }, ref) => {
-
   // State
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);

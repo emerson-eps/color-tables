@@ -90,21 +90,30 @@ export const ColorSelectorAccordion = (props: any) => {
       ? props.breakPointFlag
       : colorScaleBreakpoints;
 
-  const editedData = React.useCallback((data: { colorArray: any; customizeFlag: any; }) => {
-    props.getEditedBreakPoint({
-      colorArray: data.colorArray,
-      customizeFlag: data.customizeFlag,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const editedData = React.useCallback(
+    (data: { colorArray: any; customizeFlag: any }) => {
+      props.getEditedBreakPoint({
+        colorArray: data.colorArray,
+        customizeFlag: data.customizeFlag,
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    []
+  );
 
-  const isCustomScale = React.useCallback((data: (prevState: undefined) => undefined) => {
-    setCustomScalesName(data);
-  }, []);
+  const isCustomScale = React.useCallback(
+    (data: (prevState: undefined) => undefined) => {
+      setCustomScalesName(data);
+    },
+    []
+  );
 
-  const getDuplicatedLegendData = React.useCallback((data: React.SetStateAction<any[]>) => {
-    setDuplicatedData(data);
-  }, []);
+  const getDuplicatedLegendData = React.useCallback(
+    (data: React.SetStateAction<any[]>) => {
+      setDuplicatedData(data);
+    },
+    []
+  );
 
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 

@@ -366,7 +366,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   }
 
   const selected = currentLegendName === legendColorName;
-  const selectedStyle = selected ?  { background: "#c1c1c1 !important" } : {};
+  const selectedStyle = selected ? { background: "#c1c1c1 !important" } : {};
 
   return (
     <StyledLegend sx={selectedStyle}>

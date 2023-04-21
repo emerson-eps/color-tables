@@ -86,7 +86,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
 
   // For interpolation
   const onChangeInterpolation = React.useCallback(
-    (e: { value: string; }) => {
+    (e: { value: string }) => {
       if (e.value === "Logarithmic") {
         getInterpolation("Logarithmic");
       } else if (e.value === "Linear") {
@@ -232,7 +232,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     return (
       <div
         onChange={(ev) => {
-          onChangeRange(ev.target as unknown as {"value": string});
+          onChangeRange(ev.target as unknown as { value: string });
         }}
         style={{
           height: 58,
@@ -269,7 +269,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     return (
       <div
         onChange={(ev) => {
-          onChangeInterpolation(ev.target as unknown as {"value": string});
+          onChangeInterpolation(ev.target as unknown as { value: string });
         }}
         style={{
           height: 72,
