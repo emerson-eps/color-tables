@@ -90,7 +90,7 @@ export const ColorSelectorAccordion = (props: any) => {
       ? props.breakPointFlag
       : colorScaleBreakpoints;
 
-  const editedData = React.useCallback((data) => {
+  const editedData = React.useCallback((data: { colorArray: any; customizeFlag: any; }) => {
     props.getEditedBreakPoint({
       colorArray: data.colorArray,
       customizeFlag: data.customizeFlag,
@@ -98,11 +98,11 @@ export const ColorSelectorAccordion = (props: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isCustomScale = React.useCallback((data) => {
+  const isCustomScale = React.useCallback((data: (prevState: undefined) => undefined) => {
     setCustomScalesName(data);
   }, []);
 
-  const getDuplicatedLegendData = React.useCallback((data) => {
+  const getDuplicatedLegendData = React.useCallback((data: React.SetStateAction<any[]>) => {
     setDuplicatedData(data);
   }, []);
 

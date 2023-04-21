@@ -102,7 +102,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   };
 
   const openEditModal = React.useCallback(
-    (data) => {
+    (data: { bubbles: boolean | ((prevState: boolean) => boolean); }) => {
       setPopUpState(data.bubbles);
       setAnchorEl(null);
     },
@@ -124,7 +124,7 @@ export const LegendComp: React.FC<moduleProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popUpState]);
 
-  const scaleBreakpoints = React.useCallback((value) => {
+  const scaleBreakpoints = React.useCallback((value: (prevState: undefined) => undefined) => {
     if (value) {
       editedData({ colorArray: value, customizeFlag: true });
       setBreakPointValues(value);
