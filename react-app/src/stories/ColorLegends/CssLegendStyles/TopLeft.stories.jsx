@@ -2,7 +2,6 @@ import React from "react";
 import colorTables from "../../../component/color-tables.json";
 import { ColorLegend } from "../../../component/Legend/ColorLegend";
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   component: ColorLegend,
   title: "Legends/cssLegendStyles",

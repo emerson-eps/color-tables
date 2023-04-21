@@ -2,13 +2,11 @@ declare type ItemColor = {
   color: any;
 };
 
-// eslint-disable-next-line
 export default function discreteLegendUtil(
   itemColor: ItemColor[],
   isSelectorLegend?: boolean,
   horizontal?: any
 ): any {
-  // eslint-disable-next-line
   function legend(g: any) {
     function drawLegend() {
       // Code to fill the color

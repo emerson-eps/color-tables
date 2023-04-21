@@ -130,7 +130,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           const entries = Object.entries(
             discreteData ? discreteData : defaultDiscreteData
           );
-          //eslint-disable-next-line
           const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
           sorted.forEach((value) => {
             const key = value[0];

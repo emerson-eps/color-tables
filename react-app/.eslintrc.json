@@ -1,0 +1,44 @@
+{
+  "extends": ["@emerson-eps"],
+  "rules": {
+    // Disabled from @epconnect/eslint-config (412 instances)
+    //"@typescript-eslint/explicit-module-boundary-types": "off",
+    // Disabled from @epconnect/eslint-config (399 instances)
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    // Disabled from @epconnect/eslint-config (635 instances)
+    //"@typescript-eslint/no-non-null-assertion": "off",
+    // Disabled from @epconnect/eslint-config (192 instances)
+    //"react/display-name": "off",
+    // Disabled from @epconnect/eslint-config
+    "sonarjs/cognitive-complexity": "off",
+    // Not needed with source.organizeImports set to true in vscode settings
+    "sort-imports": "off",
+    // Too many
+    "prefer-const": "off",
+    "sonarjs/no-collapsible-if": "off",
+    "sonarjs/no-duplicated-branches": "off",
+    "sonarjs/prefer-immediate-return": "off",
+    "sonarjs/no-duplicate-string": "off",
+    "sonarjs/no-unused-collection": "off",
+    "curly": "off",
+    "no-var": "off",
+    "no-console": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-inferrable-types": "off"
+
+  }
+  //"overrides": [
+  //  {
+  //    "files": ["src/**/*.test.ts*"],
+  //    "rules": {
+  //      "sonarjs/no-duplicate-string": "off",
+  //      "sonarjs/no-identical-functions": "off"
+  //    }
+  //  }
+  //],
+  //"ignorePatterns": ["config-overrides.js"]
+}
+
