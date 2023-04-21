@@ -1,10 +1,7 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
-import clsx from "clsx";
-import { IconButton, Theme } from "@mui/material";
-import { createStyles } from "@mui/styles";
-import { makeStyles } from "@mui/styles";
+import { IconButton } from "@mui/material";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
@@ -22,6 +19,7 @@ declare type moduleProps = {
 };
 
 const RAIL_HEIGHT = 16;
+const pointer_width = 12;
 
 const StyledControllersContainer = styled("div")({
   display: "flex",
@@ -68,6 +66,30 @@ const StyledTextureContainer = styled("div")(({theme}) => ({
   overflow: "hidden",
   zIndex: 999,
 }));
+
+const StyledPointer = styled("div")(({theme}) => ({
+  position: "absolute",
+  top: 20,
+  width: pointer_width,
+  height: RAIL_HEIGHT,
+  borderWidth: "thin",
+  borderStyle: "solid",
+  borderColor: "white",
+  borderTopLeftRadius: theme.shape.borderRadius,
+  borderTopRightRadius: theme.shape.borderRadius,
+  boxSizing: "border-box",
+}));
+
+const StyledPointerArrow = styled("div")({
+  position: "absolute",
+  top: 16,
+  width: 0,
+  height: 0,
+  borderLeft: `${pointer_width / 2}px solid transparent`,
+  borderRight: `${pointer_width / 2}px solid transparent`,
+  borderTop: "4px solid black",
+  transform: "rotate(180deg)",
+});
 
 
 export const BreakPointComp: React.FC<moduleProps> = ({
@@ -174,41 +196,15 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     setSelectedIndex(index);
   }, []);
 
-  const useStyles = makeStyles<Theme>((theme: Theme) =>
-    createStyles({
-      pointer: {
-        position: "absolute",
-        top: 20,
-        width: pointer_width,
-        height: RAIL_HEIGHT,
-        borderWidth: "thin",
-        borderStyle: "solid",
-        borderColor: "white",
-        borderTopLeftRadius: theme.shape.borderRadius,
-        borderTopRightRadius: theme.shape.borderRadius,
-        boxSizing: "border-box",
-      },
-      selectedPointer: {
-        borderColor: "black",
-        borderWidth: 2,
-      },
-      pointerArrow: {
-        position: "absolute",
-        top: 16,
-        width: 0,
-        height: 0,
-        borderLeft: `${pointer_width / 2}px solid transparent`,
-        borderRight: `${pointer_width / 2}px solid transparent`,
-        borderTop: "4px solid black",
-        transform: "rotate(180deg)",
-      },
-      selectedPointerArrow: {
-        borderTopColor: "black",
-      },
-    })
-  );
+  const selectedPointerArrowStyle = {
+    borderTopColor: "black",
+  };
 
-  const classes = useStyles();
+  const selectedPointerStyle = {
+    borderColor: "black",
+    borderWidth: 2,
+  }
+
   const width = 200;
 
   const onChangeComplete = React.useCallback(
@@ -287,21 +283,21 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
             const left = position * rectBox.width - pointer_width / 2;
             const onMoveStart = () => onMouseDown(index);
+
+            const pointerArrowStyle = selectedIndex === index ? selectedPointerArrowStyle : {};
+            const pointerStyle = selectedIndex === index ? selectedPointerStyle : {};
+
             return (
               <StyledPointerContainer
                 key={index}
                 onMouseDown={onMoveStart}
               >
-                <div
-                  className={clsx(classes.pointerArrow, {
-                    [classes.selectedPointerArrow]: selectedIndex === index,
-                  })}
+                <StyledPointerArrow
+                  sx={pointerArrowStyle}
                   style={{ left }}
                 />
-                <div
-                  className={clsx(classes.pointer, {
-                    [classes.selectedPointer]: selectedIndex === index,
-                  })}
+                <StyledPointer
+                  sx={pointerStyle}
                   style={{ left, backgroundColor: color }}
                 />
               </StyledPointerContainer>
