@@ -6,22 +6,15 @@ import { select, range } from "d3";
 import * as d3 from "d3";
 import discreteLegendUtil from "../Utils/discreteLegend";
 import { color } from "d3-color";
-import { createStyles, makeStyles } from "@mui/styles";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    legend: {
-      paddingLeft: "5px",
-      "&:hover": {
-        background: "#f1f1f1",
-        cursor: "pointer",
-      },
-    },
-    selected: {
-      background: "#c1c1c1 !important",
-    },
-  })
-);
+const StyledLegend = styled("div")({
+  paddingLeft: "5px",
+  "&:hover": {
+    background: "#f1f1f1",
+    cursor: "pointer",
+  },
+});
 
 declare type legendProps = {
   colorsObject?: any;
@@ -81,7 +74,6 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
 }: legendProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const classes = useStyles();
   // create an array of steps based on the color scale
   // returns an array of evenly-spaced numbers. Returns the integers from zero to the specified end minus one.
   // d3.range(start, stop, step)
@@ -373,20 +365,17 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       .style("font-weight", "700");
   }
 
+  const selected = currentLegendName === legendColorName;
+  const selectedStyle = selected ?  { background: "#c1c1c1 !important" } : {};
+
   return (
-    <div
-      className={`${
-        currentLegendName === legendColorName
-          ? `${classes.selected} ${classes.legend}`
-          : classes.legend
-      }`}
-    >
+    <StyledLegend sx={selectedStyle}>
       <div
         id="legend"
         style={{ height: 30 }}
         ref={divRef}
         onClick={handleChange}
       ></div>
-    </div>
+    </StyledLegend>
   );
 };
