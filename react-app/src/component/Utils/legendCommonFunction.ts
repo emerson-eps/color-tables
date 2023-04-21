@@ -554,12 +554,10 @@ export function getColorSelectorPosition(
   let accordionPosition = { left: "", top: "", right: "", bottom: "" };
 
   // when any of the styles positions is zero, convert to string so that it can pass the conditions afteron
-  /* eslint-disable */
   styles.left = styles.left == 0 ? "0px" : styles.left;
   styles.right = styles.right == 0 ? "0px" : styles.right;
   styles.top = styles.top == 0 ? "0px" : styles.top;
   styles.bottom = styles.bottom == 0 ? "0px" : styles.bottom;
-  /* eslint-enable */
 
   /* When legend is close to the top-left corner */
   if (styles.left && styles.top) {
@@ -593,10 +591,8 @@ export function getColorSelectorPosition(
     accordionPosition.right = isHorizontal
       ? styles.right
       : `calc(${styles.right} + ${legendWidth})`;
-  }
-  /* Set a default */
-  // eslint-disable-next-line eqeqeq
-  else if (
+  } else if (
+    /* Set a default */
     typeof styles.top === "undefined" &&
     typeof styles.left === "undefined" &&
     typeof styles.right === "undefined" &&

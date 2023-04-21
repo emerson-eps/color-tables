@@ -1,0 +1,27 @@
+{
+  "extends": ["@emerson-eps"],
+  "rules": {
+    // Not needed with source.organizeImports set to true in vscode settings
+    "sort-imports": "off",
+
+    // Disabled from @epconnect/eslint-config due to technical debt.
+    "sonarjs/cognitive-complexity": "off",
+    "sonarjs/no-collapsible-if": "off",
+    "sonarjs/no-duplicated-branches": "off",
+    "sonarjs/prefer-immediate-return": "off",
+    "sonarjs/no-duplicate-string": "off",
+    "sonarjs/no-unused-collection": "off",
+    "curly": "off",
+    "no-var": "off",
+    "no-console": "off",
+    "prefer-const": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-inferrable-types": "off"
+
+  }
+}
+

@@ -1,19 +1,15 @@
-import { createStyles, makeStyles } from "@mui/styles";
 import React from "react";
 import ReactResizeDetector from "react-resize-detector";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    canvas: {
-      position: "absolute",
-      left: 0,
-      right: 0,
-      height: "100%",
-      width: "100%",
-      pointerEvents: "none",
-    },
-  })
-);
+const StyledCanvas = styled("canvas")({
+  position: "absolute",
+  left: 0,
+  right: 0,
+  height: "100%",
+  width: "100%",
+  pointerEvents: "none",
+});
 
 type Props = {
   drawCallback?: () => void;
@@ -28,9 +24,6 @@ export const Canvas = React.forwardRef<
   > &
     Props
 >(({ drawCallback, onResize, ...props }, ref) => {
-  // Style
-  const classes = useStyles();
-
   // State
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -56,7 +49,7 @@ export const Canvas = React.forwardRef<
 
   return (
     <ReactResizeDetector handleHeight handleWidth onResize={onResizeHandler}>
-      <canvas ref={ref} className={classes.canvas} {...props} />
+      <StyledCanvas ref={ref} {...props} />
     </ReactResizeDetector>
   );
 });

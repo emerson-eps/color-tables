@@ -1,10 +1,7 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { useRef } from "react";
-import clsx from "clsx";
-import { IconButton, Theme } from "@mui/material";
-import { createStyles } from "@mui/styles";
-import { makeStyles } from "@mui/styles";
+import { IconButton } from "@mui/material";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
@@ -12,6 +9,7 @@ import AddCircleOutlineSharpIcon from "@mui/icons-material/AddCircleOutlineSharp
 import RemoveCircleOutlineSharpIcon from "@mui/icons-material/RemoveCircleOutlineSharp";
 import { SketchPicker } from "react-color";
 import ColorizeIcon from "@mui/icons-material/Colorize";
+import { styled } from "@mui/system";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -19,6 +17,79 @@ declare type moduleProps = {
   editedBreakpoint?: any;
   customScalesName?: string;
 };
+
+const RAIL_HEIGHT = 16;
+const pointer_width = 12;
+
+const StyledControllersContainer = styled("div")({
+  display: "flex",
+  flexDirection: "row",
+  marginTop: "18px",
+  marginLeft: "30px",
+});
+
+const StyledRail = styled("div")({
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+});
+
+const StyledPointerContainer = styled("div")({
+  userSelect: "none",
+  cursor: "pointer",
+});
+
+const StyledRoot = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(2),
+  marginTop: "17px",
+  marginLeft: "37px",
+  height: "140px",
+  width: "240px",
+}));
+
+const StyledColorScaleContainer = styled("div")(({ theme }) => ({
+  height: RAIL_HEIGHT,
+  borderRadius: theme.shape.borderRadius,
+  overflow: "visible",
+  position: "relative",
+  marginTop: "9px",
+}));
+
+const StyledTextureContainer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  borderRadius: theme.shape.borderRadius,
+  cursor: "pointer",
+  overflow: "hidden",
+  zIndex: 999,
+}));
+
+const StyledPointer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  top: 20,
+  width: pointer_width,
+  height: RAIL_HEIGHT,
+  borderWidth: "thin",
+  borderStyle: "solid",
+  borderColor: "white",
+  borderTopLeftRadius: theme.shape.borderRadius,
+  borderTopRightRadius: theme.shape.borderRadius,
+  boxSizing: "border-box",
+}));
+
+const StyledPointerArrow = styled("div")({
+  position: "absolute",
+  top: 16,
+  width: 0,
+  height: 0,
+  borderLeft: `${pointer_width / 2}px solid transparent`,
+  borderRight: `${pointer_width / 2}px solid transparent`,
+  borderTop: "4px solid black",
+  transform: "rotate(180deg)",
+});
 
 export const BreakPointComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
@@ -124,86 +195,15 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     setSelectedIndex(index);
   }, []);
 
-  const RAIL_HEIGHT = 16;
+  const selectedPointerArrowStyle = {
+    borderTopColor: "black",
+  };
 
-  const useStyles = makeStyles<Theme>((theme: Theme) =>
-    createStyles({
-      root: {
-        display: "flex",
-        flexDirection: "column",
-        gap: theme.spacing(2),
-        marginTop: "17px",
-        marginLeft: "37px",
-        height: "140px",
-        width: "240px",
-      },
-      controllersContainer: {
-        display: "flex",
-        flexDirection: "row",
-        marginTop: "18px",
-        marginLeft: "30px",
-      },
-      colorScaleContainer: {
-        height: RAIL_HEIGHT,
-        borderRadius: theme.shape.borderRadius,
-        overflow: "visible",
-        position: "relative",
-        marginTop: "9px",
-      },
-      texture: {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        borderRadius: theme.shape.borderRadius,
-        cursor: "pointer",
-        overflow: "hidden",
-        zIndex: 999,
-      },
-      rail: {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-      },
-      pointerContainer: {
-        userSelect: "none",
-        cursor: "pointer",
-      },
-      pointer: {
-        position: "absolute",
-        top: 20,
-        width: pointer_width,
-        height: RAIL_HEIGHT,
-        borderWidth: "thin",
-        borderStyle: "solid",
-        borderColor: "white",
-        borderTopLeftRadius: theme.shape.borderRadius,
-        borderTopRightRadius: theme.shape.borderRadius,
-        boxSizing: "border-box",
-      },
-      selectedPointer: {
-        borderColor: "black",
-        borderWidth: 2,
-      },
-      pointerArrow: {
-        position: "absolute",
-        top: 16,
-        width: 0,
-        height: 0,
-        borderLeft: `${pointer_width / 2}px solid transparent`,
-        borderRight: `${pointer_width / 2}px solid transparent`,
-        borderTop: "4px solid black",
-        transform: "rotate(180deg)",
-      },
-      selectedPointerArrow: {
-        borderTopColor: "black",
-      },
-      grow: {
-        flexGrow: 1,
-      },
-    })
-  );
+  const selectedPointerStyle = {
+    borderColor: "black",
+    borderWidth: 2,
+  };
 
-  const classes = useStyles();
   const width = 200;
 
   const onChangeComplete = React.useCallback(
@@ -270,37 +270,32 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   );
 
   return (
-    <div className={classes.root}>
+    <StyledRoot>
       <label style={{ fontWeight: "bold" }}>
         Edit : {customScalesName + " Copy"}
       </label>
-      <div className={classes.colorScaleContainer} style={{ width }}>
-        <div className={classes.texture}>
+      <StyledColorScaleContainer style={{ width }}>
+        <StyledTextureContainer>
           <ColorScale arrayOfColors={arrayOfColors} />
-        </div>
-        <div className={classes.rail} ref={setBoundingClientRect}>
+        </StyledTextureContainer>
+        <StyledRail ref={setBoundingClientRect}>
           {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
             const left = position * rectBox.width - pointer_width / 2;
             const onMoveStart = () => onMouseDown(index);
+
+            const pointerArrowStyle =
+              selectedIndex === index ? selectedPointerArrowStyle : {};
+            const pointerStyle =
+              selectedIndex === index ? selectedPointerStyle : {};
+
             return (
-              <div
-                key={index}
-                className={classes.pointerContainer}
-                onMouseDown={onMoveStart}
-              >
-                <div
-                  className={clsx(classes.pointerArrow, {
-                    [classes.selectedPointerArrow]: selectedIndex === index,
-                  })}
-                  style={{ left }}
-                />
-                <div
-                  className={clsx(classes.pointer, {
-                    [classes.selectedPointer]: selectedIndex === index,
-                  })}
+              <StyledPointerContainer key={index} onMouseDown={onMoveStart}>
+                <StyledPointerArrow sx={pointerArrowStyle} style={{ left }} />
+                <StyledPointer
+                  sx={pointerStyle}
                   style={{ left, backgroundColor: color }}
                 />
-              </div>
+              </StyledPointerContainer>
             );
           })}
           <div style={{ marginTop: "120px", position: "fixed" }} ref={divRef}>
@@ -308,9 +303,9 @@ export const BreakPointComp: React.FC<moduleProps> = ({
               <SketchPicker color={"red"} onChangeComplete={onChangeComplete} />
             ) : null}
           </div>
-        </div>
-      </div>
-      <div className={classes.controllersContainer}>
+        </StyledRail>
+      </StyledColorScaleContainer>
+      <StyledControllersContainer>
         <IconButton size="medium" color="primary" onClick={addBreakpoint}>
           <AddCircleOutlineSharpIcon fontSize="medium" />
         </IconButton>
@@ -325,7 +320,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         <IconButton color="primary" size="medium" onClick={launchPicker}>
           <ColorizeIcon fontSize="medium" />
         </IconButton>
-      </div>
-    </div>
+      </StyledControllersContainer>
+    </StyledRoot>
   );
 };

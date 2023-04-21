@@ -1,24 +1,20 @@
-import { createStyles, makeStyles } from "@mui/styles";
 import * as d3 from "d3";
 import React, { useCallback, useRef } from "react";
 import Canvas from "./Canvas";
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      height: "100%",
-      width: "100%",
-      position: "relative",
-      cursor: "pointer",
-    },
-  })
-);
+import { styled } from "@mui/system";
 
 type Props = {
   arrayOfColors: string[] | ((index: number) => string);
   vertical?: boolean;
   onClick?: any;
 };
+
+const StyledRootContainer = styled("div")({
+  height: "100%",
+  width: "100%",
+  position: "relative",
+  cursor: "pointer",
+});
 
 export const get2DContext = (
   canvas: HTMLCanvasElement,
@@ -35,8 +31,6 @@ export const get2DContext = (
 
 export const ColorScale: React.FC<Props> = React.memo(
   ({ arrayOfColors, vertical }) => {
-    const classes = useStyles();
-
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const drawCanvas = useCallback(() => {
@@ -76,9 +70,9 @@ export const ColorScale: React.FC<Props> = React.memo(
     }, [arrayOfColors, vertical]);
 
     return (
-      <div className={classes.root}>
+      <StyledRootContainer>
         <Canvas ref={canvasRef} drawCallback={drawCanvas} />
-      </div>
+      </StyledRootContainer>
     );
   }
 );

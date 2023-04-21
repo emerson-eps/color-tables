@@ -13,23 +13,23 @@
     "dist"
   ],
   "scripts": {
-    "build": "git clean -xdff dist && tsc",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build": "git clean -xdff dist && tsc --project tsconfig.build.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "semantic-release": "semantic-release",
     "typecheck": "tsc --noEmit",
     "prettier:check": "prettier --check src",
     "prettier:fix": "prettier --write src",
-    "lint:check": "eslint --ignore-path ../.gitignore src",
+    "lint:check": "eslint --ignore-path ../.gitignore --max-warnings=0 src",
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
+    "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.0",
-    "@equinor/eds-core-react": "^0.29.1",
+    "@equinor/eds-core-react": "^0.30.0",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.2",
-    "@mui/styles": "^5.11.13",
+    "@mui/system": "^5.12.0",
     "d3": "^7.2.0",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
@@ -42,12 +42,6 @@
     "url": "git+https://github.com/emerson-eps/color-tables.git"
   },
   "license": "MPL",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -62,32 +56,41 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-knobs": "^6.4.0",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/addon-storysource": "^6.5.12",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/react": "^6.5.9",
+    "@emerson-eps/eslint-config": "^5.0.1",
+    "@emerson-eps/prettier-config": "^1.0.4",
+    "@storybook/addon-actions": "^7.0.6",
+    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-interactions": "^7.0.6",
+    "@storybook/addon-links": "^7.0.6",
+    "@storybook/addon-mdx-gfm": "^7.0.6",
+    "@storybook/addon-storysource": "^7.0.6",
+    "@storybook/blocks": "^7.0.6",
+    "@storybook/cli": "^7.0.6",
+    "@storybook/react": "^7.0.6",
+    "@storybook/react-vite": "^7.0.6",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.1.1",
     "@types/d3": "^7.1.0",
+    "@types/react": "^18.0.35",
     "@types/react-color": "^3.0.6",
+    "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.25",
-    "babel-loader": "^9.0.1",
+    "eslint": "^8.38.0",
     "html-webpack-plugin": "^5.5.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.1",
+    "prettier": "^2.8.7",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "semantic-release": "^20.1.0",
+    "storybook": "^7.0.6",
     "styled-components": "^5.3.5",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   }
 }

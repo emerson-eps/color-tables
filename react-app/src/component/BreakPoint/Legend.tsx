@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
-import { Theme, IconButton, ThemeProvider } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
+import { IconButton, ThemeProvider } from "@mui/material";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
 import { Popover } from "@mui/material";
@@ -10,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
+import { styled } from "@mui/system";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -18,6 +18,41 @@ declare type moduleProps = {
   handleModalClick?: any;
   customScalesName?: string;
 };
+
+const StyledRootContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  gap: theme.spacing(2),
+  height: 20,
+}));
+
+const StyledColorScaleContainer = styled("div")({
+  display: "flex",
+  marginTop: 8,
+  marginLeft: -10,
+  height: 27,
+  width: 248,
+
+  "&:hover": {
+    backgroundColor: "#f1f1f1",
+    cursor: "pointer",
+  },
+});
+
+const StyledTextureContainer = styled("div")({
+  height: "13px",
+  width: "100px",
+  marginTop: "6px",
+  marginLeft: "5px",
+});
+
+const StyledEditContainer = styled("div")({
+  "&:hover": {
+    backgroundColor: "#f1f1f1",
+  },
+  height: "50%",
+  width: "100%",
+  cursor: "pointer",
+});
 
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
@@ -53,43 +88,11 @@ export const LegendComp: React.FC<moduleProps> = ({
     [orderedSelectedColors]
   );
 
-  const useStyles = makeStyles<Theme>((theme: Theme) =>
-    createStyles({
-      root: {
-        display: "flex",
-        gap: theme.spacing(2),
-        height: 20,
-      },
-      colorScaleContainer: {
-        display: "flex",
-        marginTop: 8,
-        marginLeft: -10,
-        height: 27,
-        width: 248,
-
-        "&:hover": {
-          backgroundColor: "#f1f1f1",
-          cursor: "pointer",
-        },
-      },
-      texture: {
-        height: "13px",
-        width: "100px",
-        marginTop: "6px",
-        marginLeft: "5px",
-      },
-      edit: {
-        "&:hover": {
-          backgroundColor: "#f1f1f1",
-        },
-      },
-    })
-  );
-
   const [popUpState, setPopUpState] = React.useState(false);
 
-  const [anchorEl, setAnchorEl] =
-    React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     document.removeEventListener("mousedown", handleModalClick);
@@ -101,7 +104,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   };
 
   const openEditModal = React.useCallback(
-    (data) => {
+    (data: { bubbles: boolean | ((prevState: boolean) => boolean) }) => {
       setPopUpState(data.bubbles);
       setAnchorEl(null);
     },
@@ -123,16 +126,16 @@ export const LegendComp: React.FC<moduleProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popUpState]);
 
-  const classes = useStyles();
-
-  const scaleBreakpoints = React.useCallback((value) => {
-    if (value) {
-      editedData({ colorArray: value, customizeFlag: true });
-      setBreakPointValues(value);
-      setCustomizedBreakpoints(value);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const scaleBreakpoints = React.useCallback(
+    (value: (prevState: undefined) => undefined) => {
+      if (value) {
+        editedData({ colorArray: value, customizeFlag: true });
+        setBreakPointValues(value);
+        setCustomizedBreakpoints(value);
+      }
+    },
+    [editedData]
+  );
 
   const appendCustomizedBreakPoints = React.useCallback(() => {
     // if breakpoints are editted then use customizedBreakpoints
@@ -153,16 +156,12 @@ export const LegendComp: React.FC<moduleProps> = ({
   return (
     arrayOfColors.length > 0 && (
       <ThemeProvider theme={theme}>
-        <div className={classes.root} ref={divRef}>
-          <div
-            className={classes.colorScaleContainer}
-            onClick={appendCustomizedBreakPoints}
-          >
-            <div className={classes.texture}>
+        <StyledRootContainer ref={divRef}>
+          <StyledColorScaleContainer onClick={appendCustomizedBreakPoints}>
+            <StyledTextureContainer>
               <ColorScale arrayOfColors={arrayOfColors} />
-            </div>
+            </StyledTextureContainer>
             <div
-              className={classes.customScaleName}
               style={{
                 whiteSpace: "nowrap",
                 fontSize: "small",
@@ -173,7 +172,7 @@ export const LegendComp: React.FC<moduleProps> = ({
             >
               {customScalesName + " Copy"}
             </div>
-          </div>
+          </StyledColorScaleContainer>
           <div className="breadCrumbs">
             <IconButton
               size="small"
@@ -194,28 +193,20 @@ export const LegendComp: React.FC<moduleProps> = ({
             }}
           >
             <div style={{ height: "60px", width: "80px" }}>
-              <div
-                className={classes.edit}
-                style={{ height: "50%", width: "100%", cursor: "pointer" }}
-                onClick={openEditModal}
-              >
+              <StyledEditContainer onClick={openEditModal}>
                 <EditIcon
                   style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
                   fontSize="small"
                 />{" "}
                 Edit
-              </div>
-              <div
-                className={classes.edit}
-                style={{ height: "50%", width: "100%", cursor: "pointer" }}
-                onClick={deleteLegend}
-              >
+              </StyledEditContainer>
+              <StyledEditContainer onClick={deleteLegend}>
                 <DeleteOutlinedIcon
                   style={{ margin: "5px 3px -5px 5px", cursor: "pointer" }}
                   fontSize="small"
                 />{" "}
                 Delete
-              </div>
+              </StyledEditContainer>
             </div>
           </Popover>
 
@@ -227,7 +218,7 @@ export const LegendComp: React.FC<moduleProps> = ({
               customScalesName={customScalesName}
             />
           )}
-        </div>
+        </StyledRootContainer>
       </ThemeProvider>
     )
   );

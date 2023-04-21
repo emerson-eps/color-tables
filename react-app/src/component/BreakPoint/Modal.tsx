@@ -37,10 +37,10 @@ export const CustomizedDialogs: React.FC<dialogProps> = ({
   };
 
   const [colorScaleBreakpoints, setColorScaleBreakpoints] =
-    React.useState<any>(scaleData);
+    React.useState(scaleData);
 
   const editedBreakpoint = React.useCallback(
-    (data) => {
+    (data: number[]) => {
       setColorScaleBreakpoints(data);
       scaleBreakpoints(data);
     },
