@@ -167,7 +167,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         if (isD3Colors && isD3Colors.discrete === false) {
           const arrayData: any = [];
           const d3ColorArrays = colorsArray(colorName, d3ColorScales);
-          const data = range(10).map((d) => ({ color: d3ColorArrays(d / 10) }));
+          const data = range(10).map(d => ({ color: d3ColorArrays(d / 10) }));
           data.forEach((colorsObject: any, index: number) => {
             arrayData.push([
               0 + "." + index,

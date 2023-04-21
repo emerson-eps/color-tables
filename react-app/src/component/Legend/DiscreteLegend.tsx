@@ -131,7 +131,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             discreteData ? discreteData : defaultDiscreteData
           );
           const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
-          sorted.forEach((value) => {
+          sorted.forEach(value => {
             const key = value[0];
             const val = value[1];
             const code = val[1];

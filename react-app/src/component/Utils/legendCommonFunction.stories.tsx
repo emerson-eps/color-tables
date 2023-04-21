@@ -21,9 +21,9 @@ function colorMap(value: number) {
   return f(value);
 }
 
-const ContinuousLegendTemplate: ComponentStory<typeof ContinuousLegend> = (
-  args
-) => {
+const ContinuousLegendTemplate: ComponentStory<
+  typeof ContinuousLegend
+> = args => {
   return <ContinuousLegend {...args} />;
 };
 

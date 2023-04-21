@@ -231,7 +231,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   if (useRange) {
     return (
       <div
-        onChange={(ev) => {
+        onChange={ev => {
           onChangeRange(ev.target);
         }}
         style={{
@@ -268,7 +268,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   else if (useInterpolation) {
     return (
       <div
-        onChange={(ev) => {
+        onChange={ev => {
           onChangeInterpolation(ev.target);
         }}
         style={{

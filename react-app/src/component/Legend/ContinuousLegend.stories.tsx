@@ -11,7 +11,7 @@ const max = 1;
 const dataObjectName = "Physics color map";
 const colorName = "Physics";
 
-const Story: ComponentStory<typeof ContinuousLegend> = (args) => {
+const Story: ComponentStory<typeof ContinuousLegend> = args => {
   return <ContinuousLegend {...args} />;
 };
 
