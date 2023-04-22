@@ -21,6 +21,7 @@
     "prettier:check": "prettier --check src",
     "prettier:fix": "prettier --write src",
     "lint:check": "eslint --ignore-path ../.gitignore --max-warnings=0 src",
+    "lint:fix": "eslint --ignore-path ../.gitignore --fix src",
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {

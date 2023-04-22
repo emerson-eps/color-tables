@@ -64,7 +64,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const ColorSelectorAccordion = (props: any) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  let colorScaleBreakpoints: any = [];
+  const colorScaleBreakpoints: any = [];
   const [customScalesName, setCustomScalesName] = React.useState();
   const [duplicatedData, setDuplicatedData] = React.useState([]);
   let getColorScaleArray;
