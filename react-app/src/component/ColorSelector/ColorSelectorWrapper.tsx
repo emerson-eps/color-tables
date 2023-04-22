@@ -94,6 +94,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const continuosColorData: colorScaleArray = [];
   const continuosD3ColorData: colorScaleArray = [];
   const discreteColorData: colorScaleArray = [];
+
   const discreteD3ColorData: colorScaleArray = [];
 
   const [isAuto, setAuto] = React.useState(true);
@@ -198,20 +199,20 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           useContColorTable={false}
           uniqueId={index}
           colorScaleData={newColorScaleData}
-          key={index}
+          key={val.name}
           currentLegendName={currentLegendName}
         />
       );
     });
 
-    discreteD3Legend = d3discreteData.map((val: any, index: any) => {
+    discreteD3Legend = d3discreteData.map((val: any) => {
       return (
         <ColorSelectorComponent
           colorsObject={val.colors}
           legendColorName={val.name}
           useDiscColorTable={false}
           colorScaleData={newColorScaleData}
-          key={index}
+          key={val.name}
           currentLegendName={currentLegendName}
         />
       );
@@ -220,7 +221,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     // return continuous and discrete legend which uses colortable data
     continuousLegend = continuosColorData.map((value: any, index: any) => {
       return (
-        <StyledParentDiv key={index}>
+        <StyledParentDiv key={value.name}>
           <div>
             <ColorSelectorComponent
               colorsObject={value}
@@ -228,7 +229,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
               useContColorTable={true}
               uniqueId={index}
               colorScaleData={newColorScaleData}
-              key={index}
+              key={value.name}
               currentLegendName={currentLegendName}
             />
           </div>

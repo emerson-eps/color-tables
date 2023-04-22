@@ -29,25 +29,19 @@ export default function discreteLegendUtil(
         .style("fill", function (d: Record<string, unknown>) {
           return d["color"];
         });
-      if (horizontal && !isSelectorLegend) {
+      if (
+        (horizontal && !isSelectorLegend) ||
+        (horizontal === true && isSelectorLegend)
+      ) {
         g.selectAll("rect")
           .attr("x", function (_d: number, i: number) {
             return i;
           })
           .attr("y", 0);
-      } else if (!horizontal && !isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("y", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("x", 0);
-      } else if (horizontal === true && isSelectorLegend) {
-        g.selectAll("rect")
-          .attr("x", function (_d: number, i: number) {
-            return i;
-          })
-          .attr("y", 0);
-      } else if (horizontal === false && isSelectorLegend) {
+      } else if (
+        (!horizontal && !isSelectorLegend) ||
+        (horizontal === false && isSelectorLegend)
+      ) {
         g.selectAll("rect")
           .attr("y", function (_d: number, i: number) {
             return i;

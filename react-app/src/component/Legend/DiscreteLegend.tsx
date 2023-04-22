@@ -96,6 +96,25 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
+  let legendWidth: string | number;
+  let legendHeight: string | number;
+
+  if (horizontal) {
+    legendHeight = "30px";
+    if (legendScaleSize < 200) {
+      legendWidth = 200;
+    } else {
+      legendWidth = legendScaleSize;
+    }
+  } else {
+    legendWidth = "50px";
+    if (legendScaleSize < 200) {
+      legendHeight = 190;
+    } else {
+      legendHeight = legendScaleSize - 10;
+    }
+  }
+
   React.useEffect(() => {
     if (divRef.current) {
       select(divRef.current).select("div").remove();
@@ -163,7 +182,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
             }
             // for d3 colors
             else {
-              var matchedColorsArrays = d3ColorArrays.find(
+              const matchedColorsArrays = d3ColorArrays.find(
                 (_value: number, index: [number[], number]) => {
                   return index === code;
                 }
@@ -172,7 +191,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
                 itemColor.push({ color: matchedColorsArrays });
             }
           });
-          useSelectorLegend = false;
         }
         // Discrete legend using Colortable colors (color selector component)
         if (getColorScaleData?.color) {
@@ -242,14 +260,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         const svgLegend = currentDiv
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
           // .style("width", horizontal ? "145px" : "50px")
-          .style(
-            "width",
-            horizontal
-              ? legendScaleSize < 200
-                ? 200
-                : legendScaleSize
-              : "50px"
-          )
+          .style("width", legendWidth)
           .append("svg")
           .call(colorLegend);
 
@@ -261,16 +272,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           .attr("preserveAspectRatio", "none")
           .style("font-size", ".4")
           .style("margin-left", horizontal ? "0" : "20px")
-          // .attr("height", horizontal ? "30px" : "153px")
-          .attr(
-            "height",
-            horizontal
-              ? "30px"
-              : legendScaleSize < 200
-              ? 190
-              : legendScaleSize - 10
-          )
-          // .attr("width", horizontal ? "150px" : "40px");
+          .attr("height", legendHeight)
           .attr(
             "width",
             horizontal
@@ -294,6 +296,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
     tickFontSize,
     numberOfTicks,
     legendScaleSize,
+    legendWidth,
+    legendHeight,
   ]);
 
   return (

@@ -69,6 +69,16 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
 
+  let interpolationType;
+
+  if (isNearest) {
+    interpolationType = { isNearest: true };
+  } else if (isLog) {
+    interpolationType = { isLog: true };
+  } else {
+    interpolationType = { isLinear: true };
+  }
+
   // callback function for modifying range
   const getRange = React.useCallback(
     (data: any) => {
@@ -293,13 +303,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                 getInterpolation={getInterpolation}
                 legendScaleSize={legendScaleSizeState}
                 cssLegendStyles={cssLegendStyles}
-                selectedInterpolationType={
-                  isNearest
-                    ? { isNearest: true }
-                    : isLog
-                    ? { isLog: true }
-                    : { isLinear: true }
-                }
+                selectedInterpolationType={interpolationType}
                 selectedRangeType={
                   isAuto ? { isAuto: true } : { isAuto: false }
                 }
