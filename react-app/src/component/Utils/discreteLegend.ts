@@ -1,11 +1,12 @@
 declare type ItemColor = {
-  color: any;
+  color: string;
+  name?: string;
 };
 
 export default function discreteLegendUtil(
   itemColor: ItemColor[],
   isSelectorLegend?: boolean,
-  horizontal?: any
+  horizontal?: boolean
 ): any {
   function legend(g: any) {
     function drawLegend() {

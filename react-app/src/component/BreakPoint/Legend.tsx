@@ -130,7 +130,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   }, [handleModalClick, isModal, popUpState]);
 
   const scaleBreakpoints = React.useCallback(
-    (value: (prevState: undefined) => undefined) => {
+    (value: any) => {
       if (value) {
         editedData({ colorArray: value, customizeFlag: true });
         setBreakPointValues(value);

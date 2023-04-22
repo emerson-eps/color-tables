@@ -160,7 +160,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
           const entries = Object.entries(
             discreteData ? discreteData : defaultDiscreteData
           );
-          const sorted = entries.sort((a: any, b: any) => a[1][1] - b[1][1]);
+          const sorted = entries.sort((a, b) => a[1][1] - b[1][1]);
           sorted.forEach(value => {
             const key = value[0];
             const val = value[1];
@@ -194,7 +194,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         }
         // Discrete legend using Colortable colors (color selector component)
         if (getColorScaleData?.color) {
-          getColorScaleData.color.forEach((key: any) => {
+          getColorScaleData.color.forEach((key: number[]) => {
             itemColor.push({ color: RGBToHex(key).color });
           });
 
@@ -202,7 +202,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         }
         // Discrete legend using d3 colors
         if (getColorScaleData?.colorsObject) {
-          getColorScaleData.colorsObject.forEach((key: any) => {
+          getColorScaleData.colorsObject.forEach((key: string) => {
             itemColor.push({ color: key });
           });
 

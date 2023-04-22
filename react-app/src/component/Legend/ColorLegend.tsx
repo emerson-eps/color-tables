@@ -63,8 +63,8 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const colorSelectorRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(isOpenProp);
   const [isAuto, setAuto] = React.useState(true);
-  const [newMin, setNewMin] = React.useState();
-  const [newMax, setNewMax] = React.useState();
+  const [newMin, setNewMin] = React.useState<number>();
+  const [newMax, setNewMax] = React.useState<number>();
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
@@ -81,13 +81,13 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   // callback function for modifying range
   const getRange = React.useCallback(
-    (data: any) => {
+    (data: string | number[]) => {
       if (data === "Auto") {
         setAuto(true);
         if (getColorRange) getColorRange({ isAuto: true });
       } else {
         setAuto(false);
-        if (data?.[0] && data?.[1]) {
+        if (data?.[0] && data?.[1] && typeof data !== "string") {
           setNewMin(data[0]);
           setNewMax(data[1]);
           if (getColorRange)
@@ -99,7 +99,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   );
 
   const getInterpolation = React.useCallback(
-    (data: any) => {
+    (data: string) => {
       if (data === "Logarithmic") {
         setLog(true);
         setIsNearest(false);
@@ -140,11 +140,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
-  const isColortableColors = colorTables?.find((value: any) => {
+  const isColortableColors = colorTables?.find(value => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
-  const isD3Colors = d3ColorScales.find((value: any) => {
+  const isD3Colors = d3ColorScales.find(value => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
