@@ -91,6 +91,11 @@ const StyledPointerArrow = styled("div")({
   transform: "rotate(180deg)",
 });
 
+const StyledSketchPicker = styled("div")({
+  marginTop: "120px", 
+  position: "fixed",
+});
+
 export const BreakPointComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   setColorScaleBreakpoints,
@@ -298,11 +303,11 @@ export const BreakPointComp: React.FC<moduleProps> = ({
               </StyledPointerContainer>
             );
           })}
-          <div style={{ marginTop: "120px", position: "fixed" }} ref={divRef}>
+          <StyledSketchPicker ref={divRef}>
             {popUpState ? (
               <SketchPicker color={"red"} onChangeComplete={onChangeComplete} />
             ) : null}
-          </div>
+          </StyledSketchPicker>
         </StyledRail>
       </StyledColorScaleContainer>
       <StyledControllersContainer>

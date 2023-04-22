@@ -6,6 +6,7 @@ import { colorsArray, RGBToHex } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+import { styled } from "@mui/system";
 
 declare type ItemColor = {
   color: string;
@@ -82,6 +83,16 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
 }: discreteLegendProps) => {
+  const StyledDiscreteLegendWrapper = styled("div")({
+    position: "absolute",
+    minHeight: "70px",
+    backgroundColor: "#ffffffcc",
+    borderRadius: "5px",
+    zIndex: 999,
+    margin: "10px",
+    ...cssLegendStyles,
+  });
+
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -286,21 +297,11 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   ]);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        minHeight: "70px",
-        backgroundColor: "#ffffffcc",
-        borderRadius: "5px",
-        zIndex: 999,
-        margin: "10px",
-        ...cssLegendStyles,
-      }}
-    >
+    <StyledDiscreteLegendWrapper>
       <div
         id={id ? id : `disc-legend - ${generateUniqueId}`}
         ref={divRef}
       ></div>
-    </div>
+    </StyledDiscreteLegendWrapper>
   );
 };

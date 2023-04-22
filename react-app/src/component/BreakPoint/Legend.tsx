@@ -54,6 +54,15 @@ const StyledEditContainer = styled("div")({
   cursor: "pointer",
 });
 
+const StyledCustomScales = styled("div")({
+  whiteSpace: "nowrap",
+  fontSize: "small",
+  fontWeight: "700",
+  margin: "6px 0px 0px 6px",
+  cursor: "pointer",
+});
+
+
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
@@ -161,17 +170,9 @@ export const LegendComp: React.FC<moduleProps> = ({
             <StyledTextureContainer>
               <ColorScale arrayOfColors={arrayOfColors} />
             </StyledTextureContainer>
-            <div
-              style={{
-                whiteSpace: "nowrap",
-                fontSize: "small",
-                fontWeight: "700",
-                margin: "6px 0px 0px 6px",
-                cursor: "pointer",
-              }}
-            >
+            <StyledCustomScales>
               {customScalesName + " Copy"}
-            </div>
+            </StyledCustomScales>
           </StyledColorScaleContainer>
           <div className="breadCrumbs">
             <IconButton
