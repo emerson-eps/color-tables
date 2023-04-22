@@ -146,8 +146,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     if (getDuplicatedLegendData) {
       getDuplicatedLegendData(duplicatedLegendData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [duplicatedLegendData?.length]);
+  }, [duplicatedLegendData, duplicatedLegendData.length, getDuplicatedLegendData]);
 
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data

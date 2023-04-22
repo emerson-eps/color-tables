@@ -109,8 +109,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
           getInterpolateMethod({ isLog: false, isNearest: false });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLog, isNearest]
+    [getInterpolateMethod]
   );
 
   const breakpointValues = React.useCallback((data: any) => {
@@ -118,8 +117,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor(data);
       if (getBreakpointValue) getBreakpointValue(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getBreakpointValue]);
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -163,8 +161,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor([]);
       if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [colorNameFromSelector]
+    [colorNameFromSelector, getBreakpointValue, getScale]
   );
 
   const handleModalClick = React.useCallback(

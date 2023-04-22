@@ -1,9 +1,8 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
-import { IconButton, ThemeProvider } from "@mui/material";
+import { IconButton, ThemeProvider, Popover } from "@mui/material";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
-import { Popover } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -77,16 +76,14 @@ export const LegendComp: React.FC<moduleProps> = ({
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorScaleBreakpoints.length]);
+  }, [colorScaleBreakpoints, colorScaleBreakpoints.length]);
   const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(
       breakpointValues.colorArray
         ? breakpointValues.colorArray
         : breakpointValues
     ).sort((a: any, b: any) => a.position - b.position);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breakpointValues.length, breakpointValues]);
+  }, [breakpointValues]);
 
   const arrayOfColors = React.useMemo(
     () =>
@@ -116,8 +113,7 @@ export const LegendComp: React.FC<moduleProps> = ({
       setPopUpState(data.bubbles);
       setAnchorEl(null);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [popUpState]
+    []
   );
 
   const deleteLegend = () => {
@@ -131,8 +127,7 @@ export const LegendComp: React.FC<moduleProps> = ({
         ? document.removeEventListener("mousedown", handleModalClick)
         : document.addEventListener("mousedown", handleModalClick);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [popUpState]);
+  }, [handleModalClick, isModal, popUpState]);
 
   const scaleBreakpoints = React.useCallback(
     (value: (prevState: undefined) => undefined) => {
@@ -153,8 +148,7 @@ export const LegendComp: React.FC<moduleProps> = ({
         : breakpointValues,
       customizeFlag: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customizedBreakpoints]);
+  }, [breakpointValues, customizedBreakpoints, editedData]);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
