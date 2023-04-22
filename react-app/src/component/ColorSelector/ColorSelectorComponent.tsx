@@ -300,7 +300,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
       return "#" + r + g + b;
     }
 
-    let count = itemName.length;
+    const count = itemName.length;
     const colorLegend = discreteLegendUtil(itemColor, true);
     const selectedLegend = select(divRef.current);
 
