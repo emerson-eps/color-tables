@@ -151,7 +151,14 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         );
       }
     },
-    [rectBox.left, rectBox.right, rectBox.width, colorScaleBreakpoints.length, getIndex, setColorScaleBreakpoints]
+    [
+      rectBox.left,
+      rectBox.right,
+      rectBox.width,
+      colorScaleBreakpoints.length,
+      getIndex,
+      setColorScaleBreakpoints,
+    ]
   );
 
   const orderedSelectedColors: any = React.useMemo(() => {
@@ -175,7 +182,13 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
-  }, [onMouseMove, colorScaleBreakpoints, colorScaleBreakpoints.length, onMouseUp, editedBreakpoint]);
+  }, [
+    onMouseMove,
+    colorScaleBreakpoints,
+    colorScaleBreakpoints.length,
+    onMouseUp,
+    editedBreakpoint,
+  ]);
 
   const isBreakpointMovingRef = React.useRef(false);
   const selectedIndexRef = React.useRef(0);

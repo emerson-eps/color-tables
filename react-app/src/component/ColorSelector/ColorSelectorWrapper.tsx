@@ -146,7 +146,11 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     if (getDuplicatedLegendData) {
       getDuplicatedLegendData(duplicatedLegendData);
     }
-  }, [duplicatedLegendData, duplicatedLegendData.length, getDuplicatedLegendData]);
+  }, [
+    duplicatedLegendData,
+    duplicatedLegendData.length,
+    getDuplicatedLegendData,
+  ]);
 
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
