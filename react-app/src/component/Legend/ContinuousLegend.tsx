@@ -11,7 +11,6 @@ import { color } from "d3-color";
 import { range } from "d3";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
-import { styled } from "@mui/system";
 
 declare type continuousLegendProps = {
   /**
@@ -121,13 +120,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   legendScaleSize = 200,
   cssLegendStyles = { left: "0vw", top: "0vh" },
 }: continuousLegendProps) => {
-  const StyledContLegendWrapper = styled("div")({
-    position: "absolute",
-    minHeight: "70px",
-    zIndex: 999,
-    margin: "10px",
-    ...cssLegendStyles,
-  });
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -445,11 +437,19 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     legendScaleSize,
   ]);
   return (
-    <StyledContLegendWrapper>
+    <div
+      style={{
+        position: "absolute",
+        minHeight: "70px",
+        zIndex: 999,
+        margin: "10px",
+        ...cssLegendStyles,
+      }}
+    >
       <div
         id={id ? id : `cont-legend - ${generateUniqueId}`}
         ref={divRef}
       ></div>
-    </StyledContLegendWrapper>
+    </div>
   );
 };
