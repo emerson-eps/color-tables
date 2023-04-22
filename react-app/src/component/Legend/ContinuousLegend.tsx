@@ -445,8 +445,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
     legendScaleSize,
   ]);
   return (
-    <StyledContLegendWrapper
-    >
+    <StyledContLegendWrapper>
       <div
         id={id ? id : `cont-legend - ${generateUniqueId}`}
         ref={divRef}

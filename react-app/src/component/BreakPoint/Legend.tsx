@@ -62,7 +62,6 @@ const StyledCustomScales = styled("div")({
   cursor: "pointer",
 });
 
-
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,

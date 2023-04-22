@@ -23,7 +23,7 @@ const StyledRangeParentContainer = styled("div")({
 });
 
 const StyledRangeChildContainer = styled("div")({
-  marginTop: 8, 
+  marginTop: 8,
   marginLeft: 13,
 });
 
@@ -34,7 +34,7 @@ const StyledInterpolationParentContainer = styled("div")({
 });
 
 const StyledInterpolationChildContainer = styled("div")({
-  marginTop: 8, 
+  marginTop: 8,
   marginLeft: 13,
 });
 
@@ -329,8 +329,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   }
 
   return (
-    <StyledInterpolationLegendWrapper
-    >
+    <StyledInterpolationLegendWrapper>
       {continuousLegend}
       {continuousD3Legend}
       {discreteLegend}

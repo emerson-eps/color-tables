@@ -92,7 +92,7 @@ const StyledPointerArrow = styled("div")({
 });
 
 const StyledSketchPicker = styled("div")({
-  marginTop: "120px", 
+  marginTop: "120px",
   position: "fixed",
 });
 
