@@ -301,11 +301,21 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   ]);
 
   return (
-    <StyledDiscreteLegendWrapper>
+    <div
+      style={{
+        position: "absolute",
+        minHeight: "70px",
+        backgroundColor: "#ffffffcc",
+        borderRadius: "5px",
+        zIndex: 999,
+        margin: "10px",
+        ...cssLegendStyles,
+      }}
+    >
       <div
         id={id ? id : `disc-legend - ${generateUniqueId}`}
         ref={divRef}
       ></div>
-    </StyledDiscreteLegendWrapper>
+    </div>
   );
 };

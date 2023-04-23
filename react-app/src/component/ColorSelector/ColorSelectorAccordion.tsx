@@ -105,7 +105,6 @@ export const ColorSelectorAccordion = (props: any) => {
   );
 
   const isCustomScale = React.useCallback((data: string) => {
-    console.log("data", data);
     setCustomScalesName(data);
   }, []);
 
