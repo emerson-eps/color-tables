@@ -1,17 +1,17 @@
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
+
 export default {
   component: ContinuousLegend,
   title: "Legends  / ContinuousLegend",
-} as ComponentMeta<typeof ContinuousLegend>;
+};
 
 const min = 0;
 const max = 1;
 const dataObjectName = "Physics color map";
 const colorName = "Physics";
 
-const Story: ComponentStory<typeof ContinuousLegend> = args => {
+const Story = (args: JSX.IntrinsicAttributes & { min?: number; max?: number; dataObjectName?: string; colorName?: string;}) => {
   return <ContinuousLegend {...args} />;
 };
 

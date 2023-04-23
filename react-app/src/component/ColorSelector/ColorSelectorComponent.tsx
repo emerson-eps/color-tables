@@ -19,7 +19,7 @@ const StyledLegend = styled("div")({
 declare type legendProps = {
   colorsObject?: any;
   legendColor?: any;
-  legendColorName?: string | undefined;
+  legendColorName?: string;
   useContColorTable?: boolean;
   useDiscColorTable?: boolean;
   uniqueId?: number;

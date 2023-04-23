@@ -14,7 +14,7 @@ declare type moduleProps = {
   colorScaleBreakpoints?: any;
   editedData?: any;
   isModal?: boolean;
-  handleModalClick?: any;
+  handleModalClick?: (event: MouseEvent) => void ;
   customScalesName?: string;
 };
 
