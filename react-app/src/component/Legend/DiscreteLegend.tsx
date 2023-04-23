@@ -126,7 +126,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       let dataSet;
       let useSelectorLegend = false;
       let itemName: string[] = [];
-      let itemColor: ItemColor[] = [];
+      const itemColor: ItemColor[] = [];
       try {
         // fix for dash wrapper
         if (typeof colorTables === "string") {

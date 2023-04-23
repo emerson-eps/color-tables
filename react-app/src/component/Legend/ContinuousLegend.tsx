@@ -145,7 +145,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
             ? colorsArray(colorName, parsedColorTables)
             : colorsArray(colorName, colorTables);
 
-        let nearestData: any = [];
+        const nearestData: any = [];
 
         // Update color of legend based on color selector scales
         // data is passed on click upon color scales
@@ -217,7 +217,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
 
         // if colorMapFunction prop is passed
         if (colorMapFunction) {
-          let rgbValue: any = [];
+          const rgbValue: any = [];
           for (var i = 0; i <= 1; i += 0.05) {
             const value = colorMapFunction(i);
             rgbValue.push([i.toFixed(2), value[0], value[1], value[2]]);
@@ -302,7 +302,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
               : legendScaleSize - 17
           );
         const currentIndex = "linear-gradient-" + id + "0";
-        let linearGradient = defs
+        const linearGradient = defs
           .append("linearGradient")
           .attr("id", currentIndex);
         // append a linearGradient element to the defs and give it a unique id
@@ -376,11 +376,11 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
         // create tick marks
         // range varies the size of the axis
 
-        let xLeg = (isLog ? scaleSymlog() : scaleLinear())
+        const xLeg = (isLog ? scaleSymlog() : scaleLinear())
           .domain(reverseRange ? [max, min] : [min, max])
           /*@ts-ignore*/
           .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]);
-        let yLeg = (isLog ? scaleSymlog() : scaleLinear())
+        const yLeg = (isLog ? scaleSymlog() : scaleLinear())
           .domain(reverseRange ? [min, max] : [max, min])
           /*@ts-ignore*/
           .range([10, legendScaleSize < 200 ? 168 : legendScaleSize - 32]);

@@ -106,7 +106,7 @@ export function getRgbData(
     });
     return rgb;
   } else if (typeof getD3Scale?.colors == "function") {
-    let colorMappingRange = getD3Scale?.colors(point);
+    const colorMappingRange = getD3Scale?.colors(point);
     return (rgb = getColor(color(colorMappingRange)?.rgb()));
   } else if (typeof getD3Scale?.colors == "object") {
     const max = getD3Scale?.colors.length - 1;
@@ -153,7 +153,7 @@ export function getRgbData(
     }
     // if no match then need to do interpolation
     else {
-      let nearestColor: any = [];
+      const nearestColor: any = [];
       if (isNearest) {
         colorTableColors.forEach(function (val: any, index: any) {
           if (
@@ -161,7 +161,7 @@ export function getRgbData(
             point > val[0] &&
             point < colorTableColors[index + 1][0]
           ) {
-            let middle: any = (val[0] + colorTableColors[index + 1][0]) / 2;
+            const middle: any = (val[0] + colorTableColors[index + 1][0]) / 2;
             if (point < middle) {
               nearestColor.push(val[1], val[2], val[3]);
             } else {
@@ -548,10 +548,10 @@ export function getColorSelectorPosition(
 ): { top?: string; left?: string; right?: string; bottom?: string } {
   // when horizontal, the legend dimentions are: width = legendWidth & height = 80px
   // when vertical, the legend dimentions are: height = legendWidth & width = 80px
-  let legendWidth = isHorizontal ? legendScaleSize + "px" : "100px";
-  let legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
+  const legendWidth = isHorizontal ? legendScaleSize + "px" : "100px";
+  const legendHeight = isHorizontal ? "100px" : legendScaleSize + "px";
 
-  let accordionPosition = { left: "", top: "", right: "", bottom: "" };
+  const accordionPosition = { left: "", top: "", right: "", bottom: "" };
 
   // when any of the styles positions is zero, convert to string so that it can pass the conditions afteron
   styles.left = styles.left == 0 ? "0px" : styles.left;
@@ -626,7 +626,7 @@ export function getTickValues(
   const max = range[1];
   numberOfTicks = Math.floor(numberOfTicks);
   const step = (max - min) / (numberOfTicks + 1);
-  let ticksArray: number[] = [];
+  const ticksArray: number[] = [];
 
   for (let i = 1; i <= numberOfTicks; i++) {
     let currentTickValue = step * i + min;

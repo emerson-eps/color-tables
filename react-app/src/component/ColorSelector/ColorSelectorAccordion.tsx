@@ -64,8 +64,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const ColorSelectorAccordion = (props: any) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  let colorScaleBreakpoints: {
-    // to support discrete color for continous data
+  const colorScaleBreakpoints: {
     position: number;
     color: string;
   }[] = [];
