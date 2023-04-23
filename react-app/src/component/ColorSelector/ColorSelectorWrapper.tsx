@@ -74,10 +74,12 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
         setAuto(true);
       } else {
         setAuto(false);
-        let inputValue1 = (document.getElementById("minV") as HTMLInputElement)
-          .value;
-        let inputValue2 = (document.getElementById("maxV") as HTMLInputElement)
-          .value;
+        const inputValue1 = (
+          document.getElementById("minV") as HTMLInputElement
+        ).value;
+        const inputValue2 = (
+          document.getElementById("maxV") as HTMLInputElement
+        ).value;
         getRange([parseFloat(inputValue1), parseFloat(inputValue2)]);
       }
     },
@@ -100,7 +102,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const [duplicatedLegendData, setDuplicatedLegendData] = React.useState([]);
 
   const copyLegend = (value: any) => {
-    let test = value.color.map((item: any) => {
+    const test = value.color.map((item: any) => {
       return {
         position: item[0],
         color: RGBToHex(item).color,

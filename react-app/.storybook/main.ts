@@ -8,6 +8,10 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: true
-  }
+  },
+  async viteFinal(config, { configType }) {
+    config.base = process.env.BASE_PATH || config.base;
+    return config;
+  },
 };
 export default config;
