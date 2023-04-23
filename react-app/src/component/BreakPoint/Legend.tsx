@@ -9,6 +9,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
+import { IBreakPointArrayItem } from "../ColorSelector/BreakPointModule";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
@@ -72,7 +73,8 @@ export const LegendComp: React.FC<moduleProps> = ({
     colorScaleBreakpoints
   );
 
-  const [customizedBreakpoints, setCustomizedBreakpoints] = React.useState();
+  const [customizedBreakpoints, setCustomizedBreakpoints] =
+    React.useState<IBreakPointArrayItem[]>();
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
@@ -130,7 +132,7 @@ export const LegendComp: React.FC<moduleProps> = ({
   }, [handleModalClick, isModal, popUpState]);
 
   const scaleBreakpoints = React.useCallback(
-    (value: any) => {
+    (value: IBreakPointArrayItem[]) => {
       if (value) {
         editedData({ colorArray: value, customizeFlag: true });
         setBreakPointValues(value);
