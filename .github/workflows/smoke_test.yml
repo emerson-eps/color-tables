@@ -30,11 +30,11 @@ jobs:
           npm install http-server
           npm install wait-on
 
-      - name: Build Storybook
-        run: npm run build-storybook
+      - name: Check Storybook
+        run: npm run storybook -- --ci --smoke-test
 
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npm run storybook" \
+            "npm run storybook -- --ci --host localhost" \
             "npx wait-on tcp:6006 && npm run storybook:test"
