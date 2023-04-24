@@ -18,6 +18,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
 
+      - name: Tune GitHub-hosted runner network
+        uses: smorimoto/tune-github-hosted-runner-network@v1
+
       - name: Install dependencies
         run: npm ci
 
@@ -29,14 +32,12 @@ jobs:
           npm install concurrently
           npm install http-server
           npm install wait-on
-          npm install get-port-cli
 
       - name: Build Storybook
         run: npm run build-storybook
 
       - name: Serve Storybook and run tests
         run: |
-          FREE_PORT=`npx get-port -h 127.0.0.1`
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port $FREE_PORT -a 127.0.0.1 --silent" \
-            "npx wait-on --delay 5000 tcp:127.0.0.1:$FREE_PORT && npm run storybook:test"
+            "npx http-server storybook-static --port 6006 -a 127.0.0.1 --silent" \
+            "npx wait-on --delay 5000 tcp:127.0.0.1:6006 && npm run storybook:test"
