@@ -6,7 +6,7 @@ import { styled } from "@mui/system";
 type Props = {
   arrayOfColors: string[] | ((index: number) => string);
   vertical?: boolean;
-  onClick?: any;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const StyledRootContainer = styled("div")({
