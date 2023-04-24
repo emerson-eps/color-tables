@@ -1,0 +1,40 @@
+name: Smoke Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: react-app
+jobs:
+  test:
+    name: Smoke Tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Install Test Dependencies
+        run: |
+          npm install concurrently
+          npm install http-server
+          npm install wait-on
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue"
+          npx http-server storybook-static --port 6006 --silent
+          npx wait-on tcp:6006 && npm run storybook:test
