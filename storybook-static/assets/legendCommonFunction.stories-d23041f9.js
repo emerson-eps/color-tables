@@ -1,6 +1,0 @@
-import{j as d}from"./jsx-runtime-ad672792.js";import{C as u}from"./ContinuousLegend-86beba0f.js";import{c as g,a as C}from"./legendCommonFunction-691e4b35.js";import"./index-f1f749bf.js";import"./_commonjsHelpers-042e6b4d.js";const y={component:u,title:"Utils / Common Functions"},m=0,l=1,f="Physics color map function",F="Physics";function M(e){return C(F)(e)}const p=e=>d(u,{...e}),o=p.bind({});o.args={min:m,max:l,dataObjectName:f,colorMapFunction:M,legendFontSize:13};const n=p.bind({});n.args={min:m,max:l,dataObjectName:"Default color scale (Rainbow)",colorMapFunction:g(),legendFontSize:13};var r,t,a;o.parameters={...o.parameters,docs:{...(r=o.parameters)==null?void 0:r.docs,source:{originalSource:`args => {
-  return <ContinuousLegend {...args} />;
-}`,...(a=(t=o.parameters)==null?void 0:t.docs)==null?void 0:a.source}}};var s,c,i;n.parameters={...n.parameters,docs:{...(s=n.parameters)==null?void 0:s.docs,source:{originalSource:`args => {
-  return <ContinuousLegend {...args} />;
-}`,...(i=(c=n.parameters)==null?void 0:c.docs)==null?void 0:i.source}}};const N=["ColorMapFunction","DefaultColorMapFunction"];export{o as ColorMapFunction,n as DefaultColorMapFunction,N as __namedExportsOrder,y as default};
-//# sourceMappingURL=legendCommonFunction.stories-d23041f9.js.map
