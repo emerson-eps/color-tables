@@ -19,7 +19,7 @@ function getColor(rgb: RGBColor): Color {
 export function colorsArray(
   colorName: string,
   iscolorTablesDefined: colorTablesArray | any
-): any {
+) {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
@@ -44,7 +44,7 @@ export function RGBToHex(rgb: number[], max?: number) {
   return { color: "#" + r + g + b, offset: offset };
 }
 
-export function HextoRGB(hex: any) {
+export function HextoRGB(hex: string) {
   var m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
   return {
     r: parseInt(m[1], 16),
@@ -87,7 +87,7 @@ export function getRgbData(
     const getSelectedScaleLength = getColorTableScale?.colors.length;
     const minValue = 0;
     const maxValue = getSelectedScaleLength - 1;
-    getColorTableScale?.colors.forEach((item: any, index: any) => {
+    getColorTableScale?.colors.forEach((item: number[], index: number) => {
       const currentIndex = index;
       const normalizedCurrentIndex =
         (currentIndex - minValue) / (maxValue - minValue);
@@ -125,7 +125,7 @@ export function getRgbData(
     return rgb;
   } else {
     let colorTableColors = colorsArray(colorName, getColorTables);
-    const itemColor: any = [];
+    const itemColor: any[][] = [];
 
     if (userBreakPoint?.length > 0) {
       userBreakPoint.forEach((value: any) => {
@@ -203,7 +203,7 @@ export function getColors(
   colorName: string,
   iscolorTablesDefined: any,
   point: number
-): any {
+) {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
@@ -241,7 +241,7 @@ export function rgbValues(
 
   // get the colors from the colortable for matching colorname
   let colorTableColors = colorsArray(colorName, getColorTables);
-  const itemColor: any = [];
+  const itemColor: number[][] = [];
 
   if (breakPoints?.length > 0) {
     breakPoints.forEach((value: any) => {
@@ -271,7 +271,7 @@ export function rgbValues(
   else {
     var nearestColor: any = [];
     if (isNearest) {
-      colorTableColors.forEach(function (val: any, index: any) {
+      colorTableColors.forEach(function (val: any[], index: any) {
         if (
           colorTableColors[index + 1] &&
           point > val[0] &&
@@ -330,7 +330,7 @@ export function sampledColor(
     ? iscolorTablesDefined
     : colorTables;
   // get colortable colorscale data
-  const getColorTableScale = getColorTables.find((value: any) => {
+  const getColorTableScale = getColorTables.find((value: { name: string }) => {
     return value.name === colorScaleName;
   });
 
