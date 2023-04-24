@@ -36,5 +36,5 @@ jobs:
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 -a 127.0.0.1 --silent" \
-            "npx wait-on --delay 5000 tcp:127.0.0.1:6006 && npm run storybook:test"
+            "npx http-server storybook-static --port 6007 -a 127.0.0.1 --silent" \
+            "npx wait-on --delay 5000 tcp:127.0.0.1:6007 && npm run storybook:test"
