@@ -1,5 +1,4 @@
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
 import {
   createContinuousLibraryColorScale,
@@ -9,7 +8,7 @@ import {
 export default {
   component: ContinuousLegend,
   title: "Utils / Common Functions",
-} as ComponentMeta<typeof ContinuousLegend>;
+};
 
 const min = 0;
 const max = 1;
@@ -21,9 +20,14 @@ function colorMap(value: number) {
   return f(value);
 }
 
-const ContinuousLegendTemplate: ComponentStory<
-  typeof ContinuousLegend
-> = args => {
+const ContinuousLegendTemplate = (
+  args: JSX.IntrinsicAttributes & {
+    min?: number;
+    max?: number;
+    dataObjectName?: string;
+    colorName?: string;
+  }
+) => {
   return <ContinuousLegend {...args} />;
 };
 

@@ -1,21 +1,21 @@
 import * as React from "react";
 import { ColorScale } from "../BreakPoint/ColorScale";
-import { IconButton, ThemeProvider } from "@mui/material";
+import { IconButton, ThemeProvider, Popover } from "@mui/material";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
-import { Popover } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
+import { IBreakPointArrayItem } from "../ColorSelector/BreakPointModule";
 
 declare type moduleProps = {
   colorScaleBreakpoints?: any;
   editedData?: any;
   isModal?: boolean;
-  handleModalClick?: any;
+  handleModalClick?: (event: MouseEvent) => void;
   customScalesName?: string;
 };
 
@@ -54,6 +54,14 @@ const StyledEditContainer = styled("div")({
   cursor: "pointer",
 });
 
+const StyledCustomScales = styled("div")({
+  whiteSpace: "nowrap",
+  fontSize: "small",
+  fontWeight: "700",
+  margin: "6px 0px 0px 6px",
+  cursor: "pointer",
+});
+
 export const LegendComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   editedData,
@@ -65,20 +73,19 @@ export const LegendComp: React.FC<moduleProps> = ({
     colorScaleBreakpoints
   );
 
-  const [customizedBreakpoints, setCustomizedBreakpoints] = React.useState();
+  const [customizedBreakpoints, setCustomizedBreakpoints] =
+    React.useState<IBreakPointArrayItem[]>();
 
   React.useEffect(() => {
     setBreakPointValues(colorScaleBreakpoints);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorScaleBreakpoints.length]);
+  }, [colorScaleBreakpoints, colorScaleBreakpoints.length]);
   const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(
       breakpointValues.colorArray
         ? breakpointValues.colorArray
         : breakpointValues
     ).sort((a: any, b: any) => a.position - b.position);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breakpointValues.length, breakpointValues]);
+  }, [breakpointValues]);
 
   const arrayOfColors = React.useMemo(
     () =>
@@ -108,8 +115,7 @@ export const LegendComp: React.FC<moduleProps> = ({
       setPopUpState(data.bubbles);
       setAnchorEl(null);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [popUpState]
+    []
   );
 
   const deleteLegend = () => {
@@ -123,11 +129,10 @@ export const LegendComp: React.FC<moduleProps> = ({
         ? document.removeEventListener("mousedown", handleModalClick)
         : document.addEventListener("mousedown", handleModalClick);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [popUpState]);
+  }, [handleModalClick, isModal, popUpState]);
 
   const scaleBreakpoints = React.useCallback(
-    (value: (prevState: undefined) => undefined) => {
+    (value: IBreakPointArrayItem[]) => {
       if (value) {
         editedData({ colorArray: value, customizeFlag: true });
         setBreakPointValues(value);
@@ -145,8 +150,7 @@ export const LegendComp: React.FC<moduleProps> = ({
         : breakpointValues,
       customizeFlag: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customizedBreakpoints]);
+  }, [breakpointValues, customizedBreakpoints, editedData]);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -161,17 +165,9 @@ export const LegendComp: React.FC<moduleProps> = ({
             <StyledTextureContainer>
               <ColorScale arrayOfColors={arrayOfColors} />
             </StyledTextureContainer>
-            <div
-              style={{
-                whiteSpace: "nowrap",
-                fontSize: "small",
-                fontWeight: "700",
-                margin: "6px 0px 0px 6px",
-                cursor: "pointer",
-              }}
-            >
+            <StyledCustomScales>
               {customScalesName + " Copy"}
-            </div>
+            </StyledCustomScales>
           </StyledColorScaleContainer>
           <div className="breadCrumbs">
             <IconButton

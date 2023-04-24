@@ -16,6 +16,37 @@ const StyledContentCopyIcon = styled("div")({
   },
 });
 
+const StyledRangeParentContainer = styled("div")({
+  height: 58,
+  borderRadius: "0.5em",
+  border: "1px solid #dadada",
+});
+
+const StyledRangeChildContainer = styled("div")({
+  marginTop: 8,
+  marginLeft: 13,
+});
+
+const StyledInterpolationParentContainer = styled("div")({
+  height: 72,
+  borderRadius: "0.5em",
+  border: "1px solid #dadada",
+});
+
+const StyledInterpolationChildContainer = styled("div")({
+  marginTop: 8,
+  marginLeft: 13,
+});
+
+const StyledInterpolationLegendWrapper = styled("div")({
+  height: 120,
+  overflow: "auto",
+  display: "flex",
+  flexDirection: "column",
+  overflowX: "hidden",
+  marginLeft: -12,
+});
+
 export declare type colorScaleObj = {
   name: string;
   color:
@@ -63,6 +94,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   const continuosColorData: colorScaleArray = [];
   const continuosD3ColorData: colorScaleArray = [];
   const discreteColorData: colorScaleArray = [];
+
   const discreteD3ColorData: colorScaleArray = [];
 
   const [isAuto, setAuto] = React.useState(true);
@@ -117,8 +149,11 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     if (getDuplicatedLegendData) {
       getDuplicatedLegendData(duplicatedLegendData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [duplicatedLegendData?.length]);
+  }, [
+    duplicatedLegendData,
+    duplicatedLegendData.length,
+    getDuplicatedLegendData,
+  ]);
 
   if (!useRange || !useInterpolation) {
     // Continuous legend using color table  data
@@ -166,20 +201,20 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           useContColorTable={false}
           uniqueId={index}
           colorScaleData={newColorScaleData}
-          key={index}
+          key={val.name}
           currentLegendName={currentLegendName}
         />
       );
     });
 
-    discreteD3Legend = d3discreteData.map((val: any, index: any) => {
+    discreteD3Legend = d3discreteData.map((val: any) => {
       return (
         <ColorSelectorComponent
           colorsObject={val.colors}
           legendColorName={val.name}
           useDiscColorTable={false}
           colorScaleData={newColorScaleData}
-          key={index}
+          key={val.name}
           currentLegendName={currentLegendName}
         />
       );
@@ -188,7 +223,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
     // return continuous and discrete legend which uses colortable data
     continuousLegend = continuosColorData.map((value: any, index: any) => {
       return (
-        <StyledParentDiv key={index}>
+        <StyledParentDiv key={value.name}>
           <div>
             <ColorSelectorComponent
               colorsObject={value}
@@ -196,7 +231,7 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
               useContColorTable={true}
               uniqueId={index}
               colorScaleData={newColorScaleData}
-              key={index}
+              key={value.name}
               currentLegendName={currentLegendName}
             />
           </div>
@@ -232,17 +267,12 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   // Sampling through range
   if (useRange) {
     return (
-      <div
+      <StyledRangeParentContainer
         onChange={ev => {
           onChangeRange(ev.target);
         }}
-        style={{
-          height: 58,
-          borderRadius: "0.5em",
-          border: "1px solid #dadada",
-        }}
       >
-        <div style={{ marginTop: 8, marginLeft: 13 }}>
+        <StyledRangeChildContainer>
           <input
             type="radio"
             value="Auto"
@@ -262,24 +292,19 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
           <input type="text" id="minV" size={3} disabled={isAuto || !isCont} />
           <label style={{ marginLeft: 10, marginRight: 10 }}>Max</label>
           <input type="text" id="maxV" size={3} disabled={isAuto || !isCont} />
-        </div>
-      </div>
+        </StyledRangeChildContainer>
+      </StyledRangeParentContainer>
     );
   }
   // Interpolation methods
   else if (useInterpolation) {
     return (
-      <div
+      <StyledInterpolationParentContainer
         onChange={ev => {
           onChangeInterpolation(ev.target);
         }}
-        style={{
-          height: 72,
-          borderRadius: "0.5em",
-          border: "1px solid #dadada",
-        }}
       >
-        <div style={{ marginTop: 8, marginLeft: 13 }}>
+        <StyledInterpolationChildContainer>
           <input
             type="radio"
             value="Linear"
@@ -304,27 +329,17 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
             defaultChecked={selectedInterpolationType?.isNearest}
           />
           Nearest <br />
-        </div>
-      </div>
+        </StyledInterpolationChildContainer>
+      </StyledInterpolationParentContainer>
     );
   }
 
   return (
-    <div
-      className="legendWrapper"
-      style={{
-        height: 120,
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column",
-        overflowX: "hidden",
-        marginLeft: -12,
-      }}
-    >
+    <StyledInterpolationLegendWrapper>
       {continuousLegend}
       {continuousD3Legend}
       {discreteLegend}
       {discreteD3Legend}
-    </div>
+    </StyledInterpolationLegendWrapper>
   );
 };

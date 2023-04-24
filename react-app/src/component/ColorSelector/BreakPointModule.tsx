@@ -11,10 +11,16 @@ import { SketchPicker } from "react-color";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import { styled } from "@mui/system";
 
+export declare type IBreakPointArrayItem = {
+  position: number;
+  color: string;
+  name?: string;
+};
+
 declare type moduleProps = {
-  colorScaleBreakpoints?: any;
+  colorScaleBreakpoints?: IBreakPointArrayItem[];
   setColorScaleBreakpoints?: any;
-  editedBreakpoint?: any;
+  editedBreakpoint?: (colorScaleBreakpoints: IBreakPointArrayItem[]) => void;
   customScalesName?: string;
 };
 
@@ -91,6 +97,11 @@ const StyledPointerArrow = styled("div")({
   transform: "rotate(180deg)",
 });
 
+const StyledSketchPicker = styled("div")({
+  marginTop: "120px",
+  position: "fixed",
+});
+
 export const BreakPointComp: React.FC<moduleProps> = ({
   colorScaleBreakpoints,
   setColorScaleBreakpoints,
@@ -124,18 +135,18 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       const offset =
         (e as TouchEvent).touches?.[0]?.clientX ?? (e as MouseEvent).clientX;
 
-      const clampedNewWidth =
+      const clampedNewWidth: number =
         clamp(offset, rectBox.left, rectBox.right) - rectBox.left;
 
       const normalizer = scaleLinear().domain([0, rectBox.width]);
-      const normalizedPosition = normalizer(clampedNewWidth) as number;
+      const normalizedPosition = normalizer(clampedNewWidth);
 
       const firstItemIndex = 0;
       const lastItemIndex = colorScaleBreakpoints.length - 1;
 
       if (getIndex !== firstItemIndex && getIndex !== lastItemIndex) {
-        setColorScaleBreakpoints((items: any) =>
-          items.map((item: any, index: any) =>
+        setColorScaleBreakpoints((items: IBreakPointArrayItem[]) =>
+          items.map((item, index) =>
             index === selectedIndexRef.current
               ? {
                   ...item,
@@ -146,34 +157,31 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         );
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rectBox, colorScaleBreakpoints.length, getIndex]
+    [
+      rectBox.left,
+      rectBox.right,
+      rectBox.width,
+      colorScaleBreakpoints.length,
+      getIndex,
+      setColorScaleBreakpoints,
+    ]
   );
 
   const orderedSelectedColors: any = React.useMemo(() => {
     return Object.values(colorScaleBreakpoints).sort(
-      (a: any, b: any) => a.position - b.position
+      (a, b) => a.position - b.position
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    colorScaleBreakpoints.length,
-    setColorScaleBreakpoints,
-    colorScaleBreakpoints,
-  ]);
+  }, [colorScaleBreakpoints]);
 
   const arrayOfColors = React.useMemo(
     () => getColorArrayFromBreakPoints(orderedSelectedColors),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      orderedSelectedColors,
-      colorScaleBreakpoints.length,
-      setColorScaleBreakpoints,
-    ]
+    [orderedSelectedColors]
   );
 
   React.useEffect(() => {
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
+
     if (editedBreakpoint) {
       editedBreakpoint(colorScaleBreakpoints);
     }
@@ -181,8 +189,13 @@ export const BreakPointComp: React.FC<moduleProps> = ({
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onMouseMove, colorScaleBreakpoints, colorScaleBreakpoints.length]);
+  }, [
+    onMouseMove,
+    colorScaleBreakpoints,
+    colorScaleBreakpoints.length,
+    onMouseUp,
+    editedBreakpoint,
+  ]);
 
   const isBreakpointMovingRef = React.useRef(false);
   const selectedIndexRef = React.useRef(0);
@@ -207,8 +220,8 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   const width = 200;
 
   const onChangeComplete = React.useCallback(
-    (color: any) => {
-      setColorScaleBreakpoints((items: any[]) =>
+    (color: { hex: string }) => {
+      setColorScaleBreakpoints((items: IBreakPointArrayItem[]) =>
         items.map((item, index) =>
           index === selectedIndexRef.current
             ? {
@@ -229,7 +242,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
   }, []);
 
   const addBreakpoint = React.useCallback(() => {
-    setColorScaleBreakpoints((items: any) => [
+    setColorScaleBreakpoints((items: IBreakPointArrayItem[]) => [
       ...items.splice(colorScaleBreakpoints.length - 1, 0, {
         position: 0.5,
         color: "#FF69B4",
@@ -238,12 +251,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
     ]);
     setSelectedIndex(colorScaleBreakpoints.length);
     selectedIndexRef.current = colorScaleBreakpoints.length;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    colorScaleBreakpoints,
-    colorScaleBreakpoints.length,
-    setColorScaleBreakpoints,
-  ]);
+  }, [colorScaleBreakpoints, setColorScaleBreakpoints]);
 
   const deleteBreakPoint = React.useCallback(
     (indexToDelete: number) => {
@@ -251,7 +259,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         indexToDelete !== 0 &&
         indexToDelete !== colorScaleBreakpoints.length - 1
       ) {
-        setColorScaleBreakpoints((items: any[]) =>
+        setColorScaleBreakpoints((items: IBreakPointArrayItem[]) =>
           items.filter((_, index) => index !== indexToDelete)
         );
 
@@ -261,12 +269,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      setColorScaleBreakpoints,
-      colorScaleBreakpoints,
-      colorScaleBreakpoints.length,
-    ]
+    [setColorScaleBreakpoints, colorScaleBreakpoints]
   );
 
   return (
@@ -279,7 +282,7 @@ export const BreakPointComp: React.FC<moduleProps> = ({
           <ColorScale arrayOfColors={arrayOfColors} />
         </StyledTextureContainer>
         <StyledRail ref={setBoundingClientRect}>
-          {colorScaleBreakpoints.map(({ color, position }: any, index: any) => {
+          {colorScaleBreakpoints.map(({ color, position }, index) => {
             const left = position * rectBox.width - pointer_width / 2;
             const onMoveStart = () => onMouseDown(index);
 
@@ -298,11 +301,11 @@ export const BreakPointComp: React.FC<moduleProps> = ({
               </StyledPointerContainer>
             );
           })}
-          <div style={{ marginTop: "120px", position: "fixed" }} ref={divRef}>
+          <StyledSketchPicker ref={divRef}>
             {popUpState ? (
               <SketchPicker color={"red"} onChangeComplete={onChangeComplete} />
             ) : null}
-          </div>
+          </StyledSketchPicker>
         </StyledRail>
       </StyledColorScaleContainer>
       <StyledControllersContainer>

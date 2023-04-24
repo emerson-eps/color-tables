@@ -63,21 +63,31 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   const colorSelectorRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = React.useState(isOpenProp);
   const [isAuto, setAuto] = React.useState(true);
-  const [newMin, setNewMin] = React.useState();
-  const [newMax, setNewMax] = React.useState();
+  const [newMin, setNewMin] = React.useState<number>();
+  const [newMax, setNewMax] = React.useState<number>();
   const [isLog, setLog] = React.useState(false);
   const [getItemColor, setItemColor] = React.useState([]);
   const [isNearest, setIsNearest] = React.useState(false);
 
+  let interpolationType;
+
+  if (isNearest) {
+    interpolationType = { isNearest: true };
+  } else if (isLog) {
+    interpolationType = { isLog: true };
+  } else {
+    interpolationType = { isLinear: true };
+  }
+
   // callback function for modifying range
   const getRange = React.useCallback(
-    (data: any) => {
+    (data: string | number[]) => {
       if (data === "Auto") {
         setAuto(true);
         if (getColorRange) getColorRange({ isAuto: true });
       } else {
         setAuto(false);
-        if (data?.[0] && data?.[1]) {
+        if (data?.[0] && data?.[1] && typeof data !== "string") {
           setNewMin(data[0]);
           setNewMax(data[1]);
           if (getColorRange)
@@ -89,7 +99,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   );
 
   const getInterpolation = React.useCallback(
-    (data: any) => {
+    (data: string) => {
       if (data === "Logarithmic") {
         setLog(true);
         setIsNearest(false);
@@ -109,17 +119,18 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
           getInterpolateMethod({ isLog: false, isNearest: false });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLog, isNearest]
+    [getInterpolateMethod]
   );
 
-  const breakpointValues = React.useCallback((data: any) => {
-    if (data) {
-      setItemColor(data);
-      if (getBreakpointValue) getBreakpointValue(data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const breakpointValues = React.useCallback(
+    (data: any) => {
+      if (data) {
+        setItemColor(data);
+        if (getBreakpointValue) getBreakpointValue(data);
+      }
+    },
+    [getBreakpointValue]
+  );
 
   const toggleColorSelector = useCallback(() => {
     if (divRef && divRef.current) {
@@ -129,11 +140,11 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   const [getColorScaleData, setGetColorScaleData] = React.useState([] as any);
 
-  const isColortableColors = colorTables?.find((value: any) => {
+  const isColortableColors = colorTables?.find(value => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
-  const isD3Colors = d3ColorScales.find((value: any) => {
+  const isD3Colors = d3ColorScales.find(value => {
     return value?.name === colorName || colorNameFromSelector;
   });
 
@@ -163,8 +174,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
       setItemColor([]);
       if (getBreakpointValue) getBreakpointValue({ breakpoint: [] });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [colorNameFromSelector]
+    [colorNameFromSelector, getBreakpointValue, getScale]
   );
 
   const handleModalClick = React.useCallback(
@@ -293,13 +303,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
                 getInterpolation={getInterpolation}
                 legendScaleSize={legendScaleSizeState}
                 cssLegendStyles={cssLegendStyles}
-                selectedInterpolationType={
-                  isNearest
-                    ? { isNearest: true }
-                    : isLog
-                    ? { isLog: true }
-                    : { isLinear: true }
-                }
+                selectedInterpolationType={interpolationType}
                 selectedRangeType={
                   isAuto ? { isAuto: true } : { isAuto: false }
                 }
