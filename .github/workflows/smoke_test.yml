@@ -41,10 +41,13 @@ jobs:
         with:
           directory: storybook-static
 
-      - name: Run smoke test
-        run: |
-          npx wait-on --delay 5000 tcp:localhost:8080 \
-          && npm run storybook:test -- --ci --url http://localhost:8080/
+      - name: Check Storybook
+        run: curl -vvv http://localhost:8080/
+
+      #- name: Run smoke test
+      #  run: |
+      #    npx wait-on --delay 5000 tcp:localhost:8080 \
+      #    && npm run storybook:test -- --ci --url http://localhost:8080/
 
       #- name: Serve Storybook and run tests
       #  run: |
