@@ -58,4 +58,4 @@ jobs:
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --port 8080 -a 127.0.0.1" \
-            "npx wait-on --delay 5000 tcp:127.0.0.1:8080 && npm run storybook:test"
+            "npx wait-on --delay 5000 tcp:127.0.0.1:8080 && npm run storybook:test -- --ci --url http://127.0.0.1:8080/"
