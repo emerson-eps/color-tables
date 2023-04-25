@@ -24,38 +24,38 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      #- name: Install Playwright
+      #  run: npx playwright install --with-deps
 
-      #- name: Install Test Dependencies
-      #  run: |
-      #    npm install concurrently
-      #    npm install http-server
-      #    npm install wait-on
+      - name: Install Test Dependencies
+        run: |
+          npm install concurrently
+          npm install http-server
+          npm install wait-on
 
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Serve Storybook
-        uses: Eun/http-server-action@v1
-        with:
-          directory: ${{ github.workspace }}/react-app/storybook-static
+      #- name: Serve Storybook
+      #  uses: Eun/http-server-action@v1
+      #  with:
+      #    directory: ${{ github.workspace }}/react-app/storybook-static
 
-      - name: Check server
-        run: |
-          curl http://localhost:8080/
-          curl http://localhost:8080/?path=/story/legends-csslegendstyles--top-left-position&addonPanel=storybook/interactions/panel
+      #- name: Check server
+      #  run: |
+      #    curl http://localhost:8080/
+      #    curl http://localhost:8080/?path=/story/legends-csslegendstyles--top-left-position&addonPanel=storybook/interactions/panel
 
-      - name: Run smoke test
-        run: npm run storybook:test -- --ci --url http://localhost:8080/
+      #- name: Run smoke test
+      #  run: npm run storybook:test -- --ci --url http://localhost:8080/
 
       #- name: Run smoke test
       #  run: |
       #    npx wait-on --delay 5000 tcp:localhost:8080 \
       #    && npm run storybook:test -- --ci --url http://localhost:8080/
 
-      #- name: Serve Storybook and run tests
-      #  run: |
-      #    npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-      #      "npx http-server storybook-static --port 6006 -a 127.0.0.1 --silent" \
-      #      "npx wait-on --delay 5000 tcp:127.0.0.1:6006 && npm run storybook:test"
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 8080 -a 127.0.0.1" \
+            "npx wait-on --delay 5000 tcp:127.0.0.1:8080 && npm run storybook:test"
