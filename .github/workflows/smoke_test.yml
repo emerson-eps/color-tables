@@ -39,7 +39,7 @@ jobs:
       - name: Serve Storybook
         uses: Eun/http-server-action@v1
         with:
-          directory: storybook-static
+          directory: ${{ github.workspace }}/react-app/storybook-static
 
       - name: Check
         run: curl -vvv http://localhost:8080/index.html
