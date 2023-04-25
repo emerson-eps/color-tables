@@ -42,7 +42,9 @@ jobs:
           directory: ${{ github.workspace }}/react-app/storybook-static
 
       - name: Check server
-        run: curl -v http://localhost:8080/index.html
+        run: |
+          curl http://localhost:8080/
+          curl http://localhost:8080/?path=/story/legends-csslegendstyles--top-left-position&addonPanel=storybook/interactions/panel
 
       - name: Run smoke test
         run: npm run storybook:test -- --ci --url http://localhost:8080/
