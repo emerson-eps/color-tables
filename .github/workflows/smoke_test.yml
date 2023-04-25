@@ -41,8 +41,11 @@ jobs:
         with:
           directory: ${{ github.workspace }}/react-app/storybook-static
 
-      - name: Check
-        run: curl -vvv http://localhost:8080/index.html
+      - name: Check server
+        run: curl -v http://localhost:8080/index.html
+
+      - name: Run smoke test
+        run: npm run storybook:test -- --ci --url http://localhost:8080/
 
       #- name: Run smoke test
       #  run: |
