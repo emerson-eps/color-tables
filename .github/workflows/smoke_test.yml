@@ -22,10 +22,7 @@ jobs:
         run: npm ci
 
       - name: Install Test Dependencies
-        run: |
-          npm install concurrently
-          npm install http-server
-          npm install wait-on
+        run: npm install concurrently http-server wait-on
 
       - name: Build Storybook
         run: npm run build-storybook
