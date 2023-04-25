@@ -36,8 +36,18 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Serve Storybook and run tests
+      - name: Serve Storybook
+        uses: Eun/http-server-action@v1
+        with:
+          directory: storybook-static
+
+      - name: Run smoke test
         run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 -a 127.0.0.1 --silent" \
-            "npx wait-on --delay 5000 tcp:127.0.0.1:6006 && npm run storybook:test"
+          npx wait-on --delay 5000 tcp:localhost:8080 \
+          && npm run storybook:test -- --ci --url http://localhost:8080/
+
+      #- name: Serve Storybook and run tests
+      #  run: |
+      #    npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+      #      "npx http-server storybook-static --port 6006 -a 127.0.0.1 --silent" \
+      #      "npx wait-on --delay 5000 tcp:127.0.0.1:6006 && npm run storybook:test"
