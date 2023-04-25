@@ -18,14 +18,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
 
-      #- name: Tune GitHub-hosted runner network
-      #  uses: smorimoto/tune-github-hosted-runner-network@v1
-
       - name: Install dependencies
         run: npm ci
-
-      #- name: Install Playwright
-      #  run: npx playwright install --with-deps
 
       - name: Install Test Dependencies
         run: |
@@ -36,26 +30,11 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      #- name: Serve Storybook
-      #  uses: Eun/http-server-action@v1
-      #  with:
-      #    directory: ${{ github.workspace }}/react-app/storybook-static
-
-      #- name: Check server
-      #  run: |
-      #    curl http://localhost:8080/
-      #    curl http://localhost:8080/?path=/story/legends-csslegendstyles--top-left-position&addonPanel=storybook/interactions/panel
-
-      #- name: Run smoke test
-      #  run: npm run storybook:test -- --ci --url http://localhost:8080/
-
-      #- name: Run smoke test
-      #  run: |
-      #    npx wait-on --delay 5000 tcp:localhost:8080 \
-      #    && npm run storybook:test -- --ci --url http://localhost:8080/
-
       - name: Serve Storybook and run tests
+        env:
+          PORT: 8080
+          HOST: 127.0.0.1
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 8080 -a 127.0.0.1" \
-            "npx wait-on --delay 5000 http://127.0.0.1:8080/ && npm run storybook:test -- --ci --url http://127.0.0.1:8080/"
+            "npx http-server storybook-static --port $PORT -a $HOST" \
+            "npx wait-on http://$HOST:$PORT/ && npm run storybook:test -- --ci --url http://$HOST:$PORT/"
