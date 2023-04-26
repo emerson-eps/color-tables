@@ -64,12 +64,15 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export const ColorSelectorAccordion = (props: any) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const colorScaleBreakpoints: any = [];
-  const [customScalesName, setCustomScalesName] = React.useState();
+  const colorScaleBreakpoints: {
+    position: number;
+    color: string;
+  }[] = [];
+  const [customScalesName, setCustomScalesName] = React.useState("");
   const [duplicatedData, setDuplicatedData] = React.useState([]);
   let getColorScaleArray;
   if (customScalesName) {
-    getColorScaleArray = defaultColorTables.find((value: any) => {
+    getColorScaleArray = defaultColorTables.find(value => {
       return value.name === customScalesName;
     });
   }
@@ -100,12 +103,9 @@ export const ColorSelectorAccordion = (props: any) => {
     [props]
   );
 
-  const isCustomScale = React.useCallback(
-    (data: (prevState: undefined) => undefined) => {
-      setCustomScalesName(data);
-    },
-    []
-  );
+  const isCustomScale = React.useCallback((data: string) => {
+    setCustomScalesName(data);
+  }, []);
 
   const getDuplicatedLegendData = React.useCallback(
     (data: React.SetStateAction<any[]>) => {
@@ -123,7 +123,7 @@ export const ColorSelectorAccordion = (props: any) => {
     };
 
   if (duplicatedData?.length > 0) {
-    var testComponent = duplicatedData?.map((val: any, index: any) => {
+    var testComponent = duplicatedData?.map((val, index) => {
       return (
         <LegendComp
           colorScaleBreakpoints={val}
