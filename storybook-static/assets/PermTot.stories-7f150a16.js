@@ -1,4 +1,0 @@
-import{j as a}from"./jsx-runtime-ad672792.js";import{b as c}from"./legendCommonFunction-691e4b35.js";import"./index-f1f749bf.js";import{C as r}from"./ContinuousLegend-86beba0f.js";import"./_commonjsHelpers-042e6b4d.js";const x={component:r,title:"Legends/ContinousLegend"},m=-999,i=14023,l="Wells / PERMTOT",p=[16,10],d=!0,u="Porosity",g=!0,T=n=>a(r,{...n}),e=T.bind({});e.args={min:m,max:i,dataObjectName:l,position:p,colorName:u,colorTables:c,horizontal:d,isRangeShown:g,legendFontSize:13,tickFontSize:13,numberOfTicks:3,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var o,t,s;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`args => {
-  return <ContinuousLegend {...args} />;
-}`,...(s=(t=e.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const z=["PermTotTemplate"];export{e as PermTotTemplate,z as __namedExportsOrder,x as default};
-//# sourceMappingURL=PermTot.stories-7f150a16.js.map
