@@ -71,7 +71,7 @@
     "@storybook/react": "^7.0.6",
     "@storybook/react-vite": "^7.0.6",
     "@storybook/test-runner": "^0.10.0",
-    "@storybook/testing-library": "^0.0.14-next.2",
+    "@storybook/testing-library": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.1.1",
