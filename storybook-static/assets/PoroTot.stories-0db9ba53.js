@@ -1,0 +1,4 @@
+import{j as a}from"./jsx-runtime-095bf462.js";import{b as c}from"./legendCommonFunction-03fb4e75.js";import"./index-8db94870.js";import{C as r}from"./ContinuousLegend-ee804cb3.js";import"./_commonjsHelpers-042e6b4d.js";const P={component:r,title:"Legends/ContinousLegend"},i=0,m=.35,l="Wells / POROTOT",p=[16,10],d=!0,u="Porosity",g=!0,T=n=>a(r,{...n}),o=T.bind({});o.args={min:i,max:m,dataObjectName:l,position:p,colorName:u,colorTables:c,horizontal:d,isRangeShown:g,legendFontSize:13,tickFontSize:13,numberOfTicks:3,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var e,t,s;o.parameters={...o.parameters,docs:{...(e=o.parameters)==null?void 0:e.docs,source:{originalSource:`args => {
+  return <ContinuousLegend {...args} />;
+}`,...(s=(t=o.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const x=["PoroTotTemplate"];export{o as PoroTotTemplate,x as __namedExportsOrder,P as default};
+//# sourceMappingURL=PoroTot.stories-0db9ba53.js.map
