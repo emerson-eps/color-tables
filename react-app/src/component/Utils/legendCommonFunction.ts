@@ -119,7 +119,10 @@ export function getRgbData(
       const indexableD3Scale: any = getD3Scale;
       //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
       if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
-        const interpolate = interpolateRgb(item, indexableD3Scale[nextIndex])(point);
+        const interpolate = interpolateRgb(
+          item,
+          indexableD3Scale[nextIndex]
+        )(point);
         rgb = getColor(color(interpolate)?.rgb());
       }
     });
