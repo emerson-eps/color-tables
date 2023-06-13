@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@emerson-eps/eslint-config": "^5.0.1",
+    "@emerson-eps/eslint-config": "^5.0.4",
     "@emerson-eps/prettier-config": "^1.0.4",
     "@storybook/addon-actions": "^7.0.6",
     "@storybook/addon-essentials": "^7.0.6",
