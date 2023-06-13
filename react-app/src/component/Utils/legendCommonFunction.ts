@@ -71,7 +71,7 @@ export function getRgbData(
     return value.name === colorName;
   });
   // get d3 colorscale data
-  var getD3Scale = d3ColorScales.find(function (value) {
+  const getD3Scale = d3ColorScales.find(function (value) {
     return value.name === colorName;
   });
   let rgb;
@@ -116,9 +116,10 @@ export function getRgbData(
       const normalizedCurrentIndex = (currentIndex - 0) / (max - 0);
       const nextIndex = index + 1;
       const normalizedNextIndex = (nextIndex - 0) / (max - 0);
+      const indexableD3Scale: any = getD3Scale;
       //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
       if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
-        const interpolate = interpolateRgb(item, getD3Scale[nextIndex])(point);
+        const interpolate = interpolateRgb(item, indexableD3Scale[nextIndex])(point);
         rgb = getColor(color(interpolate)?.rgb());
       }
     });
@@ -453,11 +454,12 @@ export function sampledColor(
         const normalizedCurrentIndex = (currentIndex - 0) / (max - 0);
         const nextIndex = index + 1;
         const normalizedNextIndex = (nextIndex - 0) / (max - 0);
+        const indexableD3Scale: any = getD3Scale;
         //const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
         if (point >= normalizedCurrentIndex && point <= normalizedNextIndex) {
           const interpolate = interpolateRgb(
             item,
-            getD3Scale[nextIndex]
+            indexableD3Scale[nextIndex]
           )(point);
           rgb = getColor(color(interpolate)?.rgb());
         }
