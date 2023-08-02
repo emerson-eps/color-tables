@@ -55,7 +55,7 @@
     "@babel/core": "^7.16.0",
     "@emerson-eps/eslint-config": "^6.0.1",
     "@emerson-eps/prettier-config": "^1.0.4",
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.5",
     "@mui/system": "^5.13.5",
     "@storybook/addon-actions": "^7.0.6",
