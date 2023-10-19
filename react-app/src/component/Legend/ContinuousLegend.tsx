@@ -88,6 +88,10 @@ declare type continuousLegendProps = {
    */
   legendScaleSize?: number;
   /**
+   * Forces darkMode if true
+   */
+  forceDarkMode?: boolean;
+  /**
    * apply css styles
    */
   cssLegendStyles?: any;
@@ -118,6 +122,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 3,
   legendScaleSize = 200,
+  forceDarkMode,
   cssLegendStyles = { left: "0vw", top: "0vh" },
 }: continuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
@@ -284,7 +289,7 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("margin-left", "2px")
           .append("svg")
           .style("cursor", getColorScaleData ? "pointer" : "auto")
-          .style("background-color", "#ffffffcc")
+          .style("background-color", forceDarkMode ? "000000cc" : "#ffffffcc")
           .style("border-radius", "5px");
 
         const defs = svgLegend.append("defs");
