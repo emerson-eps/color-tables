@@ -63,10 +63,6 @@ declare type discreteLegendProps = {
    */
   legendScaleSize?: number;
   /**
-   * Forces darkMode if true
-   */
-  forceDarkMode?: boolean;
-  /**
    * css styles to be applied
    */
   cssLegendStyles?: any;
@@ -84,7 +80,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   tickFontSize,
   numberOfTicks,
   legendScaleSize = 200,
-  forceDarkMode,
   cssLegendStyles = { left: "0vw", top: "0vh" },
 }: discreteLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
@@ -299,7 +294,7 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       style={{
         position: "absolute",
         minHeight: "70px",
-        backgroundColor: forceDarkMode ? "#000000cc" : "#ffffffcc",
+        backgroundColor: "#A0A0A0aa",
         borderRadius: "5px",
         zIndex: 999,
         margin: "10px",
