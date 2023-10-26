@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@emerson-eps/eslint-config": "^5.0.4",
+    "@emerson-eps/eslint-config": "^6.0.14",
     "@emerson-eps/prettier-config": "^1.0.4",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.2",
