@@ -1,4 +1,0 @@
-import{j as n}from"./jsx-runtime-095bf462.js";import"./index-8db94870.js";import{D as r}from"./DiscreteLegend-c10d9925.js";import{b as c}from"./legendCommonFunction-03fb4e75.js";import"./_commonjsHelpers-042e6b4d.js";const S={component:r,title:"Legends/DiscreteColorLegend"},l={no:[[],0],yes:[[],1]},i="Wells / FaultDistance_HUM",m={left:16,top:10},p=!0,d="GasOilWater",u=a=>n(r,{...a}),e=u.bind({});e.args={discreteData:l,dataObjectName:i,position:m,colorName:d,colorTables:c,horizontal:p,legendFontSize:13,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var t,o,s;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`args => {
-  return <DiscreteColorLegend {...args} />;
-}`,...(s=(o=e.parameters)==null?void 0:o.docs)==null?void 0:s.source}}};const b=["FaultDistanceHumTemplate"];export{e as FaultDistanceHumTemplate,b as __namedExportsOrder,S as default};
-//# sourceMappingURL=FaultDistanceHum.stories-63890677.js.map
