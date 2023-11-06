@@ -1,5 +1,6 @@
-import colorTables from "../../../component/color-tables.json";
 import React from "react";
+
+import colorTables from "../../../component/color-tables.json";
 import { ContinuousLegend } from "../../../component/Legend/ContinuousLegend";
 export default {
   component: ContinuousLegend,

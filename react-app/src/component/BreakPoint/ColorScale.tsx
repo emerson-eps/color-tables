@@ -1,7 +1,9 @@
 import * as d3 from "d3";
 import React, { useCallback, useRef } from "react";
-import Canvas from "./Canvas";
+
 import { styled } from "@mui/system";
+
+import Canvas from "./Canvas";
 
 type Props = {
   arrayOfColors: string[] | ((index: number) => string);

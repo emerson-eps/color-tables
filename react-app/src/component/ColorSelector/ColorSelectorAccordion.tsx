@@ -5,14 +5,18 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
+
+import CancelIcon from "@mui/icons-material/Cancel";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import { styled } from "@mui/system";
+
 import { ColorSelectorWrapper } from "./ColorSelectorWrapper";
 import { LegendComp } from "../BreakPoint/Legend";
 import defaultColorTables from "../color-tables.json";
 import { RGBToHex } from "../Utils/legendCommonFunction";
 import { getColorSelectorPosition } from "../Utils/legendCommonFunction";
-import CancelIcon from "@mui/icons-material/Cancel";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { styled } from "@mui/system";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   margin: theme.spacing(3),

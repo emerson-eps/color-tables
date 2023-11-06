@@ -1,14 +1,17 @@
 import * as React from "react";
-import { ColorScale } from "../BreakPoint/ColorScale";
+
 import { IconButton, ThemeProvider, Popover } from "@mui/material";
-import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
-import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
+
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
+
+import { CustomizedDialogs } from "../../component/BreakPoint/Modal";
+import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
+import { ColorScale } from "../BreakPoint/ColorScale";
 import { IBreakPointArrayItem } from "../ColorSelector/BreakPointModule";
 
 declare type moduleProps = {

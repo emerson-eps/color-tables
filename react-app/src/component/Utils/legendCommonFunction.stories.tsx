@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ContinuousLegend } from "../../component/Legend/ContinuousLegend";
 import {
   createContinuousLibraryColorScale,
