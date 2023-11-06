@@ -1,13 +1,18 @@
 import * as React from "react";
+
+import { useCallback, useRef } from "react";
+
+import { useTheme } from "@mui/material/styles";
+
+import { ThemeProvider } from "@mui/material";
+
 import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
-import { useCallback, useRef } from "react";
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
-import { useTheme } from "@mui/material/styles";
-import { ThemeProvider } from "@mui/material";
+
 declare type ColorLegendProps = {
   colorTables?: colorTablesArray;
   min?: number;

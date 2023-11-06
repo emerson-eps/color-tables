@@ -1,11 +1,15 @@
 import { color, RGBColor } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
+
+import * as d3 from "d3";
+
+import { range } from "lodash";
+
+import { scaleSymlog } from "d3";
+
 import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
-import * as d3 from "d3";
-import { range } from "lodash";
-import { scaleSymlog } from "d3";
 
 type Color = [number, number, number];
 

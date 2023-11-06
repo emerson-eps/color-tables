@@ -1,9 +1,12 @@
 import * as React from "react";
+
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
+import { styled } from "@mui/system";
+
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { ColorSelectorComponent } from "./ColorSelectorComponent";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { RGBToHex } from "../Utils/legendCommonFunction";
-import { styled } from "@mui/system";
 
 const StyledParentDiv = styled("div")({
   display: "flex",

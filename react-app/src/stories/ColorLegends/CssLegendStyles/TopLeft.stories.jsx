@@ -1,4 +1,5 @@
 import React from "react";
+
 import colorTables from "../../../component/color-tables.json";
 import { ColorLegend } from "../../../component/Legend/ColorLegend";
 

@@ -1,15 +1,18 @@
 import * as React from "react";
-import { ColorScale } from "../BreakPoint/ColorScale";
+
 import { useRef } from "react";
 import { IconButton } from "@mui/material";
 import { scaleLinear } from "d3";
 import { clamp } from "lodash";
-import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
+
 import AddCircleOutlineSharpIcon from "@mui/icons-material/AddCircleOutlineSharp";
 import RemoveCircleOutlineSharpIcon from "@mui/icons-material/RemoveCircleOutlineSharp";
 import { SketchPicker } from "react-color";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import { styled } from "@mui/system";
+
+import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
+import { ColorScale } from "../BreakPoint/ColorScale";
 
 export declare type IBreakPointArrayItem = {
   position: number;

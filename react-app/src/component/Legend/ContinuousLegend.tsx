@@ -1,14 +1,17 @@
 import * as React from "react";
 import { useRef } from "react";
+
+import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
+
+import { color } from "d3-color";
+import { range } from "d3";
+
+import { d3ColorScales } from "../Utils/d3ColorScale";
 import {
   RGBToHex,
   colorsArray,
   getTickValues,
 } from "../Utils/legendCommonFunction";
-import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
-import { d3ColorScales } from "../Utils/d3ColorScale";
-import { color } from "d3-color";
-import { range } from "d3";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 

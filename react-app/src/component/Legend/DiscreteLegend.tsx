@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useRef } from "react";
-import discreteLegendUtil from "../Utils/discreteLegend";
+
 import { select } from "d3";
+
+import discreteLegendUtil from "../Utils/discreteLegend";
 import { colorsArray, RGBToHex } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";

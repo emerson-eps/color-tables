@@ -1,4 +1,5 @@
 import React from "react";
+
 import { DiscreteColorLegend } from "../../../component/Legend/DiscreteLegend";
 import colorTables from "../../../component/color-tables.json";
 
