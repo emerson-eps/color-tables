@@ -124,7 +124,6 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
   legendScaleSize = 200,
   cssLegendStyles = DEFAULT_STYLE,
 }: ContinuousLegendProps) => {
-  console.log("ContinuousLegend: ", cssLegendStyles);
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {

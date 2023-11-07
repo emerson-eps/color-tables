@@ -87,7 +87,6 @@ export const DiscreteColorLegend: React.FC<DiscreteColorLegendProps> = ({
   legendScaleSize = 200,
   cssLegendStyles = DEFAULT_STYLE,
 }: DiscreteColorLegendProps) => {
-  //console.log(cssLegendStyles);
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -302,7 +301,6 @@ export const DiscreteColorLegend: React.FC<DiscreteColorLegendProps> = ({
         borderRadius: "5px",
         zIndex: 999,
         margin: "10px",
-        ...DEFAULT_STYLE,
         ...cssLegendStyles,
       }}
     >
