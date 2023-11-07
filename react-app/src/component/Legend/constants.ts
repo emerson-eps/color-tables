@@ -3,4 +3,4 @@ export const DEFAULT_STYLE = {
   top: "0vh",
   backgroundColor: "#A0A0A0aa",
   borderRadius: "5px",
-}
+};
