@@ -1,5 +1,5 @@
 import { ColorSelectorAccordion } from "./component/ColorSelector/ColorSelectorAccordion";
-import { ColorLegend } from "./component/Legend/ColorLegend";
+import { ColorLegend, ColorLegendProps, ScaleHandler } from "./component/Legend/ColorLegend";
 import {
   colorsArray,
   rgbValues,
@@ -10,15 +10,20 @@ import {
 } from "./component/Utils/legendCommonFunction";
 import { d3ColorScales } from "./component/Utils/d3ColorScale";
 import { colorTablesObj, colorTablesArray } from "./component/colorTableTypes";
-import { ContinuousLegend } from "./component/Legend/ContinuousLegend";
-import { DiscreteColorLegend } from "./component/Legend/DiscreteLegend";
+import { ContinuousLegend, ContinuousLegendProps } from "./component/Legend/ContinuousLegend";
+import { DiscreteColorLegend, DiscreteColorLegendProps, DiscreteCodes } from "./component/Legend/DiscreteLegend";
 import { default as colorTables } from "./component/color-tables.json";
 
 export {
   ColorSelectorAccordion,
   ContinuousLegend,
+  ContinuousLegendProps,
   DiscreteColorLegend,
+  DiscreteColorLegendProps,
+  DiscreteCodes,
   ColorLegend,
+  ColorLegendProps,
+  ScaleHandler,
   colorsArray,
   rgbValues,
   RGBToHex,
