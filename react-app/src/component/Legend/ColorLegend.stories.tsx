@@ -17,8 +17,6 @@ const Template = (args: ColorLegendProps) => {
     setColorName(data?.name || data?.legendColorName);
   }, []);
 
-  console.log(args);
-
   return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
 };
 
