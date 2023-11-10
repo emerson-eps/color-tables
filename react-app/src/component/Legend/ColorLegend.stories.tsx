@@ -1,36 +1,16 @@
 import React from "react";
 
-import colorTables from "../../../component/color-tables.json";
-import { ColorLegend } from "../../../component/Legend/ColorLegend";
+import { ColorLegend, ColorLegendProps, ScaleHandler } from "./ColorLegend";
 
 export default {
   component: ColorLegend,
-  title: "Legends/cssLegendStyles",
+  title: "Legends/ColorLegend",
 };
 
-// prop for discrete data
-const discreteData = {
-  Above_BCU: [[], 0],
-  ABOVE: [[], 1],
-  H12: [[], 2],
-  H11: [[], 3],
-  H10: [[], 4],
-  H9: [[], 5],
-  H8: [[], 6],
-  H7: [[], 7],
-  H6: [[], 8],
-  H5: [[], 9],
-  H4: [[], 10],
-  H3: [[], 11],
-  H2: [[], 12],
-  H1: [[], 13],
-  BELOW: [[], 14],
-};
-
-const Template = args => {
+const Template = (args: ColorLegendProps) => {
   const [getColor, setColorName] = React.useState("Rainbow");
 
-  const getColorName = React.useCallback(data => {
+  const getColorName: ScaleHandler = React.useCallback(data => {
     // for geological color scale data (from color-table.json) => data.name
     // for D3 color scale => data.legendColorName
 
@@ -40,17 +20,13 @@ const Template = args => {
   return <ColorLegend {...args} colorName={getColor} getScale={getColorName} />;
 };
 
-const defaultProps = {
-  cssLegendStyles: { left: "0vw", top: "0vh" },
+const defaultProps: ColorLegendProps = {
   horizontal: true,
   isOpenProp: true,
   min: 0,
   max: 0.35,
-  // position: { left: 5, top: 10 },
   colorName: "Rainbow",
   dataObjectName: "Legend with Selector",
-  colorTables,
-  discreteData,
   isModal: true,
   isRangeShown: true,
   legendFontSize: 16,
@@ -59,9 +35,15 @@ const defaultProps = {
   legendScaleSize: 300,
 };
 
+export const DefaultStyle = Template.bind({});
+DefaultStyle.args = {
+  ...defaultProps,
+};
+
 export const TopLeftPosition = Template.bind({});
 TopLeftPosition.args = {
   ...defaultProps,
+  cssLegendStyles: { left: "0vw", top: "0vh" },
 };
 
 export const TopRightPosition = Template.bind({});
@@ -77,10 +59,9 @@ VerticalPositioning.args = {
   horizontal: false,
 };
 
-export const BottomRightPosition = Template.bind({});
-BottomRightPosition.args = {
-  ...defaultProps,
-  cssLegendStyles: { right: "0vw", bottom: "0vh" },
+export const BottomRightPosition = (args: ColorLegendProps) => {
+  const style = { right: "0vw", bottom: "0vh" };
+  return <ColorLegend {...args} cssLegendStyles={style} />;
 };
 
 export const BottomLeftPosition = Template.bind({});
@@ -93,7 +74,7 @@ export const BackgroundColor = Template.bind({});
 BackgroundColor.args = {
   ...defaultProps,
   cssLegendStyles: {
-    backgroundColor: "gray",
+    backgroundColor: "red",
     borderRadius: "5px",
     padding: "5px",
   },

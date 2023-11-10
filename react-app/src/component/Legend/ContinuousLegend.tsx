@@ -14,8 +14,9 @@ import {
 } from "../Utils/legendCommonFunction";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+import { DEFAULT_STYLE } from "./constants";
 
-declare type continuousLegendProps = {
+export type ContinuousLegendProps = {
   /**
    * Min value
    */
@@ -93,7 +94,7 @@ declare type continuousLegendProps = {
   /**
    * apply css styles
    */
-  cssLegendStyles?: any;
+  cssLegendStyles?: React.CSSProperties;
 };
 
 declare type ItemColor = {
@@ -101,7 +102,7 @@ declare type ItemColor = {
   breakPoint?: number;
 };
 
-export const ContinuousLegend: React.FC<continuousLegendProps> = ({
+export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
   min,
   max,
   dataObjectName,
@@ -121,8 +122,8 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 3,
   legendScaleSize = 200,
-  cssLegendStyles = { left: "0vw", top: "0vh" },
-}: continuousLegendProps) => {
+  cssLegendStyles = DEFAULT_STYLE,
+}: ContinuousLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -287,7 +288,6 @@ export const ContinuousLegend: React.FC<continuousLegendProps> = ({
           .style("margin-left", "2px")
           .append("svg")
           .style("cursor", getColorScaleData ? "pointer" : "auto")
-          .style("background-color", "#A0A0A0aa")
           .style("border-radius", "5px");
 
         const defs = svgLegend.append("defs");
