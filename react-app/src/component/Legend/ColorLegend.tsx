@@ -13,7 +13,14 @@ import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 
-declare type ColorLegendProps = {
+import { DEFAULT_STYLE } from "./constants";
+
+export type ScaleHandler = (data: {
+  name: string;
+  legendColorName: string;
+}) => void;
+
+export type ColorLegendProps = {
   colorTables?: colorTablesArray;
   min?: number;
   max?: number;
@@ -25,7 +32,7 @@ declare type ColorLegendProps = {
   reverseRange?: boolean;
   getColorRange?: any;
   getBreakpointValue?: any;
-  getScale?: any;
+  getScale?: ScaleHandler;
   getInterpolateMethod?: any;
   isModal?: boolean;
   isRangeShown?: boolean;
@@ -33,7 +40,7 @@ declare type ColorLegendProps = {
   tickFontSize?: number;
   numberOfTicks?: number;
   legendScaleSize?: number;
-  cssLegendStyles?: any;
+  cssLegendStyles?: React.CSSProperties;
   isOpenProp?: boolean;
   openColorSelector?: boolean;
 };
@@ -59,7 +66,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
   tickFontSize = 12,
   numberOfTicks = 1,
   legendScaleSize = 200,
-  cssLegendStyles = { left: "0vw", top: "0vh" },
+  cssLegendStyles = DEFAULT_STYLE,
   isOpenProp = false,
   openColorSelector = true,
 }: ColorLegendProps) => {
@@ -240,7 +247,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ position: "relative" }}>
+      <div>
         <div
           ref={divRef}
           onClick={toggleColorSelector}

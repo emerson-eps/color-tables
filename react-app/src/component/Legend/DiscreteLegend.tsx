@@ -8,17 +8,20 @@ import { colorsArray, RGBToHex } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import { colorTablesArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
+import { DEFAULT_STYLE } from "./constants";
 
 declare type ItemColor = {
   color: string;
   name?: string;
 };
 
-declare type discreteLegendProps = {
+export type DiscreteCodes = Record<string, [number[], number]>;
+
+export type DiscreteColorLegendProps = {
   /**
    * Discrete data to build legend
    */
-  discreteData?: { objects: Record<string, [number[], number]> };
+  discreteData?: DiscreteCodes | { objects: DiscreteCodes };
   /**
    * Title for the legend
    */
@@ -70,7 +73,7 @@ declare type discreteLegendProps = {
   cssLegendStyles?: any;
 };
 
-export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
+export const DiscreteColorLegend: React.FC<DiscreteColorLegendProps> = ({
   discreteData,
   dataObjectName,
   colorName = "Stratigraphy",
@@ -82,8 +85,8 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
   tickFontSize,
   numberOfTicks,
   legendScaleSize = 200,
-  cssLegendStyles = { left: "0vw", top: "0vh" },
-}: discreteLegendProps) => {
+  cssLegendStyles = DEFAULT_STYLE,
+}: DiscreteColorLegendProps) => {
   const generateUniqueId = Math.ceil(Math.random() * 9999).toString();
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -250,7 +253,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
         // Append svg to the div
         const svgLegend = currentDiv
           .style("margin", horizontal ? "5px 0px 0px 15px" : "0px 5px 0px 5px")
-          // .style("width", horizontal ? "145px" : "50px")
           .style("width", legendWidth)
           .append("svg")
           .call(colorLegend);
@@ -296,7 +298,6 @@ export const DiscreteColorLegend: React.FC<discreteLegendProps> = ({
       style={{
         position: "absolute",
         minHeight: "70px",
-        backgroundColor: "#A0A0A0aa",
         borderRadius: "5px",
         zIndex: 999,
         margin: "10px",
