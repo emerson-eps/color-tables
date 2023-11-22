@@ -56,7 +56,7 @@
     "@emerson-eps/eslint-config": "^6.0.15",
     "@emerson-eps/prettier-config": "^1.0.4",
     "@mui/icons-material": "^5.14.13",
-    "@mui/material": "^5.14.14",
+    "@mui/material": "^5.14.16",
     "@mui/system": "^5.14.12",
     "@storybook/addon-actions": "^7.0.6",
     "@storybook/addon-essentials": "^7.0.6",
