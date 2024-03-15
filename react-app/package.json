@@ -26,13 +26,13 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.10.0",
     "d3": "^7.8.4",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
     "react-color": "^2.19.3",
-    "react-resize-detector": "^9.1.0"
+    "react-resize-detector": "^9.1.1"
   },
   "repository": {
     "type": "git",
@@ -68,7 +68,7 @@
     "@storybook/cli": "^7.0.6",
     "@storybook/react": "^7.0.6",
     "@storybook/react-vite": "^7.0.6",
-    "@storybook/test-runner": "^0.13.0",
+    "@storybook/test-runner": "^0.16.0",
     "@storybook/testing-library": "^0.2.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
