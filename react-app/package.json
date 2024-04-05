@@ -59,7 +59,7 @@
     "@mui/material": "^5.14.16",
     "@mui/system": "^5.14.17",
     "@storybook/addon-actions": "^7.0.6",
-    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-essentials": "^8.0.6",
     "@storybook/addon-interactions": "^7.0.6",
     "@storybook/addon-links": "^7.0.6",
     "@storybook/addon-mdx-gfm": "^7.0.6",
