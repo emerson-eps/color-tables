@@ -26,8 +26,6 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
     "d3": "^7.8.4",
     "d3-color": "^3.0.1",
     "d3-interpolate": "^3.0.1",
@@ -55,6 +53,8 @@
     "@babel/core": "^7.16.0",
     "@emerson-eps/eslint-config": "^6.0.15",
     "@emerson-eps/prettier-config": "^1.0.4",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.15.12",
     "@mui/material": "^5.15.15",
     "@mui/system": "^5.14.18",
@@ -90,10 +90,15 @@
     "typescript": "^5.1.3"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^5.11.16",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.5",
     "@mui/system": "^5.13.5",
     "react": "^17 || ^18",
     "react-dom": "^17 || ^18"
+  },
+  "volta": {
+    "node": "18.20.3"
   }
 }
