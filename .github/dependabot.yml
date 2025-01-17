@@ -35,6 +35,10 @@ updates:
         applies-to: version-updates
         patterns:
           - "@emotion/*"
+      testing-library:
+        applies-to: version-updates
+        patterns:
+          - "@testing-library/*"
       storybook:
         applies-to: version-updates
         update-types: # Allows minor and patch updates. Wait for manual PR for major updates
