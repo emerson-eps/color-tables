@@ -1,4 +1,0 @@
-import{j as n}from"./jsx-runtime-9dc53467.js";import"./index-76fb7be0.js";import{D as s}from"./DiscreteLegend-e8c48839.js";import{b as c}from"./constants-5003fa8a.js";import"./_commonjsHelpers-de833af9.js";const M={component:s,title:"Legends/DiscreteColorLegend"},i={0:[[],0],4:[[],4],UPPER:[[],1],MID:[[],2],LOWER:[[],3]},l="Wells / ZONE_MAIN",m={left:16,top:10},p=!0,d="Stratigraphy",g=a=>n(s,{...a}),e=g.bind({});e.args={discreteData:i,dataObjectName:l,position:m,colorName:d,colorTables:c,horizontal:p,legendFontSize:13,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var o,t,r;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`args => {
-  return <DiscreteColorLegend {...args} />;
-}`,...(r=(t=e.parameters)==null?void 0:t.docs)==null?void 0:r.source}}};const b=["ZoneMainTemplate"];export{e as ZoneMainTemplate,b as __namedExportsOrder,M as default};
-//# sourceMappingURL=ZoneMain.stories-f958b7c4.js.map
