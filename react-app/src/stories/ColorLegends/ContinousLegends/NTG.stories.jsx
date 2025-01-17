@@ -15,7 +15,7 @@ const horizontal = true;
 const colorName = "Rainbow";
 const isRangeShown = true;
 
-const Template = args => {
+const Template = (args) => {
   return <ContinuousLegend {...args} />;
 };
 

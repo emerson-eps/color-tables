@@ -171,7 +171,7 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
         if (isD3Colors && isD3Colors.discrete === false) {
           const arrayData: any = [];
           const d3ColorArrays = colorsArray(colorName, d3ColorScales);
-          const data = range(10).map(d => ({ color: d3ColorArrays(d / 10) }));
+          const data = range(10).map((d) => ({ color: d3ColorArrays(d / 10) }));
           data.forEach((colorsObject: any, index: number) => {
             arrayData.push([
               0 + "." + index,
@@ -251,8 +251,8 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
                 getColorTableScale?.discrete === true
                   ? RGBToHex(value, maxValue).offset
                   : breakPoint?.length > 0
-                  ? domainIndex * 100.0
-                  : value[0] * 100.0,
+                    ? domainIndex * 100.0
+                    : value[0] * 100.0,
               color: RGBToHex(value).color,
             });
           }
@@ -301,8 +301,8 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
             horizontal
               ? "70"
               : legendScaleSize < 200
-              ? 200
-              : legendScaleSize - 17
+                ? 200
+                : legendScaleSize - 17
           );
         const currentIndex = "linear-gradient-" + id + "0";
         const linearGradient = defs

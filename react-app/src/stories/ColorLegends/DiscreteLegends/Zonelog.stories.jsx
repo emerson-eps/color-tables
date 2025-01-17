@@ -30,7 +30,7 @@ const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Stratigraphy";
 
-const Template = args => {
+const Template = (args) => {
   return <DiscreteColorLegend {...args} />;
 };
 
