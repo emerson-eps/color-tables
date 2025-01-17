@@ -6,3 +6,40 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    # Define commit message prefixes for different types of updates
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+    # Create a group of dependencies to be updated together in one pull request:
+    # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+    groups:
+      # Group name is used in pull request titles and branch names
+      react:
+        applies-to: version-updates # Applies the group rule to version updates
+        update-types: # Allows minor and patch updates
+          - "minor"
+          - "patch"
+        patterns: # Define patterns to include dependencies in the group (based on dependency name)
+          - "react" # Group the "react" dependency
+          - "react-dom" # Group the "react-dom" dependency
+          - "@types/react" # ...
+          - "@types/react-dom"
+          - "@types/react-color"
+          # exclude react-redux as it drops the support for react 17
+      # Other groups are not documented ;)
+      mui:
+        applies-to: version-updates
+        patterns:
+          - "@mui/*"
+      emotion:
+        applies-to: version-updates
+        patterns:
+          - "@emotion/*"
+      storybook:
+        applies-to: version-updates
+        update-types: # Allows minor and patch updates. Wait for manual PR for major updates
+          - "minor"
+          - "patch"
+        patterns:
+          - "storybook"
+          - "@storybook/*"
