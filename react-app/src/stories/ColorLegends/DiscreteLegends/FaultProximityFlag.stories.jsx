@@ -17,7 +17,7 @@ const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Time/Depth";
 
-const Template = args => {
+const Template = (args) => {
   return <DiscreteColorLegend {...args} />;
 };
 

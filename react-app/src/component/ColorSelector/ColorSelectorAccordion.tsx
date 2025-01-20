@@ -76,7 +76,7 @@ export const ColorSelectorAccordion = (props: any) => {
   const [duplicatedData, setDuplicatedData] = React.useState([]);
   let getColorScaleArray;
   if (customScalesName) {
-    getColorScaleArray = defaultColorTables.find(value => {
+    getColorScaleArray = defaultColorTables.find((value) => {
       return value.name === customScalesName;
     });
   }
@@ -181,12 +181,12 @@ export const ColorSelectorAccordion = (props: any) => {
               cursor: "pointer",
               color: "#007079",
             }}
-            onMouseOver={e => {
+            onMouseOver={(e) => {
               e.preventDefault();
               const target = e.target as SVGAElement;
               target.style.color = "#1099a5";
             }}
-            onMouseOut={e => {
+            onMouseOut={(e) => {
               const target = e.target as SVGAElement;
               target.style.color = "#007079";
             }}
