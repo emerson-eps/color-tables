@@ -20,7 +20,7 @@ const position = { left: 16, top: 10 };
 const horizontal = true;
 const colorName = "Accent";
 
-const Template = args => {
+const Template = (args) => {
   return <DiscreteColorLegend {...args} />;
 };
 

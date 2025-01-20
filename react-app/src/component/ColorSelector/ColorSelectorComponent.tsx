@@ -83,7 +83,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
   let data: any;
   var extent: any;
   if (legendColor) {
-    data = range(10).map(d => ({
+    data = range(10).map((d) => ({
       color: legendColor(d / 10),
       value: d,
     }));

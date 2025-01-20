@@ -8,10 +8,10 @@ export default {
   title: "Legends/LegendWithColorSelector",
 };
 
-const Template = args => {
+const Template = (args) => {
   const [getColor, setColorName] = React.useState("Rainbow");
 
-  const getColorName = React.useCallback(data => {
+  const getColorName = React.useCallback((data) => {
     // for geological color scale data (from color-table.json) => data.name
     // for D3 color scale => data.legendColorName
 
