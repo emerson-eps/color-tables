@@ -4,6 +4,9 @@
     // Not needed with source.organizeImports set to true in vscode settings
     "sort-imports": "off",
 
+    // Disabled from @epconnect/eslint-config: irrelevant here.
+    "no-restricted-imports": "off",
+
     // Disabled from @epconnect/eslint-config due to technical debt.
     "sonarjs/cognitive-complexity": "off",
     "sonarjs/no-collapsible-if": "off",
@@ -20,7 +23,5 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-inferrable-types": "off"
-
   }
 }
-
