@@ -1,4 +1,0 @@
-import{j as a}from"./jsx-runtime-337a763f.js";import"./index-8b3efc3f.js";import{b as c}from"./constants-5003fa8a.js";import{C as n}from"./ContinuousLegend-a46a0ecc.js";import"./_commonjsHelpers-de833af9.js";const x={component:n,title:"Legends/ContinousLegend"},i=0,m=1,l="Wells / SW",p=[16,10],d=!0,u="Rainbow",g=!0,S=r=>a(n,{...r}),e=S.bind({});e.args={min:i,max:m,dataObjectName:l,position:p,colorName:u,colorTables:c,horizontal:d,isRangeShown:g,legendFontSize:13,tickFontSize:13,numberOfTicks:3,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var o,t,s;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`args => {
-  return <ContinuousLegend {...args} />;
-}`,...(s=(t=e.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const z=["SWTemplate"];export{e as SWTemplate,z as __namedExportsOrder,x as default};
-//# sourceMappingURL=SW.stories-a9ffff10.js.map

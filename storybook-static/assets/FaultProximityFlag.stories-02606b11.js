@@ -1,0 +1,4 @@
+import{j as n}from"./jsx-runtime-337a763f.js";import"./index-8b3efc3f.js";import{D as s}from"./DiscreteLegend-29e5408a.js";import{b as l}from"./constants-8e6dd0c7.js";import"./_commonjsHelpers-de833af9.js";const x={component:s,title:"Legends/DiscreteColorLegend"},i={no:[[],0],yes:[[],1]},c="Wells / FAULT_PROXIMITY_FLAG",m={left:16,top:10},p=!0,d="Time/Depth",g=a=>n(s,{...a}),e=g.bind({});e.args={discreteData:i,dataObjectName:c,position:m,colorName:d,colorTables:l,horizontal:p,legendFontSize:13,legendScaleSize:300,cssLegendStyles:{top:"0%",left:"0%"}};var t,o,r;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`args => {
+  return <DiscreteColorLegend {...args} />;
+}`,...(r=(o=e.parameters)==null?void 0:o.docs)==null?void 0:r.source}}};const D=["FaultProximityFlagTemplate"];export{e as FaultProximityFlagTemplate,D as __namedExportsOrder,x as default};
+//# sourceMappingURL=FaultProximityFlag.stories-02606b11.js.map
