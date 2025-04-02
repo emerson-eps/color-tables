@@ -191,7 +191,7 @@ export function getRgbData(
         const firstColorArray = colorTableColors[index - 1];
         const secondColorArray = colorTableColors[index];
 
-        if ((firstColorArray || secondColorArray) !== undefined) {
+        if (firstColorArray && secondColorArray) {
           const t0 = firstColorArray[0];
           const t1 = secondColorArray[0];
           const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
@@ -242,7 +242,7 @@ export function rgbValues(
     point = log(point);
   }
 
-  // check if the user has there own colortables else use defualt one
+  // check if the user has there own colortables else use default one
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
@@ -307,7 +307,7 @@ export function rgbValues(
       const firstColorArray = colorTableColors[index - 1];
       const secondColorArray = colorTableColors[index];
 
-      if ((firstColorArray || secondColorArray) !== undefined) {
+      if (firstColorArray && secondColorArray) {
         const t0 = firstColorArray[0];
         const t1 = secondColorArray[0];
         const t = (point - t0) / (t1 - t0); // t = 0.0 gives first color, t = 1.0 gives second color.
