@@ -242,7 +242,7 @@ export function rgbValues(
     point = log(point);
   }
 
-  // check if the user has there own colortables else use default one
+  // check if the user has his own colortables else use default one
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
