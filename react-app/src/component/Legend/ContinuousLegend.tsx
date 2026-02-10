@@ -52,7 +52,7 @@ export type ContinuousLegendProps = {
    *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
-  colorTables?: colorTablesArray;
+  colorTables?: colorTablesArray | string;
   /**
    * Optional function property
    *
