@@ -9,6 +9,7 @@
   },
   "private": false,
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -26,8 +27,8 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "d3": "^7.8.4",
-    "d3-color": "^3.0.1",
+    "d3": "^7.9.0",
+    "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.1",
     "react-color": "^2.19.3",
     "react-resize-detector": "^9.1.1"
@@ -54,8 +55,8 @@
     "@emerson-eps/eslint-config": "^7.0.8",
     "@emerson-eps/prettier-config": "^2.0.3",
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^5.17.1",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.7",
     "@storybook/addon-actions": "^7.0.6",
     "@storybook/addon-essentials": "^7.0.6",
     "@storybook/addon-interactions": "^7.0.6",
@@ -71,7 +72,7 @@
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.1.1",
-    "@types/d3": "^7.1.0",
+    "@types/d3": "^7.4.3",
     "@types/react": "^18.0.35",
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.0.11",
@@ -90,7 +91,7 @@
   "peerDependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.13.7",
+    "@mui/icons-material": "^5.13.7 || ^6 || ^7.3.6",
     "react": "^17 || ^18",
     "react-dom": "^17 || ^18"
   },
