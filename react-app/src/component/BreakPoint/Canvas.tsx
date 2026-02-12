@@ -11,10 +11,15 @@ const StyledCanvas = styled("canvas")({
   pointerEvents: "none",
 });
 
-type Props = {
+export type CanvasProps = {
   drawCallback?: () => void;
   onResize?: (width: number, height: number) => void;
 };
+
+/**
+ * @deprecated use CanvasProps instead.
+ */
+export type Props = CanvasProps;
 
 export const Canvas = React.forwardRef<
   HTMLCanvasElement,
@@ -22,7 +27,7 @@ export const Canvas = React.forwardRef<
     React.CanvasHTMLAttributes<HTMLCanvasElement>,
     HTMLCanvasElement
   > &
-    Props
+    CanvasProps
 >(({ drawCallback, onResize, ...props }, ref) => {
   // State
   const [width, setWidth] = React.useState(0);

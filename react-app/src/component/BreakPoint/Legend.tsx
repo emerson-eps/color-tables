@@ -14,13 +14,18 @@ import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { ColorScale } from "../BreakPoint/ColorScale";
 import { IBreakPointArrayItem } from "../ColorSelector/BreakPointModule";
 
-declare type moduleProps = {
+export type LegendCompProps = {
   colorScaleBreakpoints?: any;
   editedData?: any;
   isModal?: boolean;
   handleModalClick?: (event: MouseEvent) => void;
   customScalesName?: string;
 };
+
+/**
+ * @deprecated use LegendCompProps instead.
+ */
+export type moduleProps = LegendCompProps;
 
 const StyledRootContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -65,13 +70,13 @@ const StyledCustomScales = styled("div")({
   cursor: "pointer",
 });
 
-export const LegendComp: React.FC<moduleProps> = ({
+export const LegendComp: React.FC<LegendCompProps> = ({
   colorScaleBreakpoints,
   editedData,
   isModal,
   handleModalClick,
   customScalesName,
-}: moduleProps) => {
+}: LegendCompProps) => {
   const [breakpointValues, setBreakPointValues] = React.useState(
     colorScaleBreakpoints
   );

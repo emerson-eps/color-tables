@@ -1,10 +1,15 @@
-declare type ItemColor = {
+export type NamedColor = {
   color: string;
   name?: string;
 };
 
+/**
+ * @deprecated use NamedColor instead.
+ */
+export type ItemColor = NamedColor;
+
 export default function discreteLegendUtil(
-  itemColor: ItemColor[],
+  itemColor: NamedColor[],
   isSelectorLegend?: boolean,
   horizontal?: boolean
 ): any {

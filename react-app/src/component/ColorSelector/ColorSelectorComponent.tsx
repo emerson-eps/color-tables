@@ -19,7 +19,7 @@ const StyledLegend = styled("div")({
   },
 });
 
-declare type legendProps = {
+export type ColorSelectorProps = {
   colorsObject?: any;
   legendColor?: any;
   legendColorName?: string;
@@ -29,13 +29,22 @@ declare type legendProps = {
   colorScaleData: any;
   currentLegendName?: string;
 };
+/**
+ * @deprecated use ColorSelectorProps instead.
+ */
+export type legendProps = ColorSelectorProps;
 
-declare type ItemColor = {
+type OffsetColor = {
   color: string;
   offset?: number;
 };
 
-export const ColorSelectorComponent: React.FC<legendProps> = ({
+/**
+ * @deprecated use OffsetColor instead.
+ */
+export type ItemColor = OffsetColor;
+
+export const ColorSelectorComponent: React.FC<ColorSelectorProps> = ({
   /**
    * Returns the object with name and array of colors for colortable colorscale
    *
@@ -74,7 +83,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
    * The name of the current (selected) color legend
    */
   currentLegendName,
-}: legendProps) => {
+}: ColorSelectorProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   // create an array of steps based on the color scale
@@ -163,7 +172,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
 
   // continuous legend using color table colors (using linear gradiend)
   function contColortableLegend() {
-    const itemColor: ItemColor[] = [];
+    const itemColor: OffsetColor[] = [];
 
     colorsObject.color.forEach((value: [number, number, number, number]) => {
       // return the color and offset needed to draw the legend
@@ -285,7 +294,7 @@ export const ColorSelectorComponent: React.FC<legendProps> = ({
 
   // discrete legend using color table colors
   function discColorTableLegend() {
-    const itemColor: ItemColor[] = [];
+    const itemColor: OffsetColor[] = [];
     const itemName: any = [];
 
     colorsObject.color.forEach((element: any, key: any) => {

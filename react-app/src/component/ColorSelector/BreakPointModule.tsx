@@ -14,18 +14,23 @@ import { styled } from "@mui/system";
 import { getColorArrayFromBreakPoints } from "../Utils/legendCommonFunction";
 import { ColorScale } from "../BreakPoint/ColorScale";
 
-export declare type IBreakPointArrayItem = {
+export type IBreakPointArrayItem = {
   position: number;
   color: string;
   name?: string;
 };
 
-declare type moduleProps = {
+export type BreakPointCompProps = {
   colorScaleBreakpoints?: IBreakPointArrayItem[];
   setColorScaleBreakpoints?: any;
   editedBreakpoint?: (colorScaleBreakpoints: IBreakPointArrayItem[]) => void;
   customScalesName?: string;
 };
+
+/**
+ * @deprecated use BreakPointCompProps instead.
+ */
+export type moduleProps = BreakPointCompProps;
 
 const RAIL_HEIGHT = 16;
 const pointer_width = 12;
@@ -105,12 +110,12 @@ const StyledSketchPicker = styled("div")({
   position: "fixed",
 });
 
-export const BreakPointComp: React.FC<moduleProps> = ({
+export const BreakPointComp: React.FC<BreakPointCompProps> = ({
   colorScaleBreakpoints,
   setColorScaleBreakpoints,
   editedBreakpoint,
   customScalesName,
-}: moduleProps) => {
+}: BreakPointCompProps) => {
   const divRef = useRef<HTMLDivElement>(null);
   const pointer_width = 12;
   const [rectBox, setRectBox] = React.useState<DOMRect>({

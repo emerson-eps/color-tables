@@ -7,7 +7,7 @@ import { range } from "lodash";
 
 import { scaleSymlog } from "d3";
 
-import { colorTablesArray, colorTablesObj } from "../colorTableTypes";
+import { ColorTable, ColorTableArray } from "../colorTableTypes";
 import { d3ColorScales } from "./d3ColorScale";
 import colorTables from "../../component/color-tables.json";
 
@@ -22,14 +22,13 @@ function getColor(rgb: RGBColor): Color {
 // Based on objectName return the colors array from color.tables.json file
 export function colorsArray(
   colorName: string,
-  iscolorTablesDefined: colorTablesArray | any
+  iscolorTablesDefined: ColorTableArray | any
 ) {
   const getColorTables = iscolorTablesDefined
     ? iscolorTablesDefined
     : colorTables;
   const colorTableData = getColorTables.filter(
-    (value: colorTablesObj) =>
-      value.name.toLowerCase() === colorName.toLowerCase()
+    (value: ColorTable) => value.name.toLowerCase() === colorName.toLowerCase()
   );
   return colorTableData.length > 0 ? colorTableData[0].colors : [];
 }
@@ -62,7 +61,7 @@ export function HextoRGB(hex: string) {
 export function getRgbData(
   point: number,
   colorName: string,
-  iscolorTablesDefined: colorTablesArray | any,
+  iscolorTablesDefined: ColorTableArray | any,
   isLog?: boolean,
   isNearest?: boolean,
   userBreakPoint?: any
@@ -216,8 +215,7 @@ export function getColors(
     ? iscolorTablesDefined
     : colorTables;
   const colorTableData = getColorTables.filter(
-    (value: colorTablesObj) =>
-      value.name.toLowerCase() === colorName.toLowerCase()
+    (value: ColorTable) => value.name.toLowerCase() === colorName.toLowerCase()
   );
 
   const colorArrays = colorTableData[0]?.colors.find((value: number[]) => {
@@ -231,7 +229,7 @@ export function getColors(
 export function rgbValues(
   point: number,
   colorName: string,
-  iscolorTablesDefined: colorTablesArray | any,
+  iscolorTablesDefined: ColorTableArray | any,
   isLog?: boolean,
   isNearest?: boolean,
   breakPoints?: any
@@ -329,7 +327,7 @@ export function sampledColor(
   categorial?: boolean,
   min?: number,
   max?: number,
-  iscolorTablesDefined?: colorTablesArray | any,
+  iscolorTablesDefined?: ColorTableArray | any,
   isLog?: boolean,
   isNearest?: boolean,
   breakPoints?: number[]
@@ -488,7 +486,7 @@ export function createColorMapFunction(
     categorial: boolean = false,
     min: number = 0,
     max: number = 1,
-    iscolorTablesDefined: colorTablesArray | any = colorTables
+    iscolorTablesDefined: ColorTableArray | any = colorTables
   ) => {
     return sampledColor(
       colorScaleName,
@@ -506,7 +504,7 @@ export function createColorMapFunction(
 
 export function createContinuousLibraryColorScale(
   name: string,
-  library = colorTables as colorTablesArray
+  library = colorTables as ColorTableArray
 ) {
   return (value: number) => {
     return rgbValues(value, name, library);

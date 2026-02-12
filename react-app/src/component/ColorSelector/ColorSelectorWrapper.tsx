@@ -50,15 +50,24 @@ const StyledInterpolationLegendWrapper = styled("div")({
   marginLeft: -12,
 });
 
-export declare type colorScaleObj = {
+export type ColorScaleObj = {
   name: string;
   color:
     | [number, number, number, number][]
     | ((t: number) => string | string[]);
 };
-export type colorScaleArray = Array<colorScaleObj>;
+/**
+ * @deprecated use ColorScaleObj instead.
+ */
+export type colorScaleObj = ColorScaleObj;
 
-declare type legendProps = {
+export type ColorScaleArray = Array<ColorScaleObj>;
+/**
+ * @deprecated use ColorScaleArray instead.
+ */
+export type colorScaleArray = ColorScaleArray;
+
+export type ColorSelectorWrapperProps = {
   useColorTableColors?: boolean;
   newColorScaleData?: any;
   colorTables?: any;
@@ -74,8 +83,12 @@ declare type legendProps = {
   selectedInterpolationType?: any;
   selectedRangeType?: any;
 };
+/**
+ * @deprecated use ColorSelectorWrapperProps instead.
+ */
+export type legendProps = ColorSelectorWrapperProps;
 
-export const ColorSelectorWrapper: React.FC<legendProps> = ({
+export const ColorSelectorWrapper: React.FC<ColorSelectorWrapperProps> = ({
   newColorScaleData,
   colorTables,
   useRange,
@@ -88,17 +101,17 @@ export const ColorSelectorWrapper: React.FC<legendProps> = ({
   getDuplicatedLegendData,
   selectedInterpolationType,
   selectedRangeType,
-}: legendProps) => {
+}: ColorSelectorWrapperProps) => {
   let continuousD3Legend;
   let discreteD3Legend;
   let continuousLegend;
   let discreteLegend;
 
-  const continuosColorData: colorScaleArray = [];
-  const continuosD3ColorData: colorScaleArray = [];
-  const discreteColorData: colorScaleArray = [];
+  const continuosColorData: ColorScaleArray = [];
+  const continuosD3ColorData: ColorScaleArray = [];
+  const discreteColorData: ColorScaleArray = [];
 
-  const discreteD3ColorData: colorScaleArray = [];
+  const discreteD3ColorData: ColorScaleArray = [];
 
   const [isAuto, setAuto] = React.useState(true);
   // For altering data range

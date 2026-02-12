@@ -3,14 +3,18 @@ import { useRef } from "react";
 
 import { select } from "d3";
 
-import discreteLegendUtil from "../Utils/discreteLegend";
+import discreteLegendUtil, { NamedColor } from "../Utils/discreteLegend";
 import { colorsArray, RGBToHex } from "../Utils/legendCommonFunction";
 import { d3ColorScales } from "../Utils/d3ColorScale";
-import { colorTablesArray } from "../colorTableTypes";
+import { ColorTableArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 import { DEFAULT_STYLE } from "./constants";
 
-declare type ItemColor = {
+export { NamedColor } from "../Utils/discreteLegend";
+/**
+ * @deprecated use NamedColor instead.
+ */
+export type ItemColor = {
   color: string;
   name?: string;
 };
@@ -49,7 +53,7 @@ export type DiscreteColorLegendProps = {
    *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
-  colorTables?: colorTablesArray | string;
+  colorTables?: ColorTableArray | string;
   /**
    * Font size of legend name (in px)
    */
@@ -80,7 +84,7 @@ export const DiscreteColorLegend: React.FC<DiscreteColorLegendProps> = ({
   horizontal,
   getColorScaleData,
   id,
-  colorTables = defaultColorTables as colorTablesArray,
+  colorTables = defaultColorTables as ColorTableArray,
   legendFontSize,
   tickFontSize,
   numberOfTicks,
@@ -120,7 +124,7 @@ export const DiscreteColorLegend: React.FC<DiscreteColorLegendProps> = ({
       let dataSet;
       let useSelectorLegend = false;
       let itemName: string[] = [];
-      const itemColor: ItemColor[] = [];
+      const itemColor: NamedColor[] = [];
       try {
         // fix for dash wrapper
         if (typeof colorTables === "string") {

@@ -12,7 +12,7 @@ import {
   colorsArray,
   getTickValues,
 } from "../Utils/legendCommonFunction";
-import { colorTablesArray } from "../colorTableTypes";
+import { ColorTableArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 import { DEFAULT_STYLE } from "./constants";
 
@@ -52,7 +52,7 @@ export type ContinuousLegendProps = {
    *
    * Reference: https://github.com/emerson-eps/color-tables/blob/main/react-app/src/component/color-tables.json
    */
-  colorTables?: colorTablesArray | string;
+  colorTables?: ColorTableArray | string;
   /**
    * Optional function property
    *
@@ -97,7 +97,7 @@ export type ContinuousLegendProps = {
   cssLegendStyles?: React.CSSProperties;
 };
 
-declare type ItemColor = {
+type ColorWithBreakpoint = {
   color: string;
   breakPoint?: number;
 };
@@ -110,7 +110,7 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
   horizontal,
   getColorScaleData,
   id,
-  colorTables = defaultColorTables as colorTablesArray,
+  colorTables = defaultColorTables as ColorTableArray,
   colorMapFunction,
   reverseRange = false,
   breakPoint,
@@ -134,7 +134,7 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
     }
 
     async function continuousLegend() {
-      let itemColor: ItemColor[] = [];
+      let itemColor: ColorWithBreakpoint[] = [];
       let parsedColorTables;
 
       try {
