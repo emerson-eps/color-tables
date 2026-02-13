@@ -8,12 +8,12 @@ export type ColorTable = {
   colorAbove?: [number, number, number];
 };
 /**
- * @deprecated use ColorTablesObj instead.
+ * @deprecated use ColorTable instead.
  */
 export type colorTablesObj = ColorTable;
 
 export type ColorTableArray = Array<ColorTable>;
 /**
- * @deprecated use ColorTablesArray instead.
+ * @deprecated use ColorTableArray instead.
  */
 export type colorTablesArray = ColorTableArray;

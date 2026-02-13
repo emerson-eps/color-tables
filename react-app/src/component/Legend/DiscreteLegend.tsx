@@ -14,10 +14,7 @@ export { NamedColor } from "../Utils/discreteLegend";
 /**
  * @deprecated use NamedColor instead.
  */
-export type ItemColor = {
-  color: string;
-  name?: string;
-};
+export type ItemColor = NamedColor;
 
 export type DiscreteCodes = Record<string, [number[], number]>;
 
