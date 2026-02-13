@@ -29,20 +29,11 @@ export type ColorSelectorProps = {
   colorScaleData: any;
   currentLegendName?: string;
 };
-/**
- * @deprecated use ColorSelectorProps instead.
- */
-export type legendProps = ColorSelectorProps;
 
 type OffsetColor = {
   color: string;
   offset?: number;
 };
-
-/**
- * @deprecated use OffsetColor instead.
- */
-export type ItemColor = OffsetColor;
 
 export const ColorSelectorComponent: React.FC<ColorSelectorProps> = ({
   /**

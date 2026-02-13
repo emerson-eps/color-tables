@@ -16,11 +16,6 @@ export type CanvasProps = {
   onResize?: (width: number, height: number) => void;
 };
 
-/**
- * @deprecated use CanvasProps instead.
- */
-export type Props = CanvasProps;
-
 export const Canvas = React.forwardRef<
   HTMLCanvasElement,
   React.DetailedHTMLProps<

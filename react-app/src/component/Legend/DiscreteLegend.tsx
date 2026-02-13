@@ -10,12 +10,6 @@ import { ColorTableArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 import { DEFAULT_STYLE } from "./constants";
 
-export { NamedColor } from "../Utils/discreteLegend";
-/**
- * @deprecated use NamedColor instead.
- */
-export type ItemColor = NamedColor;
-
 export type DiscreteCodes = Record<string, [number[], number]>;
 
 export type DiscreteColorLegendProps = {

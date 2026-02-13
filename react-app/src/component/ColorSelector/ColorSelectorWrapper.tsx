@@ -83,10 +83,6 @@ export type ColorSelectorWrapperProps = {
   selectedInterpolationType?: any;
   selectedRangeType?: any;
 };
-/**
- * @deprecated use ColorSelectorWrapperProps instead.
- */
-export type legendProps = ColorSelectorWrapperProps;
 
 export const ColorSelectorWrapper: React.FC<ColorSelectorWrapperProps> = ({
   newColorScaleData,

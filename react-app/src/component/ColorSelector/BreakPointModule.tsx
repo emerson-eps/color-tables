@@ -27,11 +27,6 @@ export type BreakPointCompProps = {
   customScalesName?: string;
 };
 
-/**
- * @deprecated use BreakPointCompProps instead.
- */
-export type moduleProps = BreakPointCompProps;
-
 const RAIL_HEIGHT = 16;
 const pointer_width = 12;
 

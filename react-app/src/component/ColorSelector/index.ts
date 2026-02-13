@@ -1,14 +1,7 @@
 // Do not export * to skip deprecated exports
-export {
-  BreakPointComp,
-  BreakPointCompProps,
-  IBreakPointArrayItem,
-} from "./BreakPointModule";
+export * from "./BreakPointModule";
 export * from "./ColorSelectorAccordion";
-export {
-  ColorSelectorComponent,
-  ColorSelectorProps,
-} from "./ColorSelectorComponent";
+export * from "./ColorSelectorComponent";
 export {
   ColorScaleArray,
   ColorScaleObj,

@@ -11,11 +11,6 @@ export type ColorScaleProps = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-/**
- * @deprecated use ColorScaleProps instead.
- */
-export type Props = ColorScaleProps;
-
 const StyledRootContainer = styled("div")({
   height: "100%",
   width: "100%",

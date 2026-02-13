@@ -3,11 +3,6 @@ export type NamedColor = {
   name?: string;
 };
 
-/**
- * @deprecated use NamedColor instead.
- */
-export type ItemColor = NamedColor;
-
 export default function discreteLegendUtil(
   itemColor: NamedColor[],
   isSelectorLegend?: boolean,

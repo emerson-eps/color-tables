@@ -22,11 +22,6 @@ export type LegendCompProps = {
   customScalesName?: string;
 };
 
-/**
- * @deprecated use LegendCompProps instead.
- */
-export type moduleProps = LegendCompProps;
-
 const StyledRootContainer = styled("div")(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
