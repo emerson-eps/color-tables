@@ -10,7 +10,7 @@ import { DiscreteColorLegend } from "./DiscreteLegend";
 import { ContinuousLegend } from "./ContinuousLegend";
 import { ColorSelectorAccordion } from "../ColorSelector/ColorSelectorAccordion";
 import { d3ColorScales } from "../Utils/d3ColorScale";
-import { colorTablesArray } from "../colorTableTypes";
+import { ColorTableArray } from "../colorTableTypes";
 import defaultColorTables from "../color-tables.json";
 
 import { DEFAULT_STYLE } from "./constants";
@@ -21,7 +21,7 @@ export type ScaleHandler = (data: {
 }) => void;
 
 export type ColorLegendProps = {
-  colorTables?: colorTablesArray;
+  colorTables?: ColorTableArray;
   min?: number;
   max?: number;
   dataObjectName?: string;
@@ -48,7 +48,7 @@ export type ColorLegendProps = {
 // Todo: Adapt it for other layers too
 export const ColorLegend: React.FC<ColorLegendProps> = ({
   horizontal,
-  colorTables = defaultColorTables as colorTablesArray,
+  colorTables = defaultColorTables as ColorTableArray,
   min = 0,
   max = 1,
   dataObjectName,

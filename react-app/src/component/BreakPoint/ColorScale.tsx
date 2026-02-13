@@ -5,7 +5,7 @@ import { styled } from "@mui/system";
 
 import Canvas from "./Canvas";
 
-type Props = {
+export type ColorScaleProps = {
   arrayOfColors: string[] | ((index: number) => string);
   vertical?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -31,7 +31,7 @@ export const get2DContext = (
   return ctx;
 };
 
-export const ColorScale: React.FC<Props> = React.memo(
+export const ColorScale: React.FC<ColorScaleProps> = React.memo(
   ({ arrayOfColors, vertical }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 

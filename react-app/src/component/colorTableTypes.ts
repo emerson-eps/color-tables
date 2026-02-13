@@ -1,4 +1,4 @@
-export declare type colorTablesObj = {
+export type ColorTable = {
   name: string;
   discrete: boolean;
   colors: [number, number, number, number][];
@@ -7,4 +7,13 @@ export declare type colorTablesObj = {
   colorBelow?: [number, number, number];
   colorAbove?: [number, number, number];
 };
-export type colorTablesArray = Array<colorTablesObj>;
+/**
+ * @deprecated use ColorTable instead.
+ */
+export type colorTablesObj = ColorTable;
+
+export type ColorTableArray = Array<ColorTable>;
+/**
+ * @deprecated use ColorTableArray instead.
+ */
+export type colorTablesArray = ColorTableArray;

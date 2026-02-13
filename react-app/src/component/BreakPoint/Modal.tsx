@@ -19,19 +19,23 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-declare type dialogProps = {
+export type CustomizedDialogsProps = {
   openModal?: any;
   scaleBreakpoints?: any;
   scaleData?: any;
   customScalesName?: string;
 };
+/**
+ * @deprecated use CustomizedDialogsProps instead.
+ */
+export type dialogProps = CustomizedDialogsProps;
 
-export const CustomizedDialogs: React.FC<dialogProps> = ({
+export const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({
   openModal,
   scaleBreakpoints,
   scaleData,
   customScalesName,
-}: dialogProps) => {
+}: CustomizedDialogsProps) => {
   const [openDialog, setOpen] = React.useState(true);
 
   const handleClose = () => {
