@@ -52,7 +52,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@chromatic-com/storybook": "^3.2.7",
     "@emerson-eps/eslint-config": "^7.0.12",
     "@emerson-eps/prettier-config": "^2.0.3",
     "@emotion/react": "^11.14.0",
