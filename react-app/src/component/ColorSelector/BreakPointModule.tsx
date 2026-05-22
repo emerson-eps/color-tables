@@ -7,7 +7,7 @@ import { clamp } from "lodash";
 
 import AddCircleOutlineSharpIcon from "@mui/icons-material/AddCircleOutlineSharp";
 import RemoveCircleOutlineSharpIcon from "@mui/icons-material/RemoveCircleOutlineSharp";
-import { SketchPicker } from "react-color";
+import Sketch from "@uiw/react-color-sketch";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import { styled } from "@mui/system";
 
@@ -306,7 +306,7 @@ export const BreakPointComp: React.FC<BreakPointCompProps> = ({
           })}
           <StyledSketchPicker ref={divRef}>
             {popUpState ? (
-              <SketchPicker color={"red"} onChangeComplete={onChangeComplete} />
+              <Sketch color={"red"} onChange={onChangeComplete} />
             ) : null}
           </StyledSketchPicker>
         </StyledRail>
