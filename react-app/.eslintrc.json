@@ -1,5 +1,8 @@
 {
-  "extends": ["@emerson-eps"],
+  "extends": [
+    "@emerson-eps",
+    "plugin:storybook/recommended"
+  ],
   "rules": {
     // Not needed with source.organizeImports set to true in vscode settings
     "sort-imports": "off",
