@@ -2,4 +2,4 @@
 export * from "./Canvas";
 export * from "./ColorScale";
 export * from "./Legend";
-export { CustomizedDialogs, CustomizedDialogsProps } from "./Modal";
+export { CustomizedDialogs, type CustomizedDialogsProps } from "./Modal";

@@ -1,10 +1,15 @@
 import * as React from "react";
 import { useRef } from "react";
 
-import { select, scaleLinear, scaleSymlog, axisBottom, axisRight } from "d3";
-
+import {
+  range,
+  select,
+  scaleLinear,
+  scaleSymlog,
+  axisBottom,
+  axisRight,
+} from "d3";
 import { color } from "d3-color";
-import { range } from "d3";
 
 import { d3ColorScales } from "../Utils/d3ColorScale";
 import {
@@ -13,7 +18,7 @@ import {
   getTickValues,
 } from "../Utils/legendCommonFunction";
 import { ColorTableArray } from "../colorTableTypes";
-import defaultColorTables from "../color-tables.json";
+import { colorTables as defaultColorTables } from "..";
 import { DEFAULT_STYLE } from "./constants";
 
 export type ContinuousLegendProps = {
@@ -110,7 +115,7 @@ export const ContinuousLegend: React.FC<ContinuousLegendProps> = ({
   horizontal,
   getColorScaleData,
   id,
-  colorTables = defaultColorTables as ColorTableArray,
+  colorTables = defaultColorTables,
   colorMapFunction,
   reverseRange = false,
   breakPoint,
