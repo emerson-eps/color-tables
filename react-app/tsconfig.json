@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "module": "es2015",
-    "target": "es2015",
+    "module": "es2022",
+    "target": "es2022",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
     "declaration": true,
-    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
     "noImplicitThis": true,

@@ -3,8 +3,8 @@ export * from "./BreakPointModule";
 export * from "./ColorSelectorAccordion";
 export * from "./ColorSelectorComponent";
 export {
-  ColorScaleArray,
-  ColorScaleObj,
-  ColorSelectorWrapperProps,
+  type ColorScaleArray,
+  type ColorScaleObj,
+  type ColorSelectorWrapperProps,
   ColorSelectorWrapper,
 } from "./ColorSelectorWrapper";

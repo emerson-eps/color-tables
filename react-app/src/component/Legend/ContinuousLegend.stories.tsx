@@ -1,23 +1,26 @@
 import React from "react";
+import { Meta, StoryObj } from "@storybook/react-vite";
 
-import {
-  ContinuousLegend,
-  ContinuousLegendProps,
-} from "../../component/Legend/ContinuousLegend";
+import { colorTables } from "..";
+import { ContinuousLegend, type ContinuousLegendProps } from ".";
 
-export default {
+// storybook page
+const meta: Meta<typeof ContinuousLegend> = {
+  title: "Legends/ContinousLegend",
   component: ContinuousLegend,
-  title: "Legends  / ContinuousLegend",
+  decorators: [
+    (Story) => {
+      return <Story />;
+    },
+  ],
 };
+export default meta;
 
-const min = 0;
-const max = 1;
-const dataObjectName = "Physics color map";
-const colorName = "Physics";
+type Story = StoryObj<typeof ContinuousLegend>;
 
 const DEFAULT_ARGS: ContinuousLegendProps = {
-  min: min,
-  max: max,
+  min: 0,
+  max: 1,
   isRangeShown: true,
   legendFontSize: 13,
   tickFontSize: 13,
@@ -25,31 +28,150 @@ const DEFAULT_ARGS: ContinuousLegendProps = {
   legendScaleSize: 300,
 };
 
-const Story = (args: ContinuousLegendProps) => {
-  return <ContinuousLegend {...args} />;
+const cssLegendStyles = { top: "0%", left: "0%" };
+
+export const StandardColorTableLibrary: Story = {
+  args: {
+    ...DEFAULT_ARGS,
+    dataObjectName: "Physics color map",
+    colorName: "Physics",
+    cssLegendStyles,
+  },
 };
 
-export const StandardColorTableLibrary = Story.bind({});
-StandardColorTableLibrary.args = {
-  ...DEFAULT_ARGS,
-  dataObjectName: dataObjectName,
-  colorName: colorName,
+export const DefaultColorTable: Story = {
+  args: {
+    ...DEFAULT_ARGS,
+    dataObjectName: "Default color table (Rainbow)",
+  },
 };
 
-export const DefaultColorTable = Story.bind({});
-DefaultColorTable.args = {
-  ...DEFAULT_ARGS,
-  dataObjectName: "Default color table (Rainbow)",
+export const BackgroundColor: Story = {
+  args: {
+    ...DEFAULT_ARGS,
+    dataObjectName: "Physics color map",
+    cssLegendStyles: {
+      backgroundColor: "red",
+    },
+  },
 };
 
-export const BackgroundColor = () => {
-  return (
-    <ContinuousLegend
-      {...DEFAULT_ARGS}
-      dataObjectName={dataObjectName}
-      cssLegendStyles={{
-        backgroundColor: "red",
-      }}
-    />
-  );
+export const MDTemplate: Story = {
+  args: {
+    min: 2917,
+    max: 4723,
+    dataObjectName: "Wells / MD",
+    colorName: "Time/Depth",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const NTGTemplate: Story = {
+  args: {
+    min: 0,
+    max: 1,
+    dataObjectName: "Wells / NTG",
+    colorName: "Rainbow",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const PermeabilityTemplate: Story = {
+  args: {
+    min: 2782,
+    max: 3513,
+    dataObjectName: "Wells / PERM",
+    colorName: "Permeability",
+    colorTables,
+    horizontal: true,
+    colorMapFunction: (x: number) => [255 - x * 100, 255 - x * 100, 255 * x],
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const PermTotTemplate: Story = {
+  args: {
+    min: -999,
+    max: 14023,
+    dataObjectName: "Wells / PERMTOT",
+    colorName: "Porosity",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const PorosityTemplate: Story = {
+  args: {
+    min: 0,
+    max: 0.35,
+    dataObjectName: "Wells / PORO",
+    colorName: "Porosity",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const PoroTotTemplate: Story = {
+  args: {
+    min: 0,
+    max: 0.35,
+    dataObjectName: "Wells / POROTOT",
+    colorName: "Porosity",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
+};
+
+export const SWTemplate: Story = {
+  args: {
+    min: 0,
+    max: 1,
+    dataObjectName: "Wells / SW",
+    colorName: "Rainbow",
+    colorTables,
+    horizontal: true,
+    isRangeShown: true,
+    legendFontSize: 13,
+    tickFontSize: 13,
+    numberOfTicks: 3,
+    legendScaleSize: 300,
+    cssLegendStyles,
+  },
 };
