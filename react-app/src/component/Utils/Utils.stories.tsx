@@ -1,12 +1,12 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ContinuousLegend } from "../component/Legend/ContinuousLegend";
+import { ContinuousLegend } from "../Legend/ContinuousLegend";
 
 import {
   createContinuousLibraryColorScale,
   createDefaultContinuousColorScale,
-} from "../component/Utils/legendCommonFunction";
+} from "./legendCommonFunction";
 
 // storybook page
 const meta: Meta<typeof ContinuousLegend> = {

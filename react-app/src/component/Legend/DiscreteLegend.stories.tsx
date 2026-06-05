@@ -1,12 +1,12 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react-vite";
 
-import { colorTables } from "../component";
+import { colorTables } from "..";
 import {
   type DiscreteCodes,
   DiscreteColorLegend,
   type DiscreteColorLegendProps,
-} from "../component/Legend/DiscreteLegend";
+} from ".";
 
 // storybook page
 const meta: Meta<typeof DiscreteColorLegend> = {

@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "**/*.stories.[jt]sx"]
+  "exclude": ["node_modules", "**/*.stories.[jt]sx", "**/*.stories.mdx"]
 }

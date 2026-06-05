@@ -1,12 +1,8 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react-vite";
 
-import { colorTables } from "../component";
-import {
-  type ColorLegendProps,
-  ColorLegend,
-  type ScaleHandler,
-} from "../component/Legend/ColorLegend";
+import { colorTables } from "..";
+import { type ColorLegendProps, ColorLegend, type ScaleHandler } from ".";
 
 // storybook page
 const meta: Meta<typeof ColorLegend> = {
