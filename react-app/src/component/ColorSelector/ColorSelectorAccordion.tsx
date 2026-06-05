@@ -81,16 +81,14 @@ export const ColorSelectorAccordion = (props: any) => {
     });
   }
 
-  getColorScaleArray?.colors.forEach(
-    (value: [number, number, number, number]) => {
-      // return the color and breakPoint needed to draw the legend
-      colorScaleBreakpoints.push({
-        // to support discrete color for continous data
-        position: value[0],
-        color: RGBToHex(value).color,
-      });
-    }
-  );
+  getColorScaleArray?.colors.forEach((value: number[]) => {
+    // return the color and breakPoint needed to draw the legend
+    colorScaleBreakpoints.push({
+      // to support discrete color for continuous data
+      position: value[0],
+      color: RGBToHex(value).color,
+    });
+  });
 
   const breakpointValues =
     props.breakPointFlag?.length > 0
