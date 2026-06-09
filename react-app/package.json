@@ -27,7 +27,7 @@
     "validate": "npm run typecheck && npm run lint:check && npm run prettier:check"
   },
   "dependencies": {
-    "@uiw/react-color-sketch": "^2.4.0",
+    "@uiw/react-color-sketch": "^2.10.3",
     "d3": "^7.9.0",
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.1",
