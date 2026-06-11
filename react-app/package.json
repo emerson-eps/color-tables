@@ -80,7 +80,7 @@
     "semantic-release": "^25.0.3",
     "storybook": "10.4.3",
     "ts-loader": "^9.2.6",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@emotion/react": "^11.11.4",
