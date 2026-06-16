@@ -1,4 +1,4 @@
-import{j as e}from"./index-Ck88BZNf.js";import{u as r,d as l}from"./blocks-DkO8rXFl.js";import"./iframe-BXs7U1EJ.js";import"./preload-helper-DOST-yEC.js";import"./index-DOlcX2zo.js";function t(n){const o={h1:"h1",h3:"h3",p:"p",...r(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(l,{title:"Overview"}),`
+import{j as e}from"./index-BDUL9VId.js";import{u as r,d as l}from"./blocks-Cv5ZAwgs.js";import"./iframe-BpJZv9bo.js";import"./preload-helper-DOST-yEC.js";import"./index-V6B8nwsB.js";function t(n){const o={h1:"h1",h3:"h3",p:"p",...r(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(l,{title:"Overview"}),`
 `,e.jsx(o.h1,{id:"color-legend",children:"Color Legend"}),`
 `,e.jsx(o.h3,{id:""}),`
 `,e.jsx(o.h3,{id:"-1"}),`
