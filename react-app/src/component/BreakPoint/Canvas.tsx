@@ -22,6 +22,7 @@ export type CanvasProps = React.DetailedHTMLProps<
 export const Canvas = React.memo(
   React.forwardRef<HTMLCanvasElement, Omit<CanvasProps, "ref">>(
     function Canvas({ drawCallback, onResize, ...props }, externalRef) {
+      // Stable callback forwarded to useResizeDetector; guards against null dimensions.
       const onResizeCallback = React.useCallback(
         ({
           width: w,
@@ -37,9 +38,18 @@ export const Canvas = React.memo(
         [onResize]
       );
 
+      // width/height are used as effect deps to re-trigger drawing after resize.
       const { width, height, ref: resizeRef } =
         useResizeDetector<HTMLCanvasElement>({ onResize: onResizeCallback });
 
+      // Keep a ref to the latest resizeRef callback so setRef below doesn't
+      // need resizeRef as a useCallback dep (which would cause detach/reattach
+      // cycles since resizeRef gets a new identity whenever the observed element changes).
+      const resizeRefLatest = React.useRef(resizeRef);
+      resizeRefLatest.current = resizeRef;
+
+      // Schedule a draw on the next animation frame whenever the callback or
+      // canvas dimensions change.
       React.useLayoutEffect(() => {
         if (!drawCallback) {
           return;
@@ -48,9 +58,11 @@ export const Canvas = React.memo(
         return () => cancelAnimationFrame(frameId);
       }, [drawCallback, width, height]);
 
+      // Merged ref: forwards the canvas node to both react-resize-detector and
+      // any ref passed by the consumer via forwardRef.
       const setRef = React.useCallback(
         (node: HTMLCanvasElement | null) => {
-          resizeRef(node);
+          resizeRefLatest.current(node);
           if (typeof externalRef === "function") {
             externalRef(node);
           } else if (externalRef) {
@@ -58,9 +70,6 @@ export const Canvas = React.memo(
               node;
           }
         },
-        // resizeRef is a new function each render but stable enough as a callback ref;
-        // including it would cause unnecessary ref detach/reattach cycles
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [externalRef]
       );
 
@@ -68,5 +77,3 @@ export const Canvas = React.memo(
     }
   )
 );
-
-export default Canvas;
