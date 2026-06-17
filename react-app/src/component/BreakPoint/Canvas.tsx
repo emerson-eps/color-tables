@@ -53,14 +53,12 @@ export const Canvas = React.memo(function Canvas({
 
   const setRef = React.useCallback(
     (node: HTMLCanvasElement | null) => {
-      (resizeRef as React.MutableRefObject<HTMLCanvasElement | null>).current =
-        node;
+      (resizeRef as React.RefObject<HTMLCanvasElement | null>).current = node;
       if (typeof externalRef === "function") {
         externalRef(node);
       } else if (externalRef) {
-        (
-          externalRef as React.MutableRefObject<HTMLCanvasElement | null>
-        ).current = node;
+        (externalRef as React.RefObject<HTMLCanvasElement | null>).current =
+          node;
       }
     },
     [externalRef, resizeRef]
