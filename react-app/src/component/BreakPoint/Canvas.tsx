@@ -19,51 +19,51 @@ export type CanvasProps = React.DetailedHTMLProps<
   onResize?: (width: number, height: number) => void;
 };
 
-export const Canvas = React.memo(function Canvas({
-  drawCallback,
-  onResize,
-  ref: externalRef,
-  ...props
-}: CanvasProps) {
-  const onResizeCallback = React.useCallback(
-    ({
-      width: w,
-      height: h,
-    }: {
-      width: number | null;
-      height: number | null;
-    }) => {
-      if (w !== null && h !== null) {
-        onResize?.(w, h);
-      }
-    },
-    [onResize]
-  );
+export const Canvas = React.memo(
+  React.forwardRef<HTMLCanvasElement, Omit<CanvasProps, "ref">>(
+    function Canvas({ drawCallback, onResize, ...props }, externalRef) {
+      const onResizeCallback = React.useCallback(
+        ({
+          width: w,
+          height: h,
+        }: {
+          width: number | null;
+          height: number | null;
+        }) => {
+          if (w !== null && h !== null) {
+            onResize?.(w, h);
+          }
+        },
+        [onResize]
+      );
 
-  const { width, height, ref: resizeRef } =
-    useResizeDetector<HTMLCanvasElement>({ onResize: onResizeCallback });
+      const { width, height, ref: resizeRef } =
+        useResizeDetector<HTMLCanvasElement>({ onResize: onResizeCallback });
 
-  React.useLayoutEffect(() => {
-    if (!drawCallback) {
-      return;
+      React.useLayoutEffect(() => {
+        if (!drawCallback) {
+          return;
+        }
+        const frameId = requestAnimationFrame(drawCallback);
+        return () => cancelAnimationFrame(frameId);
+      }, [drawCallback, width, height]);
+
+      const setRef = React.useCallback(
+        (node: HTMLCanvasElement | null) => {
+          (resizeRef as { current: HTMLCanvasElement | null }).current = node;
+          if (typeof externalRef === "function") {
+            externalRef(node);
+          } else if (externalRef) {
+            (externalRef as { current: HTMLCanvasElement | null }).current =
+              node;
+          }
+        },
+        [externalRef, resizeRef]
+      );
+
+      return <StyledCanvas ref={setRef} {...props} />;
     }
-    const frameId = requestAnimationFrame(drawCallback);
-    return () => cancelAnimationFrame(frameId);
-  }, [drawCallback, width, height]);
-
-  const setRef = React.useCallback(
-    (node: HTMLCanvasElement | null) => {
-      resizeRef.current = node;
-      if (typeof externalRef === "function") {
-        externalRef(node);
-      } else if (externalRef) {
-        externalRef.current = node;
-      }
-    },
-    [externalRef, resizeRef]
-  );
-
-  return <StyledCanvas ref={setRef} {...props} />;
-});
+  )
+);
 
 export default Canvas;
