@@ -50,7 +50,7 @@ export const Canvas = React.memo(
 
       const setRef = React.useCallback(
         (node: HTMLCanvasElement | null) => {
-          (resizeRef as { current: HTMLCanvasElement | null }).current = node;
+          resizeRef(node);
           if (typeof externalRef === "function") {
             externalRef(node);
           } else if (externalRef) {
@@ -58,7 +58,10 @@ export const Canvas = React.memo(
               node;
           }
         },
-        [externalRef, resizeRef]
+        // resizeRef is a new function each render but stable enough as a callback ref;
+        // including it would cause unnecessary ref detach/reattach cycles
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [externalRef]
       );
 
       return <StyledCanvas ref={setRef} {...props} />;
