@@ -63,9 +63,7 @@ export const Canvas = React.memo(function Canvas({
         ).current = node;
       }
     },
-    // resizeRef identity is stable (created with useRef inside useResizeDetector)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [externalRef]
+    [externalRef, resizeRef]
   );
 
   return <StyledCanvas ref={setRef} {...props} />;
