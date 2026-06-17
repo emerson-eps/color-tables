@@ -1,5 +1,7 @@
 {
     "chat.tools.terminal.autoApprove": {
-        "git remote": true
+        "git remote": true,
+        "npx tsc": true,
+        "npx eslint": true
     }
 }
