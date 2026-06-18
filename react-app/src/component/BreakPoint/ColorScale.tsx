@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 
 import { styled } from "@mui/system";
 
-import Canvas from "./Canvas";
+import { Canvas } from "./Canvas";
 
 export type ColorScaleProps = {
   arrayOfColors: string[] | ((index: number) => string);
