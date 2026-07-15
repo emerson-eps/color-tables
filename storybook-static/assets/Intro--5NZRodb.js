@@ -1,4 +1,4 @@
-import{i as e}from"./preload-helper-DwwAbzm0.js";import{a as t,h as n,o as r,v as i}from"./blocks-wyRW-FnA.js";import{t as a}from"./jsx-runtime-Bj4z9X_L.js";var o=e((()=>{n()}));function s(e){let n={h1:`h1`,h3:`h3`,p:`p`,...i(),...e.components};return(0,l.jsxs)(l.Fragment,{children:[(0,l.jsx)(t,{title:`Overview`}),`
+import{i as e}from"./preload-helper-DwwAbzm0.js";import{a as t,h as n,o as r,v as i}from"./blocks-B1b9uSHJ.js";import{t as a}from"./jsx-runtime-Bj4z9X_L.js";var o=e((()=>{n()}));function s(e){let n={h1:`h1`,h3:`h3`,p:`p`,...i(),...e.components};return(0,l.jsxs)(l.Fragment,{children:[(0,l.jsx)(t,{title:`Overview`}),`
 `,(0,l.jsx)(n.h1,{id:`color-legend`,children:`Color Legend`}),`
 `,(0,l.jsx)(n.h3,{id:``}),`
 `,(0,l.jsx)(n.h3,{id:`-1`}),`
