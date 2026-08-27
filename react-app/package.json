@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^8.0.1",
     "@emerson-eps/eslint-config": "^7.0.12",
     "@emerson-eps/prettier-config": "^2.0.3",
     "@emotion/react": "^11.14.0",
