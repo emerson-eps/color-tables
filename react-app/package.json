@@ -57,7 +57,7 @@
     "@emerson-eps/prettier-config": "^2.0.7",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.7",
+    "@mui/icons-material": "^9.4.0",
     "@storybook/addon-docs": "10.5.10",
     "@storybook/addon-links": "10.5.10",
     "@storybook/cli": "10.5.10",
