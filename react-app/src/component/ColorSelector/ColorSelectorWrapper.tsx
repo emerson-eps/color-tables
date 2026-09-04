@@ -53,8 +53,7 @@ const StyledInterpolationLegendWrapper = styled("div")({
 export type ColorScaleObj = {
   name: string;
   color:
-    | [number, number, number, number][]
-    | ((t: number) => string | string[]);
+    [number, number, number, number][] | ((t: number) => string | string[]);
 };
 /**
  * @deprecated use ColorScaleObj instead.
