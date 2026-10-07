@@ -62,7 +62,7 @@
     "@storybook/addon-links": "10.6.1",
     "@storybook/cli": "10.6.1",
     "@storybook/react-vite": "10.6.1",
-    "@storybook/test-runner": "^0.24.4",
+    "@storybook/test-runner": "^0.26.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.6",
