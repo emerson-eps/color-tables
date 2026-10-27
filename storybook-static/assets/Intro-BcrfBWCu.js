@@ -1,4 +1,4 @@
-import{n as e}from"./rolldown-runtime-sJBDdmOt.js";import{A as t,a as n,k as r,o as i}from"./blocks-DHaMwnOG.js";import{t as a}from"./jsx-runtime-MKhVqBIO.js";function o(e){let r={h1:`h1`,h3:`h3`,p:`p`,...t(),...e.components};return(0,c.jsxs)(c.Fragment,{children:[(0,c.jsx)(n,{title:`Overview`}),`
+import{n as e}from"./rolldown-runtime-sJBDdmOt.js";import{A as t,a as n,k as r,o as i}from"./blocks-BDGwnWu6.js";import{t as a}from"./jsx-runtime-MKhVqBIO.js";function o(e){let r={h1:`h1`,h3:`h3`,p:`p`,...t(),...e.components};return(0,c.jsxs)(c.Fragment,{children:[(0,c.jsx)(n,{title:`Overview`}),`
 `,(0,c.jsx)(r.h1,{id:`color-legend`,children:`Color Legend`}),`
 `,(0,c.jsx)(r.h3,{id:``}),`
 `,(0,c.jsx)(r.h3,{id:`-1`}),`
